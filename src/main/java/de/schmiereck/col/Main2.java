@@ -261,10 +261,18 @@ public class Main2 {
       final Universe universe = new Universe(engineArr, universeSize);
 
       //----------------------------------------------------------------------------------------------------------------
-      setStatePos(universe, universeSize / 2, 1);
-      setStatePos(universe, 0, 1);
-      setStatePos(universe, 1, 2);
+      /*
+      setStatePos(universe, universeSize / 2, 0,  1);
+      setStatePos(universe, 0, 0, 1);
+      setStatePos(universe, 1, 0, 2);
+      */
+      // engine3Arr:
+      setStatePos(universe, 6, 2, 0,  9);
+      setStatePos(universe, 4, 2, 0,  1);
+      setStatePos(universe, 5, 2, 0,  3);
+      //setStatePos(universe, 5, 1, 0,  1);
 
+      //----------------------------------------------------------------------------------------------------------------
       for (int cnt = 0; cnt < 3; cnt++) {
          printCells(universe, engineArr, cnt);
 
@@ -337,15 +345,16 @@ public class Main2 {
       }
    }
 
-   private static void runLevelUp(final Engine[] engineArr, final Universe universe) {
+   private static void runLevelDown(final Engine[] engineArr, final Universe universe) {
       for (int levelPos = engineArr.length - 2; levelPos >= 0; levelPos--) {
+         final int targetLevelPos = levelPos + 1;
 
          for (int cellPos = 0; cellPos < universeSize; cellPos++) {
             final int cellSize = readCellSize(universe, levelPos);
-            final int targetCellSize = readCellSize(universe, levelPos + 1);
+            final int targetCellSize = readCellSize(universe, targetLevelPos);
 
             final State equalState = calcEqualMetaStateValues(universe, levelPos, cellPos, cellSize);
-            final State targetEqualState = calcEqualMetaStateValues(universe, levelPos + 1, cellPos, targetCellSize);
+            final State targetEqualState = calcEqualMetaStateValues(universe, targetLevelPos, cellPos, targetCellSize);
 
             if ((equalState != null) && (equalState != nul0State) && (targetEqualState == nul0State)) {
                // Level 1 -> 2:
@@ -354,21 +363,22 @@ public class Main2 {
                calcNewEqualState(engineArr, universe, levelPos, cellPos, nul0State);
 
                // Status aller Zellen in Level 2 auf equalState setzen
-               calcNewEqualState(engineArr, universe, levelPos + 1, cellPos, equalState);
+               calcNewEqualState(engineArr, universe, targetLevelPos, cellPos, equalState);
             }
          }
       }
    }
 
-   private static void runLevelDown(final Engine[] engineArr, final Universe universe) {
+   private static void runLevelUp(final Engine[] engineArr, final Universe universe) {
       for (int levelPos = 1; levelPos < engineArr.length; levelPos++) {
+         final int targetLevelPos = levelPos - 1;
 
          for (int cellPos = 0; cellPos < universeSize; cellPos++) {
             final int cellSize = readCellSize(universe, levelPos);
-            final int targetCellSize = readCellSize(universe, levelPos - 1);
+            final int targetCellSize = readCellSize(universe, targetLevelPos);
 
             final State equalState = calcEqualMetaStateValues(universe, levelPos, cellPos, cellSize);
-            final State targetEqualState = calcEqualMetaStateValues(universe, levelPos - 1, cellPos, targetCellSize);
+            final State targetEqualState = calcEqualMetaStateValues(universe, targetLevelPos, cellPos, targetCellSize);
 
             if ((equalState != null) && (equalState != nul0State) && (targetEqualState == nul0State)) {
                // Level 2 -> 1:
@@ -377,7 +387,7 @@ public class Main2 {
                calcNewEqualState(engineArr, universe, levelPos, cellPos, nul0State);
 
                // Status aller Zellen in Level 1 auf equalState setzen
-               calcNewEqualState(engineArr, universe, levelPos - 1, cellPos, equalState);
+               calcNewEqualState(engineArr, universe, targetLevelPos, cellPos, equalState);
             }
          }
       }
@@ -451,36 +461,6 @@ public class Main2 {
       return retState;
    }
 
-   private static void setStatePos(final Universe universe, final int cellPos, final int statePos) {
-      universe.levelArr[0].levelCellArr[cellPos].metaCellArr[0].statePos = statePos;
-   }
-
-   private static int calcCellPos(final int pos) {
-      final int retPos;
-      if (pos >= universeSize) {
-         retPos = pos - universeSize;
-      } else {
-         if (pos < 0) {
-            retPos = pos + universeSize;
-         } else {
-            retPos = pos;
-         }
-      }
-      return retPos;
-   }
-
-   private static Cell readCell(final Universe universe, final int pos, final int levelPos) {
-      return readCell(universe, pos, levelPos, 0);
-   }
-
-   private static Cell readCell(final Universe universe, final int pos, final int levelPos, final int metaCellPos) {
-      return universe.levelArr[levelPos].levelCellArr[calcCellPos(pos)].metaCellArr[metaCellPos];
-   }
-
-   private static int readCellSize(final Universe universe, final int levelPos) {
-      return universe.levelArr[levelPos].engine.cellSize;
-   }
-
    private static int searchForStatePos(final Engine l0Engine, final State inputState0) {
       int retStatePos = -1;
 
@@ -511,5 +491,39 @@ public class Main2 {
          throw new RuntimeException("Do not found given inputs in given engine.");
       }
       return retStatePos;
+   }
+
+   private static void setStatePos(final Universe universe, final int cellPos, final int levelPos, final int statePos) {
+      setStatePos(universe, cellPos, levelPos, 0, statePos);
+   }
+
+   private static void setStatePos(final Universe universe, final int cellPos, final int levelPos, final int metaCellPos, final int statePos) {
+      universe.levelArr[levelPos].levelCellArr[cellPos].metaCellArr[metaCellPos].statePos = statePos;
+   }
+
+   private static Cell readCell(final Universe universe, final int cellPos, final int levelPos) {
+      return readCell(universe, cellPos, levelPos, 0);
+   }
+
+   private static Cell readCell(final Universe universe, final int cellPos, final int levelPos, final int metaCellPos) {
+      return universe.levelArr[levelPos].levelCellArr[calcCellPos(cellPos)].metaCellArr[metaCellPos];
+   }
+
+   private static int readCellSize(final Universe universe, final int levelPos) {
+      return universe.levelArr[levelPos].engine.cellSize;
+   }
+
+   private static int calcCellPos(final int pos) {
+      final int retPos;
+      if (pos >= universeSize) {
+         retPos = pos - universeSize;
+      } else {
+         if (pos < 0) {
+            retPos = pos + universeSize;
+         } else {
+            retPos = pos;
+         }
+      }
+      return retPos;
    }
 }

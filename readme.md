@@ -109,7 +109,7 @@
                            
 
 ```
-# Meta-Zusandsautomat
+# Meta-Zustandsautomat
 Der Zustand einer Zelle ist der Zustand eines Automaten mit einem Eingang/ Ausgang.
 Er kann folgende Zustände annehmen: -1, 0, 1
 
@@ -265,3 +265,11 @@ a b c d e f a'       State 2
       e       = 1
 ```
 
+# Idee
+Die höheren Level weg von 1 sind der Grundzustand und enhalten niedrige verteilte Energien.
+"Hochlevelen" bedeutet eine Konzentration in einem höheren Energiezustand.
+
+Die Engines der verschiedenen Level können verschiedene Regeln haben und verschiedenen Zwecken dienen.
+
+Level 2 konzentriert eher Zustände an einem Ort.
+Level 3 verteilt eher Zustände über weitere Orte.
