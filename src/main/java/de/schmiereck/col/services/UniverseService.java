@@ -4,7 +4,6 @@ import static de.schmiereck.col.model.State.neg0State;
 import static de.schmiereck.col.model.State.nul0State;
 import static de.schmiereck.col.model.State.pos0State;
 
-import de.schmiereck.col.Main2;
 import de.schmiereck.col.model.Cell;
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.Level;
@@ -19,6 +18,11 @@ public class UniverseService {
 
    public static void setStatePos(final Universe universe, final int cellPos, final int levelPos, final int metaCellPos, final int statePos) {
       universe.levelArr[levelPos].levelCellArr[cellPos].metaCellArr[metaCellPos].statePos = statePos;
+   }
+
+   public static State readCellState(final Universe universe, final int cellPos, final int levelPos, final int inputStatePos) {
+      final Engine levelEngine = universe.engineArr[levelPos];
+      return levelEngine.inputStateArr[readCell(universe, cellPos, levelPos).statePos].inputStates[inputStatePos];
    }
 
    public static Cell readCell(final Universe universe, final int cellPos, final int levelPos) {
@@ -47,7 +51,8 @@ public class UniverseService {
       return retPos;
    }
 
-   public static void printCells(final Universe universe, final Engine[] engineArr, final int cnt) {
+   public static void printCells(final Universe universe, final int cnt) {
+      final Engine[] engineArr = universe.engineArr;
       for (int levelNr = engineArr.length; levelNr >= 1; levelNr--) {
          final int levelPos = levelNr - 1;
          for (int levelShift = 0; levelShift < levelNr; levelShift++) {
@@ -92,14 +97,15 @@ public class UniverseService {
       System.out.println("------- ".repeat(universe.universeSize));
    }
 
-   public static void run(final Engine[] engineArr, final Universe universe) {
-      runLevelUp(engineArr, universe);
-      runCalcNextState(engineArr, universe);
-      runLevelDown(engineArr, universe);
-      runCalcNextState(engineArr, universe);
+   public static void run(final Universe universe) {
+      runLevelUp(universe);
+      runCalcNextState(universe);
+      runLevelDown(universe);
+      runCalcNextState(universe);
    }
 
-   private static void runCalcNextState(final Engine[] engineArr, final Universe universe) {
+   private static void runCalcNextState(final Universe universe) {
+      final Engine[] engineArr = universe.engineArr;
       for (int levelPos = 0; levelPos < engineArr.length; levelPos++) {
          final Engine engine = engineArr[levelPos];
 
@@ -113,7 +119,8 @@ public class UniverseService {
       }
    }
 
-   private static void runLevelDown(final Engine[] engineArr, final Universe universe) {
+   private static void runLevelDown(final Universe universe) {
+      final Engine[] engineArr = universe.engineArr;
       for (int levelPos = engineArr.length - 2; levelPos >= 0; levelPos--) {
          final int targetLevelPos = levelPos + 1;
 
@@ -137,7 +144,8 @@ public class UniverseService {
       }
    }
 
-   private static void runLevelUp(final Engine[] engineArr, final Universe universe) {
+   public static void runLevelUp(final Universe universe) {
+      final Engine[] engineArr = universe.engineArr;
       for (int levelPos = 1; levelPos < engineArr.length; levelPos++) {
          final int targetLevelPos = levelPos - 1;
 

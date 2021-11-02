@@ -1,25 +1,13 @@
 package de.schmiereck.col;
 
-import static de.schmiereck.col.model.State.neg0State;
-import static de.schmiereck.col.model.State.nul0State;
-import static de.schmiereck.col.model.State.pos0State;
-import static de.schmiereck.col.services.UniverseService.calcCellPos;
 import static de.schmiereck.col.services.UniverseService.printCells;
 import static de.schmiereck.col.services.UniverseService.readCell;
-import static de.schmiereck.col.services.UniverseService.readCellSize;
 import static de.schmiereck.col.services.UniverseService.run;
 import static de.schmiereck.col.services.UniverseService.setStatePos;
 
-import de.schmiereck.col.model.Cell;
 import de.schmiereck.col.model.Engine;
-import de.schmiereck.col.model.Level;
-import de.schmiereck.col.model.LevelCell;
-import de.schmiereck.col.model.State;
 import de.schmiereck.col.model.Universe;
 import de.schmiereck.col.services.EngineService;
-
-import java.util.Arrays;
-import java.util.Optional;
 
 public class Main2 {
 
@@ -71,9 +59,9 @@ public class Main2 {
 
       //----------------------------------------------------------------------------------------------------------------
       for (int cnt = 0; cnt < 3; cnt++) {
-         printCells(universe, engineArr, cnt);
+         printCells(universe, cnt);
 
-         run(engineArr, universe);
+         run(universe);
       }
    }
 }

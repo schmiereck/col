@@ -17,11 +17,12 @@ import de.schmiereck.col.Main2;
  * </code>
  */
 public class Universe {
-
+   public final Engine[] engineArr;
    public final int universeSize;
    public final Level[] levelArr;
 
    public Universe(final Engine[] engineArr, final int levelSize) {
+      this.engineArr = engineArr;
       this.universeSize = levelSize;
 
       final int levelCount = engineArr.length;
