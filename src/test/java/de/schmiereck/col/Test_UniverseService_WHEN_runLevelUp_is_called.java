@@ -51,12 +51,19 @@ public class Test_UniverseService_WHEN_runLevelUp_is_called {
 
       // Assert
       //             0       1       2       3       4       5       6       7       8       9      10      11
+      //   1/3: ( 0/ 0    0/ 0    0/ 0) ( 0/ 0    0/ 0    0/ 0) ( 0/ 0    0/ 0    0/ 0) ( 0/ 0    0/ 0    0/ 0)
+      //   1/3:         ( 0/ 0    0/ 0    0/ 0) ( 0/ 0    0/ 0    0/ 0) ( 0/ 0    0/ 0    0/ 0) ( 0/ 0    0/ 0    0/ 0)
+      //   1/3:                 ( 0/ 0    0/ 0    0/ 0) ( 0/ 0    0/ 0    0/ 0) ( 0/ 0    0/ 0    0/ 0) ( 0/ 0    0/ 0    0/ 0)
       //   1/2: ( 0/ 0    0/ 0) ( 0/ 0    0/ 0) ( 0/ 0    0/ 0) ( 3/ 1    3/ 0) ( 0/ 0    0/ 0) ( 0/ 0    0/ 0)
       //   1/2:         ( 0/ 0    0/ 0) ( 0/ 0    0/ 0) ( 1/ 0    1/ 1) ( 0/ 0    0/ 0) ( 0/ 0    0/ 0) ( 0/ 0    0/ 0)
       assertEquals(pos0State, readCellState(universe, 6, 1, 0));
       assertEquals(nul0State, readCellState(universe, 6, 1, 1));
       assertEquals(nul0State, readCellState(universe, 5, 1, 0));
       assertEquals(pos0State, readCellState(universe, 5, 1, 1));
+
+      assertEquals(nul0State, readCellState(universe, 6, 2, 0));
+      assertEquals(nul0State, readCellState(universe, 4, 2, 2));
+      assertEquals(nul0State, readCellState(universe, 5, 2, 1));
    }
 
    @Test
