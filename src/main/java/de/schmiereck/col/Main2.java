@@ -15,31 +15,31 @@ public class Main2 {
 
    public static void main(String[] args) {
       //----------------------------------------------------------------------------------------------------------------
+      // Engine Level 0:
+      final Engine level0Engine = EngineService.createLevel0staticEngine();
+
       // Engine Level 1:
       final Engine level1Engine = EngineService.createLevel1staticEngine();
 
-      // Engine Level 2:
-      final Engine level2Engine = EngineService.createLevel2staticEngine();
+      // Engine Level 2 (static):
+      final Engine level2staticEngine = EngineService.createLevel2staticEngine();
 
-      // Engine Level 3 (static):
+      // Engine Level 2 (dynamic):
+      final Engine level2dynamicEngine = EngineService.createLevel2dynamicEngine();
+
+      // Engine Level 3:
       final Engine level3staticEngine = EngineService.createLevel3staticEngine();
-
-      // Engine Level 3 (dynamic):
-      final Engine level3dynamicEngine = EngineService.createLevel3dynamicEngine();
-
-      // Engine Level 4:
-      final Engine level4staticEngine = EngineService.createLevel4staticEngine();
 
       //----------------------------------------------------------------------------------------------------------------
       final Engine[] engine2Arr = new Engine[2];
-      engine2Arr[0] = level1Engine;
-      engine2Arr[1] = level2Engine;
+      engine2Arr[0] = level0Engine;
+      engine2Arr[1] = level1Engine;
 
       final Engine[] engine3Arr = new Engine[3];
-      engine3Arr[0] = level1Engine;
-      engine3Arr[1] = level2Engine;
-      //engine3Arr[2] = level3staticEngine;
-      engine3Arr[2] = level3dynamicEngine;
+      engine3Arr[0] = level0Engine;
+      engine3Arr[1] = level1Engine;
+      //engine3Arr[2] = level2staticEngine;
+      engine3Arr[2] = level2dynamicEngine;
 
       final Engine[] engineArr = engine3Arr;    // !!!! TEST !!!!
 

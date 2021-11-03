@@ -1,8 +1,8 @@
 package de.schmiereck.col.services;
 
-import static de.schmiereck.col.model.State.neg0State;
-import static de.schmiereck.col.model.State.nul0State;
-import static de.schmiereck.col.model.State.pos0State;
+import static de.schmiereck.col.model.State.negState;
+import static de.schmiereck.col.model.State.nulState;
+import static de.schmiereck.col.model.State.posState;
 
 import de.schmiereck.col.model.Cell;
 import de.schmiereck.col.model.Engine;
@@ -53,12 +53,12 @@ public class UniverseService {
 
    public static void printCells(final Universe universe, final int cnt) {
       final Engine[] engineArr = universe.engineArr;
-      for (int levelNr = engineArr.length; levelNr >= 1; levelNr--) {
-         final int levelPos = levelNr - 1;
+      for (int levelPos = engineArr.length - 1; levelPos >= 0; levelPos--) {
+         final int levelNr = levelPos + 1;
          for (int levelShift = 0; levelShift < levelNr; levelShift++) {
-            System.out.printf("%4d/%1d:%s ", cnt, levelNr, " ".repeat((levelShift) * 8));
+            final int metaPos = levelShift == 0 ? 0 : levelNr - levelShift;
+            System.out.printf("%4d/%1d/%1d:%s ", cnt, levelPos, metaPos, " ".repeat((levelShift) * 8));
             for (int pos = 0; pos < universe.universeSize; pos += levelNr) {
-               //final Main2.Cell cell = cellArr[genPos][pos];
                final Cell cell = readCell(universe, pos + levelShift, levelPos);
                //if (cell.block) {
                //   System.out.printf("(**/**/**) ");
@@ -69,13 +69,13 @@ public class UniverseService {
                for (int statePos = 0; statePos < state.inputStates.length; statePos++) {
                   final State inputState = state.inputStates[statePos];
                   final int value;
-                  if (inputState == neg0State) {
+                  if (inputState == negState) {
                      value = -1;
                   } else {
-                     if (inputState == nul0State) {
+                     if (inputState == nulState) {
                         value = 0;
                      } else {
-                        if (inputState == pos0State) {
+                        if (inputState == posState) {
                            value = 1;
                         } else {
                            value = 99;
@@ -93,7 +93,7 @@ public class UniverseService {
             System.out.println();
          }
       }
-      System.out.print("  ----- ");
+      System.out.print("  ------- ");
       System.out.println("------- ".repeat(universe.universeSize));
    }
 
@@ -131,11 +131,11 @@ public class UniverseService {
             final State equalState = calcEqualMetaStateValues(universe, levelPos, cellPos, cellSize);
             final State targetEqualState = calcEqualMetaStateValues(universe, targetLevelPos, cellPos, targetCellSize);
 
-            if ((equalState != null) && (equalState != nul0State) && (targetEqualState == nul0State)) {
+            if ((equalState != null) && (equalState != nulState) && (targetEqualState == nulState)) {
                // Level 1 -> 2:
 
                // Status aller Zellen in Level 1 auf 0 setzen
-               calcNewEqualState(engineArr, universe, levelPos, cellPos, nul0State);
+               calcNewEqualState(engineArr, universe, levelPos, cellPos, nulState);
 
                // Status aller Zellen in Level 2 auf equalState setzen
                calcNewEqualState(engineArr, universe, targetLevelPos, cellPos, equalState);
@@ -156,11 +156,11 @@ public class UniverseService {
             final State equalState = calcEqualMetaStateValues(universe, levelPos, cellPos, cellSize);
             final State targetEqualState = calcEqualMetaStateValues(universe, targetLevelPos, cellPos, targetCellSize);
 
-            if ((equalState != null) && (equalState != nul0State) && (targetEqualState == nul0State)) {
+            if ((equalState != null) && (equalState != nulState) && (targetEqualState == nulState)) {
                // Level 2 -> 1:
 
                // Status aller Zellen in Level 2 auf 0 setzen
-               calcNewEqualState(engineArr, universe, levelPos, cellPos, nul0State);
+               calcNewEqualState(engineArr, universe, levelPos, cellPos, nulState);
 
                // Status aller Zellen in Level 1 auf equalState setzen
                calcNewEqualState(engineArr, universe, targetLevelPos, cellPos, equalState);

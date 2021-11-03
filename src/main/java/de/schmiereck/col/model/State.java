@@ -2,9 +2,9 @@ package de.schmiereck.col.model;
 
 public class State {
 
-   public final static State nul0State = new State(0);
-   public final static State pos0State = new State(0);
-   public final static State neg0State = new State(0);
+   public final static State nulState = new State(0);
+   public final static State posState = new State(0);
+   public final static State negState = new State(0);
 
    public State[] inputStates;
 

@@ -124,7 +124,7 @@ Wenn ein Ausgang von mehreren Engines gesetzt wird,
 => Wie werden die aufgelöst, wenn es um die Ermittlung eines Eingangswertes geht?
 
 ```
-a b c d e f a'       State 1
+a b c d e f a'       State 0
 - - - - - - .   
 +                   a 
   +                 b 
@@ -132,7 +132,7 @@ a b c d e f a'       State 1
       +             d 
         +           e 
           +         f 
-a b c d e f a'       State 2
+a b c d e f a'       State 1
 - - - - - - .   
 +++                 a+b
   +++               b+c
@@ -140,14 +140,14 @@ a b c d e f a'       State 2
       +++           d+e
         +++         e+f
 +         ++.       f+a
-a b c d e f a'       State 3
+a b c d e f a'       State 2
 ===       ==...     fa+ab
 =====               ab+bc
   =====             bc+cd
     =====           cd+de
       =====         de+ef
 =       ====.       ef+fa
-a b c d e f a'       State 4
+a b c d e f a'       State 3
 #####     ##.....   fa+ab + ab+bc
 #######             ab+bc + bc+cd
   #######           bc+cd + cd+de
@@ -157,14 +157,14 @@ a b c d e f a'       State 4
 
 ```
 
-## State 1:
+## State 0:
 ```
     0   =>   0
     1   =>   1
    -1   =>  -1
 ```
 
-## State 2:
+## State 1:
 ```
     0   0   =>   0   0     0   0
     0   1   =>   0   1     1   0
@@ -179,7 +179,7 @@ a b c d e f a'       State 4
     0   0        0   0     0   0
 ```
 
-## State 3 (static):
+## State 2 (static):
 ```
  0   0   0   0   =>  0   0   0     0   0   0     
  1   0   0   1   =>  0   0   1     0   1   0     
@@ -213,7 +213,7 @@ a b c d e f a'       State 4
     -----------------------------------------
      0   0   0       0   0   0    -1   2  -1
 ```
-## State 3 (dynamic):
+## State 2 (dynamic):
 ```
  0   0   0   0   =>  0
  1   0   0   1   =>  2
@@ -268,7 +268,7 @@ Engine 2 nur noch 50%, da sich zwei Zustände überlagern.
 
 ## Level-Down:
 ```
-a b c d e f a'       State 2
+a b c d e f a'       State 1
 - - - - - - .   
 1-1                  a+b
  -1 1                a+b
@@ -288,7 +288,7 @@ a b c d e f a'       State 2
 ```
 
 ```
-a b c d e f a'       State 2
+a b c d e f a'       State 1
 - - - - - - .   
 1 1                  a+b
  -1 1                a+b
@@ -310,10 +310,10 @@ a b c d e f a'       State 2
 ```
 
 # Idee
-Die höheren Level weg von 1 sind der Grundzustand und enhalten niedrige verteilte Energien.
+Die höheren Level weg von 0 sind der Grundzustand und enhalten niedrige verteilte Energien.
 "Hochlevelen" bedeutet eine Konzentration in einem höheren Energiezustand.
 
 Die Engines der verschiedenen Level können verschiedene Regeln haben und verschiedenen Zwecken dienen.
 
-Level 2 konzentriert eher Zustände an einem Ort.
-Level 3 verteilt eher Zustände über weitere Orte.
+Level 1 konzentriert eher Zustände an einem Ort.
+Level 2 verteilt eher Zustände über weitere Orte.
