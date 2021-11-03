@@ -104,7 +104,7 @@ public class UniverseService {
       runCalcNextState(universe);
    }
 
-   private static void runCalcNextState(final Universe universe) {
+   public static void runCalcNextState(final Universe universe) {
       final Engine[] engineArr = universe.engineArr;
       for (int levelPos = 0; levelPos < engineArr.length; levelPos++) {
          final Engine engine = engineArr[levelPos];
