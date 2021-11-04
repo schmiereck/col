@@ -80,6 +80,31 @@ public class EngineService {
       return level1Engine;
    }
 
+   public static Engine createLevel1dynamicEngine() {
+      final Engine level1dynamicEngine = new Engine(2, 9);
+
+      // 0    0   0   =>   0
+      level1dynamicEngine.setState( 0, new State(2, nulState, nulState), 0);
+      // 1    0   1   =>   2
+      level1dynamicEngine.setState( 1, new State(2, nulState, posState), 2);
+      // 2    1   0   =>   1
+      level1dynamicEngine.setState( 2, new State(2, posState, nulState), 1);
+      // 3    0  -1   =>   4
+      level1dynamicEngine.setState( 3, new State(2, nulState, negState), 4);
+      // 4   -1   0   =>   3
+      level1dynamicEngine.setState( 4, new State(2, negState, nulState), 3);
+      // 5    1   1   =>   5
+      level1dynamicEngine.setState( 5, new State(2, posState, posState), 5);
+      // 6    1  -1   =>   0
+      level1dynamicEngine.setState( 6, new State(2, posState, negState), 0);
+      // 7   -1   1   =>   0
+      level1dynamicEngine.setState( 7, new State(2, negState, posState), 0);
+      // 8   -1  -1   =>   8
+      level1dynamicEngine.setState( 8, new State(2, negState, negState), 8);
+
+      return level1dynamicEngine;
+   }
+
    public static Engine createLevel2staticEngine() {
       final Engine level2staticEngine = new Engine(3);
 
@@ -147,18 +172,18 @@ public class EngineService {
    public static Engine createLevel2dynamicEngine() {
       final Engine level2dynamicEngine = new Engine(3, 32);
 
-      level2dynamicEngine.setState(0, new State(3, nulState, nulState, nulState), 0);
-      level2dynamicEngine.setState(1, new State(3, nulState, nulState, posState), 2);
-      level2dynamicEngine.setState(2, new State(3, nulState, posState, nulState), 3);
-      level2dynamicEngine.setState(3, new State(3, posState, nulState, nulState), 4);
-      level2dynamicEngine.setState(4, new State(3, nulState, posState, nulState), 1);
+      level2dynamicEngine.setState( 0, new State(3, nulState, nulState, nulState), 0);
+      level2dynamicEngine.setState( 1, new State(3, nulState, nulState, posState), 2);
+      level2dynamicEngine.setState( 2, new State(3, nulState, posState, nulState), 3);
+      level2dynamicEngine.setState( 3, new State(3, posState, nulState, nulState), 4);
+      level2dynamicEngine.setState( 4, new State(3, nulState, posState, nulState), 1);
 
-      level2dynamicEngine.setState(5, new State(3, nulState, nulState, negState), 6);
-      level2dynamicEngine.setState(6, new State(3, nulState, negState, nulState), 7);
-      level2dynamicEngine.setState(7, new State(3, negState, nulState, nulState), 8);
-      level2dynamicEngine.setState(8, new State(3, nulState, negState, nulState), 5);
+      level2dynamicEngine.setState( 5, new State(3, nulState, nulState, negState), 6);
+      level2dynamicEngine.setState( 6, new State(3, nulState, negState, nulState), 7);
+      level2dynamicEngine.setState( 7, new State(3, negState, nulState, nulState), 8);
+      level2dynamicEngine.setState( 8, new State(3, nulState, negState, nulState), 5);
 
-      level2dynamicEngine.setState(9, new State(3, nulState, posState, posState), 10);
+      level2dynamicEngine.setState( 9, new State(3, nulState, posState, posState), 10);
       level2dynamicEngine.setState(10, new State(3, posState, nulState, posState), 11);
       level2dynamicEngine.setState(11, new State(3, posState, posState, nulState), 12);
       level2dynamicEngine.setState(12, new State(3, posState, nulState, posState), 9);

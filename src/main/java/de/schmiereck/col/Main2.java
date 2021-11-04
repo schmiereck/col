@@ -3,6 +3,9 @@ package de.schmiereck.col;
 import static de.schmiereck.col.services.UniverseService.printCells;
 import static de.schmiereck.col.services.UniverseService.readCell;
 import static de.schmiereck.col.services.UniverseService.run;
+import static de.schmiereck.col.services.UniverseService.runCalcNextState;
+import static de.schmiereck.col.services.UniverseService.runLevelDown;
+import static de.schmiereck.col.services.UniverseService.runLevelUp;
 import static de.schmiereck.col.services.UniverseService.setStatePos;
 
 import de.schmiereck.col.model.Engine;
@@ -19,7 +22,10 @@ public class Main2 {
       final Engine level0Engine = EngineService.createLevel0staticEngine();
 
       // Engine Level 1:
-      final Engine level1Engine = EngineService.createLevel1staticEngine();
+      final Engine level1staticEngine = EngineService.createLevel1staticEngine();
+
+      // Engine Level 1:
+      final Engine level1dynamicEngine = EngineService.createLevel1dynamicEngine();
 
       // Engine Level 2 (static):
       final Engine level2staticEngine = EngineService.createLevel2staticEngine();
@@ -33,12 +39,11 @@ public class Main2 {
       //----------------------------------------------------------------------------------------------------------------
       final Engine[] engine2Arr = new Engine[2];
       engine2Arr[0] = level0Engine;
-      engine2Arr[1] = level1Engine;
+      engine2Arr[1] = level1staticEngine;
 
       final Engine[] engine3Arr = new Engine[3];
       engine3Arr[0] = level0Engine;
-      engine3Arr[1] = level1Engine;
-      //engine3Arr[2] = level2staticEngine;
+      engine3Arr[1] = level1dynamicEngine;
       engine3Arr[2] = level2dynamicEngine;
 
       final Engine[] engineArr = engine3Arr;    // !!!! TEST !!!!
@@ -46,22 +51,27 @@ public class Main2 {
       final Universe universe = new Universe(engineArr, universeSize);
 
       //----------------------------------------------------------------------------------------------------------------
-      /*
-      setStatePos(universe, universeSize / 2, 0,  1);
-      setStatePos(universe, 0, 0, 1);
-      setStatePos(universe, 1, 0, 2);
-      */
       // engine3Arr:
-      setStatePos(universe, 6, 2, 0,  9);
-      setStatePos(universe, 4, 2, 0,  1);
-      setStatePos(universe, 5, 2, 0,  3);
-      //setStatePos(universe, 5, 1, 0,  1);
 
+      for (int metaCellPos = 0; metaCellPos < 3; metaCellPos++) {
+         for (int cellPos = 0; cellPos < universeSize; cellPos += 6) {
+            setStatePos(universe, cellPos + 0, 2, metaCellPos, 10);   // l2dyn 10: 1, 0, 1
+            setStatePos(universe, cellPos + 3, 2, metaCellPos, 2);   // l2dyn  2: 0, 1, 0
+         }
+      }
+      setStatePos(universe, 6, 2, 0,  17);   // l2dyn 17: 1, 1, 1
+      setStatePos(universe, 7, 2, 0,  17);   // l2dyn 17: 1, 1, 1
       //----------------------------------------------------------------------------------------------------------------
-      for (int cnt = 0; cnt < 3; cnt++) {
-         printCells(universe, cnt);
+      for (int cnt = 0; cnt < 6*2; cnt++) {
+         //printCells(universe, cnt);
+         //run(universe);
 
-         run(universe);
+         printCells(universe, cnt);
+         runLevelUp(universe);
+         runCalcNextState(universe);
+         printCells(universe, cnt);
+         runLevelDown(universe);
+         runCalcNextState(universe);
       }
    }
 }

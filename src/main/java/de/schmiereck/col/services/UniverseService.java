@@ -119,7 +119,7 @@ public class UniverseService {
       }
    }
 
-   private static void runLevelDown(final Universe universe) {
+   public static void runLevelDown(final Universe universe) {
       final Engine[] engineArr = universe.engineArr;
       for (int levelPos = engineArr.length - 2; levelPos >= 0; levelPos--) {
          final int targetLevelPos = levelPos + 1;
