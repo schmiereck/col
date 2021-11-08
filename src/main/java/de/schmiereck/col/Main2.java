@@ -63,15 +63,24 @@ public class Main2 {
       setStatePos(universe, 7, 2, 0,  17);   // l2dyn 17: 1, 1, 1
       //----------------------------------------------------------------------------------------------------------------
       for (int cnt = 0; cnt < 6*2; cnt++) {
-         //printCells(universe, cnt);
-         //run(universe);
-
-         printCells(universe, cnt);
-         runLevelUp(universe);
-         runCalcNextState(universe);
-         printCells(universe, cnt);
-         runLevelDown(universe);
-         runCalcNextState(universe);
+         //runTest1(universe, cnt);
+         runTest2(universe, cnt);
       }
+   }
+
+   private static void runTest1(final Universe universe, final int cnt) {
+      printCells(universe, cnt);
+      run(universe);
+   }
+
+   private static void runTest2(final Universe universe, final int cnt) {
+      printCells(universe, cnt);
+      runLevelUp(universe);
+      printCells(universe, cnt);
+      runCalcNextState(universe);
+      printCells(universe, cnt);
+      runLevelDown(universe);
+      printCells(universe, cnt);
+      runCalcNextState(universe);
    }
 }

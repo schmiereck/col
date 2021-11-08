@@ -180,6 +180,7 @@ a b c d e f a'       State 3
 ```
 
 ## State 1 (dynamic):
+horizontal:
 ```
 0    0   0   =>   0
 1    0   1   =>   2
@@ -192,6 +193,80 @@ a b c d e f a'       State 3
 8   -1  -1   =>   8
     ----------------------------
      0   0        
+```
+vertical (meta):
+```
+0+x:
+0  =>  0
+    0        0   0   =>   0        0   0
+    0    0   0       =>   0    0   0  
+1  =>  1
+    1        0   1   =>   1        0   1
+    0    0   0       =>   0    0   0  
+2  =>  9
+    2        1   0   =>   0        0   0
+    0    0   0       =>   1    0   1
+3  =>  3
+    3        0  -1   =>   3        0  -1
+    0    0   0       =>   0    0   0  
+4  =>  ?
+    4       -1   0   =>   0        0   0
+    0    0   0       =>   3    0  -1
+5  =>  10
+    5        1   1   =>   1        0   1
+    0    0   0       =>   1    0   1
+6  =>  12
+    6        1  -1   =>   3        0  -1
+    0    0   0       =>   1    0   1 
+7  =>  ?
+    7       -1   1   =>   1        0   1
+    0    0   0       =>   3    0  -1 
+8  =>  ?
+    8       -1  -1   =>   3        0  -1
+    0    0   0       =>   3    0  -1  
+
+1+x:
+9   =>  2
+    0        0   0   =>   2        1   0
+    1    0   1       =>   0    0   0
+10  => 5
+    1        0   1   =>   5        1   1
+    1    0   1       =>   0    0   0
+11  => 11
+    2        1   0   =>   2        1   0
+    1    0   1       =>   1    0   1
+12  => 6
+    3        0  -1   =>   6        1  -1
+    1    0   1       =>   0    0   0
+13  => 0
+    4       -1   0   =>   0        0   0
+    1    0   1       =>   0    0   0
+14  => 14
+    5        1   1   =>   5        1   1
+    1    0   1       =>   1    0   1
+15  => 15
+    6        1  -1   =>   6        1  -1
+    1    0   1       =>   1    0   1
+16  => 1
+    7       -1   1   =>   1        0   1
+    1    0   1       =>   0    0   0
+17  => 3
+    8       -1  -1   =>   3        0  -1
+    1    0   1       =>   0    0   0
+
+2+x:
+...
+
+    0    0   0   =>   0
+    1    0   1   =>   2
+    2    1   0   =>   1
+    3    0  -1   =>   4
+    4   -1   0   =>   3
+    5    1   1   =>   5
+    6    1  -1   =>   0
+    7   -1   1   =>   0
+    8   -1  -1   =>   8
+    ----------------------------
 ```
 
 ## State 2 (static):
@@ -324,7 +399,8 @@ a b c d e f a'       State 1
       e       = 1
 ```
 
-# Idee
+# Ideen
+## Urzustand: Felder zu Teilchen
 Die höheren Level weg von 0 sind der Grundzustand und enhalten niedrige verteilte Energien.
 "Hochlevelen" bedeutet eine Konzentration in einem höheren Energiezustand.
 
@@ -332,3 +408,58 @@ Die Engines der verschiedenen Level können verschiedene Regeln haben und versch
 
 Level 1 konzentriert eher Zustände an einem Ort.
 Level 2 verteilt eher Zustände über weitere Orte.
+
+## Engine-Generator
+Regeln für neue Regeln:
+* Folgezustand hat die gleiche Anzahl von +/-States.
+* Folgezustand darf sich nur an einer Stelle ändern (Zustand bewegt sich von Zelle zur Nachbar-Zelle).
+
+## horizontal AND vertical
+* Jeder Status sieht in seinem Level die ihn überschneidenden Status.
+* Er benutzt sie um seinen Folgestatus zu bestimmen.
+* Er kann auch den Status der Meta-Status beeinflussen, darf aber nur die groß geschriebenen verändern.
+  * Alternative - Es wird ein eigener Rechenschritt zur Berechnung des vertikalen Status ausgeführt (mit einer eigenen Engine?).
+
+Level 1:
+```
+A-N:
+          mmAAcc
+           nNbb
+B-A:
+           nnBB
+          mmaAcc
+C-B:
+          mmaaCC
+           nnbBdd
+D-e:
+           nnbbDD
+          mmaacCee
+```
+Level 2:
+```
+A-M-N:
+                     AAAddd
+                   mmMbbb
+                    nNnccc
+B-N-A:
+                   mmmBBB
+                    nnNccc
+                     aAaddd
+C-A-B:
+                    nnnCCC
+                     aaAddd
+                   bbbbBb
+D-B-C:
+                     aaaDDD
+                   mmmbbBeee
+                    nnncCc
+E-C-D:
+                   mmmbbbEEE
+                    nnnccC
+                     aaadDd
+...
+```
+
+# Bewegung
+Ist ein eigener Zweig in der Engine der die Folgezustände nicht mehr symmetrisch bestimmt, sondern nach rechts oder links.
+In den entsprechenden Zweig zu kommen entspricht einen Impuls von außen.

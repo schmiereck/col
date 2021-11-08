@@ -5,6 +5,7 @@ import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
 
 import de.schmiereck.col.model.Engine;
+import de.schmiereck.col.model.MetaState;
 import de.schmiereck.col.model.State;
 
 public class EngineService {
@@ -102,7 +103,130 @@ public class EngineService {
       // 8   -1  -1   =>   8
       level1dynamicEngine.setState( 8, new State(2, negState, negState), 8);
 
+      //0+x:
+      // 0  =>  0
+      //    0        0   0   =>   0        0   0
+      //    0    0   0       =>   0    0   0
+      //level1dynamicEngine.metaStateArr[0] = new MetaState(0, level1dynamicEngine.getInputState(0), level1dynamicEngine.getInputState(0));
+      // 1  =>  1
+      //    1        0   1   =>   1        0   1
+      //    0    0   0       =>   0    0   0
+      //level1dynamicEngine.metaStateArr[0] = new MetaState(1, level1dynamicEngine.getInputState(1), level1dynamicEngine.getInputState(0));
+      // 2  =>  9
+      //     2        1   0   =>   0        0   0
+      //     0    0   0       =>   1    0   1
+
+      initMetaStateArr(level1dynamicEngine);
+
+      for (int msPos = 0; msPos < level1dynamicEngine.metaStateArr.length; msPos++) {
+         final MetaState metaState = level1dynamicEngine.metaStateArr[msPos];
+         metaState.outputMetaStatePos = searchOutputMetaStatePos(level1dynamicEngine.inputStateArr, level1dynamicEngine.outputStatePosArr, level1dynamicEngine.metaStateArr, metaState);
+      }
+
       return level1dynamicEngine;
+   }
+
+   public static void initMetaStateArr(final Engine level1dynamicEngine) {
+      level1dynamicEngine.metaStateArr = new MetaState[level1dynamicEngine.inputStateArr.length * level1dynamicEngine.inputStateArr.length];
+
+      int metaStatePos = 0;
+      for (int l1Pos = 0; l1Pos < level1dynamicEngine.inputStateArr.length; l1Pos++) {
+         for (int l2Pos = 0; l2Pos < level1dynamicEngine.inputStateArr.length; l2Pos++) {
+            level1dynamicEngine.metaStateArr[metaStatePos] = new MetaState(-1, level1dynamicEngine.getInputState(l2Pos), level1dynamicEngine.getInputState(l1Pos));
+            metaStatePos++;
+         }
+      }
+   }
+
+   public static int searchOutputMetaStatePos(final State[] engineInputStateArr, final int[] engineOutputStatePosArr, final MetaState[] metaStateArr, final MetaState searchedMetaState) {
+      //      // 2  =>  9
+      //      //     2        1   0   =>   0        0   0
+      //      //     0    0   0       =>   1    0   1
+      //      assertEquals(9, engine.metaStateArr[2].outputMetaStatePos);
+      //      assertEquals(State.posState, engine.metaStateArr[2].inputMetaStateArr[0].inputStates[0]);
+      //      assertEquals(State.nulState, engine.metaStateArr[2].inputMetaStateArr[0].inputStates[1]);
+      //      assertEquals(State.nulState, engine.metaStateArr[2].inputMetaStateArr[1].inputStates[0]);
+      //      assertEquals(State.nulState, engine.metaStateArr[2].inputMetaStateArr[1].inputStates[1]);
+
+      final State inputMetaStateArr[] = new State[searchedMetaState.inputMetaStateArr.length];
+
+      for (int pos = 0; pos < searchedMetaState.inputMetaStateArr.length; pos++) {
+         inputMetaStateArr[pos] = searchedMetaState.inputMetaStateArr[pos].inputStates[pos];
+      }
+
+      final State expectedMetaStateArr[];
+      {
+         final int inputStatePos = searchStatePos(engineInputStateArr, inputMetaStateArr);
+         final int outputStatePos = engineOutputStatePosArr[inputStatePos];
+         final State outputState = engineInputStateArr[outputStatePos];
+         expectedMetaStateArr = outputState.inputStates;
+      }
+      for (int msPos = 0; msPos < metaStateArr.length; msPos++) {
+         final MetaState metaState = metaStateArr[msPos];
+         boolean inputMetaStateFound = true;
+         for (int inputMetaStatePos = 0; inputMetaStatePos < metaState.inputMetaStateArr.length; inputMetaStatePos++) {
+            final State inputMetaState = metaState.inputMetaStateArr[inputMetaStatePos];
+            boolean inputStateFound = true;
+            for (int inputStatePos = 0; inputStatePos < inputMetaState.inputStates.length; inputStatePos++) {
+               final State inputState = inputMetaState.inputStates[inputStatePos];
+               if (inputMetaStatePos == inputStatePos) {
+                  if (inputState != expectedMetaStateArr[inputMetaStatePos]) {
+                     inputStateFound = false;
+                     break;
+                  }
+               } else {
+                  final State searchedInputMetaState = searchedMetaState.inputMetaStateArr[inputMetaStatePos];
+                  final State searchedInputState = searchedInputMetaState.inputStates[inputStatePos];
+                  if (inputState != searchedInputState) {
+                     inputStateFound = false;
+                     break;
+                  }
+               }
+            }
+            if (inputStateFound == false) {
+               inputMetaStateFound = false;
+               break;
+            }
+         }
+         if (inputMetaStateFound) {
+            return msPos;
+         }
+      }
+      return -1;
+   }
+
+   private static int searchStatePos(final State[] engineInputStateArr, final State searchedStateArr[]) {
+      for (int inputStatePos = 0; inputStatePos < engineInputStateArr.length; inputStatePos++) {
+         final State inputState = engineInputStateArr[inputStatePos];
+         boolean found = true;
+         for (int statePos = 0; statePos < inputState.inputStates.length; statePos++) {
+            if (inputState.inputStates[statePos] != searchedStateArr[statePos]) {
+               found = false;
+               break;
+            }
+         }
+         if (found) {
+            return inputStatePos;
+         }
+      }
+      return -1;
+   }
+
+   private static int searchMetaStatePos(final MetaState[] metaStateArr, final MetaState searchedMetaState) {
+      for (int msPos = 0; msPos < metaStateArr.length; msPos++) {
+         final MetaState metaState = metaStateArr[msPos];
+         boolean found = true;
+         for (int statePos = 0; statePos < metaState.inputMetaStateArr.length; statePos++) {
+            if (metaState.inputMetaStateArr[statePos] != searchedMetaState.inputMetaStateArr[statePos]) {
+               found = false;
+               break;
+            }
+         }
+         if (found) {
+            return msPos;
+         }
+      }
+      return -1;
    }
 
    public static Engine createLevel2staticEngine() {
@@ -227,5 +351,13 @@ public class EngineService {
       level4staticEngine.setState(0, nul_nul_nul_nul_3State, 0);
 
       return level4staticEngine;
+   }
+
+   public static Engine createAllPossibleEngines(final int cellSize) {
+      final Engine engine = new Engine(cellSize, 9);
+
+      engine.setState(31, new State(cellSize, negState, negState, negState), 31);
+
+      return engine;
    }
 }

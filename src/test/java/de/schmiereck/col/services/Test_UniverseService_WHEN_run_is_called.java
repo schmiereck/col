@@ -1,4 +1,4 @@
-package de.schmiereck.col;
+package de.schmiereck.col.services;
 
 import static de.schmiereck.col.model.State.negState;
 import static de.schmiereck.col.model.State.nulState;
