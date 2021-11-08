@@ -1,11 +1,11 @@
 package de.schmiereck.col.model;
 
 public class MetaState {
-   public State inputMetaStateArr[];
+   public int inputMetaStatePosArr[];
    public int outputMetaStatePos;
 
-   public MetaState(final int outputMetaStatePos, final State ... inputMetaStateArr) {
+   public MetaState(final int outputMetaStatePos, final int ... inputMetaStatePosArr) {
       this.outputMetaStatePos = outputMetaStatePos;
-      this.inputMetaStateArr = inputMetaStateArr;
+      this.inputMetaStatePosArr = inputMetaStatePosArr;
    }
 }

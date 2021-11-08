@@ -1,7 +1,8 @@
 package de.schmiereck.col.model;
 
 public class Cell {
-   public int stateLevel;
+   //public int stateLevel;
    public int statePos;
-   public Cell[] metaCellArr;
+   public int metaStatePos;
+   //public Cell[] metaCellArr;
 }

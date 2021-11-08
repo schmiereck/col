@@ -7,6 +7,16 @@ public class Engine {
    public State[] inputStateArr;
    public int[] outputStatePosArr;
    public MetaState metaStateArr[];
+   /**
+    * new: Arr[pow(Engine.inputStateArr.length, cellSize)]
+    * get/set: Arr[l1Pos * engine.inputStateArr.length + l2Pos]
+    *    00 01 10 11
+    * 00
+    * 01
+    * 10
+    * 11
+    */
+   public MetaState[] inputMetaStatePosToMetaStateArr;
 
    public Engine(final int cellSize) {
       this.cellSize = cellSize;

@@ -10,6 +10,7 @@ import static de.schmiereck.col.services.UniverseService.setStatePos;
 
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.Universe;
+import de.schmiereck.col.services.CreateEngineService;
 import de.schmiereck.col.services.EngineService;
 
 public class Main2 {
@@ -19,22 +20,22 @@ public class Main2 {
    public static void main(String[] args) {
       //----------------------------------------------------------------------------------------------------------------
       // Engine Level 0:
-      final Engine level0Engine = EngineService.createLevel0staticEngine();
+      final Engine level0Engine = CreateEngineService.createLevel0staticEngine();
 
       // Engine Level 1:
-      final Engine level1staticEngine = EngineService.createLevel1staticEngine();
+      final Engine level1staticEngine = CreateEngineService.createLevel1staticEngine();
 
       // Engine Level 1:
-      final Engine level1dynamicEngine = EngineService.createLevel1dynamicEngine();
+      final Engine level1dynamicEngine = CreateEngineService.createLevel1dynamicEngine();
 
       // Engine Level 2 (static):
-      final Engine level2staticEngine = EngineService.createLevel2staticEngine();
+      final Engine level2staticEngine = CreateEngineService.createLevel2staticEngine();
 
       // Engine Level 2 (dynamic):
-      final Engine level2dynamicEngine = EngineService.createLevel2dynamicEngine();
+      final Engine level2dynamicEngine = CreateEngineService.createLevel2dynamicEngine();
 
       // Engine Level 3:
-      final Engine level3staticEngine = EngineService.createLevel3staticEngine();
+      final Engine level3staticEngine = CreateEngineService.createLevel3staticEngine();
 
       //----------------------------------------------------------------------------------------------------------------
       final Engine[] engine2Arr = new Engine[2];
