@@ -30,8 +30,8 @@ public class UniverseService {
          for (int levelShift = 0; levelShift < levelNr; levelShift++) {
             final int metaPos = levelShift == 0 ? 0 : levelNr - levelShift;
             System.out.printf("%4d/%1d/%1d:%s ", cnt, levelPos, metaPos, " ".repeat((levelShift) * (1+2+1+2+1+2+1+1)));
-            for (int pos = 0; pos < universe.universeSize; pos += levelNr) {
-               final Cell cell = readCell(level, pos + levelShift);
+            for (int cellPos = 0; cellPos < universe.universeSize; cellPos += levelNr) {
+               final Cell cell = readCell(level, cellPos + levelShift);
                //if (cell.block) {
                //   System.out.printf("(**/**/**) ");
                //} else {
@@ -53,6 +53,33 @@ public class UniverseService {
       }
       System.out.print("  ------- ");
       System.out.println("---------- ".repeat(universe.universeSize));
+   }
+
+   public static void printCellsMinimal(final Universe universe, final int cnt) {
+      final Engine[] engineArr = universe.engineArr;
+
+      System.out.printf("%4d: ", cnt);
+
+      for (int cellPos = 0; cellPos < universe.universeSize; cellPos++) {
+         int outValue = 0;
+         for (int levelPos = 0; levelPos < engineArr.length; levelPos++) {
+            final Engine engine = readEngine(universe, levelPos);
+            final Level level = readLevel(universe, levelPos);
+            final Cell cell = readCell(level, cellPos);
+
+            final State state = engine.inputStateArr[cell.statePos];
+            for (int statePos = 0; statePos < state.inputStates.length; statePos++) {
+               final State inputState = state.inputStates[statePos];
+               final int value = convertToValue(inputState);
+               outValue += value * (engineArr.length - levelPos);
+            }
+         }
+         if (cellPos > 0) {
+            System.out.print("|");
+         }
+         System.out.printf("%2d", outValue);
+      }
+      System.out.println();
    }
 
    public static void run(final Universe universe) {

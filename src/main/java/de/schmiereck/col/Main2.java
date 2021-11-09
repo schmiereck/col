@@ -1,6 +1,7 @@
 package de.schmiereck.col;
 
 import static de.schmiereck.col.services.UniverseService.printCells;
+import static de.schmiereck.col.services.UniverseService.printCellsMinimal;
 import static de.schmiereck.col.services.UniverseService.run;
 import static de.schmiereck.col.services.UniverseService.runCalcNextMetaState;
 import static de.schmiereck.col.services.UniverseService.runCalcNextState;
@@ -15,7 +16,7 @@ import de.schmiereck.col.services.UniverseService;
 
 public class Main2 {
 
-   public static int universeSize = 12;
+   public static int universeSize = 12*2;
 
    public static void main(String[] args) {
       //----------------------------------------------------------------------------------------------------------------
@@ -55,7 +56,7 @@ public class Main2 {
       // engine3Arr:
 
       for (int metaCellPos = 0; metaCellPos < 3; metaCellPos++) {
-         for (int cellPos = 0; cellPos < universeSize; cellPos += 6) {
+         for (int cellPos = 0; cellPos < universeSize/2; cellPos += 6) {
             setStatePos(universe, cellPos + 0, 2, metaCellPos, 10);   // l2dyn 10: 1, 0, 1
             setStatePos(universe, cellPos + 3, 2, metaCellPos, 2);   // l2dyn  2: 0, 1, 0
          }
@@ -66,10 +67,13 @@ public class Main2 {
       UniverseService.calcInitialMetaStates(universe);
 
       //----------------------------------------------------------------------------------------------------------------
-      for (int cnt = 0; cnt < 6*2; cnt++) {
+      for (int cnt = 0; cnt < 6*2*8; cnt++) {
          //runTest1(universe, cnt);
          //runTest2(universe, cnt);
-         runTest3(universe, cnt);
+         printCellsMinimal(universe, cnt);
+         //runTest3(universe, cnt, false);
+         //runTest4(universe, cnt, false);
+         runTest5(universe, cnt, false);
       }
    }
 
@@ -92,17 +96,45 @@ public class Main2 {
       runCalcNextState(universe);
    }
 
-   private static void runTest3(final Universe universe, final int cnt) {
-      printCells(universe, cnt);
+   private static void runTest3(final Universe universe, final int cnt, final boolean doPrint) {
+      if (doPrint) printCells(universe, cnt);
       runLevelUp(universe);
 
-      printCells(universe, cnt);
+      if (doPrint) printCells(universe, cnt);
       runCalcNextState(universe);
 
-      printCells(universe, cnt);
+      if (doPrint) printCells(universe, cnt);
       runLevelDown(universe);
 
-      printCells(universe, cnt);
+      if (doPrint) printCells(universe, cnt);
       runCalcNextMetaState(universe);
+   }
+
+   private static void runTest4(final Universe universe, final int cnt, final boolean doPrint) {
+      if (doPrint) printCells(universe, cnt);
+      runLevelUp(universe);
+
+      if (doPrint) printCells(universe, cnt);
+      runCalcNextMetaState(universe);
+
+      if (doPrint) printCells(universe, cnt);
+      runLevelDown(universe);
+
+      if (doPrint) printCells(universe, cnt);
+      runCalcNextState(universe);
+   }
+
+   private static void runTest5(final Universe universe, final int cnt, final boolean doPrint) {
+      if (doPrint) printCells(universe, cnt);
+      runLevelDown(universe);
+
+      if (doPrint) printCells(universe, cnt);
+      runCalcNextMetaState(universe);
+
+      if (doPrint) printCells(universe, cnt);
+      runLevelUp(universe);
+
+      if (doPrint) printCells(universe, cnt);
+      runCalcNextState(universe);
    }
 }
