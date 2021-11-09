@@ -23,10 +23,10 @@ public class Main2 {
       // Engine Level 0:
       final Engine level0Engine = CreateEngineService.createLevel0staticEngine();
 
-      // Engine Level 1:
+      // Engine Level 1 (static):
       final Engine level1staticEngine = CreateEngineService.createLevel1staticEngine();
 
-      // Engine Level 1:
+      // Engine Level 1 (dynamic):
       final Engine level1dynamicEngine = CreateEngineService.createLevel1dynamicEngine();
 
       // Engine Level 2 (static):
@@ -35,7 +35,7 @@ public class Main2 {
       // Engine Level 2 (dynamic):
       final Engine level2dynamicEngine = CreateEngineService.createLevel2dynamicEngine();
 
-      // Engine Level 3:
+      // Engine Level 3 (static):
       final Engine level3staticEngine = CreateEngineService.createLevel3staticEngine();
 
       //----------------------------------------------------------------------------------------------------------------
@@ -52,9 +52,7 @@ public class Main2 {
 
       final Universe universe = new Universe(engineArr, universeSize);
 
-      //----------------------------------------------------------------------------------------------------------------
-      // engine3Arr:
-
+/*
       for (int metaCellPos = 0; metaCellPos < 3; metaCellPos++) {
          for (int cellPos = 0; cellPos < universeSize/2; cellPos += 6) {
             setStatePos(universe, cellPos + 0, 2, metaCellPos, 10);   // l2dyn 10: 1, 0, 1
@@ -63,6 +61,9 @@ public class Main2 {
       }
       setStatePos(universe, 6, 2, 0,  17);   // l2dyn 17: 1, 1, 1
       setStatePos(universe, 7, 2, 0,  17);   // l2dyn 17: 1, 1, 1
+ */
+      setStatePos(universe, 2, 2, 0,  3);   // l2dyn 3: 1, 0, 0
+      setStatePos(universe, 12, 2, 0,  1);   // l2dyn 1: 0, 0, 1
 
       UniverseService.calcInitialMetaStates(universe);
 

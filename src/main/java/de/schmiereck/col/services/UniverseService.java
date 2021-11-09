@@ -89,6 +89,13 @@ public class UniverseService {
       runCalcNextState(universe);
    }
 
+   public static void run2(final Universe universe) {
+      runLevelUp(universe);
+      runCalcNextMetaState(universe);
+      runLevelDown(universe);
+      runCalcNextState(universe);
+   }
+
    public static void runCalcNextState(final Universe universe) {
       final Engine[] engineArr = universe.engineArr;
       for (int levelPos = 0; levelPos < engineArr.length; levelPos++) {
