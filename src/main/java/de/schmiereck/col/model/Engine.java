@@ -11,7 +11,7 @@ public class Engine {
     * new: Arr[pow(Engine.inputStateArr.length, cellSize)]
     * get/set:  a = new int[X][Y][Z] = new int[X * Y * Z]
     *           a[k][j][i] simply means (indirection levels apart) a[k*Y*X + j*X + i]
-    *           see: de.schmiereck.col.services.UniverseService#calcMetaStatePosByLevelCell(de.schmiereck.col.model.Engine, de.schmiereck.col.model.LevelCell)
+    *           see: {@link de.schmiereck.col.services.EngineService#calcMetaStatePosByLevelCell(Engine, LevelCell)}
     *    00 01 10 11
     * 00
     * 01

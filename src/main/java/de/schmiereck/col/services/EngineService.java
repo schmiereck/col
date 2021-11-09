@@ -111,4 +111,12 @@ public class EngineService {
       }
       return retStatePos;
    }
+
+   public static int calcMetaStatePosByLevelCell(final Engine engine, final LevelCell levelCell) {
+      int metaStatePos = 0;
+      for (int metaPos = 0; metaPos < levelCell.metaCellArr.length; metaPos++) {
+         metaStatePos += levelCell.metaCellArr[metaPos].statePos * Math.pow(engine.inputStateArr.length, metaPos);
+      }
+      return metaStatePos;
+   }
 }

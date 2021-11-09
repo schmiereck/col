@@ -3,9 +3,11 @@ package de.schmiereck.col.services;
 import static de.schmiereck.col.model.State.negState;
 import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
+import static de.schmiereck.col.services.EngineService.calcMetaStatePosByLevelCell;
 import static de.schmiereck.col.services.EngineService.searchMetaStatePos;
 import static de.schmiereck.col.services.EngineService.searchStatePosWithNewStateOnPos;
 import static de.schmiereck.col.services.LevelService.calcEqualMetaStateValues;
+import static de.schmiereck.col.services.StateUtils.convertToValue;
 
 import de.schmiereck.col.model.Cell;
 import de.schmiereck.col.model.Engine;
@@ -37,20 +39,7 @@ public class UniverseService {
                System.out.print("(");
                for (int statePos = 0; statePos < state.inputStates.length; statePos++) {
                   final State inputState = state.inputStates[statePos];
-                  final int value;
-                  if (inputState == negState) {
-                     value = -1;
-                  } else {
-                     if (inputState == nulState) {
-                        value = 0;
-                     } else {
-                        if (inputState == posState) {
-                           value = 1;
-                        } else {
-                           value = 99;
-                        }
-                     }
-                  }
+                  final int value = convertToValue(inputState);
                   if (statePos > 0) {
                      System.out.print("   ");
                   }
@@ -166,14 +155,6 @@ public class UniverseService {
       //for (int metaPos = 0; metaPos < sourceLevelCell2.metaCellArr.length; metaPos++) {
       //   sourceLevelCell2.metaCellArr[metaPos].statePos = nextMetaState.inputMetaStatePosArr[metaPos];
       //}
-   }
-
-   private static int calcMetaStatePosByLevelCell(final Engine engine, final LevelCell levelCell) {
-      int metaStatePos = 0;
-      for (int metaPos = 0; metaPos < levelCell.metaCellArr.length; metaPos++) {
-         metaStatePos += levelCell.metaCellArr[metaPos].statePos * Math.pow(engine.inputStateArr.length, metaPos);
-      }
-      return metaStatePos;
    }
 
    private static void calcNextMetaStatePosByStatePos(final Universe universe, final int levelPos, final Engine engine, final int cellPos) {
