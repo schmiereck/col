@@ -19,89 +19,17 @@ import java.util.Objects;
 
 public class UniverseService {
 
-   public static void setStatePos(final Universe universe, final int cellPos, final int levelPos, final int statePos) {
-      setStatePos(universe, cellPos, levelPos, 0, statePos);
-   }
-
-   public static void setStatePos(final Universe universe, final int cellPos, final int levelPos, final int metaCellPos, final int statePos) {
-      readLevel(universe, levelPos).levelCellArr[cellPos].metaCellArr[metaCellPos].statePos = statePos;
-   }
-
-   public static State readCellState(final Universe universe, final int cellPos, final int levelPos, final int inputStatePos) {
-      final Engine levelEngine = readEngine(universe, levelPos);
-      return levelEngine.inputStateArr[readCell(universe, cellPos, levelPos).statePos].inputStates[inputStatePos];
-   }
-
-   public static Cell readCell(final Universe universe, final int cellPos, final int levelPos) {
-      return readCell(universe, cellPos, levelPos, 0);
-   }
-
-   public static Cell readCell(final Universe universe, final int cellPos, final int levelPos, final int metaCellPos) {
-      return readLevelCell(universe, cellPos, levelPos).metaCellArr[metaCellPos];
-   }
-
-   public static Cell readCell(final Level level, final int cellPos) {
-      return readCell(level, cellPos, 0);
-   }
-
-   public static Cell readCell(final Level level, final int cellPos, final int metaCellPos) {
-      return readLevelCell(level, cellPos).metaCellArr[metaCellPos];
-   }
-
-   public static int readCellStatePos(final Universe universe, final int cellPos, final int levelPos, final int metaCellPos) {
-      return readLevelCell(universe, cellPos, levelPos).metaCellArr[metaCellPos].statePos;
-   }
-
-   public static LevelCell readLevelCell(final Universe universe, final int cellPos, final int levelPos) {
-      //return universe.levelArr[levelPos].levelCellArr[calcCellPos(universe, cellPos)];
-      final Level level = readLevel(universe, levelPos);
-      return readLevelCell(level, cellPos);
-   }
-
-   public static Level readLevel(final Universe universe, final int levelPos) {
-      return universe.levelArr[levelPos];
-   }
-
-   public static LevelCell readLevelCell(final Level level, final int cellPos) {
-      return level.levelCellArr[calcCellPos(level, cellPos)];
-   }
-
-   public static int readCellSize(final Universe universe, final int levelPos) {
-      return readLevel(universe, levelPos).engine.cellSize;
-   }
-
-   public static int calcCellPos(final Universe universe, final int pos) {
-      return calcCellPos(universe.universeSize, pos);
-   }
-
-   public static int calcCellPos(final Level level, final int pos) {
-      return calcCellPos(level.levelSize, pos);
-   }
-
-   public static int calcCellPos(final int levelSize, final int pos) {
-      final int retPos;
-      if (pos >= levelSize) {
-         retPos = pos - levelSize;
-      } else {
-         if (pos < 0) {
-            retPos = pos + levelSize;
-         } else {
-            retPos = pos;
-         }
-      }
-      return retPos;
-   }
-
    public static void printCells(final Universe universe, final int cnt) {
       final Engine[] engineArr = universe.engineArr;
       for (int levelPos = engineArr.length - 1; levelPos >= 0; levelPos--) {
          final Engine engine = readEngine(universe, levelPos);
+         final Level level = readLevel(universe, levelPos);
          final int levelNr = engine.cellSize; //levelPos + 1;
          for (int levelShift = 0; levelShift < levelNr; levelShift++) {
             final int metaPos = levelShift == 0 ? 0 : levelNr - levelShift;
             System.out.printf("%4d/%1d/%1d:%s ", cnt, levelPos, metaPos, " ".repeat((levelShift) * (1+2+1+2+1+2+1+1)));
             for (int pos = 0; pos < universe.universeSize; pos += levelNr) {
-               final Cell cell = readCell(universe, pos + levelShift, levelPos);
+               final Cell cell = readCell(level, pos + levelShift);
                //if (cell.block) {
                //   System.out.printf("(**/**/**) ");
                //} else {
@@ -152,7 +80,7 @@ public class UniverseService {
          final Level level = readLevel(universe, levelPos);
 
          for (int cellPos = 0; cellPos < universe.universeSize; cellPos++) {
-            final Cell sourceCell = readCell(universe, cellPos, levelPos);
+            final Cell sourceCell = readCell(level, cellPos);
             final int outputStatePos = engine.outputStatePosArr[sourceCell.statePos];
 
             final Cell targetCell = sourceCell;
@@ -249,8 +177,9 @@ public class UniverseService {
    }
 
    private static void calcNextMetaStatePosByStatePos(final Universe universe, final int levelPos, final Engine engine, final int cellPos) {
-      final LevelCell sourceLevelCell = readLevelCell(universe, cellPos, levelPos);
-      final Cell sourceCell = readCell(universe, cellPos, levelPos);
+      final Level level = readLevel(universe, levelPos);
+      final LevelCell sourceLevelCell = readLevelCell(level, cellPos);
+      final Cell sourceCell = readCell(level, cellPos);
       int metaStatePos = calcMetaStatePosByLevelCell(engine, sourceLevelCell);
       final int nextMetaStatePos = engine.inputMetaStatePosToMetaStateArr[metaStatePos].outputMetaStatePos;
 
@@ -277,8 +206,8 @@ public class UniverseService {
          final Level targetLevel = readLevel(universe, targetLevelPos);
 
          for (int cellPos = 0; cellPos < universe.universeSize; cellPos++) {
-            final int cellSize = readCellSize(universe, levelPos);
-            final int targetCellSize = readCellSize(universe, targetLevelPos);
+            final int cellSize = readCellSize(level);
+            final int targetCellSize = readCellSize(targetLevel);
 
             final State equalState = calcEqualMetaStateValues(level, cellPos, cellSize);
             final State targetEqualState = calcEqualMetaStateValues(targetLevel, cellPos, targetCellSize);
@@ -306,8 +235,8 @@ public class UniverseService {
          final Level targetLevel = readLevel(universe, targetLevelPos);
 
          for (int cellPos = 0; cellPos < universe.universeSize; cellPos++) {
-            final int cellSize = readCellSize(universe, levelPos);
-            final int targetCellSize = readCellSize(universe, targetLevelPos);
+            final int cellSize = readCellSize(level);
+            final int targetCellSize = readCellSize(targetLevel);
 
             final State equalState = calcEqualMetaStateValues(level, cellPos, cellSize);
             final State targetEqualState = calcEqualMetaStateValues(targetLevel, cellPos, targetCellSize);
@@ -340,10 +269,6 @@ public class UniverseService {
       }
    }
 
-   private static Engine readEngine(final Universe universe, final int levelPos) {
-      return universe.engineArr[levelPos];
-   }
-
    public static void calcInitialMetaStates(final Universe universe) {
       final Engine[] engineArr = universe.engineArr;
       for (int levelPos = 0; levelPos < engineArr.length; levelPos++) {
@@ -359,5 +284,81 @@ public class UniverseService {
             }
          }
       }
+   }
+
+   private static Engine readEngine(final Universe universe, final int levelPos) {
+      return universe.engineArr[levelPos];
+   }
+
+   public static void setStatePos(final Universe universe, final int cellPos, final int levelPos, final int statePos) {
+      setStatePos(universe, cellPos, levelPos, 0, statePos);
+   }
+
+   public static void setStatePos(final Universe universe, final int cellPos, final int levelPos, final int metaCellPos, final int statePos) {
+      final Level level = readLevel(universe, levelPos);
+      setStatePos(level, cellPos, metaCellPos, statePos);
+   }
+
+   public static void setStatePos(final Level level, final int cellPos, final int metaCellPos, final int statePos) {
+      level.levelCellArr[cellPos].metaCellArr[metaCellPos].statePos = statePos;
+   }
+
+   public static State readCellState(final Universe universe, final int cellPos, final int levelPos, final int inputStatePos) {
+      final Engine levelEngine = readEngine(universe, levelPos);
+      final Level level = readLevel(universe, levelPos);
+      return levelEngine.inputStateArr[readCell(level, cellPos).statePos].inputStates[inputStatePos];
+   }
+
+   public static Cell readCell(final Universe universe, final int cellPos, final int levelPos) {
+      final Level level = readLevel(universe, levelPos);
+      return readCell(level, cellPos, 0);
+   }
+
+   public static Cell readCell(final Universe universe, final int cellPos, final int levelPos, final int metaCellPos) {
+      final Level level = readLevel(universe, levelPos);
+      return readLevelCell(level, cellPos).metaCellArr[metaCellPos];
+   }
+
+   public static Cell readCell(final Level level, final int cellPos) {
+      return readCell(level, cellPos, 0);
+   }
+
+   public static Cell readCell(final Level level, final int cellPos, final int metaCellPos) {
+      return readLevelCell(level, cellPos).metaCellArr[metaCellPos];
+   }
+
+   public static int readCellStatePos(final Universe universe, final int cellPos, final int levelPos, final int metaCellPos) {
+      final Level level = readLevel(universe, levelPos);
+      return readLevelCell(level, cellPos).metaCellArr[metaCellPos].statePos;
+   }
+
+   public static Level readLevel(final Universe universe, final int levelPos) {
+      return universe.levelArr[levelPos];
+   }
+
+   public static LevelCell readLevelCell(final Level level, final int cellPos) {
+      return level.levelCellArr[calcCellPos(level, cellPos)];
+   }
+
+   public static int readCellSize(final Level level) {
+      return level.engine.cellSize;
+   }
+
+   public static int calcCellPos(final Level level, final int pos) {
+      return calcCellPos(level.levelSize, pos);
+   }
+
+   public static int calcCellPos(final int levelSize, final int pos) {
+      final int retPos;
+      if (pos >= levelSize) {
+         retPos = pos - levelSize;
+      } else {
+         if (pos < 0) {
+            retPos = pos + levelSize;
+         } else {
+            retPos = pos;
+         }
+      }
+      return retPos;
    }
 }

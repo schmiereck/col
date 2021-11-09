@@ -45,7 +45,7 @@ public class Universe {
             final Cell newCell = new Cell();
 
             for (int metaCellPos = 0; metaCellPos < engine.cellSize; metaCellPos++) {
-               level.levelCellArr[calcCellPos(this, levelCellPos + metaCellPos)].metaCellArr[metaCellPos] = newCell;
+               level.levelCellArr[calcCellPos(level, levelCellPos + metaCellPos)].metaCellArr[metaCellPos] = newCell;
             }
          }
       }

@@ -1,7 +1,6 @@
 package de.schmiereck.col;
 
 import static de.schmiereck.col.services.UniverseService.printCells;
-import static de.schmiereck.col.services.UniverseService.readCell;
 import static de.schmiereck.col.services.UniverseService.run;
 import static de.schmiereck.col.services.UniverseService.runCalcNextMetaState;
 import static de.schmiereck.col.services.UniverseService.runCalcNextState;
@@ -12,7 +11,6 @@ import static de.schmiereck.col.services.UniverseService.setStatePos;
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.Universe;
 import de.schmiereck.col.services.CreateEngineService;
-import de.schmiereck.col.services.EngineService;
 import de.schmiereck.col.services.UniverseService;
 
 public class Main2 {
