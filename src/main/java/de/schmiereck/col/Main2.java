@@ -3,6 +3,7 @@ package de.schmiereck.col;
 import static de.schmiereck.col.services.UniverseService.printCells;
 import static de.schmiereck.col.services.UniverseService.readCell;
 import static de.schmiereck.col.services.UniverseService.run;
+import static de.schmiereck.col.services.UniverseService.runCalcNextMetaState;
 import static de.schmiereck.col.services.UniverseService.runCalcNextState;
 import static de.schmiereck.col.services.UniverseService.runLevelDown;
 import static de.schmiereck.col.services.UniverseService.runLevelUp;
@@ -12,6 +13,7 @@ import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.Universe;
 import de.schmiereck.col.services.CreateEngineService;
 import de.schmiereck.col.services.EngineService;
+import de.schmiereck.col.services.UniverseService;
 
 public class Main2 {
 
@@ -62,10 +64,14 @@ public class Main2 {
       }
       setStatePos(universe, 6, 2, 0,  17);   // l2dyn 17: 1, 1, 1
       setStatePos(universe, 7, 2, 0,  17);   // l2dyn 17: 1, 1, 1
+
+      UniverseService.calcInitialMetaStates(universe);
+
       //----------------------------------------------------------------------------------------------------------------
       for (int cnt = 0; cnt < 6*2; cnt++) {
          //runTest1(universe, cnt);
-         runTest2(universe, cnt);
+         //runTest2(universe, cnt);
+         runTest3(universe, cnt);
       }
    }
 
@@ -77,11 +83,28 @@ public class Main2 {
    private static void runTest2(final Universe universe, final int cnt) {
       printCells(universe, cnt);
       runLevelUp(universe);
+
       printCells(universe, cnt);
       runCalcNextState(universe);
+
       printCells(universe, cnt);
       runLevelDown(universe);
+
       printCells(universe, cnt);
       runCalcNextState(universe);
+   }
+
+   private static void runTest3(final Universe universe, final int cnt) {
+      printCells(universe, cnt);
+      runLevelUp(universe);
+
+      printCells(universe, cnt);
+      runCalcNextState(universe);
+
+      printCells(universe, cnt);
+      runLevelDown(universe);
+
+      printCells(universe, cnt);
+      runCalcNextMetaState(universe);
    }
 }

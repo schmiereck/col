@@ -9,7 +9,9 @@ public class Engine {
    public MetaState metaStateArr[];
    /**
     * new: Arr[pow(Engine.inputStateArr.length, cellSize)]
-    * get/set: Arr[l1Pos * engine.inputStateArr.length + l2Pos]
+    * get/set:  a = new int[X][Y][Z] = new int[X * Y * Z]
+    *           a[k][j][i] simply means (indirection levels apart) a[k*Y*X + j*X + i]
+    *           see: de.schmiereck.col.services.UniverseService#calcMetaStatePosByLevelCell(de.schmiereck.col.model.Engine, de.schmiereck.col.model.LevelCell)
     *    00 01 10 11
     * 00
     * 01

@@ -43,4 +43,72 @@ public class EngineService {
       }
       return searchMetaStatePos(engine.metaStateArr, inputMetaStatePosArr);
    }
+
+   public static int searchStatePosWithNewStateOnPos(final Engine engine, final Cell metaCell, final int statePosOfSearchedNewState, final State searchedNewState) {
+      int retStatePos = 0;
+      final State searchedState = engine.inputStateArr[metaCell.statePos];
+
+      for (int engineInputStatePos = 0; engineInputStatePos < engine.inputStateArr.length; engineInputStatePos++) {
+         final State engineState = engine.inputStateArr[engineInputStatePos];
+
+         boolean allEqual = checkAllStatesAreEqual(engineState, searchedState, statePosOfSearchedNewState, searchedNewState);
+         if (allEqual) {
+            retStatePos = engineInputStatePos;
+            break;
+         }
+      }
+      return retStatePos;
+   }
+
+   private static boolean checkAllStatesAreEqual(final State engineState, final State searchedState, final int statePosOfSearchedNewState, final State searchedNewState) {
+      boolean allEqual = true;
+      for (int statePos = 0; statePos < engineState.inputStates.length; statePos++) {
+         final State inputState = engineState.inputStates[statePos];
+         final State searchedInputState = searchedState.inputStates[statePos];
+         if (statePos == statePosOfSearchedNewState) {
+            if (inputState != searchedNewState) {
+               allEqual = false;
+               break;
+            }
+         } else {
+            if (inputState != searchedInputState) {
+               allEqual = false;
+               break;
+            }
+         }
+      }
+      return allEqual;
+   }
+
+   private static int searchForStatePos(final Engine l0Engine, final State inputState0) {
+      int retStatePos = -1;
+
+      for (int statePos = 0; statePos < l0Engine.inputStateArr.length; statePos++) {
+         final State state = l0Engine.inputStateArr[statePos];
+         if ((state.inputStates[0] == inputState0)) {
+            retStatePos = statePos;
+            break;
+         }
+      }
+      if (retStatePos == -1) {
+         throw new RuntimeException("Do not found given inputs in given engine.");
+      }
+      return retStatePos;
+   }
+
+   private static int searchForStatePos(final Engine engine, final State inputState0, final State inputState1) {
+      int retStatePos = -1;
+
+      for (int statePos = 0; statePos < engine.inputStateArr.length; statePos++) {
+         final State state = engine.inputStateArr[statePos];
+         if ((state.inputStates[0] == inputState0) && (state.inputStates[1] == inputState1)) {
+            retStatePos = statePos;
+            break;
+         }
+      }
+      if (retStatePos == -1) {
+         throw new RuntimeException("Do not found given inputs in given engine.");
+      }
+      return retStatePos;
+   }
 }
