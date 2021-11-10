@@ -8,6 +8,11 @@ import static de.schmiereck.col.services.UniverseService.readCell;
 import static de.schmiereck.col.services.UniverseService.readCellState;
 import static de.schmiereck.col.services.UniverseService.run;
 import static de.schmiereck.col.services.UniverseService.run2;
+import static de.schmiereck.col.services.UniverseService.run3;
+import static de.schmiereck.col.services.UniverseService.runCalcNextMetaState;
+import static de.schmiereck.col.services.UniverseService.runCalcNextState;
+import static de.schmiereck.col.services.UniverseService.runLevelDown;
+import static de.schmiereck.col.services.UniverseService.runLevelUp;
 import static de.schmiereck.col.services.UniverseService.setStatePos;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -149,13 +154,24 @@ class Test_UniverseService_WHEN_run_is_called {
 
       // Act
       printCells(universe, 0);
-      run2(universe);
+      runTest1(universe);
       printCells(universe, 1);
-      run2(universe);
+      runTest1(universe);
+      printCells(universe, 1);
+      runTest1(universe);
+      printCells(universe, 1);
+      runTest1(universe);
       printCells(universe, 1);
 
       // Assert
       assertEquals(posState, readCellState(universe, 1, 2, 0));
       assertEquals(posState, readCellState(universe, 7, 2, 0));
+   }
+
+   private void runTest1(final Universe universe) {
+      //runLevelUp(universe);
+      runCalcNextMetaState(universe);
+      //runLevelDown(universe);
+      //runCalcNextState(universe);
    }
 }
