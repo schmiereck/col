@@ -1,8 +1,6 @@
 package de.schmiereck.col.services;
 
-import static de.schmiereck.col.model.State.negState;
 import static de.schmiereck.col.model.State.nulState;
-import static de.schmiereck.col.model.State.posState;
 import static de.schmiereck.col.services.EngineService.calcMetaStatePosByLevelCell;
 import static de.schmiereck.col.services.EngineService.searchMetaStatePos;
 import static de.schmiereck.col.services.EngineService.searchStatePosWithNewStateOnPos;
@@ -164,8 +162,8 @@ public class UniverseService {
 
    private static void calcMetaStatePosByStatePosForNeighbours(final Engine engine, final Level level, final int cellPos) {
       for (int pos = 1; pos < engine.cellSize; pos++) {
-         calcMetaStatePosByStatePos(level, engine, cellPos - pos);
-         calcMetaStatePosByStatePos(level, engine, cellPos + pos);
+         calcMetaStatePosByStatePos(engine, level, cellPos - pos);
+         calcMetaStatePosByStatePos(engine, level, cellPos + pos);
       }
    }
 
@@ -181,7 +179,7 @@ public class UniverseService {
       }
    }
 
-   private static void calcMetaStatePosByStatePos(final Level level, final Engine engine, final int cellPos) {
+   private static void calcMetaStatePosByStatePos(final Engine engine, final Level level, final int cellPos) {
       final LevelCell sourceLevelCell = readLevelCell(level, cellPos);
       final Cell sourceCell = readCell(level, cellPos);
       int metaStatePos = calcMetaStatePosByLevelCell(engine, sourceLevelCell);
@@ -283,7 +281,7 @@ public class UniverseService {
       }
 
       if (Objects.nonNull(engine.metaStateArr)) {
-         calcMetaStatePosByStatePos(level, engine, cellPos);
+         calcMetaStatePosByStatePos(engine, level, cellPos);
          calcMetaStatePosByStatePosForNeighbours(engine, level, cellPos);
       }
    }
