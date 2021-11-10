@@ -25,7 +25,7 @@ class Test_UniverseService_WHEN_run_is_called {
    }
 
    @Test
-   void GIVEN_level_0_single_pos_state_THEN_state_is_populated_to_level_1() {
+   void GIVEN_lev1static_run_level_0_single_pos_state_THEN_state_is_populated_to_level_1() {
       // Arrange
       final int universeSize = 12;
 
@@ -56,7 +56,7 @@ class Test_UniverseService_WHEN_run_is_called {
    }
 
    @Test
-   void GIVEN_level_0_pos_and_neg_states_THEN_state_is_populated_to_level_1_and_state_is_annuled_in_one_cell() {
+   void GIVEN_lev1static_run_level_0_pos_and_neg_states_THEN_state_is_populated_to_level_1_and_state_is_annuled_in_one_cell() {
       // Arrange
       final int universeSize = 12;
 
@@ -88,7 +88,7 @@ class Test_UniverseService_WHEN_run_is_called {
    }
 
    @Test
-   void GIVEN_level_012dyn_pos_states_THEN_state_is_calculated() {
+   void GIVEN_level_012dyn_run2_pos_states_THEN_state_is_calculated() {
       // Arrange
       final int universeSize = 12;
 
@@ -118,6 +118,44 @@ class Test_UniverseService_WHEN_run_is_called {
       printCells(universe, 1);
 
       // Assert
+      assertEquals(posState, readCellState(universe, 7, 2, 0));
+   }
+
+   @Test
+   void GIVEN_level_012dyn_run2_2x_pos_states_in_different_directions_THEN_state_is_calculated() {
+      // Arrange
+      final int universeSize = 12;
+
+      // Engine Level 0:
+      final Engine level0Engine = CreateEngineService.createLevel0staticEngine();
+
+      // Engine Level 1 (dynamic):
+      final Engine level1dynamicEngine = CreateEngineService.createLevel1dynamicEngine();
+
+      // Engine Level 2 (dynamic):
+      final Engine level2dynamicEngine = CreateEngineService.createLevel2dynamicEngine();
+
+      final Engine[] engine3Arr = new Engine[3];
+      engine3Arr[0] = level0Engine;
+      engine3Arr[1] = level1dynamicEngine;
+      engine3Arr[2] = level2dynamicEngine;
+
+      final Universe universe = new Universe(engine3Arr, universeSize);
+
+      setStatePos(universe, 2, 2, 0,  3);   // l2dyn 3: 1, 0, 0
+      setStatePos(universe, 6, 2, 0,  1);   // l2dyn 1: 0, 0, 1
+
+      UniverseService.calcInitialMetaStates(universe);
+
+      // Act
+      printCells(universe, 0);
+      run2(universe);
+      printCells(universe, 1);
+      run2(universe);
+      printCells(universe, 1);
+
+      // Assert
+      assertEquals(posState, readCellState(universe, 1, 2, 0));
       assertEquals(posState, readCellState(universe, 7, 2, 0));
    }
 }

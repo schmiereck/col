@@ -29,7 +29,7 @@ public class UniverseService {
          final int levelNr = engine.cellSize; //levelPos + 1;
          for (int levelShift = 0; levelShift < levelNr; levelShift++) {
             final int metaPos = levelShift == 0 ? 0 : levelNr - levelShift;
-            System.out.printf("%4d/%1d/%1d:%s ", cnt, levelPos, metaPos, " ".repeat((levelShift) * (1+2+1+2+1+2+1+1)));
+            System.out.printf("%4d/%1d/%1d:%s ", cnt, levelPos, metaPos, " ".repeat((levelShift) * (1+4+1+2+1+2+1+1)));
             for (int cellPos = 0; cellPos < universe.universeSize; cellPos += levelNr) {
                final Cell cell = readCell(level, cellPos + levelShift);
                //if (cell.block) {
@@ -43,7 +43,7 @@ public class UniverseService {
                   if (statePos > 0) {
                      System.out.print("   ");
                   }
-                  System.out.printf("%2d|%2d|%2d", cell.metaStatePos, cell.statePos, value);
+                  System.out.printf("%4d|%2d|%2d", cell.metaStatePos, cell.statePos, value);
                }
                System.out.print(") ");
                //}
@@ -157,8 +157,10 @@ public class UniverseService {
             //for (int cellPos = universe.universeSize - 1; cellPos >= 0; cellPos--) {
             for (int cellPos = 0; cellPos < universe.universeSize; cellPos++) {
                calcNextStatePosByMetaStatePos(level, engine, cellPos);
-               calcMetaStatePosByStatePos(level, engine, cellPos - 1);
-               calcMetaStatePosByStatePos(level, engine, cellPos + 1);
+               for (int pos = 1; pos < engine.cellSize; pos++) {
+                  calcMetaStatePosByStatePos(level, engine, cellPos - pos);
+                  calcMetaStatePosByStatePos(level, engine, cellPos + pos);
+               }
             }
          }
       }
