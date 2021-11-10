@@ -322,7 +322,7 @@ public class CreateEngineService {
       inputMetaStatePosArr[arrPos] = 0;
    }
 
-   private static void initOutputMetaStatePos(final Engine engine) {
+   public static void initOutputMetaStatePos(final Engine engine) {
       for (int msPos = 0; msPos < engine.metaStateArr.length; msPos++) {
          final MetaState metaState = engine.metaStateArr[msPos];
          metaState.outputMetaStatePos = searchOutputMetaStatePos(engine.inputStateArr, engine.outputStatePosArr, engine.metaStateArr, metaState);

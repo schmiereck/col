@@ -114,8 +114,7 @@ public class UniverseService {
                final int nextMetaStatePos = searchForMetaStatePos(engine, outputStatePos, metaState);
                targetCell.metaStatePos = nextMetaStatePos;
 
-               calcMetaStatePosByStatePos(level, engine, cellPos - 1);
-               calcMetaStatePosByStatePos(level, engine, cellPos + 1);
+               calcMetaStatePosByStatePosForNeighbours(engine, level, cellPos);
             }
          }
       }
@@ -157,12 +156,16 @@ public class UniverseService {
             //for (int cellPos = universe.universeSize - 1; cellPos >= 0; cellPos--) {
             for (int cellPos = 0; cellPos < universe.universeSize; cellPos++) {
                calcNextStatePosByMetaStatePos(level, engine, cellPos);
-               for (int pos = 1; pos < engine.cellSize; pos++) {
-                  calcMetaStatePosByStatePos(level, engine, cellPos - pos);
-                  calcMetaStatePosByStatePos(level, engine, cellPos + pos);
-               }
+               calcMetaStatePosByStatePosForNeighbours(engine, level, cellPos);
             }
          }
+      }
+   }
+
+   private static void calcMetaStatePosByStatePosForNeighbours(final Engine engine, final Level level, final int cellPos) {
+      for (int pos = 1; pos < engine.cellSize; pos++) {
+         calcMetaStatePosByStatePos(level, engine, cellPos - pos);
+         calcMetaStatePosByStatePos(level, engine, cellPos + pos);
       }
    }
 
@@ -281,8 +284,7 @@ public class UniverseService {
 
       if (Objects.nonNull(engine.metaStateArr)) {
          calcMetaStatePosByStatePos(level, engine, cellPos);
-         calcMetaStatePosByStatePos(level, engine, cellPos - 1);
-         calcMetaStatePosByStatePos(level, engine, cellPos + 1);
+         calcMetaStatePosByStatePosForNeighbours(engine, level, cellPos);
       }
    }
 

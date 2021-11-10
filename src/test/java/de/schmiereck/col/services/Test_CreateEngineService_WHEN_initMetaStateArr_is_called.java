@@ -66,6 +66,7 @@ public class Test_CreateEngineService_WHEN_initMetaStateArr_is_called {
       };
       //for (int msPos = 0; msPos < level1dynamicEngine.metaStateArr.length; msPos++) {
       for (int msPos = 0; msPos < expected0InputMetaStatePosArr.length; msPos++) {
+         assertNotNull(level1dynamicEngine.metaStateArr[msPos], "metaStateArr Pos " + msPos + " should be not null.");
          assertEquals(expected0InputMetaStatePosArr[msPos], level1dynamicEngine.metaStateArr[msPos].inputMetaStatePosArr[0], "Pos0 " + msPos + " should be other.");
          assertEquals(expected1InputMetaStatePosArr[msPos], level1dynamicEngine.metaStateArr[msPos].inputMetaStatePosArr[1], "Pos1 " + msPos + " should be other.");
          assertNotNull(level1dynamicEngine.inputMetaStatePosToMetaStateArr[msPos], "Pos " + msPos + " should be not null.");
