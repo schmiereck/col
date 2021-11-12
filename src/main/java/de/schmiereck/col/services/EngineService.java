@@ -1,9 +1,5 @@
 package de.schmiereck.col.services;
 
-import static de.schmiereck.col.model.State.negState;
-import static de.schmiereck.col.model.State.nulState;
-import static de.schmiereck.col.model.State.posState;
-
 import de.schmiereck.col.model.Cell;
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.LevelCell;
@@ -62,9 +58,9 @@ public class EngineService {
 
    private static boolean checkAllStatesAreEqual(final State engineState, final State searchedState, final int statePosOfSearchedNewState, final State searchedNewState) {
       boolean allEqual = true;
-      for (int statePos = 0; statePos < engineState.inputStates.length; statePos++) {
-         final State inputState = engineState.inputStates[statePos];
-         final State searchedInputState = searchedState.inputStates[statePos];
+      for (int statePos = 0; statePos < engineState.inputStateArr.length; statePos++) {
+         final State inputState = engineState.inputStateArr[statePos];
+         final State searchedInputState = searchedState.inputStateArr[statePos];
          if (statePos == statePosOfSearchedNewState) {
             if (inputState != searchedNewState) {
                allEqual = false;
@@ -85,7 +81,7 @@ public class EngineService {
 
       for (int statePos = 0; statePos < l0Engine.inputStateArr.length; statePos++) {
          final State state = l0Engine.inputStateArr[statePos];
-         if ((state.inputStates[0] == inputState0)) {
+         if ((state.inputStateArr[0] == inputState0)) {
             retStatePos = statePos;
             break;
          }
@@ -101,7 +97,7 @@ public class EngineService {
 
       for (int statePos = 0; statePos < engine.inputStateArr.length; statePos++) {
          final State state = engine.inputStateArr[statePos];
-         if ((state.inputStates[0] == inputState0) && (state.inputStates[1] == inputState1)) {
+         if ((state.inputStateArr[0] == inputState0) && (state.inputStateArr[1] == inputState1)) {
             retStatePos = statePos;
             break;
          }

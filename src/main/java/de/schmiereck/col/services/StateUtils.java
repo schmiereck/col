@@ -3,7 +3,6 @@ package de.schmiereck.col.services;
 import static de.schmiereck.col.model.State.negState;
 import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
-import static de.schmiereck.col.services.StateUtils.convertToValue;
 
 import de.schmiereck.col.model.State;
 
@@ -30,8 +29,8 @@ public class StateUtils {
    public static String convertToDebugString(final State state) {
       final StringBuilder retStr = new StringBuilder();
 
-      for (int statePos = 0; statePos < state.inputStates.length; statePos++) {
-         final State inputState = state.inputStates[statePos];
+      for (int statePos = 0; statePos < state.inputStateArr.length; statePos++) {
+         final State inputState = state.inputStateArr[statePos];
          final int value = convertToValue(inputState);
 
          if (statePos > 0) {
@@ -42,11 +41,11 @@ public class StateUtils {
       return retStr.toString();
    }
 
-   public static String convertInputStatesToDebugString(final State state) {
+   public static String convertInputStateArrToDebugString(final State state) {
       final StringBuilder retStr = new StringBuilder();
 
-      for (int statePos = 0; statePos < state.inputStates.length; statePos++) {
-         final State inputState = state.inputStates[statePos];
+      for (int statePos = 0; statePos < state.inputStateArr.length; statePos++) {
+         final State inputState = state.inputStateArr[statePos];
          final int value = convertToValue(inputState);
 
          if (statePos > 0) {

@@ -14,7 +14,7 @@ public class LevelService {
          //   retState = null;
          //   break;
          //}
-         final State state = level.engine.inputStateArr[statePos].inputStates[pos];
+         final State state = level.engine.inputStateArr[statePos].inputStateArr[pos];
          if (retState == null) {
             retState = state;
          } else {

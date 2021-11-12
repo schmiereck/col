@@ -35,8 +35,8 @@ public class UniverseService {
                //} else {
                final State state = engine.inputStateArr[cell.statePos];
                System.out.print("(");
-               for (int statePos = 0; statePos < state.inputStates.length; statePos++) {
-                  final State inputState = state.inputStates[statePos];
+               for (int statePos = 0; statePos < state.inputStateArr.length; statePos++) {
+                  final State inputState = state.inputStateArr[statePos];
                   final int value = convertToValue(inputState);
                   if (statePos > 0) {
                      System.out.print("   ");
@@ -66,8 +66,8 @@ public class UniverseService {
             final Cell cell = readCell(level, cellPos);
 
             final State state = engine.inputStateArr[cell.statePos];
-            for (int statePos = 0; statePos < state.inputStates.length; statePos++) {
-               final State inputState = state.inputStates[statePos];
+            for (int statePos = 0; statePos < state.inputStateArr.length; statePos++) {
+               final State inputState = state.inputStateArr[statePos];
                final int value = convertToValue(inputState);
                outValue += value * (engineArr.length - levelPos);
             }
@@ -330,7 +330,7 @@ public class UniverseService {
    public static State readCellState(final Universe universe, final int cellPos, final int levelPos, final int inputStatePos) {
       final Engine levelEngine = readEngine(universe, levelPos);
       final Level level = readLevel(universe, levelPos);
-      return levelEngine.inputStateArr[readCell(level, cellPos).statePos].inputStates[inputStatePos];
+      return levelEngine.inputStateArr[readCell(level, cellPos).statePos].inputStateArr[inputStatePos];
    }
 
    public static Cell readCell(final Universe universe, final int cellPos, final int levelPos) {

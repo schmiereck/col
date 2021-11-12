@@ -13,13 +13,13 @@ public class CreateEngineService {
 
    public static Engine createLevel0staticEngine() {
       final State nul_0State = new State(1);
-      nul_0State.inputStates[0] = nulState;
+      nul_0State.inputStateArr[0] = nulState;
 
       final State pos_0State = new State(1);
-      pos_0State.inputStates[0] = posState;
+      pos_0State.inputStateArr[0] = posState;
 
       final State neg_0State = new State(1);
-      neg_0State.inputStates[0] = negState;
+      neg_0State.inputStateArr[0] = negState;
 
       final Engine level1Engine = new Engine(1);
 
@@ -32,40 +32,40 @@ public class CreateEngineService {
 
    public static Engine createLevel1staticEngine() {
       final State nul_nul_1State = new State(2);
-      nul_nul_1State.inputStates[0] = nulState;
-      nul_nul_1State.inputStates[1] = nulState;
+      nul_nul_1State.inputStateArr[0] = nulState;
+      nul_nul_1State.inputStateArr[1] = nulState;
 
       final State nul_pos_1State = new State(2);
-      nul_pos_1State.inputStates[0] = nulState;
-      nul_pos_1State.inputStates[1] = posState;
+      nul_pos_1State.inputStateArr[0] = nulState;
+      nul_pos_1State.inputStateArr[1] = posState;
 
       final State nul_neg_1State = new State(2);
-      nul_neg_1State.inputStates[0] = nulState;
-      nul_neg_1State.inputStates[1] = negState;
+      nul_neg_1State.inputStateArr[0] = nulState;
+      nul_neg_1State.inputStateArr[1] = negState;
 
       final State pos_nul_1State = new State(2);
-      pos_nul_1State.inputStates[0] = posState;
-      pos_nul_1State.inputStates[1] = nulState;
+      pos_nul_1State.inputStateArr[0] = posState;
+      pos_nul_1State.inputStateArr[1] = nulState;
 
       final State pos_pos_1State = new State(2);
-      pos_pos_1State.inputStates[0] = posState;
-      pos_pos_1State.inputStates[1] = posState;
+      pos_pos_1State.inputStateArr[0] = posState;
+      pos_pos_1State.inputStateArr[1] = posState;
 
       final State pos_neg_1State = new State(2);
-      pos_neg_1State.inputStates[0] = posState;
-      pos_neg_1State.inputStates[1] = negState;
+      pos_neg_1State.inputStateArr[0] = posState;
+      pos_neg_1State.inputStateArr[1] = negState;
 
       final State neg_nul_1State = new State(2);
-      neg_nul_1State.inputStates[0] = negState;
-      neg_nul_1State.inputStates[1] = nulState;
+      neg_nul_1State.inputStateArr[0] = negState;
+      neg_nul_1State.inputStateArr[1] = nulState;
 
       final State neg_pos_1State = new State(2);
-      neg_pos_1State.inputStates[0] = negState;
-      neg_pos_1State.inputStates[1] = posState;
+      neg_pos_1State.inputStateArr[0] = negState;
+      neg_pos_1State.inputStateArr[1] = posState;
 
       final State neg_neg_1State = new State(2);
-      neg_neg_1State.inputStates[0] = negState;
-      neg_neg_1State.inputStates[1] = negState;
+      neg_neg_1State.inputStateArr[0] = negState;
+      neg_neg_1State.inputStateArr[1] = negState;
 
       final Engine level1Engine = new Engine(2);
 
@@ -247,10 +247,10 @@ public class CreateEngineService {
 
    public static Engine createLevel3staticEngine() {
       final State nul_nul_nul_nul_3State = new State(4);
-      nul_nul_nul_nul_3State.inputStates[0] = nulState;
-      nul_nul_nul_nul_3State.inputStates[1] = nulState;
-      nul_nul_nul_nul_3State.inputStates[2] = nulState;
-      nul_nul_nul_nul_3State.inputStates[3] = nulState;
+      nul_nul_nul_nul_3State.inputStateArr[0] = nulState;
+      nul_nul_nul_nul_3State.inputStateArr[1] = nulState;
+      nul_nul_nul_nul_3State.inputStateArr[2] = nulState;
+      nul_nul_nul_nul_3State.inputStateArr[3] = nulState;
 
       final Engine level4staticEngine = new Engine(4);
 
@@ -304,30 +304,32 @@ public class CreateEngineService {
    }
 
    public static void initOutputMetaState(final Engine engine, final MetaState searchedMetaState) {
+      final State[] engineInputStateArr = engine.inputStateArr;
+      final int[] engineOutputStatePosArr = engine.outputStatePosArr;
+      final MetaState[] engineMetaStateArr = engine.metaStateArr;
+
       // searchedMetaState:
       //       2  =>  9
       //           2        1   0   =>   0        0   0
       //           0    0   0       =>   1    0   1
       //                    ^== searchedMetaStateInputStateArr
 
-      final State[] engineInputStateArr = engine.inputStateArr;
-      final int[] engineOutputStatePosArr = engine.outputStatePosArr;
-      final MetaState[] engineMetaStateArr = engine.metaStateArr;
-
       final State searchedMetaStateInputStateArr[] = new State[searchedMetaState.inputMetaStatePosArr.length];
 
       for (int pos = 0; pos < searchedMetaState.inputMetaStatePosArr.length; pos++) {
-         searchedMetaStateInputStateArr[pos] = engineInputStateArr[searchedMetaState.inputMetaStatePosArr[pos]].inputStates[pos];
+         searchedMetaStateInputStateArr[pos] = engineInputStateArr[searchedMetaState.inputMetaStatePosArr[pos]].inputStateArr[pos];
       }
 
-      final State searchedOutputState;
+      final int searchedMetaStateInputStatePos;
+      final int searchedMetaStateOutputStatePos;
+      final State searchedMetaStateOutputState;
       {
-         final int searchedInputStatePos = searchStatePos(engineInputStateArr, searchedMetaStateInputStateArr);
-         if (searchedInputStatePos == -1) {
+         searchedMetaStateInputStatePos = searchStatePos(engine, searchedMetaStateInputStateArr);
+         if (searchedMetaStateInputStatePos == -1) {
             throw new RuntimeException(String.format("For Meta-State %s no input state found.", convertToDebugString(searchedMetaStateInputStateArr)));
          }
-         final int searchedOutputStatePos = engineOutputStatePosArr[searchedInputStatePos];
-         searchedOutputState = engineInputStateArr[searchedOutputStatePos];
+         searchedMetaStateOutputStatePos = engineOutputStatePosArr[searchedMetaStateInputStatePos];
+         searchedMetaStateOutputState = engineInputStateArr[searchedMetaStateOutputStatePos];
       }
 
       searchedMetaState.outputMetaStatePos = -1;
@@ -338,21 +340,18 @@ public class CreateEngineService {
          for (int inputMetaStatePos = 0; inputMetaStatePos < metaState.inputMetaStatePosArr.length; inputMetaStatePos++) {
             final State inputMetaState = engineInputStateArr[metaState.inputMetaStatePosArr[inputMetaStatePos]];
             boolean inputStateFound = true;
-            for (int inputStatePos = 0; inputStatePos < inputMetaState.inputStates.length; inputStatePos++) {
-               final State inputState = inputMetaState.inputStates[inputStatePos];
+            for (int inputStatePos = 0; inputStatePos < inputMetaState.inputStateArr.length; inputStatePos++) {
+               final State inputState = inputMetaState.inputStateArr[inputStatePos];
+               final State searchedInputState;
                if (inputMetaStatePos == inputStatePos) {
-                  final State expectedInputState = searchedOutputState.inputStates[inputMetaStatePos];
-                  if (inputState != expectedInputState) {
-                     inputStateFound = false;
-                     break;
-                  }
+                  searchedInputState = searchedMetaStateOutputState.inputStateArr[inputMetaStatePos];
                } else {
-                  final State searchedInputMetaState = engineInputStateArr[searchedMetaState.inputMetaStatePosArr[inputMetaStatePos]];
-                  final State searchedInputState = searchedInputMetaState.inputStates[inputStatePos];
-                  if (inputState != searchedInputState) {
-                     inputStateFound = false;
-                     break;
-                  }
+                  final State searchedMetaStateInputState = engineInputStateArr[searchedMetaState.inputMetaStatePosArr[inputMetaStatePos]];
+                  searchedInputState = searchedMetaStateInputState.inputStateArr[inputStatePos];
+               }
+               if (inputState != searchedInputState) {
+                  inputStateFound = false;
+                  break;
                }
             }
             if (inputStateFound == false) {
@@ -362,34 +361,71 @@ public class CreateEngineService {
          }
          if (inputMetaStateFound) {
             searchedMetaState.outputMetaStatePos = msPos;
+            searchedMetaState.metaStateInputStatePos = searchedMetaStateInputStatePos;
+            searchedMetaState.metaStateOutputStatePos = searchedMetaStateOutputStatePos;
             break;
          }
       }
    }
 
-   public static int searchStatePos(final State[] engineInputStateArr, final State searchedStateArr[]) {
+   private static int searchStatePos(final Engine engine, final State searchedStateArr[]) {
+      final State[] engineInputStateArr = engine.inputStateArr;
+
+      int retInputStatePos = -1;
+
       for (int inputStatePos = 0; inputStatePos < engineInputStateArr.length; inputStatePos++) {
          final State inputState = engineInputStateArr[inputStatePos];
-         boolean found = true;
-         for (int statePos = 0; statePos < inputState.inputStates.length; statePos++) {
-            if (inputState.inputStates[statePos] != searchedStateArr[statePos]) {
-               found = false;
+         if (compareInputStateArr(inputState, searchedStateArr)) {
+            retInputStatePos = inputStatePos;
+            // Gibt  es für diese Kombination noch keinen MetaState?
+            if (checkMetaStateExistForMetaStateInputAndOutputState(engine, inputStatePos) == false) {
                break;
             }
          }
-         if (found) {
-            return inputStatePos;
+      }
+      return retInputStatePos;
+   }
+
+   private static boolean compareInputStateArr(final State inputState, final State[] searchedStateArr) {
+      boolean found = true;
+      for (int statePos = 0; statePos < inputState.inputStateArr.length; statePos++) {
+         if (inputState.inputStateArr[statePos] != searchedStateArr[statePos]) {
+            found = false;
+            break;
          }
       }
-      return -1;
+      return found;
+   }
+
+   private static boolean checkMetaStateExistForMetaStateInputAndOutputState(final Engine engine, final int searchedMetaStateInputStatePos) {
+      final State[] engineInputStateArr = engine.inputStateArr;
+      final int[] engineOutputStatePosArr = engine.outputStatePosArr;
+      final MetaState[] engineMetaStateArr = engine.metaStateArr;
+
+      final int searchedMetaStateOutputStatePos = engineOutputStatePosArr[searchedMetaStateInputStatePos];
+      //final State searchedMetaStateOutputState = engineInputStateArr[searchedMetaStateOutputStatePos];
+
+      boolean found = false;
+
+      for (int msPos = 0; msPos < engine.metaStateArr.length; msPos++) {
+         final MetaState metaState = engine.metaStateArr[msPos];
+
+         if ((metaState.metaStateInputStatePos == searchedMetaStateInputStatePos) &&
+             (metaState.metaStateOutputStatePos == searchedMetaStateOutputStatePos))
+         {
+            found = true;
+            break;
+         }
+      }
+      return found;
    }
 
    public static int searchStatePos(final State[] engineInputStateArr, final State searchedState) {
       for (int inputStatePos = 0; inputStatePos < engineInputStateArr.length; inputStatePos++) {
          final State inputState = engineInputStateArr[inputStatePos];
          boolean found = true;
-         for (int statePos = 0; statePos < searchedState.inputStates.length; statePos++) {
-            if (inputState.inputStates[statePos] != searchedState.inputStates[statePos]) {
+         for (int statePos = 0; statePos < searchedState.inputStateArr.length; statePos++) {
+            if (inputState.inputStateArr[statePos] != searchedState.inputStateArr[statePos]) {
                found = false;
                break;
             }
