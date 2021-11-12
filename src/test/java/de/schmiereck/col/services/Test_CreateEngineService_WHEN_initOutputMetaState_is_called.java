@@ -11,10 +11,10 @@ import de.schmiereck.col.model.State;
 
 import org.junit.jupiter.api.Test;
 
-public class Test_CreateEngineService_WHEN_searchOutputMetaStatePos_is_called {
+public class Test_CreateEngineService_WHEN_initOutputMetaState_is_called {
 
    @Test
-   void searchOutputMetaStatePos() {
+   void initOutputMetaState() {
       // Arrange
       final Engine level1dynamicEngine = new Engine(2, 9);
 
@@ -40,11 +40,9 @@ public class Test_CreateEngineService_WHEN_searchOutputMetaStatePos_is_called {
       CreateEngineService.initMetaStateArr(level1dynamicEngine);
 
       // Act
-      final int outputMetaStatePosArr[] = new int[level1dynamicEngine.metaStateArr.length];
-
       for (int msPos = 0; msPos < level1dynamicEngine.metaStateArr.length; msPos++) {
          final MetaState metaState = level1dynamicEngine.metaStateArr[msPos];
-         outputMetaStatePosArr[msPos] = CreateEngineService.searchOutputMetaStatePos(level1dynamicEngine.inputStateArr, level1dynamicEngine.outputStatePosArr, level1dynamicEngine.metaStateArr, metaState);
+         CreateEngineService.initOutputMetaState(level1dynamicEngine, metaState);
       }
 
       // Assert
@@ -53,7 +51,7 @@ public class Test_CreateEngineService_WHEN_searchOutputMetaStatePos_is_called {
       };
       //for (int msPos = 0; msPos < level1dynamicEngine.metaStateArr.length; msPos++) {
       for (int msPos = 0; msPos < expectedOutputMetaStatePosArr.length; msPos++) {
-         assertEquals(expectedOutputMetaStatePosArr[msPos], outputMetaStatePosArr[msPos], "Pos " + msPos + " should be other.");
+         assertEquals(expectedOutputMetaStatePosArr[msPos], level1dynamicEngine.metaStateArr[msPos].outputMetaStatePos, "Pos " + msPos + " should be other.");
       }
    }
 }

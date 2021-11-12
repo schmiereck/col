@@ -3,7 +3,6 @@ package de.schmiereck.col.services;
 import static de.schmiereck.col.model.State.negState;
 import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
-import static de.schmiereck.col.services.CreateEngineService.initOutputMetaStatePos;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -74,10 +73,10 @@ public class Test_CreateEngineService_WHEN_initOutputMetaStatePos_is_called {
               18, 19, 45, 21, 54, 46, 48, 55, 57,
                4,  7,  0,  8, 31,  1,  3, 34, 35,
               36, 37, 63, 39, 72, 64, 66, 73, 75,
-              20, 1, 2, 3, 4, 5, 6, 7, 8,
-              0, 1, 2, 3, 4, 5, 6, 7, 8,
-              0, 1, 2, 3, 4, 5, 6, 7, 8,
-              0, 1, 2, 3, 4, 5, 6, 7, 8,
+              20, 23, 47, 24, 18, 50, 51, 19, 21,
+              22, 25, 18, 26, 58, 19, 21, 61, 62,
+              38, 41, 65, 42, 36, 68, 69, 37, 39,
+              40, 43, 36, 44, 76, 37, 39, 79, 80,
       };
       //for (int msPos = 0; msPos < level1dynamicEngine.metaStateArr.length; msPos++) {
       for (int msPos = 0; msPos < expected0InputMetaStatePosArr.length; msPos++) {
