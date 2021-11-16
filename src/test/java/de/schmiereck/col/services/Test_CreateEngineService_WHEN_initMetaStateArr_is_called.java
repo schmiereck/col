@@ -83,7 +83,7 @@ public class Test_CreateEngineService_WHEN_initMetaStateArr_is_called {
       level2dynamicEngine.setState( 0, new State(3, nulState, nulState, nulState), 0);
       level2dynamicEngine.setState( 1, new State(3, nulState, nulState, posState), 2);
       level2dynamicEngine.setState( 2, new State(3, nulState, posState, nulState), 3);
-      level2dynamicEngine.setState( 3, new State(3, posState, nulState, nulState), 4);
+      level2dynamicEngine.setState( 3, new State(3, posState, nulState, nulState), 2);
 
       // Act
       CreateEngineService.initMetaStateArr(level2dynamicEngine);
@@ -117,6 +117,7 @@ public class Test_CreateEngineService_WHEN_initMetaStateArr_is_called {
          assertEquals(expected0InputMetaStatePosArr[msPos], level2dynamicEngine.metaStateArr[msPos].inputMetaStatePosArr[0], "meta Pos0 " + msPos + " should be other.");
          assertEquals(expected1InputMetaStatePosArr[msPos], level2dynamicEngine.metaStateArr[msPos].inputMetaStatePosArr[1], "meta Pos1 " + msPos + " should be other.");
          assertEquals(expected2InputMetaStatePosArr[msPos], level2dynamicEngine.metaStateArr[msPos].inputMetaStatePosArr[2], "meta Pos2 " + msPos + " should be other.");
+
          assertNotNull(level2dynamicEngine.inputMetaStatePosToMetaStateArr[msPos], "inputMetaStatePosToMetaStateArr Pos " + msPos + " should be not null.");
          assertEquals(expected0InputMetaStatePosArr[msPos], level2dynamicEngine.inputMetaStatePosToMetaStateArr[msPos].inputMetaStatePosArr[0], "inputMeta Pos0 " + msPos + " should be other.");
          assertEquals(expected1InputMetaStatePosArr[msPos], level2dynamicEngine.inputMetaStatePosToMetaStateArr[msPos].inputMetaStatePosArr[1], "inputMeta Pos1 " + msPos + " should be other.");

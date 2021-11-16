@@ -1,8 +1,6 @@
 package de.schmiereck.col.model;
 
-import static de.schmiereck.col.services.UniverseService.calcCellPos;
-
-import de.schmiereck.col.Main2;
+import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
 
 /**
  * <code>

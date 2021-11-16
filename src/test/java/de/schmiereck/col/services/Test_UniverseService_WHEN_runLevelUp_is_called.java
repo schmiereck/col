@@ -2,17 +2,14 @@ package de.schmiereck.col.services;
 
 import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
-import static de.schmiereck.col.services.UniverseService.printCells;
-import static de.schmiereck.col.services.UniverseService.readCellState;
-import static de.schmiereck.col.services.UniverseService.run;
-import static de.schmiereck.col.services.UniverseService.runCalcNextState;
 import static de.schmiereck.col.services.UniverseService.runLevelUp;
-import static de.schmiereck.col.services.UniverseService.setStatePos;
+import static de.schmiereck.col.services.UniverseUtils.printCells;
+import static de.schmiereck.col.services.UniverseUtils.readCellState;
+import static de.schmiereck.col.services.UniverseUtils.setStatePos;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.Universe;
-import de.schmiereck.col.services.EngineService;
 
 import org.junit.jupiter.api.Test;
 

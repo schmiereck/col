@@ -1,13 +1,13 @@
 package de.schmiereck.col;
 
-import static de.schmiereck.col.services.UniverseService.printCells;
-import static de.schmiereck.col.services.UniverseService.printCellsMinimal;
 import static de.schmiereck.col.services.UniverseService.run;
 import static de.schmiereck.col.services.UniverseService.runCalcNextMetaState;
 import static de.schmiereck.col.services.UniverseService.runCalcNextState;
 import static de.schmiereck.col.services.UniverseService.runLevelDown;
 import static de.schmiereck.col.services.UniverseService.runLevelUp;
-import static de.schmiereck.col.services.UniverseService.setStatePos;
+import static de.schmiereck.col.services.UniverseUtils.printCells;
+import static de.schmiereck.col.services.UniverseUtils.printCellsMinimal;
+import static de.schmiereck.col.services.UniverseUtils.setStatePos;
 
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.Universe;

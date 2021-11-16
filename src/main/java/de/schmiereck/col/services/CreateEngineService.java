@@ -299,11 +299,15 @@ public class CreateEngineService {
    public static void initOutputMetaStatePos(final Engine engine) {
       for (int msPos = 0; msPos < engine.metaStateArr.length; msPos++) {
          final MetaState metaState = engine.metaStateArr[msPos];
+         initInputMetaState(engine, metaState);
+      }
+      for (int msPos = 0; msPos < engine.metaStateArr.length; msPos++) {
+         final MetaState metaState = engine.metaStateArr[msPos];
          initOutputMetaState(engine, metaState);
       }
    }
 
-   public static void initOutputMetaState(final Engine engine, final MetaState searchedMetaState) {
+   public static void initInputMetaState(final Engine engine, final MetaState searchedMetaState) {
       final State[] engineInputStateArr = engine.inputStateArr;
       final int[] engineOutputStatePosArr = engine.outputStatePosArr;
       final MetaState[] engineMetaStateArr = engine.metaStateArr;
@@ -332,38 +336,87 @@ public class CreateEngineService {
          searchedMetaStateOutputState = engineInputStateArr[searchedMetaStateOutputStatePos];
       }
 
-      searchedMetaState.outputMetaStatePos = -1;
+      //searchedMetaState.outputMetaStatePos = -1;
 
       for (int msPos = 0; msPos < engineMetaStateArr.length; msPos++) {
          final MetaState metaState = engineMetaStateArr[msPos];
-         boolean inputMetaStateFound = true;
-         for (int inputMetaStatePos = 0; inputMetaStatePos < metaState.inputMetaStatePosArr.length; inputMetaStatePos++) {
-            final State inputMetaState = engineInputStateArr[metaState.inputMetaStatePosArr[inputMetaStatePos]];
-            boolean inputStateFound = true;
-            for (int inputStatePos = 0; inputStatePos < inputMetaState.inputStateArr.length; inputStatePos++) {
-               final State inputState = inputMetaState.inputStateArr[inputStatePos];
-               final State searchedInputState;
-               if (inputMetaStatePos == inputStatePos) {
-                  searchedInputState = searchedMetaStateOutputState.inputStateArr[inputMetaStatePos];
-               } else {
-                  final State searchedMetaStateInputState = engineInputStateArr[searchedMetaState.inputMetaStatePosArr[inputMetaStatePos]];
-                  searchedInputState = searchedMetaStateInputState.inputStateArr[inputStatePos];
-               }
-               if (inputState != searchedInputState) {
-                  inputStateFound = false;
-                  break;
-               }
+         final boolean inputMetaStateFound = isInputMetaStateFound(engineInputStateArr, metaState, searchedMetaState, searchedMetaStateOutputState);
+         if (inputMetaStateFound) {
+            //searchedMetaState.outputMetaStatePos = msPos;
+            searchedMetaState.metaStateInputStatePos = searchedMetaStateInputStatePos;
+            //searchedMetaState.metaStateOutputStatePos = searchedMetaStateOutputStatePos;
+            break;
+         }
+      }
+   }
+
+   private static boolean isInputMetaStateFound(final State[] engineInputStateArr,
+                                                final MetaState metaState, final MetaState searchedMetaState,
+                                                final State searchedMetaStateOutputState) {
+      boolean inputMetaStateFound = true;
+      for (int inputMetaStatePos = 0; inputMetaStatePos < metaState.inputMetaStatePosArr.length; inputMetaStatePos++) {
+         final State metaStateInputState = engineInputStateArr[metaState.inputMetaStatePosArr[inputMetaStatePos]];
+         boolean inputStateFound = true;
+         for (int inputStatePos = 0; inputStatePos < metaStateInputState.inputStateArr.length; inputStatePos++) {
+            final State inputState = metaStateInputState.inputStateArr[inputStatePos];
+            final State searchedInputState;
+            if (inputMetaStatePos == inputStatePos) {
+               searchedInputState = searchedMetaStateOutputState.inputStateArr[inputMetaStatePos];
+            } else {
+               final State searchedMetaStateInputState = engineInputStateArr[searchedMetaState.inputMetaStatePosArr[inputMetaStatePos]];
+               searchedInputState = searchedMetaStateInputState.inputStateArr[inputStatePos];
             }
-            if (inputStateFound == false) {
-               inputMetaStateFound = false;
+            if (inputState != searchedInputState) {
+               inputStateFound = false;
                break;
             }
          }
-         if (inputMetaStateFound) {
-            searchedMetaState.outputMetaStatePos = msPos;
-            searchedMetaState.metaStateInputStatePos = searchedMetaStateInputStatePos;
-            searchedMetaState.metaStateOutputStatePos = searchedMetaStateOutputStatePos;
+         if (inputStateFound == false) {
+            inputMetaStateFound = false;
             break;
+         }
+      }
+      return inputMetaStateFound;
+   }
+
+   public static void initOutputMetaState(final Engine engine, final MetaState searchedMetaState) {
+      final State[] engineInputStateArr = engine.inputStateArr;
+      final int[] engineOutputStatePosArr = engine.outputStatePosArr;
+      final MetaState[] engineMetaStateArr = engine.metaStateArr;
+
+      // searchedMetaState:
+      //       2  =>  9
+      //           2        1   0   =>   0        0   0
+      //           0    0   0       =>   1    0   1
+      //                    ^== searchedMetaStateInputStateArr
+
+      final State searchedMetaStateInputStateArr[] = new State[searchedMetaState.inputMetaStatePosArr.length];
+
+      for (int pos = 0; pos < searchedMetaState.inputMetaStatePosArr.length; pos++) {
+         searchedMetaStateInputStateArr[pos] = engineInputStateArr[searchedMetaState.inputMetaStatePosArr[pos]].inputStateArr[pos];
+      }
+
+      final int searchedMetaStateInputStatePos = searchedMetaState.metaStateInputStatePos;
+      //final int searchedMetaStateOutputStatePos = searchedMetaState.metaStateOutputStatePos;
+      final int searchedMetaStateOutputStatePos = engineOutputStatePosArr[searchedMetaStateInputStatePos];
+      final State searchedMetaStateOutputState = engineInputStateArr[searchedMetaStateOutputStatePos];
+      final int searchedMetaStateOutputOutputStatePos = engineOutputStatePosArr[searchedMetaStateOutputStatePos];
+
+      //searchedMetaState.outputMetaStatePos = -1;
+
+      for (int msPos = 0; msPos < engineMetaStateArr.length; msPos++) {
+         final MetaState metaState = engineMetaStateArr[msPos];
+
+         final boolean inputMetaStateFound = isInputMetaStateFound(engineInputStateArr, metaState, searchedMetaState, searchedMetaStateOutputState);
+         if (inputMetaStateFound) {
+            if ((metaState.metaStateInputStatePos == searchedMetaStateOutputStatePos))// &&
+               //(metaState.metaStateOutputStatePos == searchedMetaStateOutputOutputStatePos))
+            {
+               searchedMetaState.outputMetaStatePos = msPos;
+               //searchedMetaState.metaStateInputStatePos = searchedMetaStateInputStatePos;
+               //searchedMetaState.metaStateOutputStatePos = searchedMetaStateOutputStatePos;
+               break;
+            }
          }
       }
    }
@@ -410,8 +463,8 @@ public class CreateEngineService {
       for (int msPos = 0; msPos < engine.metaStateArr.length; msPos++) {
          final MetaState metaState = engine.metaStateArr[msPos];
 
-         if ((metaState.metaStateInputStatePos == searchedMetaStateInputStatePos) &&
-             (metaState.metaStateOutputStatePos == searchedMetaStateOutputStatePos))
+         if ((metaState.metaStateInputStatePos == searchedMetaStateInputStatePos))// &&
+             //(metaState.metaStateOutputStatePos == searchedMetaStateOutputStatePos))
          {
             found = true;
             break;
