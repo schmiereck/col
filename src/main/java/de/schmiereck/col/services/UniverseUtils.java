@@ -12,6 +12,10 @@ import de.schmiereck.col.model.Universe;
 public class UniverseUtils {
 
    public static void printCells(final Universe universe, final int cnt) {
+      printCells(universe, cnt, null);
+   }
+
+   public static void printCells(final Universe universe, final int cnt, final String msg) {
       final Engine[] engineArr = universe.engineArr;
       for (int levelPos = engineArr.length - 1; levelPos >= 0; levelPos--) {
          final Engine engine = readEngine(universe, levelPos);
@@ -21,7 +25,9 @@ public class UniverseUtils {
          }
       }
       System.out.print("  ------- ");
-      System.out.println(" ---------- ".repeat(universe.universeSize));
+      System.out.print(" ---------- ".repeat(universe.universeSize));
+      if (msg != null) System.out.println(": " + msg);
+      System.out.println();
    }
 
    private static void printCellLine(final Universe universe, final Engine engine, final Level level, final int cnt, final int cellSize, final int levelPos, final int levelShift) {

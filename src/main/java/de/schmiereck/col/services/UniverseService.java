@@ -5,6 +5,7 @@ import static de.schmiereck.col.services.EngineService.calcMetaStatePosByLevelCe
 import static de.schmiereck.col.services.EngineService.searchMetaStatePos;
 import static de.schmiereck.col.services.EngineService.searchStatePosWithNewStateOnPos;
 import static de.schmiereck.col.services.LevelService.calcEqualMetaStateValues;
+import static de.schmiereck.col.services.StateUtils.convertToDebugString;
 import static de.schmiereck.col.services.StateUtils.convertToValue;
 import static de.schmiereck.col.services.UniverseUtils.readCell;
 import static de.schmiereck.col.services.UniverseUtils.readCellSize;
@@ -38,6 +39,13 @@ public class UniverseService {
       runCalcNextState(universe);
    }
 
+   public static void run2b(final Universe universe) {
+      runLevelUp(universe);
+      runCalcNextState(universe);
+      runLevelDown(universe);
+      runCalcNextMetaState(universe);
+   }
+
    public static void run3(final Universe universe) {
       //runLevelDown(universe);
       //runCalcNextMetaState(universe);
@@ -53,7 +61,7 @@ public class UniverseService {
 
          for (int cellPos = 0; cellPos < universe.universeSize; cellPos++) {
             final Cell sourceCell = readCell(level, cellPos);
-            final int outputStatePos = engine.outputStatePosArr[sourceCell.statePos];
+            final int outputStatePos = engine.outputStatePosArr.get(sourceCell.statePos);
 
             final Cell targetCell = sourceCell;
             targetCell.statePos = outputStatePos;
@@ -123,6 +131,7 @@ public class UniverseService {
       final Cell sourceCell = readCell(level, cellPos);
       final MetaState metaState = engine.metaStateArr[sourceCell.metaStatePos];
       final int nextMetaStatePos = metaState.outputMetaStatePos;
+      if (nextMetaStatePos == -1) throw new RuntimeException(String.format("For Meta-State %s no output state found.", convertToDebugString(metaState)));
       sourceCell.metaStatePos = nextMetaStatePos;
       final MetaState nextMetaState = engine.metaStateArr[nextMetaStatePos];
       for (int metaPos = 0; metaPos < sourceLevelCell.metaCellArr.length; metaPos++) {

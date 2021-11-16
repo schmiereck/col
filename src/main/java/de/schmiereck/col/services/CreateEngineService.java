@@ -8,6 +8,7 @@ import static de.schmiereck.col.services.StateUtils.convertToDebugString;
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.MetaState;
 import de.schmiereck.col.model.State;
+import de.schmiereck.larray.LarrayInt;
 
 public class CreateEngineService {
 
@@ -127,6 +128,70 @@ public class CreateEngineService {
       //}
 
       return level1dynamicEngine;
+   }
+
+   public static Engine createLevel1moveEngine() {
+      final Engine level1moveEngine = new Engine(2, 8);
+
+      // 0    0   0   =>   0
+      level1moveEngine.setState( 0, new State(2, nulState, nulState), 0);
+      // stay:
+      // 1    0   1   =>   1
+      level1moveEngine.setState( 1, new State(2, nulState, posState), 1);
+      // 2    1   0   =>   2
+      level1moveEngine.setState( 2, new State(2, posState, nulState), 2);
+      // left:
+      // 3    0   1   =>   4
+      level1moveEngine.setState( 3, new State(2, nulState, posState), 4);
+      // 4    1   0   =>   4
+      level1moveEngine.setState( 4, new State(2, posState, nulState), 4);
+      // right:
+      // 5    1   0   =>   6
+      level1moveEngine.setState( 5, new State(2, posState, nulState), 6);
+      // 6    0   1   =>   6
+      level1moveEngine.setState( 6, new State(2, nulState, posState), 6);
+
+      // 7    1   1   =>   7
+      level1moveEngine.setState( 7, new State(2, posState, posState), 7);
+
+      initMetaStateArr(level1moveEngine);
+      //initOutputMetaStatePos(level1dynamicEngine);
+
+      final Engine e = level1moveEngine;
+
+      //0+x:
+      // 0  =>  0
+      //    0    0   0       =>   0    0   0
+      //    0        0   0   =>   0        0   0
+      level1moveEngine.metaStateArr[metaPos(e, 0, 0)] = new MetaState(metaPos(e, 0, 0), 0, 0);
+
+      // 0,5  =>  0,5
+      //    5    1   0       =>   5    1   0
+      //    0        0   0   =>   0        0   0
+      level1moveEngine.metaStateArr[metaPos(e, 0, 5)] = new MetaState(metaPos(e, 0, 5), 0, 5);
+      // 6,0  =>  6,0
+      //    0    0   0       =>   0    0   0
+      //    6        0   1   =>   6        0   1
+      level1moveEngine.metaStateArr[metaPos(e, 6, 0)] = new MetaState(metaPos(e, 6, 0), 6, 0);
+      // 5,0  =>  5,0
+      //    0    0   0       =>   6    0   1
+      //    5        1   0   =>   0        0   0
+      level1moveEngine.metaStateArr[metaPos(e, 5, 0)] = new MetaState(metaPos(e, 5, 0), 5, 0);
+
+      // 0,6  =>  5,0
+      //    6    0   1       =>   0    0   0
+      //    0        0   0   =>   5        1   0
+      level1moveEngine.metaStateArr[metaPos(e, 0, 6)] = new MetaState(metaPos(e, 5, 0), 0, 6);
+
+      return level1moveEngine;
+   }
+
+   public static int metaPos(final Engine engine, final int ... inputMetaStatePosArr) {
+      int metaStatePos = 0;
+      for (int metaPos = 0; metaPos < inputMetaStatePosArr.length; metaPos++) {
+         metaStatePos += inputMetaStatePosArr[metaPos] * Math.pow(engine.inputStateArr.length, metaPos);
+      }
+      return metaStatePos;
    }
 
    public static Engine createLevel2staticEngine() {
@@ -309,7 +374,7 @@ public class CreateEngineService {
 
    public static void initInputMetaState(final Engine engine, final MetaState searchedMetaState) {
       final State[] engineInputStateArr = engine.inputStateArr;
-      final int[] engineOutputStatePosArr = engine.outputStatePosArr;
+      final LarrayInt engineOutputStatePosArr = engine.outputStatePosArr;
       final MetaState[] engineMetaStateArr = engine.metaStateArr;
 
       // searchedMetaState:
@@ -332,7 +397,7 @@ public class CreateEngineService {
          if (searchedMetaStateInputStatePos == -1) {
             throw new RuntimeException(String.format("For Meta-State %s no input state found.", convertToDebugString(searchedMetaStateInputStateArr)));
          }
-         searchedMetaStateOutputStatePos = engineOutputStatePosArr[searchedMetaStateInputStatePos];
+         searchedMetaStateOutputStatePos = engineOutputStatePosArr.get(searchedMetaStateInputStatePos);
          searchedMetaStateOutputState = engineInputStateArr[searchedMetaStateOutputStatePos];
       }
 
@@ -381,7 +446,7 @@ public class CreateEngineService {
 
    public static void initOutputMetaState(final Engine engine, final MetaState searchedMetaState) {
       final State[] engineInputStateArr = engine.inputStateArr;
-      final int[] engineOutputStatePosArr = engine.outputStatePosArr;
+      final LarrayInt engineOutputStatePosArr = engine.outputStatePosArr;
       final MetaState[] engineMetaStateArr = engine.metaStateArr;
 
       // searchedMetaState:
@@ -398,9 +463,9 @@ public class CreateEngineService {
 
       final int searchedMetaStateInputStatePos = searchedMetaState.metaStateInputStatePos;
       //final int searchedMetaStateOutputStatePos = searchedMetaState.metaStateOutputStatePos;
-      final int searchedMetaStateOutputStatePos = engineOutputStatePosArr[searchedMetaStateInputStatePos];
+      final int searchedMetaStateOutputStatePos = engineOutputStatePosArr.get(searchedMetaStateInputStatePos);
       final State searchedMetaStateOutputState = engineInputStateArr[searchedMetaStateOutputStatePos];
-      final int searchedMetaStateOutputOutputStatePos = engineOutputStatePosArr[searchedMetaStateOutputStatePos];
+      final int searchedMetaStateOutputOutputStatePos = engineOutputStatePosArr.get(searchedMetaStateOutputStatePos);
 
       //searchedMetaState.outputMetaStatePos = -1;
 
@@ -452,10 +517,10 @@ public class CreateEngineService {
 
    private static boolean checkMetaStateExistForMetaStateInputAndOutputState(final Engine engine, final int searchedMetaStateInputStatePos) {
       final State[] engineInputStateArr = engine.inputStateArr;
-      final int[] engineOutputStatePosArr = engine.outputStatePosArr;
+      final LarrayInt engineOutputStatePosArr = engine.outputStatePosArr;
       final MetaState[] engineMetaStateArr = engine.metaStateArr;
 
-      final int searchedMetaStateOutputStatePos = engineOutputStatePosArr[searchedMetaStateInputStatePos];
+      final int searchedMetaStateOutputStatePos = engineOutputStatePosArr.get(searchedMetaStateInputStatePos);
       //final State searchedMetaStateOutputState = engineInputStateArr[searchedMetaStateOutputStatePos];
 
       boolean found = false;

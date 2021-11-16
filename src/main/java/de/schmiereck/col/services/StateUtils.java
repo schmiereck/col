@@ -4,6 +4,7 @@ import static de.schmiereck.col.model.State.negState;
 import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
 
+import de.schmiereck.col.model.MetaState;
 import de.schmiereck.col.model.State;
 
 public class StateUtils {
@@ -21,6 +22,22 @@ public class StateUtils {
          //retStr.append("{");
          retStr.append(convertToValue(inputState));
          //retStr.append("}");
+      }
+      retStr.append("]");
+      return retStr.toString();
+   }
+
+   public static String convertToDebugString(final MetaState metaState) {
+      final StringBuilder retStr = new StringBuilder();
+
+      retStr.append("[");
+      for (int statePos = 0; statePos < metaState.inputMetaStatePosArr.length; statePos++) {
+         final int value = metaState.inputMetaStatePosArr[statePos];
+
+         if (statePos > 0) {
+            retStr.append(",");
+         }
+         retStr.append(value);
       }
       retStr.append("]");
       return retStr.toString();

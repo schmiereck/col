@@ -5,6 +5,7 @@ import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
 import static de.schmiereck.col.services.UniverseService.run;
 import static de.schmiereck.col.services.UniverseService.run2;
+import static de.schmiereck.col.services.UniverseService.run2b;
 import static de.schmiereck.col.services.UniverseService.run3;
 import static de.schmiereck.col.services.UniverseService.runCalcNextMetaState;
 import static de.schmiereck.col.services.UniverseService.runCalcNextState;
@@ -172,5 +173,55 @@ class Test_UniverseService_WHEN_run_is_called {
       runCalcNextMetaState(universe);
       //runLevelDown(universe);
       //runCalcNextState(universe);
+   }
+
+   @Test
+   void GIVEN_lev1move_run_THEN_state_is_calculated() {
+      // Arrange
+      final int universeSize = 12;
+
+      final Engine level0Engine = CreateEngineService.createLevel0staticEngine();
+      final Engine level1Engine = CreateEngineService.createLevel1moveEngine();
+
+      final Engine[] engine2Arr = new Engine[2];
+      engine2Arr[0] = level0Engine;
+      engine2Arr[1] = level1Engine;
+
+      final Universe universe = new Universe(engine2Arr, universeSize);
+
+      //setStatePos(universe, 5, 1, 2);  // 1move: 2    1   0   =>   2
+      setStatePos(universe, 5, 1, 5);  // 1move: 5    1   0   =>   6
+
+      UniverseService.calcInitialMetaStates(universe);
+
+      // Act
+      printCells(universe, 0, "initial");
+      runTest2b(universe, 0);
+      runTest2b(universe, 1);
+      runTest2b(universe, 2);
+      runTest2b(universe, 3);
+      runTest2b(universe, 4);
+      runTest2b(universe, 5);
+      runTest2b(universe, 6);
+      runTest2b(universe, 7);
+
+      // Assert
+      // 1/2: ...   0/ 0) ( 0/ 0    0/ 0) ( 3/ 1    3/ 0) ( 0/ 0  ...
+      // 1/2: ... ( 0/ 0    0/ 0) ( 1/ 0    1/ 1) ( 0/ 0    0/ 0) ...
+      assertEquals(nulState, readCellState(universe, -1, 1, 0));
+      assertEquals(posState, readCellState(universe, -1, 1, 1));
+      assertEquals(negState, readCellState(universe, 1, 1, 0));
+      assertEquals(nulState, readCellState(universe, 1, 1, 1));
+   }
+
+   public static void runTest2b(final Universe universe, final int cnt) {
+      runLevelUp(universe);
+      printCells(universe, cnt, "runLevelUp");
+      runCalcNextState(universe);
+      printCells(universe, cnt, "runCalcNextState");
+      runLevelDown(universe);
+      printCells(universe, cnt, "runLevelDown");
+      runCalcNextMetaState(universe);
+      printCells(universe, cnt, "runCalcNextMetaState");
    }
 }
