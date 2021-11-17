@@ -12,6 +12,7 @@ import static de.schmiereck.col.services.UniverseService.runCalcNextState;
 import static de.schmiereck.col.services.UniverseService.runLevelDown;
 import static de.schmiereck.col.services.UniverseService.runLevelUp;
 import static de.schmiereck.col.services.UniverseUtils.printCells;
+import static de.schmiereck.col.services.UniverseUtils.readCell;
 import static de.schmiereck.col.services.UniverseUtils.readCellState;
 import static de.schmiereck.col.services.UniverseUtils.setStatePos;
 import static org.junit.jupiter.api.Assertions.*;
@@ -209,6 +210,7 @@ class Test_UniverseService_WHEN_run_is_called {
       //   7/1/0:             >   5| 5| 1     5| 5| 0 >   0| 0| 0     0| 0| 0 >   ...
       //   7/1/1: >   0| 0| 0     0| 0| 0 >  40| 0| 0    40| 0| 0 >   0| 0| 0     0| 0| 0 >   ...
       assertEquals(posState, readCellState(universe, 1, 1, 0));
+      assertEquals(5, readCell(universe, 1, 1).statePos);
    }
 
    @Test
@@ -242,9 +244,8 @@ class Test_UniverseService_WHEN_run_is_called {
       runTest2b(universe, 7);
 
       // Assert
-      //   7/1/0:             >   5| 5| 1     5| 5| 0 >   0| 0| 0     0| 0| 0 >   ...
-      //   7/1/1: >   0| 0| 0     0| 0| 0 >  40| 0| 0    40| 0| 0 >   0| 0| 0     0| 0| 0 >   ...
-      assertEquals(posState, readCellState(universe, 1, 1, 0));
+      assertEquals(posState, readCellState(universe, 9, 1, 1));
+      assertEquals(3, readCell(universe, 9, 1).statePos);
    }
 
    public static void runTest2b(final Universe universe, final int cnt) {
