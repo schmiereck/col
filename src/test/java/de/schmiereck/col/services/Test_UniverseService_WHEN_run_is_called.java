@@ -176,7 +176,7 @@ class Test_UniverseService_WHEN_run_is_called {
    }
 
    @Test
-   void GIVEN_lev1move_run_THEN_state_is_calculated() {
+   void GIVEN_lev1move_state_5_run_THEN_state_is_calculated_to_right() {
       // Arrange
       final int universeSize = 12;
 
@@ -206,12 +206,45 @@ class Test_UniverseService_WHEN_run_is_called {
       runTest2b(universe, 7);
 
       // Assert
-      // 1/2: ...   0/ 0) ( 0/ 0    0/ 0) ( 3/ 1    3/ 0) ( 0/ 0  ...
-      // 1/2: ... ( 0/ 0    0/ 0) ( 1/ 0    1/ 1) ( 0/ 0    0/ 0) ...
-      assertEquals(nulState, readCellState(universe, -1, 1, 0));
-      assertEquals(posState, readCellState(universe, -1, 1, 1));
-      assertEquals(negState, readCellState(universe, 1, 1, 0));
-      assertEquals(nulState, readCellState(universe, 1, 1, 1));
+      //   7/1/0:             >   5| 5| 1     5| 5| 0 >   0| 0| 0     0| 0| 0 >   ...
+      //   7/1/1: >   0| 0| 0     0| 0| 0 >  40| 0| 0    40| 0| 0 >   0| 0| 0     0| 0| 0 >   ...
+      assertEquals(posState, readCellState(universe, 1, 1, 0));
+   }
+
+   @Test
+   void GIVEN_lev1move_state_3_run_THEN_state_is_calculated_to_left() {
+      // Arrange
+      final int universeSize = 12;
+
+      final Engine level0Engine = CreateEngineService.createLevel0staticEngine();
+      final Engine level1Engine = CreateEngineService.createLevel1moveEngine();
+
+      final Engine[] engine2Arr = new Engine[2];
+      engine2Arr[0] = level0Engine;
+      engine2Arr[1] = level1Engine;
+
+      final Universe universe = new Universe(engine2Arr, universeSize);
+
+      //setStatePos(universe, 5, 1, 2);  // 1move: 2    1   0   =>   2
+      setStatePos(universe, 5, 1, 3);  // 1move: 3    0   1   =>   4
+
+      UniverseService.calcInitialMetaStates(universe);
+
+      // Act
+      printCells(universe, 0, "initial");
+      runTest2b(universe, 0);
+      runTest2b(universe, 1);
+      runTest2b(universe, 2);
+      runTest2b(universe, 3);
+      runTest2b(universe, 4);
+      runTest2b(universe, 5);
+      runTest2b(universe, 6);
+      runTest2b(universe, 7);
+
+      // Assert
+      //   7/1/0:             >   5| 5| 1     5| 5| 0 >   0| 0| 0     0| 0| 0 >   ...
+      //   7/1/1: >   0| 0| 0     0| 0| 0 >  40| 0| 0    40| 0| 0 >   0| 0| 0     0| 0| 0 >   ...
+      assertEquals(posState, readCellState(universe, 1, 1, 0));
    }
 
    public static void runTest2b(final Universe universe, final int cnt) {

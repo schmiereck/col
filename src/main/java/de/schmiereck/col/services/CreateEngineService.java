@@ -159,30 +159,53 @@ public class CreateEngineService {
 
       final Engine e = level1moveEngine;
 
-      //0+x:
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // 0,0  =>  0,0
       // 0  =>  0
       //    0    0   0       =>   0    0   0
       //    0        0   0   =>   0        0   0
       level1moveEngine.metaStateArr[metaPos(e, 0, 0)] = new MetaState(metaPos(e, 0, 0), 0, 0);
 
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // right:
       // 0,5  =>  0,5
       //    5    1   0       =>   5    1   0
       //    0        0   0   =>   0        0   0
       level1moveEngine.metaStateArr[metaPos(e, 0, 5)] = new MetaState(metaPos(e, 0, 5), 0, 5);
+      // 5,0  =>  5,0
+      //    0    0   0       =>   0    0   0
+      //    5        1   0   =>   5        1   0
+      level1moveEngine.metaStateArr[metaPos(e, 5, 0)] = new MetaState(metaPos(e, 5, 0), 5, 0);
       // 6,0  =>  6,0
       //    0    0   0       =>   0    0   0
       //    6        0   1   =>   6        0   1
       level1moveEngine.metaStateArr[metaPos(e, 6, 0)] = new MetaState(metaPos(e, 6, 0), 6, 0);
-      // 5,0  =>  5,0
-      //    0    0   0       =>   6    0   1
-      //    5        1   0   =>   0        0   0
-      level1moveEngine.metaStateArr[metaPos(e, 5, 0)] = new MetaState(metaPos(e, 5, 0), 5, 0);
 
       // 0,6  =>  5,0
       //    6    0   1       =>   0    0   0
       //    0        0   0   =>   5        1   0
       level1moveEngine.metaStateArr[metaPos(e, 0, 6)] = new MetaState(metaPos(e, 5, 0), 0, 6);
 
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // left:
+      // 0,3  =>  0,3
+      //    3    0   1       =>   3    0   1
+      //    0        0   0   =>   0        0   0
+      level1moveEngine.metaStateArr[metaPos(e, 0, 3)] = new MetaState(metaPos(e, 0, 3), 0, 3);
+      // 3,0  =>  3,0
+      //    0    0   0       =>   0    0   0
+      //    3        0   1   =>   3        0   1
+      level1moveEngine.metaStateArr[metaPos(e, 3, 0)] = new MetaState(metaPos(e, 3, 0), 3, 0);
+      // 0,4  =>  0,4
+      //    4    1   0       =>   4    1   0
+      //    0        0   0   =>   0        0   0
+      level1moveEngine.metaStateArr[metaPos(e, 0, 4)] = new MetaState(metaPos(e, 0, 4), 0, 4);
+      // 4,0  =>  0,3
+      //    0    0   0       =>   3    0   1
+      //    4        1   0   =>   0        0   0
+      level1moveEngine.metaStateArr[metaPos(e, 4, 0)] = new MetaState(metaPos(e, 0, 3), 4, 0);
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       return level1moveEngine;
    }
 
