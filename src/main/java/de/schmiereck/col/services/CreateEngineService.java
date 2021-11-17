@@ -206,6 +206,28 @@ public class CreateEngineService {
       level1moveEngine.metaStateArr[metaPos(e, 4, 0)] = new MetaState(metaPos(e, 0, 3), 4, 0);
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // collision (left -> <- right):
+      // 4,5  =>  0,7
+      //    5    1   0       =>   7    1   1
+      //    4        1   0   =>   0        0   0
+      level1moveEngine.metaStateArr[metaPos(e, 4, 5)] = new MetaState(metaPos(e, 0, 7), 4, 5);
+      // 7,0  =>  6,3
+      //    0    0   0       =>   3    0   1
+      //    7        1   1   =>   6        0   1
+      level1moveEngine.metaStateArr[metaPos(e, 7, 0)] = new MetaState(metaPos(e, 6, 3), 7, 0);
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // collision (right -> <- left):
+      // 3,6  =>  7,0
+      //    6    0   1       =>   0    0   0
+      //    3        0   1   =>   7        1   1
+      level1moveEngine.metaStateArr[metaPos(e, 3, 6)] = new MetaState(metaPos(e, 7, 0), 3, 6);
+      // 0,7  =>  5,4
+      //    7    1   1       =>   4    1   0
+      //    0        0   0   =>   5        1   0
+      level1moveEngine.metaStateArr[metaPos(e, 0, 7)] = new MetaState(metaPos(e, 5, 4), 0, 7);
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       return level1moveEngine;
    }
 
