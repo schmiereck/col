@@ -1,12 +1,15 @@
 package de.schmiereck.col.services;
 
+import static de.schmiereck.col.services.UniverseUtils.readCellSize;
+
 import de.schmiereck.col.model.Level;
 import de.schmiereck.col.model.State;
 
 public class LevelService {
 
-   public static State calcEqualMetaStateValues(final Level level, final int cellPos, final int cellSizeInLevel) {
+   public static State calcEqualMetaStateValues(final Level level, final int cellPos) {
       State retState = null;
+      final int cellSizeInLevel = readCellSize(level);
 
       for (int pos = 0; pos < cellSizeInLevel; pos++) {
          final int statePos = level.levelCellArr[cellPos].metaCellArr[pos].statePos;

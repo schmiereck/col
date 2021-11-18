@@ -42,12 +42,12 @@ public class EngineService {
 
    public static int searchStatePosWithNewStateOnPos(final Engine engine, final Cell metaCell, final int statePosOfSearchedNewState, final State searchedNewState) {
       int retStatePos = 0;
-      final State searchedState = engine.inputStateArr[metaCell.statePos];
+      final State givenMetaCellState = engine.inputStateArr[metaCell.statePos];
 
       for (int engineInputStatePos = 0; engineInputStatePos < engine.inputStateArr.length; engineInputStatePos++) {
          final State engineState = engine.inputStateArr[engineInputStatePos];
 
-         boolean allEqual = checkAllStatesAreEqual(engineState, searchedState, statePosOfSearchedNewState, searchedNewState);
+         boolean allEqual = checkAllStatesAreEqual(engineState, givenMetaCellState, statePosOfSearchedNewState, searchedNewState);
          if (allEqual) {
             retStatePos = engineInputStatePos;
             break;
@@ -56,18 +56,18 @@ public class EngineService {
       return retStatePos;
    }
 
-   private static boolean checkAllStatesAreEqual(final State engineState, final State searchedState, final int statePosOfSearchedNewState, final State searchedNewState) {
+   private static boolean checkAllStatesAreEqual(final State engineState, final State givenMetaCellState, final int statePosOfSearchedNewState, final State searchedNewState) {
       boolean allEqual = true;
       for (int statePos = 0; statePos < engineState.inputStateArr.length; statePos++) {
          final State inputState = engineState.inputStateArr[statePos];
-         final State searchedInputState = searchedState.inputStateArr[statePos];
          if (statePos == statePosOfSearchedNewState) {
             if (inputState != searchedNewState) {
                allEqual = false;
                break;
             }
          } else {
-            if (inputState != searchedInputState) {
+            final State givenMetaCellStateInputState = givenMetaCellState.inputStateArr[statePos];
+            if (inputState != givenMetaCellStateInputState) {
                allEqual = false;
                break;
             }

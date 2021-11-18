@@ -1,10 +1,10 @@
 package de.schmiereck.col;
 
-import static de.schmiereck.col.services.UniverseService.run;
+import static de.schmiereck.col.services.UniverseService.runNextUSDS;
 import static de.schmiereck.col.services.UniverseService.runCalcNextMetaState;
 import static de.schmiereck.col.services.UniverseService.runCalcNextState;
-import static de.schmiereck.col.services.UniverseService.runLevelDown;
 import static de.schmiereck.col.services.UniverseService.runLevelUp;
+import static de.schmiereck.col.services.UniverseService.runLevelDown;
 import static de.schmiereck.col.services.UniverseUtils.printCells;
 import static de.schmiereck.col.services.UniverseUtils.printCellsMinimal;
 import static de.schmiereck.col.services.UniverseUtils.setStatePos;
@@ -80,18 +80,18 @@ public class Main2 {
 
    private static void runTest1(final Universe universe, final int cnt) {
       printCells(universe, cnt);
-      run(universe);
+      runNextUSDS(universe);
    }
 
    private static void runTest2(final Universe universe, final int cnt) {
       printCells(universe, cnt);
-      runLevelUp(universe);
+      runLevelDown(universe);
 
       printCells(universe, cnt);
       runCalcNextState(universe);
 
       printCells(universe, cnt);
-      runLevelDown(universe);
+      runLevelUp(universe);
 
       printCells(universe, cnt);
       runCalcNextState(universe);
@@ -99,13 +99,13 @@ public class Main2 {
 
    private static void runTest3(final Universe universe, final int cnt, final boolean doPrint) {
       if (doPrint) printCells(universe, cnt);
-      runLevelUp(universe);
+      runLevelDown(universe);
 
       if (doPrint) printCells(universe, cnt);
       runCalcNextState(universe);
 
       if (doPrint) printCells(universe, cnt);
-      runLevelDown(universe);
+      runLevelUp(universe);
 
       if (doPrint) printCells(universe, cnt);
       runCalcNextMetaState(universe);
@@ -113,13 +113,13 @@ public class Main2 {
 
    private static void runTest4(final Universe universe, final int cnt, final boolean doPrint) {
       if (doPrint) printCells(universe, cnt);
-      runLevelUp(universe);
+      runLevelDown(universe);
 
       if (doPrint) printCells(universe, cnt);
       runCalcNextMetaState(universe);
 
       if (doPrint) printCells(universe, cnt);
-      runLevelDown(universe);
+      runLevelUp(universe);
 
       if (doPrint) printCells(universe, cnt);
       runCalcNextState(universe);
@@ -127,13 +127,13 @@ public class Main2 {
 
    private static void runTest5(final Universe universe, final int cnt, final boolean doPrint) {
       if (doPrint) printCells(universe, cnt);
-      runLevelDown(universe);
+      runLevelUp(universe);
 
       if (doPrint) printCells(universe, cnt);
       runCalcNextMetaState(universe);
 
       if (doPrint) printCells(universe, cnt);
-      runLevelUp(universe);
+      runLevelDown(universe);
 
       if (doPrint) printCells(universe, cnt);
       runCalcNextState(universe);

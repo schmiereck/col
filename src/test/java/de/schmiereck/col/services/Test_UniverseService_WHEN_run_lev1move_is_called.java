@@ -1,10 +1,12 @@
 package de.schmiereck.col.services;
 
+import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
 import static de.schmiereck.col.services.UniverseService.runCalcNextMetaState;
 import static de.schmiereck.col.services.UniverseService.runCalcNextState;
 import static de.schmiereck.col.services.UniverseService.runLevelDown;
 import static de.schmiereck.col.services.UniverseService.runLevelUp;
+import static de.schmiereck.col.services.UniverseService.runNextUSDM;
 import static de.schmiereck.col.services.UniverseUtils.printCells;
 import static de.schmiereck.col.services.UniverseUtils.printCellsMinimal;
 import static de.schmiereck.col.services.UniverseUtils.readCell;
@@ -40,14 +42,14 @@ public class Test_UniverseService_WHEN_run_lev1move_is_called {
 
       // Act
       printCells(universe, 0, "initial");
-      runTest2b(universe, 0);
-      runTest2b(universe, 1);
-      runTest2b(universe, 2);
-      runTest2b(universe, 3);
-      runTest2b(universe, 4);
-      runTest2b(universe, 5);
-      runTest2b(universe, 6);
-      runTest2b(universe, 7);
+      runTestNextUpStateDownMeta(universe, 0);
+      runTestNextUpStateDownMeta(universe, 1);
+      runTestNextUpStateDownMeta(universe, 2);
+      runTestNextUpStateDownMeta(universe, 3);
+      runTestNextUpStateDownMeta(universe, 4);
+      runTestNextUpStateDownMeta(universe, 5);
+      runTestNextUpStateDownMeta(universe, 6);
+      runTestNextUpStateDownMeta(universe, 7);
 
       // Assert
       //   7/1/0:             >   5| 5| 1     5| 5| 0 >   0| 0| 0     0| 0| 0 >   ...
@@ -77,14 +79,14 @@ public class Test_UniverseService_WHEN_run_lev1move_is_called {
 
       // Act
       printCells(universe, 0, "initial");
-      runTest2b(universe, 0);
-      runTest2b(universe, 1);
-      runTest2b(universe, 2);
-      runTest2b(universe, 3);
-      runTest2b(universe, 4);
-      runTest2b(universe, 5);
-      runTest2b(universe, 6);
-      runTest2b(universe, 7);
+      runTestNextUpStateDownMeta(universe, 0);
+      runTestNextUpStateDownMeta(universe, 1);
+      runTestNextUpStateDownMeta(universe, 2);
+      runTestNextUpStateDownMeta(universe, 3);
+      runTestNextUpStateDownMeta(universe, 4);
+      runTestNextUpStateDownMeta(universe, 5);
+      runTestNextUpStateDownMeta(universe, 6);
+      runTestNextUpStateDownMeta(universe, 7);
 
       // Assert
       assertEquals(posState, readCellState(universe, 9, 1, 1));
@@ -112,15 +114,63 @@ public class Test_UniverseService_WHEN_run_lev1move_is_called {
 
       // Act
       printCells(universe, 0, "initial");
-      for (int cnt = 0; cnt < 24; cnt++)
-         runTest2b(universe, cnt);
+      for (int cnt = 0; cnt < 24; cnt++) {
+         runTestNextUpStateDownMeta(universe, cnt);
+         //runNextUSDM(universe); printCellsMinimal(universe, cnt);
+      }
 
       // Assert
+      assertEquals(posState, readCellState(universe, 3, 1, 0));
+      assertEquals(nulState, readCellState(universe, 3, 1, 1));
+      assertEquals(5, readCell(universe, 3, 1).statePos);
+
+      assertEquals(nulState, readCellState(universe, 7, 1, 0));
+      assertEquals(posState, readCellState(universe, 7, 1, 1));
+      assertEquals(3, readCell(universe, 7, 1).statePos);
+   }
+
+   @Test
+   void GIVEN_lev1move_state_3_2_5_run_THEN_state_is_calculated_to_collision() {
+      // Arrange
+      final int universeSize = 12;
+
+      final Engine level0Engine = CreateEngineService.createLevel0staticEngine();
+      final Engine level1Engine = CreateEngineService.createLevel1moveEngine();
+
+      final Engine[] engine2Arr = new Engine[2];
+      engine2Arr[0] = level0Engine;
+      engine2Arr[1] = level1Engine;
+
+      final Universe universe = new Universe(engine2Arr, universeSize);
+
+      setStatePos(universe, 2, 1, 5);  // 1move: 5    1   0   =>   6
+      setStatePos(universe, 5, 1, 2);  // 1move: 2    1   0   =>   1
+      setStatePos(universe, 8, 1, 3);  // 1move: 3    0   1   =>   4
+
+      UniverseService.calcInitialMetaStates(universe);
+
+      // Act
+      printCells(universe, 0, "initial");
+      for (int cnt = 0; cnt < 24; cnt++) {
+         runTestNextUpStateDownMeta(universe, cnt);
+         //runNextUSDM(universe); printCellsMinimal(universe, cnt);
+      }
+
+      // Assert
+      assertEquals(posState, readCellState(universe, 3, 1, 0));
+      assertEquals(nulState, readCellState(universe, 3, 1, 1));
+      assertEquals(5, readCell(universe, 3, 1).statePos);
+
+      assertEquals(posState, readCellState(universe, 5, 1, 0));
+      assertEquals(nulState, readCellState(universe, 5, 1, 1));
+      assertEquals(2, readCell(universe, 5, 1).statePos);
+
+      assertEquals(nulState, readCellState(universe, 9, 1, 0));
       assertEquals(posState, readCellState(universe, 9, 1, 1));
       assertEquals(3, readCell(universe, 9, 1).statePos);
    }
 
-   public static void runTest2b(final Universe universe, final int cnt) {
+   public static void runTestNextUpStateDownMeta(final Universe universe, final int cnt) {
       runLevelUp(universe);
       printCells(universe, cnt, "runLevelUp");
       runCalcNextState(universe);
@@ -129,7 +179,5 @@ public class Test_UniverseService_WHEN_run_lev1move_is_called {
       printCells(universe, cnt, "runLevelDown");
       runCalcNextMetaState(universe);
       printCells(universe, cnt, "runCalcNextMetaState");
-
-      //printCellsMinimal(universe, cnt);
    }
 }

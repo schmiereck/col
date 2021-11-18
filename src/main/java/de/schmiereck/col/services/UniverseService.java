@@ -1,12 +1,13 @@
 package de.schmiereck.col.services;
 
+import static de.schmiereck.col.model.State.negState;
 import static de.schmiereck.col.model.State.nulState;
+import static de.schmiereck.col.model.State.posState;
 import static de.schmiereck.col.services.EngineService.calcMetaStatePosByLevelCell;
 import static de.schmiereck.col.services.EngineService.searchMetaStatePos;
 import static de.schmiereck.col.services.EngineService.searchStatePosWithNewStateOnPos;
 import static de.schmiereck.col.services.LevelService.calcEqualMetaStateValues;
 import static de.schmiereck.col.services.StateUtils.convertToDebugString;
-import static de.schmiereck.col.services.StateUtils.convertToValue;
 import static de.schmiereck.col.services.UniverseUtils.readCell;
 import static de.schmiereck.col.services.UniverseUtils.readCellSize;
 import static de.schmiereck.col.services.UniverseUtils.readEngine;
@@ -25,21 +26,30 @@ import java.util.Objects;
 
 public class UniverseService {
 
-   public static void run(final Universe universe) {
+   /**
+    * Run Next Up-State-Down-State
+    */
+   public static void runNextUSDS(final Universe universe) {
       runLevelUp(universe);
       runCalcNextState(universe);
       runLevelDown(universe);
       runCalcNextState(universe);
    }
 
-   public static void run2(final Universe universe) {
+   /**
+    * Run Next Up-Meta-Down-State
+    */
+   public static void runNextUMDS(final Universe universe) {
       runLevelUp(universe);
       runCalcNextMetaState(universe);
       runLevelDown(universe);
       runCalcNextState(universe);
    }
 
-   public static void run2b(final Universe universe) {
+   /**
+    * Run Next Up-State-Down-Meta
+    */
+   public static void runNextUSDM(final Universe universe) {
       runLevelUp(universe);
       runCalcNextState(universe);
       runLevelDown(universe);
@@ -141,17 +151,13 @@ public class UniverseService {
 
    private static void calcMetaStatePosByStatePos(final Engine engine, final Level level, final int cellPos) {
       final LevelCell sourceLevelCell = readLevelCell(level, cellPos);
-      final Cell sourceCell = readCell(level, cellPos);
       int metaStatePos = calcMetaStatePosByLevelCell(engine, sourceLevelCell);
 
       // a = new int[X][Y][Z] = new int[X * Y * Z]
       // a[k][j][i] simply means (indirection levels apart) a[k*Y*X + j*X + i]
 
-      //final MetaState nextMetaState = engine.metaStateArr[nextMetaStatePos];
+      final Cell sourceCell = readCell(level, cellPos);
       sourceCell.metaStatePos = metaStatePos;
-      //for (int metaPos = 0; metaPos < sourceLevelCell2.metaCellArr.length; metaPos++) {
-      //   sourceLevelCell2.metaCellArr[metaPos].statePos = nextMetaState.inputMetaStatePosArr[metaPos];
-      //}
    }
 
    private static void calcNextMetaStatePosByStatePos(final Universe universe, final int levelPos, final Engine engine, final int cellPos) {
@@ -174,59 +180,91 @@ public class UniverseService {
       //}
    }
 
-   public static void runLevelDown(final Universe universe) {
+   public static void runLevelUp(final Universe universe) {
       final Engine[] engineArr = universe.engineArr;
-      for (int levelPos = engineArr.length - 2; levelPos >= 0; levelPos--) {
-         final int targetLevelPos = levelPos + 1;
-         final Engine engine = readEngine(universe, levelPos);
-         final Level level = readLevel(universe, levelPos);
+      for (int sourceLevelPos = engineArr.length - 2; sourceLevelPos >= 0; sourceLevelPos--) {
+         final int targetLevelPos = sourceLevelPos + 1;
+         final Engine engine = readEngine(universe, sourceLevelPos);
+         final Level sourceLevel = readLevel(universe, sourceLevelPos);
          final Engine targetEngine = readEngine(universe, targetLevelPos);
          final Level targetLevel = readLevel(universe, targetLevelPos);
 
          for (int cellPos = 0; cellPos < universe.universeSize; cellPos++) {
-            final int cellSize = readCellSize(level);
-            final int targetCellSize = readCellSize(targetLevel);
+            final State sourceEqualState = calcEqualMetaStateValues(sourceLevel, cellPos);
+            final int sourceEqualStatePos;
 
-            final State equalState = calcEqualMetaStateValues(level, cellPos, cellSize);
-            final State targetEqualState = calcEqualMetaStateValues(targetLevel, cellPos, targetCellSize);
+            if (sourceEqualState == posState) {
+               sourceEqualStatePos = 0;
+            } else {
+               if (sourceEqualState == negState) {
+                  sourceEqualStatePos = 1;
+               } else {
+                  sourceEqualStatePos = -1;
+               }
+            }
 
-            if ((equalState != null) && (equalState != nulState) && (targetEqualState == nulState)) {
-               // Level 1 -> 2:
-
+            final int levelUpOutputMetaStatePos;
+            if (targetEngine.metaStateArr != null) {
+               final LevelCell targetLevelCell = readLevelCell(targetLevel, cellPos);
+               if (sourceEqualStatePos != -1) {
+                  levelUpOutputMetaStatePos = targetEngine.metaStateArr[targetLevelCell.metaCellArr[0].metaStatePos].levelUpOutputMetaStatePosArr[sourceEqualStatePos];
+               } else {
+                  levelUpOutputMetaStatePos = -1;
+               }
+            } else {
+               levelUpOutputMetaStatePos = -1;
+            }
+            if (levelUpOutputMetaStatePos != -1) {
                // Status aller Zellen in Level 1 auf 0 setzen
-               calcNewEqualState(engine, level, cellPos, nulState);
+               calcNewEqualState(engine, sourceLevel, cellPos, nulState);
 
-               // Status aller Zellen in Level 2 auf equalState setzen
-               calcNewEqualState(targetEngine, targetLevel, cellPos, equalState);
+               final MetaState targetMetaState = targetEngine.metaStateArr[levelUpOutputMetaStatePos];
+               final LevelCell targetLevelCell = readLevelCell(targetLevel, cellPos);
+
+               targetLevelCell.metaCellArr[0].metaStatePos = levelUpOutputMetaStatePos;
+
+               for (int pos = 0; pos < targetMetaState.inputMetaStatePosArr.length; pos++) {
+                  final int targetInputMetaStatePos = targetMetaState.inputMetaStatePosArr[pos];
+                  targetLevelCell.metaCellArr[pos].statePos = targetInputMetaStatePos;
+                }
+            } else {
+               final State targetEqualState = calcEqualMetaStateValues(targetLevel, cellPos);
+
+               if ((sourceEqualState != null) && (sourceEqualState != nulState) && (targetEqualState == nulState)) {
+                  // Level 1 -> 2:
+
+                  // Status aller Zellen in Level 1 auf 0 setzen
+                  calcNewEqualState(engine, sourceLevel, cellPos, nulState);
+
+                  // Status aller Zellen in Level 2 auf equalState setzen
+                  calcNewEqualState(targetEngine, targetLevel, cellPos, sourceEqualState);
+               }
             }
          }
       }
    }
 
-   public static void runLevelUp(final Universe universe) {
+   public static void runLevelDown(final Universe universe) {
       final Engine[] engineArr = universe.engineArr;
-      for (int levelPos = 1; levelPos < engineArr.length; levelPos++) {
-         final int targetLevelPos = levelPos - 1;
-         final Engine engine = readEngine(universe, levelPos);
-         final Level level = readLevel(universe, levelPos);
+      for (int sourceLevelPos = 1; sourceLevelPos < engineArr.length; sourceLevelPos++) {
+         final int targetLevelPos = sourceLevelPos - 1;
+         final Engine engine = readEngine(universe, sourceLevelPos);
+         final Level sourceLevel = readLevel(universe, sourceLevelPos);
          final Engine targetEngine = readEngine(universe, targetLevelPos);
          final Level targetLevel = readLevel(universe, targetLevelPos);
 
          for (int cellPos = 0; cellPos < universe.universeSize; cellPos++) {
-            final int cellSize = readCellSize(level);
-            final int targetCellSize = readCellSize(targetLevel);
+            final State sourceEqualState = calcEqualMetaStateValues(sourceLevel, cellPos);
+            final State targetEqualState = calcEqualMetaStateValues(targetLevel, cellPos);
 
-            final State equalState = calcEqualMetaStateValues(level, cellPos, cellSize);
-            final State targetEqualState = calcEqualMetaStateValues(targetLevel, cellPos, targetCellSize);
-
-            if ((equalState != null) && (equalState != nulState) && (targetEqualState == nulState)) {
+            if ((sourceEqualState != null) && (sourceEqualState != nulState) && (targetEqualState == nulState)) {
                // Level 2 -> 1:
 
                // Status aller Zellen in Level 2 auf 0 setzen
-               calcNewEqualState(engine, level, cellPos, nulState);
+               calcNewEqualState(engine, sourceLevel, cellPos, nulState);
 
                // Status aller Zellen in Level 1 auf equalState setzen
-               calcNewEqualState(targetEngine, targetLevel, cellPos, equalState);
+               calcNewEqualState(targetEngine, targetLevel, cellPos, sourceEqualState);
             }
          }
       }

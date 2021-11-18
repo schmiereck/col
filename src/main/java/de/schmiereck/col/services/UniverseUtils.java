@@ -26,7 +26,7 @@ public class UniverseUtils {
       }
       System.out.print("  ------- ");
       System.out.print(" ---------- ".repeat(universe.universeSize));
-      if (msg != null) System.out.println(": " + msg);
+      if (msg != null) System.out.print(": " + msg);
       System.out.println();
    }
 

@@ -153,8 +153,11 @@ public class Test_UniverseService_WHEN_runCalcNextMetaState_is_called {
       printCells(universe, 1);
 
       // Assert
-      assertEquals(posState, readCellState(universe, 1, 2, 0));
-      assertEquals(posState, readCellState(universe, 7, 2, 0));
+      assertEquals(3, readCellStatePos(universe, 3, 0, 0), "meta state should be 3, 2, 1, 2, 3");
+      assertEquals(7, readCellStatePos(universe, 3, 0, 0), "meta state should be 1, 2, 3, 2, 1");
+
+      assertEquals(posState, readCellState(universe, 3, 0, 0), "meta state should be 3, 2, 1, 2, 3");
+      assertEquals(posState, readCellState(universe, 7, 0, 0), "meta state should be 1, 2, 3, 2, 1");
    }
 
    @Test
@@ -184,7 +187,7 @@ public class Test_UniverseService_WHEN_runCalcNextMetaState_is_called {
       UniverseService.calcInitialMetaStates(universe);
 
       // Act
-      printCells(universe, 0);
+      printCells(universe, 0, "initial");
       calcNextStatePosByMetaStatePos(universe.engineArr[0], universe.levelArr[0], 2);
       calcMetaStatePosByStatePosForNeighbours(universe.engineArr[0], universe.levelArr[0], 2);
       printCells(universe, 1);

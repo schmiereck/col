@@ -2,7 +2,7 @@ package de.schmiereck.col.services;
 
 import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
-import static de.schmiereck.col.services.UniverseService.runLevelUp;
+import static de.schmiereck.col.services.UniverseService.runLevelDown;
 import static de.schmiereck.col.services.UniverseUtils.printCells;
 import static de.schmiereck.col.services.UniverseUtils.readCellState;
 import static de.schmiereck.col.services.UniverseUtils.setStatePos;
@@ -44,7 +44,7 @@ public class Test_UniverseService_WHEN_runLevelUp_is_called {
 
       // Act
       printCells(universe, 0);
-      runLevelUp(universe);
+      runLevelDown(universe);
       printCells(universe, 1);
 
       // Assert
@@ -95,7 +95,7 @@ public class Test_UniverseService_WHEN_runLevelUp_is_called {
 
       // Act
       printCells(universe, 0);
-      runLevelUp(universe);
+      runLevelDown(universe);
       printCells(universe, 1);
 
       // Assert
