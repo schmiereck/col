@@ -25,7 +25,7 @@ class Test_UniverseService_WHEN_run_is_called {
    }
 
    @Test
-   void GIVEN_lev1static_run_level_0_single_pos_state_THEN_state_is_populated_to_level_1() {
+   void GIVEN_lev1static_run_level_0_single_pos_state_THEN_state_is_populated_to_level_1_and_back_to_0() {
       // Arrange
       final int universeSize = 12;
 
@@ -38,7 +38,7 @@ class Test_UniverseService_WHEN_run_is_called {
 
       final Universe universe = new Universe(engine2Arr, universeSize);
 
-      // ... ( 0/ 0) ( 1/ 1) ( 0/ 0) ...
+      // 0/0/0: ... ( 0/ 0) ( 1/ 1) ( 0/ 0) ...
       setStatePos(universe, 6, 0,  1);
 
       // Act
@@ -47,12 +47,10 @@ class Test_UniverseService_WHEN_run_is_called {
       printCells(universe, 1);
 
       // Assert
-      // 1/2: ( 0/ 0    0/ 0) ( 0/ 0   ... ( 0/ 0    0/ 0)
-      // 1/2:         ( 6/-1    6/ 0)  ...   0/ 0) ( 1/ 0    1/ 1)
-      assertEquals(nulState, readCellState(universe, 6, 0, 0));
-
-      assertEquals(posState, readCellState(universe, 6, 1, 0));
-      assertEquals(nulState, readCellState(universe, 7, 1, 0));
+      // 0/0/0: ... ( 0/ 0) ( 1/ 1) ( 0/ 0) ...
+      assertEquals(nulState, readCellState(universe, 5, 0, 0));
+      assertEquals(posState, readCellState(universe, 6, 0, 0));
+      assertEquals(nulState, readCellState(universe, 7, 0, 0));
    }
 
    @Test
@@ -159,8 +157,8 @@ class Test_UniverseService_WHEN_run_is_called {
       printCells(universe, 1);
 
       // Assert
-      assertEquals(posState, readCellState(universe, 1, 2, 0));
-      assertEquals(posState, readCellState(universe, 7, 2, 0));
+      assertEquals(posState, readCellState(universe, 2, 2, 0));
+      assertEquals(posState, readCellState(universe, 6, 2, 2));
    }
 
    private void runTest1(final Universe universe) {

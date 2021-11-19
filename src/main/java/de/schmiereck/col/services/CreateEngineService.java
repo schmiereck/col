@@ -727,7 +727,10 @@ public class CreateEngineService {
          }
       }
       if (searchedMetaState.metaStateInputStatePos == -1) {
-         throw new RuntimeException(String.format("E01: For Meta-State %s with input state %s no input state found.", convertToDebugString(searchedMetaState), convertToDebugString(searchedMetaStateInputState)));
+         throw new RuntimeException(String.format("E01: For Meta-State %s with input state %d:%s for output state %d:%s no input state found.",
+                 convertToDebugString(searchedMetaState),
+                 searchedMetaStateInputStatePos, convertToDebugString(searchedMetaStateInputState),
+                 searchedMetaStateOutputStatePos, convertToDebugString(searchedMetaStateOutputState)));
       }
    }
 
@@ -805,15 +808,17 @@ public class CreateEngineService {
       for (int pos = 0; pos < searchedMetaState.inputMetaStatePosArr.length; pos++) {
          searchedMetaStateInputStateArr[pos] = engineInputStateArr[searchedMetaState.inputMetaStatePosArr[pos]].inputStateArr[pos];
       }
-         final int searchedMetaStateInputStatePos;
-         final int searchedMetaStateOutputStatePos;
-         final State searchedMetaStateOutputState;
+      final int searchedMetaStateInputStatePos;
+      final State searchedMetaStateInputState;
+      final int searchedMetaStateOutputStatePos;
+      final State searchedMetaStateOutputState;
          {
-            searchedMetaStateInputStatePos = searchStatePos(engine, searchedMetaStateInputStateArr);
+            searchedMetaStateInputStatePos = searchStatePos2(engine, searchedMetaStateInputStateArr);
             if (searchedMetaStateInputStatePos == -1) {
                throw new RuntimeException(String.format("For Meta-State %s no input state found.", convertToDebugString(searchedMetaStateInputStateArr)));
             }
             searchedMetaStateOutputStatePos = engineOutputStatePosArr.get(searchedMetaStateInputStatePos);
+            searchedMetaStateInputState = engineInputStateArr[searchedMetaStateInputStatePos];
             searchedMetaStateOutputState = engineInputStateArr[searchedMetaStateOutputStatePos];
          }
 
@@ -842,7 +847,10 @@ public class CreateEngineService {
       }
       if (searchedMetaState.outputMetaStatePos == -1) {
          //throw new RuntimeException(String.format("E02: For Meta-State %s with input state %s no input state found.", convertToDebugString(searchedMetaState), convertToDebugString(searchedMetaStateOutputState)));
-         System.out.println(String.format("E02: For Meta-State %s with input state %s no input state found.", convertToDebugString(searchedMetaState), convertToDebugString(searchedMetaStateOutputState)));
+         System.out.println(String.format("E02: For Meta-State %s with input state %d:%s for output state %d:%s no input state found.",
+                 convertToDebugString(searchedMetaState),
+                 searchedMetaStateInputStatePos, convertToDebugString(searchedMetaStateInputState),
+                 searchedMetaStateOutputStatePos, convertToDebugString(searchedMetaStateOutputState)));
       }
    }
 
@@ -856,7 +864,25 @@ public class CreateEngineService {
          if (compareInputStateArr(inputState, searchedStateArr)) {
             retInputStatePos = inputStatePos;
             // Gibt  es für diese Kombination noch keinen MetaState?
-            if (checkMetaStateExistForMetaStateInputAndOutputState(engine, inputStatePos) == false) {
+            if (checkMetaStateExistForMetaStateInputState(engine, inputStatePos) == false) {
+               break;
+            }
+         }
+      }
+      return retInputStatePos;
+   }
+
+   private static int searchStatePos2(final Engine engine, final State searchedStateArr[]) {
+      final State[] engineInputStateArr = engine.inputStateArr;
+
+      int retInputStatePos = -1;
+
+      for (int inputStatePos = 0; inputStatePos < engineInputStateArr.length; inputStatePos++) {
+         final State inputState = engineInputStateArr[inputStatePos];
+         if (compareInputStateArr(inputState, searchedStateArr)) {
+            retInputStatePos = inputStatePos;
+            // Gibt  es für diese Kombination noch keinen MetaState?
+            if (checkMetaStateExistForMetaStateInputAndOutputState2(engine, inputStatePos) == false) {
                break;
             }
          }
@@ -875,7 +901,7 @@ public class CreateEngineService {
       return found;
    }
 
-   private static boolean checkMetaStateExistForMetaStateInputAndOutputState(final Engine engine, final int searchedMetaStateInputStatePos) {
+   private static boolean checkMetaStateExistForMetaStateInputState(final Engine engine, final int searchedMetaStateInputStatePos) {
       final State[] engineInputStateArr = engine.inputStateArr;
       final LarrayInt engineOutputStatePosArr = engine.outputStatePosArr;
       final MetaState[] engineMetaStateArr = engine.metaStateArr;
@@ -890,6 +916,29 @@ public class CreateEngineService {
 
          if ((metaState.metaStateInputStatePos == searchedMetaStateInputStatePos))// &&
              //(metaState.metaStateOutputStatePos == searchedMetaStateOutputStatePos))
+         {
+            found = true;
+            break;
+         }
+      }
+      return found;
+   }
+
+   private static boolean checkMetaStateExistForMetaStateInputAndOutputState2(final Engine engine, final int searchedMetaStateInputStatePos) {
+      final State[] engineInputStateArr = engine.inputStateArr;
+      final LarrayInt engineOutputStatePosArr = engine.outputStatePosArr;
+      final MetaState[] engineMetaStateArr = engine.metaStateArr;
+
+      final int searchedMetaStateOutputStatePos = engineOutputStatePosArr.get(searchedMetaStateInputStatePos);
+      //final State searchedMetaStateOutputState = engineInputStateArr[searchedMetaStateOutputStatePos];
+
+      boolean found = false;
+
+      for (int msPos = 0; msPos < engine.metaStateArr.length; msPos++) {
+         final MetaState metaState = engine.metaStateArr[msPos];
+
+         if ((metaState.metaStateInputStatePos == searchedMetaStateInputStatePos) &&
+             (metaState.outputMetaStatePos == searchedMetaStateOutputStatePos))
          {
             found = true;
             break;
