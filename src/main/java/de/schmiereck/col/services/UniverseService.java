@@ -27,7 +27,7 @@ import java.util.Objects;
 public class UniverseService {
 
    /**
-    * Run Next Up-State-Down-State
+    * Run Next Up+State+Down+State
     */
    public static void runNextUSDS(final Universe universe) {
       runLevelUp(universe);
@@ -37,7 +37,7 @@ public class UniverseService {
    }
 
    /**
-    * Run Next Up-Meta-Down-State
+    * Run Next Up+Meta+Down+State
     */
    public static void runNextUMDS(final Universe universe) {
       runLevelUp(universe);
@@ -47,7 +47,7 @@ public class UniverseService {
    }
 
    /**
-    * Run Next Up-State-Down-Meta
+    * Run Next Up+State+Down+Meta
     */
    public static void runNextUSDM(final Universe universe) {
       runLevelUp(universe);

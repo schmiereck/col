@@ -458,53 +458,151 @@ public class CreateEngineService {
    }
 
    public static Engine createLevel2dynamicEngine() {
-      final Engine level2dynamicEngine = new Engine(3, 33);
+      final Engine level2dynamicEngine = createLevel2dynamicEngineStates();
 
+      // missing for meta states:
+      // 3,2,0
+      //    0    0   0   0
+      //    2        0   1   0
+      //    3            1   0   0
+      // is 11 ???
+      //level2dynamicEngine.setState(32, new State(3, posState, posState, nulState), 31);
+
+      initMetaStateArr(level2dynamicEngine);
+      initOutputMetaStatePos(level2dynamicEngine);
+      initLevelUpOutputMetaStatePosArr(level2dynamicEngine);
+
+      final Engine e = level2dynamicEngine;
+      //----------------------------------------------------------------------------------------------------------------
+      // outputMetaState:
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // null:
+      // 0,0,0  =>  0,0,0
+      //    0    0   0   0           =>   0    0   0   0
+      //    0        0   0   0       =>   0        0   0   0
+      //    0            0   0   0   =>   0            0   0   0
+      level2dynamicEngine.metaStateArr[metaPos(e, 0, 0, 0)].outputMetaStatePos = metaPos(e, 0, 0, 0);
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // 0,0,1  =>  0,2,0
+      //    1    0   0   1           =>   0    0   0   0
+      //    0        0   0   0       =>   2        0   1   0
+      //    0            0   0   0   =>   0            0   0   0
+      level2dynamicEngine.metaStateArr[metaPos(e, 0, 0, 1)].outputMetaStatePos = metaPos(e, 0, 2, 0);
+      // 1,0,0  =>  1,0,0
+      //    0    0   0   0           =>   0    0   0   0
+      //    0        0   0   0       =>   0        0   0   0
+      //    1            0   0   1   =>   1            0   0   1
+      level2dynamicEngine.metaStateArr[metaPos(e, 1, 0, 0)].outputMetaStatePos = metaPos(e, 1, 0, 0);
+      // 0,1,0  =>  0,1,0
+      //    0    0   0   0           =>   0    0   0   0
+      //    1        0   0   1       =>   1        0   0   1
+      //    0            0   0   0   =>   0            0   0   0
+      level2dynamicEngine.metaStateArr[metaPos(e, 0, 1, 0)].outputMetaStatePos = metaPos(e, 0, 1, 0);
+
+      // 0,2,0  =>  3,0,0
+      //    0    0   0   0           =>   0    0   0   0
+      //    2        0   1   0       =>   0        0   0   0
+      //    0            0   0   0   =>   3            1   0   0
+      level2dynamicEngine.metaStateArr[metaPos(e, 0, 2, 0)].outputMetaStatePos = metaPos(e, 3, 0, 0);
+      // 2,0,0  =>  2,0,0
+      //    0    0   0   0           =>   0    0   0   0
+      //    0        0   0   0       =>   0        0   0   0
+      //    2            0   1   0   =>   2            0   1   0
+      level2dynamicEngine.metaStateArr[metaPos(e, 2, 0, 0)].outputMetaStatePos = metaPos(e, 2, 0, 0);
+      // 0,0,2  =>  0,0,2
+      //    2    0   1   0           =>   2    0   1   0
+      //    0        0   0   0       =>   0        0   0   0
+      //    0            0   0   0   =>   0            0   0   0
+      level2dynamicEngine.metaStateArr[metaPos(e, 0, 0, 2)].outputMetaStatePos = metaPos(e, 0, 0, 2);
+
+      // 3,0,0  =>  0,4,0
+      //    0    0   0   0           =>   0    0   0   0
+      //    0        0   0   0       =>   4        0   1   0
+      //    3            1   0   0   =>   0            0   0   0
+      level2dynamicEngine.metaStateArr[metaPos(e, 3, 0, 0)].outputMetaStatePos = metaPos(e, 0, 4, 0);
+      // 0,3,0  =>  0,3,0
+      //    0    0   0   0           =>   0    0   0   0
+      //    3        1   0   0       =>   3        1   0   0
+      //    0            0   0   0   =>   0            0   0   0
+      level2dynamicEngine.metaStateArr[metaPos(e, 0, 3, 0)].outputMetaStatePos = metaPos(e, 0, 3, 0);
+      // 0,0,3  =>  0,0,3
+      //    3    1   0   0           =>   3    1   0   0
+      //    0        0   0   0       =>   0        0   0   0
+      //    0            0   0   0   =>   0            0   0   0
+      level2dynamicEngine.metaStateArr[metaPos(e, 0, 0, 3)].outputMetaStatePos = metaPos(e, 0, 0, 3);
+
+      // 0,4,0  =>  0,0,1
+      //    0    0   0   0           =>   1    0   0   1
+      //    4        0   1   0       =>   0        0   0   0
+      //    0            0   0   0   =>   0            0   0   0
+      level2dynamicEngine.metaStateArr[metaPos(e, 0, 4, 0)].outputMetaStatePos = metaPos(e, 0, 0, 1);
+      // 4,0,0  =>  4,0,0
+      //    0    0   0   0           =>   0    0   0   0
+      //    0        0   0   0       =>   0        0   0   0
+      //    4            0   1   0   =>   4            0   1   0
+      level2dynamicEngine.metaStateArr[metaPos(e, 4, 0, 0)].outputMetaStatePos = metaPos(e, 4, 0, 0);
+      // 0,0,4  =>  0,0,4
+      //    4    0   1   0           =>   4    0   1   0
+      //    0        0   0   0       =>   0        0   0   0
+      //    0            0   0   0   =>   0            0   0   0
+      level2dynamicEngine.metaStateArr[metaPos(e, 0, 0, 4)].outputMetaStatePos = metaPos(e, 0, 0, 4);
+
+      //----------------------------------------------------------------------------------------------------------------
+      return level2dynamicEngine;
+   }
+
+   static Engine createLevel2dynamicEngineStates() {
+      final Engine level2dynamicEngine = new Engine(3, 32);
+
+      // null
       level2dynamicEngine.setState( 0, new State(3, nulState, nulState, nulState), 0);
+
+      // dyn:null,null,+1
       level2dynamicEngine.setState( 1, new State(3, nulState, nulState, posState), 2);
       level2dynamicEngine.setState( 2, new State(3, nulState, posState, nulState), 3);
       level2dynamicEngine.setState( 3, new State(3, posState, nulState, nulState), 4);
       level2dynamicEngine.setState( 4, new State(3, nulState, posState, nulState), 1);
 
+      // dyn:null,null,-1
       level2dynamicEngine.setState( 5, new State(3, nulState, nulState, negState), 6);
       level2dynamicEngine.setState( 6, new State(3, nulState, negState, nulState), 7);
       level2dynamicEngine.setState( 7, new State(3, negState, nulState, nulState), 8);
       level2dynamicEngine.setState( 8, new State(3, nulState, negState, nulState), 5);
 
+      // dyn:null,+1,+1
       level2dynamicEngine.setState( 9, new State(3, nulState, posState, posState), 10);
       level2dynamicEngine.setState(10, new State(3, posState, nulState, posState), 11);
       level2dynamicEngine.setState(11, new State(3, posState, posState, nulState), 12);
       level2dynamicEngine.setState(12, new State(3, posState, nulState, posState), 9);
 
+      // dyn:null,-1,-1
       level2dynamicEngine.setState(13, new State(3, nulState, negState, negState), 14);
       level2dynamicEngine.setState(14, new State(3, negState, nulState, negState), 15);
       level2dynamicEngine.setState(15, new State(3, negState, negState, nulState), 16);
       level2dynamicEngine.setState(16, new State(3, negState, nulState, negState), 13);
 
+      // +1,+1,+1
       level2dynamicEngine.setState(17, new State(3, posState, posState, posState), 17);
 
+      // null,+1,-1
       level2dynamicEngine.setState(18, new State(3, nulState, posState, negState), 0);
       level2dynamicEngine.setState(19, new State(3, nulState, negState, posState), 0);
-      level2dynamicEngine.setState(20, new State(3, nulState, negState, nulState), 0);
+      level2dynamicEngine.setState(20, new State(3, posState, negState, nulState), 0);
       level2dynamicEngine.setState(21, new State(3, negState, posState, nulState), 0);
 
+      // +1,+1,-1
       level2dynamicEngine.setState(22, new State(3, posState, posState, negState), 3);
       level2dynamicEngine.setState(23, new State(3, negState, posState, posState), 1);
       level2dynamicEngine.setState(24, new State(3, posState, negState, negState), 5);
       level2dynamicEngine.setState(25, new State(3, negState, negState, posState), 7);
 
+      // +1,null,-1
       level2dynamicEngine.setState(26, new State(3, posState, nulState, negState), 26);
       level2dynamicEngine.setState(27, new State(3, negState, nulState, posState), 27);
       level2dynamicEngine.setState(28, new State(3, posState, negState, posState), 28);
       level2dynamicEngine.setState(29, new State(3, negState, nulState, negState), 29);
       level2dynamicEngine.setState(30, new State(3, negState, posState, negState), 30);
       level2dynamicEngine.setState(31, new State(3, negState, negState, negState), 31);
-
-      // Meta:
-      level2dynamicEngine.setState(32, new State(3, posState, negState, nulState), 0);
-
-      initMetaStateArr(level2dynamicEngine);
-      initOutputMetaStatePos(level2dynamicEngine);
 
       return level2dynamicEngine;
    }
@@ -561,10 +659,18 @@ public class CreateEngineService {
    }
 
    public static void initOutputMetaStatePos(final Engine engine) {
+      initInputMetaStates(engine);
+      initOutputMetaStates(engine);
+   }
+
+   static void initInputMetaStates(final Engine engine) {
       for (int msPos = 0; msPos < engine.metaStateArr.length; msPos++) {
          final MetaState metaState = engine.metaStateArr[msPos];
          initInputMetaState(engine, metaState);
       }
+   }
+
+   private static void initOutputMetaStates(final Engine engine) {
       for (int msPos = 0; msPos < engine.metaStateArr.length; msPos++) {
          final MetaState metaState = engine.metaStateArr[msPos];
          initOutputMetaState(engine, metaState);
@@ -577,18 +683,25 @@ public class CreateEngineService {
       final MetaState[] engineMetaStateArr = engine.metaStateArr;
 
       // searchedMetaState:
+      // 2  =>  9
+      //    2        1   0   =>   0        0   0
+      //    0    0   0       =>   1    0   1
+      //             ^ 1:0,1               ^ 2:1,0
       //       2  =>  9
       //           2        1   0   =>   0        0   0
       //           0    0   0       =>   1    0   1
       //                    ^== searchedMetaStateInputStateArr
+      final int metaStateSize = searchedMetaState.inputMetaStatePosArr.length;
+      final State searchedMetaStateInputStateArr[] = new State[metaStateSize];
 
-      final State searchedMetaStateInputStateArr[] = new State[searchedMetaState.inputMetaStatePosArr.length];
-
-      for (int pos = 0; pos < searchedMetaState.inputMetaStatePosArr.length; pos++) {
-         searchedMetaStateInputStateArr[pos] = engineInputStateArr[searchedMetaState.inputMetaStatePosArr[pos]].inputStateArr[pos];
+      for (int pos = 0; pos < metaStateSize; pos++) {
+         final int inputMetaStatePos = searchedMetaState.inputMetaStatePosArr[pos];
+         final State inputState = engineInputStateArr[inputMetaStatePos];
+         searchedMetaStateInputStateArr[pos] = inputState.inputStateArr[pos];
       }
 
       final int searchedMetaStateInputStatePos;
+      final State searchedMetaStateInputState;
       final int searchedMetaStateOutputStatePos;
       final State searchedMetaStateOutputState;
       {
@@ -596,6 +709,7 @@ public class CreateEngineService {
          if (searchedMetaStateInputStatePos == -1) {
             throw new RuntimeException(String.format("For Meta-State %s no input state found.", convertToDebugString(searchedMetaStateInputStateArr)));
          }
+         searchedMetaStateInputState = engineInputStateArr[searchedMetaStateInputStatePos];
          searchedMetaStateOutputStatePos = engineOutputStatePosArr.get(searchedMetaStateInputStatePos);
          searchedMetaStateOutputState = engineInputStateArr[searchedMetaStateOutputStatePos];
       }
@@ -604,13 +718,16 @@ public class CreateEngineService {
 
       for (int msPos = 0; msPos < engineMetaStateArr.length; msPos++) {
          final MetaState metaState = engineMetaStateArr[msPos];
-         final boolean inputMetaStateFound = isInputMetaStateFound(engineInputStateArr, metaState, searchedMetaState, searchedMetaStateOutputState);
+         final boolean inputMetaStateFound = isInputMetaStateFound(engineInputStateArr, metaState, searchedMetaState, searchedMetaStateInputState);
          if (inputMetaStateFound) {
             //searchedMetaState.outputMetaStatePos = msPos;
             searchedMetaState.metaStateInputStatePos = searchedMetaStateInputStatePos;
             //searchedMetaState.metaStateOutputStatePos = searchedMetaStateOutputStatePos;
             break;
          }
+      }
+      if (searchedMetaState.metaStateInputStatePos == -1) {
+         throw new RuntimeException(String.format("E01: For Meta-State %s with input state %s no input state found.", convertToDebugString(searchedMetaState), convertToDebugString(searchedMetaStateInputState)));
       }
    }
 
@@ -625,15 +742,16 @@ public class CreateEngineService {
       // TODO see: de.schmiereck.col.services.UniverseService.calcNewEqualState
    }
 
-   private static boolean isInputMetaStateFound(final State[] engineInputStateArr,
-                                                final MetaState metaState, final MetaState searchedMetaState,
-                                                final State searchedMetaStateOutputState) {
+   static boolean isInputMetaStateFound(final State[] engineInputStateArr,
+                                        final MetaState metaState, final MetaState searchedMetaState,
+                                        final State searchedMetaStateOutputState) {
       boolean inputMetaStateFound = true;
       for (int inputMetaStatePos = 0; inputMetaStatePos < metaState.inputMetaStatePosArr.length; inputMetaStatePos++) {
          final State metaStateInputState = engineInputStateArr[metaState.inputMetaStatePosArr[inputMetaStatePos]];
          boolean inputStateFound = true;
          for (int inputStatePos = 0; inputStatePos < metaStateInputState.inputStateArr.length; inputStatePos++) {
             final State inputState = metaStateInputState.inputStateArr[inputStatePos];
+
             final State searchedInputState;
             if (inputMetaStatePos == inputStatePos) {
                searchedInputState = searchedMetaStateOutputState.inputStateArr[inputMetaStatePos];
@@ -641,10 +759,27 @@ public class CreateEngineService {
                final State searchedMetaStateInputState = engineInputStateArr[searchedMetaState.inputMetaStatePosArr[inputMetaStatePos]];
                searchedInputState = searchedMetaStateInputState.inputStateArr[inputStatePos];
             }
+
             if (inputState != searchedInputState) {
                inputStateFound = false;
                break;
             }
+            /*
+             if (inputMetaStatePos == inputStatePos) {
+               final State expectedInputState = searchedMetaStateOutputState.inputStateArr[inputMetaStatePos];
+               if (inputState != expectedInputState) {
+                  inputStateFound = false;
+                  break;
+               }
+            } else {
+               final State searchedInputMetaState = engineInputStateArr[searchedMetaState.inputMetaStatePosArr[inputMetaStatePos]];
+               final State searchedInputState = searchedInputMetaState.inputStateArr[inputStatePos];
+               if (inputState != searchedInputState) {
+                  inputStateFound = false;
+                  break;
+               }
+            }
+              */
          }
          if (inputStateFound == false) {
             inputMetaStateFound = false;
@@ -670,12 +805,23 @@ public class CreateEngineService {
       for (int pos = 0; pos < searchedMetaState.inputMetaStatePosArr.length; pos++) {
          searchedMetaStateInputStateArr[pos] = engineInputStateArr[searchedMetaState.inputMetaStatePosArr[pos]].inputStateArr[pos];
       }
+         final int searchedMetaStateInputStatePos;
+         final int searchedMetaStateOutputStatePos;
+         final State searchedMetaStateOutputState;
+         {
+            searchedMetaStateInputStatePos = searchStatePos(engine, searchedMetaStateInputStateArr);
+            if (searchedMetaStateInputStatePos == -1) {
+               throw new RuntimeException(String.format("For Meta-State %s no input state found.", convertToDebugString(searchedMetaStateInputStateArr)));
+            }
+            searchedMetaStateOutputStatePos = engineOutputStatePosArr.get(searchedMetaStateInputStatePos);
+            searchedMetaStateOutputState = engineInputStateArr[searchedMetaStateOutputStatePos];
+         }
 
-      final int searchedMetaStateInputStatePos = searchedMetaState.metaStateInputStatePos;
+      final int searchedMetaStateInputStatePos2 = searchedMetaState.metaStateInputStatePos;
       //final int searchedMetaStateOutputStatePos = searchedMetaState.metaStateOutputStatePos;
-      final int searchedMetaStateOutputStatePos = engineOutputStatePosArr.get(searchedMetaStateInputStatePos);
-      final State searchedMetaStateOutputState = engineInputStateArr[searchedMetaStateOutputStatePos];
-      final int searchedMetaStateOutputOutputStatePos = engineOutputStatePosArr.get(searchedMetaStateOutputStatePos);
+      final int searchedMetaStateOutputStatePos2 = engineOutputStatePosArr.get(searchedMetaStateInputStatePos2);
+      final State searchedMetaStateOutputState2 = engineInputStateArr[searchedMetaStateOutputStatePos2];
+      final int searchedMetaStateOutputOutputStatePos = engineOutputStatePosArr.get(searchedMetaStateOutputStatePos2);
 
       //searchedMetaState.outputMetaStatePos = -1;
 
@@ -684,8 +830,8 @@ public class CreateEngineService {
 
          final boolean inputMetaStateFound = isInputMetaStateFound(engineInputStateArr, metaState, searchedMetaState, searchedMetaStateOutputState);
          if (inputMetaStateFound) {
-            if ((metaState.metaStateInputStatePos == searchedMetaStateOutputStatePos))// &&
-               //(metaState.metaStateOutputStatePos == searchedMetaStateOutputOutputStatePos))
+            if ((metaState.metaStateInputStatePos == searchedMetaStateOutputStatePos2))// &&
+            //(metaState.metaStateOutputStatePos == searchedMetaStateOutputOutputStatePos))
             {
                searchedMetaState.outputMetaStatePos = msPos;
                //searchedMetaState.metaStateInputStatePos = searchedMetaStateInputStatePos;
@@ -693,6 +839,10 @@ public class CreateEngineService {
                break;
             }
          }
+      }
+      if (searchedMetaState.outputMetaStatePos == -1) {
+         //throw new RuntimeException(String.format("E02: For Meta-State %s with input state %s no input state found.", convertToDebugString(searchedMetaState), convertToDebugString(searchedMetaStateOutputState)));
+         System.out.println(String.format("E02: For Meta-State %s with input state %s no input state found.", convertToDebugString(searchedMetaState), convertToDebugString(searchedMetaStateOutputState)));
       }
    }
 

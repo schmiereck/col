@@ -136,7 +136,7 @@ public class Test_UniverseService_WHEN_runCalcNextMetaState_is_called {
 
       final Universe universe = new Universe(engine3Arr, universeSize);
 
-      setStatePos(universe, 2, 0, 0,  3);   // l2dyn 3: 1, 0, 0
+      setStatePos(universe, 3, 0, 0,  3);   // l2dyn 3: 1, 0, 0
       setStatePos(universe, 6, 0, 0,  1);   // l2dyn 1: 0, 0, 1
 
       UniverseService.calcInitialMetaStates(universe);
@@ -153,11 +153,11 @@ public class Test_UniverseService_WHEN_runCalcNextMetaState_is_called {
       printCells(universe, 1);
 
       // Assert
-      assertEquals(3, readCellStatePos(universe, 3, 0, 0), "meta state should be 3, 2, 1, 2, 3");
-      assertEquals(7, readCellStatePos(universe, 3, 0, 0), "meta state should be 1, 2, 3, 2, 1");
+      assertEquals(3, readCellStatePos(universe, 3, 0, 0), "meta state should be 3, 4, 1, 2, 3");
+      assertEquals(1, readCellStatePos(universe, 6, 0, 0), "meta state should be 1, 2, 3, 4, 1");
 
-      assertEquals(posState, readCellState(universe, 3, 0, 0), "meta state should be 3, 2, 1, 2, 3");
-      assertEquals(posState, readCellState(universe, 7, 0, 0), "meta state should be 1, 2, 3, 2, 1");
+      assertEquals(posState, readCellState(universe, 3, 0, 0), "meta state should be 3, 4, 1, 2, 3");
+      assertEquals(posState, readCellState(universe, 6, 0, 2), "meta state should be 1, 2, 3, 4, 1");
    }
 
    @Test
@@ -193,7 +193,10 @@ public class Test_UniverseService_WHEN_runCalcNextMetaState_is_called {
       printCells(universe, 1);
       calcNextStatePosByMetaStatePos(universe.engineArr[0], universe.levelArr[0], 3);
       calcMetaStatePosByStatePosForNeighbours(universe.engineArr[0], universe.levelArr[0], 3);
-      printCells(universe, 1);
+      printCells(universe, 2);
+      calcNextStatePosByMetaStatePos(universe.engineArr[0], universe.levelArr[0], 3);
+      calcMetaStatePosByStatePosForNeighbours(universe.engineArr[0], universe.levelArr[0], 3);
+      printCells(universe, 3);
       /*
       printCells(universe, 0);
       calcNextStatePosByMetaStatePos(universe.engineArr[0], universe.levelArr[0], 2);
@@ -250,7 +253,6 @@ public class Test_UniverseService_WHEN_runCalcNextMetaState_is_called {
          assertEquals(0, level2dynamicEngine.metaStateArr[msPos].inputMetaStatePosArr[2], "inputMetaStatePosArr Pos2 " + msPos + " should be other.");
          assertEquals(0, level2dynamicEngine.metaStateArr[msPos].outputMetaStatePos, "outputMetaStatePos Pos " + msPos + " should be other.");
       }
-      assertEquals(posState, readCellState(universe, 1, 0, 0));
-      assertEquals(posState, readCellState(universe, 7, 0, 0));
+      assertEquals(1, readCellStatePos(universe, 3, 0, 0));
    }
 }

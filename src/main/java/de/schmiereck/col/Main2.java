@@ -54,15 +54,16 @@ public class Main2 {
 
 /*
       for (int metaCellPos = 0; metaCellPos < 3; metaCellPos++) {
-         for (int cellPos = 0; cellPos < universeSize/2; cellPos += 6) {
+         for (int cellPos = 0; cellPos < universeSize/1; cellPos += 6) {
             setStatePos(universe, cellPos + 0, 2, metaCellPos, 10);   // l2dyn 10: 1, 0, 1
             setStatePos(universe, cellPos + 3, 2, metaCellPos, 2);   // l2dyn  2: 0, 1, 0
          }
       }
+
       setStatePos(universe, 6, 2, 0,  17);   // l2dyn 17: 1, 1, 1
       setStatePos(universe, 7, 2, 0,  17);   // l2dyn 17: 1, 1, 1
- */
-      setStatePos(universe, 2, 2, 0,  3);   // l2dyn 3: 1, 0, 0
+*/
+      //setStatePos(universe, 2, 2, 0,  3);   // l2dyn 3: 1, 0, 0
       setStatePos(universe, 12, 2, 0,  1);   // l2dyn 1: 0, 0, 1
 
       UniverseService.calcInitialMetaStates(universe);
@@ -74,7 +75,8 @@ public class Main2 {
          printCellsMinimal(universe, cnt);
          //runTest3(universe, cnt, false);
          //runTest4(universe, cnt, false);
-         runTest5(universe, cnt, false);
+         //runTest5(universe, cnt, false);
+         runTestNextMS(universe, cnt, false);
       }
    }
 
@@ -134,6 +136,23 @@ public class Main2 {
 
       if (doPrint) printCells(universe, cnt);
       runLevelDown(universe);
+
+      if (doPrint) printCells(universe, cnt);
+      runCalcNextState(universe);
+   }
+
+   /**
+    * Run Next Meta+State
+    */
+   private static void runTestNextMS(final Universe universe, final int cnt, final boolean doPrint) {
+      //if (doPrint) printCells(universe, cnt);
+      //runLevelUp(universe);
+
+      if (doPrint) printCells(universe, cnt);
+      runCalcNextMetaState(universe);
+
+      //if (doPrint) printCells(universe, cnt);
+      //runLevelDown(universe);
 
       if (doPrint) printCells(universe, cnt);
       runCalcNextState(universe);
