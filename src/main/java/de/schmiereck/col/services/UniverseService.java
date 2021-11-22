@@ -4,6 +4,7 @@ import static de.schmiereck.col.model.State.negState;
 import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
 import static de.schmiereck.col.services.EngineService.calcMetaStatePosByLevelCell;
+import static de.schmiereck.col.services.EngineService.calcMetaStateSize;
 import static de.schmiereck.col.services.EngineService.searchMetaStatePos;
 import static de.schmiereck.col.services.EngineService.searchStatePosWithNewStateOnPos;
 import static de.schmiereck.col.services.LevelService.calcEqualMetaStateValues;
@@ -130,13 +131,15 @@ public class UniverseService {
    }
 
    public static void calcMetaStatePosByStatePosForNeighbours(final Engine engine, final Level level, final int cellPos) {
-      for (int pos = 1; pos < engine.cellSize; pos++) {
+      final int metaStateSize = calcMetaStateSize(engine);
+      for (int pos = 1; pos < metaStateSize; pos++) {
          calcMetaStatePosByStatePos(engine, level, cellPos - pos);
          calcMetaStatePosByStatePos(engine, level, cellPos + pos);
       }
    }
 
    public static void calcNextStatePosByMetaStatePos(final Engine engine, final Level level, final int cellPos) {
+      final int metaStateSize = calcMetaStateSize(engine);
       final LevelCell sourceLevelCell = readLevelCell(level, cellPos);
       final Cell sourceCell = readCell(level, cellPos);
       final MetaState metaState = engine.metaStateArr[sourceCell.metaStatePos];
@@ -144,7 +147,8 @@ public class UniverseService {
       if (nextMetaStatePos == -1) throw new RuntimeException(String.format("For Meta-State %s no output state found.", convertToDebugString(metaState)));
       sourceCell.metaStatePos = nextMetaStatePos;
       final MetaState nextMetaState = engine.metaStateArr[nextMetaStatePos];
-      for (int metaPos = 0; metaPos < sourceLevelCell.metaCellArr.length; metaPos++) {
+      //for (int metaPos = 0; metaPos < sourceLevelCell.metaCellArr.length; metaPos++) {
+      for (int metaPos = 0; metaPos < metaStateSize; metaPos++) {
          sourceLevelCell.metaCellArr[metaPos].statePos = nextMetaState.inputMetaStatePosArr[metaPos];
       }
    }

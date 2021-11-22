@@ -30,7 +30,8 @@ public class EngineService {
    }
 
    public static int searchMetaStatePos(final Engine engine, final LevelCell searchedLevelCell) {
-      final int inputMetaStatePosArr[] = new int[searchedLevelCell.metaCellArr.length];
+      final int size = calcMetaStateSize(engine);
+      final int inputMetaStatePosArr[] = new int[size];
 
       for (int pos = 0; pos < searchedLevelCell.metaCellArr.length; pos++) {
          final Cell cell = searchedLevelCell.metaCellArr[pos];
@@ -38,6 +39,10 @@ public class EngineService {
          inputMetaStatePosArr[pos] = cell.statePos;
       }
       return searchMetaStatePos(engine.metaStateArr, inputMetaStatePosArr);
+   }
+
+   static int calcMetaStateSize(final Engine engine) {
+      return engine.cellSize == 1 ? 2 : engine.cellSize;
    }
 
    public static int searchStatePosWithNewStateOnPos(final Engine engine, final Cell metaCell, final int statePosOfSearchedNewState, final State searchedNewState) {

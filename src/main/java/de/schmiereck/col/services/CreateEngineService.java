@@ -12,25 +12,6 @@ import de.schmiereck.larray.LarrayInt;
 
 public class CreateEngineService {
 
-   public static Engine createLevel0staticEngine() {
-      final State nul_0State = new State(1);
-      nul_0State.inputStateArr[0] = nulState;
-
-      final State pos_0State = new State(1);
-      pos_0State.inputStateArr[0] = posState;
-
-      final State neg_0State = new State(1);
-      neg_0State.inputStateArr[0] = negState;
-
-      final Engine level1Engine = new Engine(1);
-
-      level1Engine.setState(0, nul_0State, 0);
-      level1Engine.setState(1, pos_0State, 1);
-      level1Engine.setState(2, neg_0State, 2);
-
-      return level1Engine;
-   }
-
    public static Engine createLevel1staticEngine() {
       final State nul_nul_1State = new State(2);
       nul_nul_1State.inputStateArr[0] = nulState;
@@ -132,27 +113,41 @@ public class CreateEngineService {
    }
 
    public static Engine createLevel1moveEngine() {
+      //----------------------------------------------------------------------------------------------------------------
       final Engine level1moveEngine = new Engine(2, 10);
 
+      //----------------------------------------------------------------------------------------------------------------
       // null:
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      final int NULL_u0_u0 = 0;
       // 0    0   0   =>   0
-      level1moveEngine.setState( 0, new State(2, nulState, nulState), 0);
+      level1moveEngine.setState( NULL_u0_u0, new State(2, nulState, nulState), NULL_u0_u0);
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // stay:
-      // 1    0   1   =>   2
-      level1moveEngine.setState( 1, new State(2, nulState, posState), 2);
-      // 2    1   0   =>   1
-      level1moveEngine.setState( 2, new State(2, posState, nulState), 1);
+      final int STAY_u0_p1 = 1;
+      final int STAY_p1_u0 = 2;
+      // 1    0   1   =>   2    1   0
+      level1moveEngine.setState( STAY_u0_p1, new State(2, nulState, posState), STAY_p1_u0);
+      // 2    1   0   =>   1    0   1
+      level1moveEngine.setState( STAY_p1_u0, new State(2, posState, nulState), STAY_u0_p1);
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // left:
-      // 3    0   1   =>   4
-      level1moveEngine.setState( 3, new State(2, nulState, posState), 4);
-      // 4    1   0   =>   4
-      level1moveEngine.setState( 4, new State(2, posState, nulState), 4);
+      final int LEFT_u0_p1 = 3;
+      final int LEFT_p1_u0 = 4;
+      // 3    0   1   =>   4    1   0
+      level1moveEngine.setState( LEFT_u0_p1, new State(2, nulState, posState), LEFT_p1_u0);
+      // 4    1   0   =>   4    1   0
+      level1moveEngine.setState( LEFT_p1_u0, new State(2, posState, nulState), LEFT_p1_u0);
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // right:
-      // 5    1   0   =>   6
-      level1moveEngine.setState( 5, new State(2, posState, nulState), 6);
-      // 6    0   1   =>   6
-      level1moveEngine.setState( 6, new State(2, nulState, posState), 6);
+      final int RIGHT_p1_u0 = 5;
+      final int RIGHT_u0_p1 = 6;
+      // 5    1   0   =>   6    0   1
+      level1moveEngine.setState( RIGHT_p1_u0, new State(2, posState, nulState), RIGHT_u0_p1);
+      // 6    0   1   =>   6    0   1
+      level1moveEngine.setState( RIGHT_u0_p1, new State(2, nulState, posState), RIGHT_u0_p1);
 
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // collision:
       // 7:collision (left -> <- right):
       // 7    1   1   =>   7
@@ -164,6 +159,7 @@ public class CreateEngineService {
       // 9    1   1   =>   9
       level1moveEngine.setState( 9, new State(2, posState, posState), 9);
 
+      //----------------------------------------------------------------------------------------------------------------
       initMetaStateArr(level1moveEngine);
       //initOutputMetaStatePos(level1dynamicEngine);
 
@@ -176,213 +172,213 @@ public class CreateEngineService {
       // 0,0  =>  0,0
       //    0    0   0       =>   0    0   0
       //    0        0   0   =>   0        0   0
-      level1moveEngine.metaStateArr[metaPos(e, 0, 0)].outputMetaStatePos = metaPos(e, 0, 0);
+      writeMetaState(e, NULL_u0_u0, NULL_u0_u0, NULL_u0_u0, NULL_u0_u0);
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // stay:
       // 0,1  =>  0,1
       //    1    0   1       =>   1    0   1
       //    0        0   0   =>   0        0   0
-      level1moveEngine.metaStateArr[metaPos(e, 0, 1)].outputMetaStatePos = metaPos(e, 0, 1);
+      writeMetaState(e, NULL_u0_u0, STAY_u0_p1, NULL_u0_u0, STAY_u0_p1);
       // 1,0  =>  1,0
       //    0    0   0       =>   0    0   0
       //    1        0   1   =>   1        0   1
-      level1moveEngine.metaStateArr[metaPos(e, 1, 0)].outputMetaStatePos = metaPos(e, 1, 0);
+      writeMetaState(e, STAY_u0_p1, NULL_u0_u0, STAY_u0_p1, NULL_u0_u0);
       // 0,2  =>  0,2
       //    2    1   0       =>   2    1   0       2:stay -> 2:stay
       //    0        0   0   =>   0        0   0
-      level1moveEngine.metaStateArr[metaPos(e, 0, 2)].outputMetaStatePos = metaPos(e, 0, 2);
+      writeMetaState(level1moveEngine, NULL_u0_u0, STAY_p1_u0, NULL_u0_u0, STAY_p1_u0);
       // 2,0  =>  2,0
       //    0    0   0       =>   0    0   0
       //    2        1   0   =>   2        1   0   2:stay -> 2:stay
-      level1moveEngine.metaStateArr[metaPos(e, 2, 0)].outputMetaStatePos = metaPos(e, 2, 0);
+      writeMetaState(level1moveEngine, STAY_p1_u0, NULL_u0_u0, STAY_p1_u0, NULL_u0_u0);
       // 1,1  =>  1,1
       //    1    0   1       =>   1    0   1
       //    1        0   1   =>   1        0   1
-      level1moveEngine.metaStateArr[metaPos(e, 1, 1)].outputMetaStatePos = metaPos(e, 1, 1);
+      writeMetaState(e, STAY_u0_p1, STAY_u0_p1, STAY_u0_p1, STAY_u0_p1);
       // 1,2  =>  1,2
       //    2    1   0       =>   2    1   0       2:stay -> 2:stay
       //    1        0   1   =>   1        0   1
-      level1moveEngine.metaStateArr[metaPos(e, 1, 2)].outputMetaStatePos = metaPos(e, 1, 2);
+      writeMetaState(level1moveEngine, STAY_u0_p1, STAY_p1_u0, STAY_u0_p1, STAY_p1_u0);
       // 2,1  =>  2,1
       //    1    0   1       =>   1    0   1
       //    2        1   0   =>   2        1   0   2:stay -> 2:stay
-      level1moveEngine.metaStateArr[metaPos(e, 2, 1)].outputMetaStatePos = metaPos(e, 2, 1);
-
+      writeMetaState(level1moveEngine, STAY_p1_u0, STAY_u0_p1, STAY_p1_u0, STAY_u0_p1);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // right:
       // 0,5  =>  0,5
       //    5    1   0       =>   5    1   0
       //    0        0   0   =>   0        0   0
-      level1moveEngine.metaStateArr[metaPos(e, 0, 5)].outputMetaStatePos = metaPos(e, 0, 5);
+      writeMetaState(level1moveEngine, 0, RIGHT_p1_u0, 0, RIGHT_p1_u0);
       // 5,0  =>  5,0
       //    0    0   0       =>   0    0   0
       //    5        1   0   =>   5        1   0
-      level1moveEngine.metaStateArr[metaPos(e, 5, 0)].outputMetaStatePos = metaPos(e, 5, 0);
+      writeMetaState(level1moveEngine, RIGHT_p1_u0, 0, RIGHT_p1_u0, 0);
       // 6,0  =>  6,0
       //    0    0   0       =>   0    0   0
       //    6        0   1   =>   6        0   1
-      level1moveEngine.metaStateArr[metaPos(e, 6, 0)].outputMetaStatePos = metaPos(e, 6, 0);
+      writeMetaState(level1moveEngine, 6, 0, 6, 0);
       // 6,6  =>  6,0
       //    6    0   1       =>   6    0   1       6:right  -> 6:right  (!!! Unschön: bleibt stehen bis Platz ist !!!)
       //    6        0   1   =>   6        0   1   6:right  -> 6:right  (!!! Alternativ: collision-left-left !!!)
-      level1moveEngine.metaStateArr[metaPos(e, 6, 6)].outputMetaStatePos = metaPos(e, 6, 6);
+      writeMetaState(level1moveEngine, 6, 6, 6, 6);
 
       // 0,6  =>  5,0
       //    6    0   1       =>   0    0   0
       //    0        0   0   =>   5        1   0
-      level1moveEngine.metaStateArr[metaPos(e, 0, 6)].outputMetaStatePos = metaPos(e, 5, 0);
+      writeMetaState(level1moveEngine, 0, 6, RIGHT_p1_u0, 0);
       // 5,5  =>  5,5
       //    5    1   0       =>   5    1   0
       //    5        1   0   =>   5        1   0
-      level1moveEngine.metaStateArr[metaPos(e, 5, 5)].outputMetaStatePos = metaPos(e, 5, 5);
+      writeMetaState(level1moveEngine, RIGHT_p1_u0, RIGHT_p1_u0, RIGHT_p1_u0, RIGHT_p1_u0);
       // 6,5  =>  6,5
       //    5    1   0       =>   5    1   0      5:right -> 5:right
       //    6        0   1   =>   6        0   1  6:right -> 6:right
-      level1moveEngine.metaStateArr[metaPos(e, 6, 5)].outputMetaStatePos = metaPos(e, 6, 5);
+      writeMetaState(level1moveEngine, 6, RIGHT_p1_u0, 6, RIGHT_p1_u0);
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // left:
       // 0,3  =>  0,3
       //    3    0   1       =>   3    0   1
       //    0        0   0   =>   0        0   0
-      level1moveEngine.metaStateArr[metaPos(e, 0, 3)].outputMetaStatePos = metaPos(e, 0, 3);
+      writeMetaState(level1moveEngine, 0, 3, 0, 3);
       // 3,0  =>  3,0
       //    0    0   0       =>   0    0   0
       //    3        0   1   =>   3        0   1
-      level1moveEngine.metaStateArr[metaPos(e, 3, 0)].outputMetaStatePos = metaPos(e, 3, 0);
+      writeMetaState(level1moveEngine, 3, 0, 3, 0);
       // 0,4  =>  0,4
       //    4    1   0       =>   4    1   0
       //    0        0   0   =>   0        0   0
-      level1moveEngine.metaStateArr[metaPos(e, 0, 4)].outputMetaStatePos = metaPos(e, 0, 4);
+      writeMetaState(level1moveEngine, 0, 4, 0, 4);
       // 4,0  =>  0,3
       //    0    0   0       =>   3    0   1
       //    4        1   0   =>   0        0   0
-      level1moveEngine.metaStateArr[metaPos(e, 4, 0)].outputMetaStatePos = metaPos(e, 0, 3);
+      writeMetaState(level1moveEngine, 4, 0, 0, 3);
 
       // 3,3  =>  3,3
       //    3    0   1       =>   3    0   1       3:left -> 3:left
       //    3        0   1   =>   3        0   1   3:left -> 3:left
-      level1moveEngine.metaStateArr[metaPos(e, 3, 3)].outputMetaStatePos = metaPos(e, 3, 3);
+      writeMetaState(level1moveEngine, 3, 3, 3, 3);
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // collision (left -> <- right):
       // 4,5  =>  0,7
       //    5    1   0       =>   7    1   1
       //    4        1   0   =>   0        0   0
-      level1moveEngine.metaStateArr[metaPos(e, 4, 5)].outputMetaStatePos = metaPos(e, 0, 7);
+      writeMetaState(level1moveEngine, 4, RIGHT_p1_u0, 0, 7);
       // 7,0  =>  6,3
       //    0    0   0       =>   3    0   1       0:null -> 3:left
       //    7        1   1   =>   6        0   1
-      level1moveEngine.metaStateArr[metaPos(e, 7, 0)].outputMetaStatePos = metaPos(e, 6, 3);
+      writeMetaState(level1moveEngine, 7, 0, 6, 3);
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // collision (right -> <- left):
       // 3,6  =>  7,0
       //    6    0   1       =>   0    0   0       6:right -> 0:null
       //    3        0   1   =>   7        1   1   3:left  -> 7:collision
-      level1moveEngine.metaStateArr[metaPos(e, 3, 6)].outputMetaStatePos = metaPos(e, 7, 0);
+      writeMetaState(level1moveEngine, 3, 6, 7, 0);
       // 6,4  =>  6,4
       //    4    1   0       =>   4    1   0       4:left -> 4:left
       //    6        0   1   =>   6        0   1   6:right -> 6:right
-      level1moveEngine.metaStateArr[metaPos(e, 6, 4)].outputMetaStatePos = metaPos(e, 6, 4);
+      writeMetaState(level1moveEngine, 6, 4, 6, 4);
 
       // 4,6  =>  5,3
       //    6    0   1       =>   3    0   1       6:right -> 3:left
       //    4        1   0   =>   5        1   0   4:left  -> 5:right
-      level1moveEngine.metaStateArr[metaPos(e, 4, 6)].outputMetaStatePos = metaPos(e, 5, 3);
+      writeMetaState(level1moveEngine, 4, 6, 5, 3);
       // 3,5  =>  3,5
       //    5    1   0       =>   5    1   0       5:right -> 5:right
       //    3        0   1   =>   3        0   1   3:left  -> 3:left
-      level1moveEngine.metaStateArr[metaPos(e, 3, 5)].outputMetaStatePos = metaPos(e, 3, 5);
+      writeMetaState(level1moveEngine, 3, RIGHT_p1_u0, 3, RIGHT_p1_u0);
       // 5,3  =>  3,5
       //    3    0   1       =>   5    1   0       3:left  -> 5:right
       //    5        1   0   =>   3        0   1   5:right -> 3:left
-      level1moveEngine.metaStateArr[metaPos(e, 5, 3)].outputMetaStatePos = metaPos(e, 3, 5);
+      writeMetaState(level1moveEngine, RIGHT_p1_u0, 3, 3, RIGHT_p1_u0);
 
       // 0,7  =>  5,4
       //    7    1   1       =>   4    1   0      7:collision -> 4:left
       //    0        0   0   =>   5        1   0  0:null -> 5:right
-      level1moveEngine.metaStateArr[metaPos(e, 0, 7)].outputMetaStatePos = metaPos(e, 5, 4);
+      writeMetaState(level1moveEngine, 0, 7, RIGHT_p1_u0, 4);
 
       // 7,2  =>  6,9
       //    2    1   0       =>   9    1   1      2:stay -> 9:collision-to-left
       //    7        1   1   =>   6        0   1  7:collision -> 6:right
-      level1moveEngine.metaStateArr[metaPos(e, 7, 2)].outputMetaStatePos = metaPos(e, 6, 9);
+      writeMetaState(level1moveEngine, 7, 2, 6, 9);
       // 7,5  =>  6,9
       //    5    1   0       =>   8    1   1      5:right -> 8:collision-to-right
       //    7        1   1   =>   6        0   1  7:collision -> 6:right
-      level1moveEngine.metaStateArr[metaPos(e, 7, 5)].outputMetaStatePos = metaPos(e, 6, 8);
+      writeMetaState(level1moveEngine, 7, RIGHT_p1_u0, 6, 8);
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // collision (right -> stay):
       // 1,5  =>  1,5
       //    5    1   0       =>   5    1   0       5:right -> 5:right
       //    1        0   1   =>   1        0   1   1:stay  -> 1:stay
-      level1moveEngine.metaStateArr[metaPos(e, 1, 5)].outputMetaStatePos = metaPos(e, 1, 5);
+      writeMetaState(level1moveEngine, 1, RIGHT_p1_u0, 1, RIGHT_p1_u0);
       // 1,6  =>  7,0
       //    6    0   1       =>   0    0   0       6:right -> 0:null
       //    1        0   1   =>   8        1   1   1:stay  -> 8:collision-to-right
-      level1moveEngine.metaStateArr[metaPos(e, 1, 6)].outputMetaStatePos = metaPos(e, 8, 0);
+      writeMetaState(level1moveEngine, 1, 6, 8, 0);
       // 2,6  =>  6,2
       //    6    0   1       =>   1    0   1       6:right -> 1:stay
       //    2        1   0   =>   5        1   0   2:stay  -> 5:right
-      level1moveEngine.metaStateArr[metaPos(e, 2, 6)].outputMetaStatePos = metaPos(e, 6, 2);
+      writeMetaState(level1moveEngine, 2, 6, 6, 2);
       // 6,2  =>  6,2
       //    2    1   0       =>   2    1   0       2:stay -> 2:stay
       //    6        0   1   =>   6        0   1   6:right -> 6:right
-      level1moveEngine.metaStateArr[metaPos(e, 6, 2)].outputMetaStatePos = metaPos(e, 6, 2);
+      writeMetaState(level1moveEngine, 6, 2, 6, 2);
       // 6,1  =>  6,1
       //    1    0   1       =>   1    0   1       1:stay -> 1:stay
       //    6        0   1   =>   6        0   1   6:right -> 6:right
-      level1moveEngine.metaStateArr[metaPos(e, 6, 1)].outputMetaStatePos = metaPos(e, 6, 1);
+      writeMetaState(level1moveEngine, 6, 1, 6, 1);
 
       // 2,5  =>  2,5
       //    5    1   0       =>   5    1   0       5:right -> 5:right
       //    2        1   0   =>   2        1   0   2:stay  -> 2:stay
-      level1moveEngine.metaStateArr[metaPos(e, 2, 5)].outputMetaStatePos = metaPos(e, 2, 5);
+      writeMetaState(level1moveEngine, 2, RIGHT_p1_u0, 2, 5);
       // 0,8  =>  5,2
       //    8    1   1       =>   2    1   0       8:collision-to-right -> 2:stay
       //    0        0   0   =>   5        1   0   2:stay  -> 5:right
-      level1moveEngine.metaStateArr[metaPos(e, 0, 8)].outputMetaStatePos = metaPos(e, 5, 2);
+      writeMetaState(level1moveEngine, 0, 8, RIGHT_p1_u0, 2);
       // 8,5  =>  8,5
       //    5    1   0       =>   5    1   0       5:right -> 5:right
       //    8        1   1   =>   8        1   1   8:collision-to-right  -> 8:collision-to-right
-      level1moveEngine.metaStateArr[metaPos(e, 8, 5)].outputMetaStatePos = metaPos(e, 8, 5);
+      writeMetaState(level1moveEngine, 8, 5, 8, RIGHT_p1_u0);
       // 8,6  =>  8,6
       //    6    0   1       =>   5    1   0       6:right -> 6:right
       //    8        1   1   =>   8        1   1   8:collision-to-right  -> 8:collision-to-right
-      level1moveEngine.metaStateArr[metaPos(e, 8, 6)].outputMetaStatePos = metaPos(e, 8, 6);
+      writeMetaState(level1moveEngine, 8, 6, 8, 6);
       // 6,8  =>  8,5
       //    8    1   1       =>   6    0   1       8:collision-to-right -> 6:right
       //    6        0   1   =>   8        1   1   6:right  -> 8:collision-to-right
-      level1moveEngine.metaStateArr[metaPos(e, 6, 8)].outputMetaStatePos = metaPos(e, 8, 6);
+      writeMetaState(level1moveEngine, 6, 8, 8, 6);
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // collision (left -> stay):
       // 4,1  =>  2,3
       //    1    0   1       =>   3    0   1       1:stay -> 3:left
       //    4        1   0   =>   2        1   0   4:left  -> 2:stay
-      level1moveEngine.metaStateArr[metaPos(e, 4, 1)].outputMetaStatePos = metaPos(e, 2, 3);
+      writeMetaState(level1moveEngine, 4, 1, 2, 3);
       // 4,2  =>  0,9
       //    2    1   0       =>   9    1   1       2:stay -> 9:collision-to-left
       //    4        1   0   =>   0        0   0   4:left -> 0:null
-      level1moveEngine.metaStateArr[metaPos(e, 4, 2)].outputMetaStatePos = metaPos(e, 0, 9);
+      writeMetaState(level1moveEngine, 4, 2, 0, 9);
       // 4,7  =>  4,7
       //    7    1   1       =>   7    1   1       7:collision -> 7:collision
       //    4        1   0   =>   4        1   0   4:left -> 4:left
-      level1moveEngine.metaStateArr[metaPos(e, 4, 7)].outputMetaStatePos = metaPos(e, 4, 7);
+      writeMetaState(level1moveEngine, 4, 7, 4, 7);
 
       // 0,9  =>  0,9
       //    9    1   1       =>   9    1   1       9:collision-to-left -> 9:collision-to-left
       //    0        0   0   =>   0        0   0   0:null -> 0:null
-      level1moveEngine.metaStateArr[metaPos(e, 0, 9)].outputMetaStatePos = metaPos(e, 0, 9);
+      writeMetaState(level1moveEngine, 0, 9, 0, 9);
       // 9,0  =>  1,3
       //    0    0   0       =>   3    0   1       0:null -> 3:left
       //    9        1   1   =>   1        0   1   9:collision-to-left -> 1:stay
-      level1moveEngine.metaStateArr[metaPos(e, 9, 0)].outputMetaStatePos = metaPos(e, 1, 3);
+      writeMetaState(level1moveEngine, 9, 0, 1, 3);
       // 4,8  =>  4,8
       //    8    1   1       =>   6    0   1       8:collision-to-right -> 8:collision-to-right
       //    4        1   0   =>   8        1   1   4:left  -> 4:left
-      level1moveEngine.metaStateArr[metaPos(e, 4, 8)].outputMetaStatePos = metaPos(e, 4, 8);
+      writeMetaState(level1moveEngine, 4, 8, 4, 8);
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // 7:collision (left -> <- right):
@@ -406,7 +402,7 @@ public class CreateEngineService {
       // 0,0  =>  5,3
       //    0    0   0       =>   3    0   1       0:null -> 3:left
       //    0        0   0   =>   5        1   0   0:null -> 5:right
-      level1moveEngine.metaStateArr[metaPos(e, 0, 0)].levelUpOutputMetaStatePosArr[0] = metaPos(e, 5, 3);
+      level1moveEngine.metaStateArr[metaPos(e, 0, 0)].levelUpOutputMetaStatePosArr[0] = metaPos(e, RIGHT_p1_u0, 3);
       // stay -> 1 (1:stay <- 1:stay -> 7:collision)
       // 1,0  =>  7,1
       //    0    0   0       =>   1    0   1       0:null -> 1:stay
@@ -425,6 +421,12 @@ public class CreateEngineService {
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       return level1moveEngine;
+   }
+
+   static void writeMetaState(final Engine engine,
+                              final int input0MetaStatePos, final int input1MetaStatePos,
+                              final int output0MetaStatePos, final int output1MetaStatePos) {
+      engine.metaStateArr[metaPos(engine, input0MetaStatePos, input1MetaStatePos)].outputMetaStatePos = metaPos(engine, output0MetaStatePos, output1MetaStatePos);
    }
 
    public static int metaPos(final Engine engine, final int ... inputMetaStatePosArr) {
@@ -672,12 +674,13 @@ public class CreateEngineService {
    }
 
    public static void initMetaStateArr(final Engine engine) {
-      engine.metaStateArr = new MetaState[(int)Math.pow(engine.inputStateArr.length, engine.cellSize)];
-      engine.inputMetaStatePosToMetaStateArr = new MetaState[(int)Math.pow(engine.inputStateArr.length, engine.cellSize)];
+      final int size = engine.cellSize == 1 ? 2 : engine.cellSize;
+      engine.metaStateArr = new MetaState[(int)Math.pow(engine.inputStateArr.length, size)];
+      engine.inputMetaStatePosToMetaStateArr = new MetaState[(int)Math.pow(engine.inputStateArr.length, size)];
 
       int inputMetaStatePos = 0;
-      final int[] inputMetaStatePosArr = new int[engine.cellSize];
-      initMetaStatePos(engine, inputMetaStatePos, inputMetaStatePosArr, engine.cellSize - 1);
+      final int[] inputMetaStatePosArr = new int[size];
+      initMetaStatePos(engine, inputMetaStatePos, inputMetaStatePosArr, size - 1);
    }
 
    private static void initMetaStatePos(final Engine engine, final int inputMetaStatePos, final int[] inputMetaStatePosArr, final int metaPos) {

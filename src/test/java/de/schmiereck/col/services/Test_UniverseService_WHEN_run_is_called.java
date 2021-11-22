@@ -29,7 +29,7 @@ class Test_UniverseService_WHEN_run_is_called {
       // Arrange
       final int universeSize = 12;
 
-      final Engine level0Engine = CreateEngineService.createLevel0staticEngine();
+      final Engine level0Engine = CreateLevel0EngineService.createLevel0staticEngine();
       final Engine level1Engine = CreateEngineService.createLevel1staticEngine();
 
       final Engine[] engine2Arr = new Engine[2];
@@ -58,7 +58,7 @@ class Test_UniverseService_WHEN_run_is_called {
       // Arrange
       final int universeSize = 12;
 
-      final Engine level0Engine = CreateEngineService.createLevel0staticEngine();
+      final Engine level0Engine = CreateLevel0EngineService.createLevel0staticEngine();
       final Engine level1Engine = CreateEngineService.createLevel1staticEngine();
 
       final Engine[] engine2Arr = new Engine[2];
@@ -91,7 +91,7 @@ class Test_UniverseService_WHEN_run_is_called {
       final int universeSize = 12;
 
       // Engine Level 0:
-      final Engine level0Engine = CreateEngineService.createLevel0staticEngine();
+      final Engine level0Engine = CreateLevel0EngineService.createLevel0staticEngine();
 
       // Engine Level 1 (dynamic):
       final Engine level1dynamicEngine = CreateEngineService.createLevel1dynamicEngine();
@@ -125,7 +125,7 @@ class Test_UniverseService_WHEN_run_is_called {
       final int universeSize = 12;
 
       // Engine Level 0:
-      final Engine level0Engine = CreateEngineService.createLevel0staticEngine();
+      final Engine level0Engine = CreateLevel0EngineService.createLevel0staticEngine();
 
       // Engine Level 1 (dynamic):
       final Engine level1dynamicEngine = CreateEngineService.createLevel1dynamicEngine();

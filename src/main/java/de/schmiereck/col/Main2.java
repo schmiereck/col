@@ -12,6 +12,7 @@ import static de.schmiereck.col.services.UniverseUtils.setStatePos;
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.Universe;
 import de.schmiereck.col.services.CreateEngineService;
+import de.schmiereck.col.services.CreateLevel0EngineService;
 import de.schmiereck.col.services.UniverseService;
 
 public class Main2 {
@@ -21,7 +22,7 @@ public class Main2 {
    public static void main(String[] args) {
       //----------------------------------------------------------------------------------------------------------------
       // Engine Level 0:
-      final Engine level0Engine = CreateEngineService.createLevel0staticEngine();
+      final Engine level0Engine = CreateLevel0EngineService.createLevel0staticEngine();
 
       // Engine Level 1 (static):
       //final Engine level1staticEngine = CreateEngineService.createLevel1staticEngine();
