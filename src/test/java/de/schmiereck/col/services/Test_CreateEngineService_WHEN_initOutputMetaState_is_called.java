@@ -3,8 +3,7 @@ package de.schmiereck.col.services;
 import static de.schmiereck.col.model.State.negState;
 import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
-import static de.schmiereck.col.services.CreateEngineService.createLevel2dynamicEngineStates;
-import static de.schmiereck.col.services.CreateEngineService.initInputMetaState;
+import static de.schmiereck.col.services.engine.CreateEngineService.initInputMetaState;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -13,6 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.MetaState;
 import de.schmiereck.col.model.State;
+import de.schmiereck.col.services.engine.CreateEngineService;
+import de.schmiereck.col.services.engine.dyna.CreateLevel2DynamicEngineService;
 import de.schmiereck.larray.LarrayInt;
 
 import org.junit.jupiter.api.Test;
@@ -203,7 +204,7 @@ public class Test_CreateEngineService_WHEN_initOutputMetaState_is_called {
    @Test
    void GIVEN_level2dynamicEngine_THEN_metaStateArr_and_inputMetaStatePosToMetaStateArr_initialized() {
       // Arrange
-      final Engine level2dynamicEngine = CreateEngineService.createLevel2dynamicEngineStates();
+      final Engine level2dynamicEngine = CreateLevel2DynamicEngineService.createLevel2dynamicEngineStates();
       final State[] engineInputStateArr = level2dynamicEngine.inputStateArr;
       final LarrayInt engineOutputStatePosArr = level2dynamicEngine.outputStatePosArr;
       final MetaState[] engineMetaStateArr = level2dynamicEngine.metaStateArr;

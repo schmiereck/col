@@ -9,6 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.Universe;
+import de.schmiereck.col.services.engine.dyna.CreateLevel2DynamicEngineService;
+import de.schmiereck.col.services.engine.stat.CreateLevel0StaticEngineService;
+import de.schmiereck.col.services.engine.stat.CreateLevel1StaticEngineService;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,9 +22,9 @@ public class Test_UniverseService_WHEN_runCalcNextState_is_called {
       // Arrange
       final int universeSize = 12;
 
-      final Engine level0Engine = CreateLevel0EngineService.createLevel0staticEngine();
-      final Engine level1Engine = CreateEngineService.createLevel1staticEngine();
-      final Engine level2dynamicEngine = CreateEngineService.createLevel2dynamicEngine();
+      final Engine level0Engine = CreateLevel0StaticEngineService.createLevel0staticEngine();
+      final Engine level1Engine = CreateLevel1StaticEngineService.createLevel1staticEngine();
+      final Engine level2dynamicEngine = CreateLevel2DynamicEngineService.createLevel2dynamicEngine();
 
       final Engine[] engine3Arr = new Engine[3];
       engine3Arr[0] = level0Engine;

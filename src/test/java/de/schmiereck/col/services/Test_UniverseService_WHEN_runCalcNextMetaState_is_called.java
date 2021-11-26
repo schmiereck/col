@@ -15,6 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.State;
 import de.schmiereck.col.model.Universe;
+import de.schmiereck.col.services.engine.CreateEngineService;
+import de.schmiereck.col.services.engine.dyna.CreateLevel1DynamicEngineService;
+import de.schmiereck.col.services.engine.dyna.CreateLevel2DynamicEngineService;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +28,7 @@ public class Test_UniverseService_WHEN_runCalcNextMetaState_is_called {
       // Arrange
       final int universeSize = 12;
 
-      final Engine level1dynamicEngine = CreateEngineService.createLevel1dynamicEngine();
+      final Engine level1dynamicEngine = CreateLevel1DynamicEngineService.createLevel1dynamicEngine();
 
       final Engine[] engine1Arr = new Engine[1];
       engine1Arr[0] = level1dynamicEngine;
@@ -79,7 +82,7 @@ public class Test_UniverseService_WHEN_runCalcNextMetaState_is_called {
       // Arrange
       final int universeSize = 12;
 
-      final Engine level1dynamicEngine = CreateEngineService.createLevel1dynamicEngine();
+      final Engine level1dynamicEngine = CreateLevel1DynamicEngineService.createLevel1dynamicEngine();
 
       final Engine[] engine1Arr = new Engine[1];
       engine1Arr[0] = level1dynamicEngine;
@@ -129,7 +132,7 @@ public class Test_UniverseService_WHEN_runCalcNextMetaState_is_called {
       final int universeSize = 12;
 
       // Engine Level 2 (dynamic):
-      final Engine level2dynamicEngine = CreateEngineService.createLevel2dynamicEngine();
+      final Engine level2dynamicEngine = CreateLevel2DynamicEngineService.createLevel2dynamicEngine();
 
       final Engine[] engine3Arr = new Engine[1];
       engine3Arr[0] = level2dynamicEngine;

@@ -1,14 +1,9 @@
-package de.schmiereck.col.services;
+package de.schmiereck.col.services.engine.dynaMove;
 
 import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
-import static de.schmiereck.col.services.UniverseService.runCalcNextMetaState;
-import static de.schmiereck.col.services.UniverseService.runCalcNextState;
-import static de.schmiereck.col.services.UniverseService.runLevelDown;
-import static de.schmiereck.col.services.UniverseService.runLevelUp;
-import static de.schmiereck.col.services.UniverseService.runNextUSDM;
+import static de.schmiereck.col.services.RunTestUtils.runTestNextUpStateDownMeta;
 import static de.schmiereck.col.services.UniverseUtils.printCells;
-import static de.schmiereck.col.services.UniverseUtils.printCellsMinimal;
 import static de.schmiereck.col.services.UniverseUtils.readCell;
 import static de.schmiereck.col.services.UniverseUtils.readCellState;
 import static de.schmiereck.col.services.UniverseUtils.setStatePos;
@@ -16,18 +11,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.Universe;
+import de.schmiereck.col.services.UniverseService;
+import de.schmiereck.col.services.engine.dynaMove.CreateLevel1DynamicMoveEngineService;
+import de.schmiereck.col.services.engine.stat.CreateLevel0StaticEngineService;
 
 import org.junit.jupiter.api.Test;
 
-public class Test_UniverseService_WHEN_run_lev1move_is_called {
+public class Test_UniverseService_WHEN_run_is_called_with_lev1DynaMove {
 
    @Test
    void GIVEN_lev1move_state_5_run_THEN_state_is_calculated_to_right() {
       // Arrange
       final int universeSize = 12;
 
-      final Engine level0Engine = CreateLevel0EngineService.createLevel0staticEngine();
-      final Engine level1Engine = CreateEngineService.createLevel1moveEngine();
+      final Engine level0Engine = CreateLevel0StaticEngineService.createLevel0staticEngine();
+      final Engine level1Engine = CreateLevel1DynamicMoveEngineService.createLevel1DynamicMoveEngine();
 
       final Engine[] engine2Arr = new Engine[2];
       engine2Arr[0] = level0Engine;
@@ -63,8 +61,8 @@ public class Test_UniverseService_WHEN_run_lev1move_is_called {
       // Arrange
       final int universeSize = 12;
 
-      final Engine level0Engine = CreateLevel0EngineService.createLevel0staticEngine();
-      final Engine level1Engine = CreateEngineService.createLevel1moveEngine();
+      final Engine level0Engine = CreateLevel0StaticEngineService.createLevel0staticEngine();
+      final Engine level1Engine = CreateLevel1DynamicMoveEngineService.createLevel1DynamicMoveEngine();
 
       final Engine[] engine2Arr = new Engine[2];
       engine2Arr[0] = level0Engine;
@@ -98,8 +96,8 @@ public class Test_UniverseService_WHEN_run_lev1move_is_called {
       // Arrange
       final int universeSize = 12;
 
-      final Engine level0Engine = CreateLevel0EngineService.createLevel0staticEngine();
-      final Engine level1Engine = CreateEngineService.createLevel1moveEngine();
+      final Engine level0Engine = CreateLevel0StaticEngineService.createLevel0staticEngine();
+      final Engine level1Engine = CreateLevel1DynamicMoveEngineService.createLevel1DynamicMoveEngine();
 
       final Engine[] engine2Arr = new Engine[2];
       engine2Arr[0] = level0Engine;
@@ -134,8 +132,8 @@ public class Test_UniverseService_WHEN_run_lev1move_is_called {
       // Arrange
       final int universeSize = 12;
 
-      final Engine level0Engine = CreateLevel0EngineService.createLevel0staticEngine();
-      final Engine level1Engine = CreateEngineService.createLevel1moveEngine();
+      final Engine level0Engine = CreateLevel0StaticEngineService.createLevel0staticEngine();
+      final Engine level1Engine = CreateLevel1DynamicMoveEngineService.createLevel1DynamicMoveEngine();
 
       final Engine[] engine2Arr = new Engine[2];
       engine2Arr[0] = level0Engine;
@@ -168,16 +166,5 @@ public class Test_UniverseService_WHEN_run_lev1move_is_called {
       assertEquals(nulState, readCellState(universe, 9, 1, 0));
       assertEquals(posState, readCellState(universe, 9, 1, 1));
       assertEquals(3, readCell(universe, 9, 1).statePos);
-   }
-
-   public static void runTestNextUpStateDownMeta(final Universe universe, final int cnt) {
-      runLevelUp(universe);
-      printCells(universe, cnt, "runLevelUp");
-      runCalcNextState(universe);
-      printCells(universe, cnt, "runCalcNextState");
-      runLevelDown(universe);
-      printCells(universe, cnt, "runLevelDown");
-      runCalcNextMetaState(universe);
-      printCells(universe, cnt, "runCalcNextMetaState");
    }
 }

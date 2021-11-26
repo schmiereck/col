@@ -1,9 +1,10 @@
-package de.schmiereck.col.services;
+package de.schmiereck.col.services.engine.dyna;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.State;
+import de.schmiereck.col.services.engine.dyna.CreateLevel1DynamicEngineService;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,7 @@ class Test_CreateEngineService_WHEN_createLevel1dynamicEngine_is_called {
       // Arrange
 
       // Act
-      final Engine engine = CreateEngineService.createLevel1dynamicEngine();
+      final Engine engine = CreateLevel1DynamicEngineService.createLevel1dynamicEngine();
 
       // Assert
       //0+x:
