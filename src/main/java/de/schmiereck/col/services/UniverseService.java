@@ -57,6 +57,15 @@ public class UniverseService {
       runCalcNextMetaState(universe);
    }
 
+   /**
+    * Run Next Up+State+Meta
+    */
+   public static void runNextUSM(final Universe universe) {
+      runLevelUp(universe);
+      runCalcNextState(universe);
+      runCalcNextMetaState(universe);
+   }
+
    public static void run3(final Universe universe) {
       //runLevelDown(universe);
       //runCalcNextMetaState(universe);
@@ -144,7 +153,7 @@ public class UniverseService {
       final Cell sourceCell = readCell(level, cellPos);
       final MetaState metaState = engine.metaStateArr[sourceCell.metaStatePos];
       final int nextMetaStatePos = metaState.outputMetaStatePos;
-      if (nextMetaStatePos == -1) throw new RuntimeException(String.format("For Meta-State %s no output state found.", convertToDebugString(metaState)));
+      if (nextMetaStatePos == -1) throw new RuntimeException(String.format("Level-Cell-Size %d: For Meta-State %s no output state found.", engine.cellSize, convertToDebugString(metaState)));
       sourceCell.metaStatePos = nextMetaStatePos;
       final MetaState nextMetaState = engine.metaStateArr[nextMetaStatePos];
       //for (int metaPos = 0; metaPos < sourceLevelCell.metaCellArr.length; metaPos++) {
