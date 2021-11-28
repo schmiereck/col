@@ -2,6 +2,9 @@ package de.schmiereck.col.services.engine.dynaMove;
 
 import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
+import static de.schmiereck.col.services.RunTestUtils.runTestNextUpStateDownMeta;
+import static de.schmiereck.col.services.UniverseService.runNextUSDM;
+import static de.schmiereck.col.services.UniverseUtils.printCellsMinimal;
 import static de.schmiereck.col.services.engine.dynaMove.CreateLevel0DynamicMoveEngineService.NULL_u0;
 import static de.schmiereck.col.services.engine.dynaMove.CreateLevel0DynamicMoveEngineService.STAY_p1;
 import static de.schmiereck.col.services.RunTestUtils.runTestNextUpStateMeta;
@@ -19,10 +22,10 @@ import de.schmiereck.col.services.engine.dynaMove.CreateLevel1DynamicMoveEngineS
 
 import org.junit.jupiter.api.Test;
 
-public class Test_UniverseService_WHEN_runTestNextUpStateMeta_is_called_with_lev0DynaMove {
+public class Test_UniverseService_WHEN_runTestNextUpStateDownMeta_is_called_with_lev0DynaMove {
 
    @Test
-   void GIVEN_lev0move_state_STAY_p1_next_STAY_n1_run_THEN_state_is_calculated() {
+   void GIVEN_lev0move_state_STAY_p1_run_THEN_state_is_calculated() {
       // Arrange
       final int universeSize = 6;
 
@@ -45,9 +48,9 @@ public class Test_UniverseService_WHEN_runTestNextUpStateMeta_is_called_with_lev
 
       // Act
       printCells(universe, 0, "initial");
-      for (int cnt = 0; cnt < 3; cnt++) {
-         runTestNextUpStateMeta(universe, cnt);
-         //runNextUSDM(universe); printCellsMinimal(universe, cnt);
+      for (int cnt = 0; cnt < 4; cnt++) {
+         runTestNextUpStateDownMeta(universe, cnt);
+         // runNextUSDM(universe); printCellsMinimal(universe, cnt);
       }
 
       // Assert

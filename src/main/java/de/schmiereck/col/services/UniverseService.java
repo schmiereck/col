@@ -205,7 +205,7 @@ public class UniverseService {
          final Level targetLevel = readLevel(universe, targetLevelPos);
 
          for (int cellPos = 0; cellPos < universe.universeSize; cellPos++) {
-            if (use_levelUpOutputMetaStatePos) {
+            if (use_levelUpOutputMetaStatePos && Objects.nonNull(sourceEngine.metaStateArr) && Objects.nonNull(targetEngine.metaStateArr)) {
                //schauen, ob in der source cell eine levelUpOutputMetaStatePos für den target meta -state(momentan nur 0)
                //eingetragen ist,
                //wenn ja, diesen im target setzen
