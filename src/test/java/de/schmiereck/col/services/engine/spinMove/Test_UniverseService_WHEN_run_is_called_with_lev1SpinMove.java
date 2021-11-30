@@ -325,8 +325,8 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
       // Act
       printCells(universe, 0, "initial");
       for (int cnt = 0; cnt < 12*2*2*2; cnt++) {
-         runTestNextUpStateMeta(universe, cnt);
-         //UniverseService.runNextUSM(universe); printCellsMinimal(universe, cnt);
+         //runTestNextUpStateMeta(universe, cnt);
+         UniverseService.runNextUSM(universe); printCellsMinimal(universe, cnt);
       }
 
       // Assert
