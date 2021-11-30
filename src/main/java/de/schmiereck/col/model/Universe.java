@@ -1,5 +1,6 @@
 package de.schmiereck.col.model;
 
+import static de.schmiereck.col.services.EngineService.calcMetaStateSize;
 import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
 
 /**
@@ -33,7 +34,7 @@ public class Universe {
          final Level level = new Level(engine, levelSize);
          this.levelArr[levelPos] = level;
 
-         final int size = engine.cellSize == 1 ? 2 : engine.cellSize;
+         final int size = calcMetaStateSize(engine);
 
          for (int levelCellPos = 0; levelCellPos < levelSize; levelCellPos++) {
             final LevelCell levelCell = new LevelCell(size);

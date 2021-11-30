@@ -131,7 +131,7 @@ public class UniverseService {
 
          if (Objects.nonNull(engine.metaStateArr)) {
             //for (int cellPos = universe.universeSize - 1; cellPos >= 0; cellPos--) {
-            for (int cellPos = 0; cellPos < universe.universeSize; cellPos++) {
+            for (int cellPos = 0; cellPos <= universe.universeSize; cellPos++) {
                calcNextStatePosByMetaStatePos(engine, level, cellPos);
                calcMetaStatePosByStatePosForNeighbours(engine, level, cellPos);
             }

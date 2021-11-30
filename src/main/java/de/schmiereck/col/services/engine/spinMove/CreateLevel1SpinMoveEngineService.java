@@ -19,19 +19,26 @@ public class CreateLevel1SpinMoveEngineService {
    final static int STAYa_p1_u0 = 3;
    final static int STAYb_p1_u0 = 4;
    // left:
-   final static int LEFT_u0_p1 = 5;
-   final static int LEFT_p1_u0 = 6;
+   final static int LEFTa_u0_p1 = 5;
+   final static int LEFTb_u0_p1 = 6;
+   final static int LEFTa_p1_u0 = 7;
+   final static int LEFTb_p1_u0 = 8;
    // right:
-   final static int RIGHT_p1_u0 = 7;
-   final static int RIGHT_u0_p1 = 8;
+   final static int RIGHTa_p1_u0 = 9;
+   final static int RIGHTb_p1_u0 = 10;
+   final static int RIGHTa_u0_p1 = 11;
+   final static int RIGHTb_u0_p1 = 12;
    // collision:
-   final static int COLL_LR_p1_p1 = 9;
-   final static int COLL_RS_p1_p1 = 10;
-   final static int COLL_LS_p1_p1 = 11;
+   //final static int COLLa_RR_p1_p1 = 13;
+   // Wirldcards:
+   final static int[] ALL_xX_xX =  { NULL_u0_u0,
+           STAYa_u0_p1, STAYb_u0_p1, STAYa_p1_u0, STAYb_p1_u0,
+           LEFTa_u0_p1, LEFTb_u0_p1, LEFTa_p1_u0, LEFTb_p1_u0,
+           RIGHTa_p1_u0, RIGHTb_p1_u0, RIGHTa_u0_p1, RIGHTb_u0_p1 };
 
    public static Engine createLevel1SpinMoveEngine() {
       //----------------------------------------------------------------------------------------------------------------
-      final Engine level1moveEngine = new Engine(2, 12);
+      final Engine level1moveEngine = new Engine(2, 13, true);
 
       //----------------------------------------------------------------------------------------------------------------
       // null:
@@ -48,28 +55,23 @@ public class CreateLevel1SpinMoveEngineService {
       level1moveEngine.setState(STAYb_p1_u0, new State(2, posState, nulState), STAYa_p1_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // left:
-      // 3    0   1   =>   4    1   0
-      level1moveEngine.setState(LEFT_u0_p1, new State(2, nulState, posState), LEFT_p1_u0);
-      // 4    1   0   =>   4    1   0
-      level1moveEngine.setState(LEFT_p1_u0, new State(2, posState, nulState), LEFT_p1_u0);
+      // 5    0   1   =>   4    0   1
+      level1moveEngine.setState(LEFTa_u0_p1, new State(2, nulState, posState), LEFTa_u0_p1); // Move.
+      level1moveEngine.setState(LEFTb_u0_p1, new State(2, nulState, posState), LEFTa_u0_p1);
+      // 6    1   0   =>   4    1   0
+      level1moveEngine.setState(LEFTa_p1_u0, new State(2, posState, nulState), LEFTa_p1_u0); // Move.
+      level1moveEngine.setState(LEFTb_p1_u0, new State(2, posState, nulState), LEFTa_p1_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // right:
-      // 5    1   0   =>   6    0   1
-      level1moveEngine.setState(RIGHT_p1_u0, new State(2, posState, nulState), RIGHT_u0_p1);
-      // 6    0   1   =>   6    0   1
-      level1moveEngine.setState(RIGHT_u0_p1, new State(2, nulState, posState), RIGHT_u0_p1);
-
+      // 7    1   0   =>   7    0   1
+      level1moveEngine.setState(RIGHTa_p1_u0, new State(2, posState, nulState), RIGHTa_p1_u0); // Move.
+      level1moveEngine.setState(RIGHTb_p1_u0, new State(2, posState, nulState), RIGHTa_p1_u0);
+      // 8    0   1   =>   8    0   1
+      level1moveEngine.setState(RIGHTa_u0_p1, new State(2, nulState, posState), RIGHTa_u0_p1); // Move.
+      level1moveEngine.setState(RIGHTb_u0_p1, new State(2, nulState, posState), RIGHTa_u0_p1);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // collision:
-      // 7:collision (left -> <- right):
-      // 7    1   1   =>   7
-      level1moveEngine.setState(COLL_LR_p1_p1, new State(2, posState, posState), COLL_LR_p1_p1);
-      // 8:collision-to-right (right -> stay):
-      // 8    1   1   =>   8
-      level1moveEngine.setState(COLL_RS_p1_p1, new State(2, posState, posState), COLL_RS_p1_p1);
-      // 9:collision-to-left (left -> stay):
-      // 9    1   1   =>   9
-      level1moveEngine.setState(COLL_LS_p1_p1, new State(2, posState, posState), COLL_LS_p1_p1);
+      //level1moveEngine.setState(COLLa_RR_p1_p1, new State(2, posState, posState), COLLa_RR_p1_p1);
 
       //----------------------------------------------------------------------------------------------------------------
       initMetaStateArr(level1moveEngine);
@@ -81,199 +83,327 @@ public class CreateLevel1SpinMoveEngineService {
       // outputMetaState:
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // null:
-      // 0,0  =>  0,0
-      //    0    0   0       =>   0    0   0
-      //    0        0   0   =>   0        0   0
-      writeMetaState(e, NULL_u0_u0, NULL_u0_u0, NULL_u0_u0, NULL_u0_u0);
+      //    0    0   0           =>   0    0   0
+      //    0        0   0       =>   0        0   0
+      //    0            0   0   =>   0            0   0
+      writeMetaState(e, NULL_u0_u0, NULL_u0_u0, NULL_u0_u0, NULL_u0_u0, NULL_u0_u0, NULL_u0_u0);
+      writeMetaState(e, NULL_u0_u0, NULL_u0_u0, ALL_xX_xX, NULL_u0_u0, NULL_u0_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // stay:
-      // 0,1  =>  0,1
-      //    1    0   1       =>   1    0   1
-      //    0        0   0   =>   0        0   0
-      writeMetaState(e, NULL_u0_u0, STAYa_u0_p1, NULL_u0_u0, STAYa_u0_p1);
-      writeMetaState(e, NULL_u0_u0, STAYb_u0_p1, NULL_u0_u0, STAYb_u0_p1);
-      // 1,0  =>  1,0
-      //    0    0   0       =>   0    0   0
-      //    1        0   1   =>   1        0   1
-      writeMetaState(e, STAYa_u0_p1, NULL_u0_u0, STAYa_u0_p1, NULL_u0_u0);
-      writeMetaState(e, STAYb_u0_p1, NULL_u0_u0, STAYb_u0_p1, NULL_u0_u0);
-      // 0,2  =>  0,2
-      //    2    1   0       =>   2    1   0       2:stay -> 2:stay
-      //    0        0   0   =>   0        0   0
-      writeMetaState(e, NULL_u0_u0, STAYa_p1_u0, NULL_u0_u0, STAYa_p1_u0);
-      writeMetaState(e, NULL_u0_u0, STAYb_p1_u0, NULL_u0_u0, STAYb_p1_u0);
-      // 2,0  =>  2,0
-      //    0    0   0       =>   0    0   0
-      //    2        1   0   =>   2        1   0   2:stay -> 2:stay
-      writeMetaState(e, STAYa_p1_u0, NULL_u0_u0, STAYa_p1_u0, NULL_u0_u0);
-      writeMetaState(e, STAYb_p1_u0, NULL_u0_u0, STAYb_p1_u0, NULL_u0_u0);
-      // 1,1  =>  1,1
-      //    1    0   1       =>   1    0   1
-      //    1        0   1   =>   1        0   1
-      writeMetaState(e, STAYa_u0_p1, STAYa_u0_p1, STAYa_u0_p1, STAYa_u0_p1);
-      writeMetaState(e, STAYb_u0_p1, STAYb_u0_p1, STAYb_u0_p1, STAYb_u0_p1);
-      // 1,2  =>  1,2
-      //    2    1   0       =>   2    1   0       2:stay -> 2:stay
-      //    1        0   1   =>   1        0   1
-      writeMetaState(e, STAYa_u0_p1, STAYa_p1_u0, STAYa_u0_p1, STAYa_p1_u0);
-      writeMetaState(e, STAYb_u0_p1, STAYa_p1_u0, STAYb_u0_p1, STAYa_p1_u0);
-      writeMetaState(e, STAYa_u0_p1, STAYb_p1_u0, STAYa_u0_p1, STAYb_p1_u0);
-      writeMetaState(e, STAYb_u0_p1, STAYb_p1_u0, STAYb_u0_p1, STAYb_p1_u0);
-      // 2,1  =>  2,1
-      //    1    0   1       =>   1    0   1
-      //    2        1   0   =>   2        1   0   2:stay -> 2:stay
-      writeMetaState(e, STAYa_p1_u0, STAYa_u0_p1, STAYa_p1_u0, STAYa_u0_p1);
-      writeMetaState(e, STAYb_p1_u0, STAYa_u0_p1, STAYb_p1_u0, STAYa_u0_p1);
-      writeMetaState(e, STAYa_p1_u0, STAYb_u0_p1, STAYa_p1_u0, STAYb_u0_p1);
-      writeMetaState(e, STAYb_p1_u0, STAYb_u0_p1, STAYb_p1_u0, STAYb_u0_p1);
-      //    1    0   1       =>   1    0   1
-      //    2        0   1   =>   2        0   1
-      writeMetaState(e, STAYb_u0_p1, STAYa_u0_p1, STAYb_u0_p1, STAYa_u0_p1);
-      writeMetaState(e, STAYa_u0_p1, STAYb_u0_p1, STAYa_u0_p1, STAYb_u0_p1);
-      //    3    1   0       =>   3    1   0
-      //    4        1   0   =>   4        1   0
-      writeMetaState(e, STAYb_p1_u0, STAYa_p1_u0, STAYb_p1_u0, STAYa_p1_u0);
-      //    4    1   0       =>   4    1   0
-      //    3        1   0   =>   3        1   0
-      writeMetaState(e, STAYa_p1_u0, STAYb_p1_u0, STAYa_p1_u0, STAYb_p1_u0);
-      //    3    1   0       =>   3    1   0
-      //    3        1   0   =>   3        1   0
-      writeMetaState(e, STAYa_p1_u0, STAYa_p1_u0, STAYa_p1_u0, STAYa_p1_u0);
-      //    4    1   0       =>   4    1   0
-      //    4        1   0   =>   4        1   0
-      writeMetaState(e, STAYb_p1_u0, STAYb_p1_u0, STAYb_p1_u0, STAYb_p1_u0);
-      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      // right:
-      //    5    1   0       =>   5    1   0
-      //    0        0   0   =>   0        0   0
-      writeMetaState(e, NULL_u0_u0, RIGHT_p1_u0, NULL_u0_u0, RIGHT_p1_u0);
-      //    0    0   0       =>   0    0   0
-      //    5        1   0   =>   5        1   0
-      writeMetaState(e, RIGHT_p1_u0, NULL_u0_u0, RIGHT_p1_u0, NULL_u0_u0);
-      //    0    0   0       =>   0    0   0
-      //    8        0   1   =>   8        0   1
-      writeMetaState(e, RIGHT_u0_p1, NULL_u0_u0, RIGHT_u0_p1, NULL_u0_u0);
-      //    8    0   1       =>   8    0   1       6:right  -> 6:right  (!!! Unschön: bleibt stehen bis Platz ist !!!)
-      //    8        0   1   =>   8        0   1   6:right  -> 6:right  (!!! Alternativ: collision-left-left !!!)
-      writeMetaState(e, RIGHT_u0_p1, RIGHT_u0_p1, RIGHT_u0_p1, RIGHT_u0_p1);
-      //    6    0   1       =>   0    0   0
-      //    0        0   0   =>   5        1   0
-      writeMetaState(e, NULL_u0_u0, RIGHT_u0_p1, RIGHT_p1_u0, NULL_u0_u0);
-      //    5    1   0       =>   5    1   0
-      //    5        1   0   =>   5        1   0
-      writeMetaState(e, RIGHT_p1_u0, RIGHT_p1_u0, RIGHT_p1_u0, RIGHT_p1_u0);
-      //    7    1   0       =>   5    1   0      5:right -> 5:right
-      //    8        0   1   =>   6        0   1  6:right -> 6:right
-      writeMetaState(e, RIGHT_u0_p1, RIGHT_p1_u0, RIGHT_u0_p1, RIGHT_p1_u0);
-      //    2    0   1       =>   2    0   1
-      //    8        0   1   =>   8        0   1
-      writeMetaState(e, RIGHT_u0_p1, STAYb_u0_p1, RIGHT_u0_p1, STAYb_u0_p1);
-      //    3    1   0       =>   5    1   0
-      //    8        0   1   =>   6        0   1
-      writeMetaState(e, RIGHT_u0_p1, STAYa_p1_u0, RIGHT_u0_p1, STAYa_p1_u0);
-      //    4    1   0       =>   5    1   0
-      //    8        0   1   =>   6        0   1
-      writeMetaState(e, RIGHT_u0_p1, STAYb_p1_u0, RIGHT_u0_p1, STAYb_p1_u0);
+      //    0    0   0           =>   0    0   0
+      //    1        0   1       =>   1        0   1
+      //    0            0   0   =>   0            0   0
+      writeMetaState(e, NULL_u0_u0, STAYa_u0_p1, ALL_xX_xX, NULL_u0_u0, STAYa_u0_p1);
+      writeMetaState(e, NULL_u0_u0, STAYb_u0_p1, ALL_xX_xX, NULL_u0_u0, STAYb_u0_p1);
+      //    0    0   0           =>   0    0   0
+      //    0        0   0       =>   0        0   0
+      //    1            0   1   =>   1            0   1
+      writeMetaState(e, STAYa_u0_p1, NULL_u0_u0, ALL_xX_xX, STAYa_u0_p1, NULL_u0_u0);
+      writeMetaState(e, STAYb_u0_p1, NULL_u0_u0, ALL_xX_xX, STAYb_u0_p1, NULL_u0_u0);
+      //    0    0   0           =>   0    0   0
+      //    2        1   0       =>   2        1   0       2:stay -> 2:stay
+      //    0            0   0   =>   0            0   0
+      writeMetaState(e, NULL_u0_u0, STAYa_p1_u0, ALL_xX_xX, NULL_u0_u0, STAYa_p1_u0);
+      writeMetaState(e, NULL_u0_u0, STAYb_p1_u0, ALL_xX_xX, NULL_u0_u0, STAYb_p1_u0);
+      //    0    0   0           =>   0    0   0
+      //    0        0   0       =>   0        0   0
+      //    2            1   0   =>   2            1   0   2:stay -> 2:stay
+      writeMetaState(e, STAYa_p1_u0, NULL_u0_u0, ALL_xX_xX, STAYa_p1_u0, NULL_u0_u0);
+      writeMetaState(e, STAYb_p1_u0, NULL_u0_u0, ALL_xX_xX, STAYb_p1_u0, NULL_u0_u0);
+      //    0    0   0           =>   0    0   0
+      //    1        0   1       =>   1        0   1
+      //    1            0   1   =>   1            0   1
+      writeMetaState(e, STAYa_u0_p1, STAYa_u0_p1, ALL_xX_xX, STAYa_u0_p1, STAYa_u0_p1);
+      writeMetaState(e, STAYb_u0_p1, STAYb_u0_p1, ALL_xX_xX, STAYb_u0_p1, STAYb_u0_p1);
+      //    0    0   0           =>   0    0   0
+      //    2        1   0       =>   2        1   0       2:stay -> 2:stay
+      //    1            0   1   =>   1            0   1
+      writeMetaState(e, STAYa_u0_p1, STAYa_p1_u0, ALL_xX_xX, STAYa_u0_p1, STAYa_p1_u0);
+      writeMetaState(e, STAYb_u0_p1, STAYa_p1_u0, ALL_xX_xX, STAYb_u0_p1, STAYa_p1_u0);
+      writeMetaState(e, STAYa_u0_p1, STAYb_p1_u0, ALL_xX_xX, STAYa_u0_p1, STAYb_p1_u0);
+      writeMetaState(e, STAYb_u0_p1, STAYb_p1_u0, ALL_xX_xX, STAYb_u0_p1, STAYb_p1_u0);
+      //    0    0   0           =>   0    0   0
+      //    1        0   1       =>   1        0   1
+      //    2            1   0   =>   2            1   0   2:stay -> 2:stay
+      writeMetaState(e, STAYa_p1_u0, STAYa_u0_p1, ALL_xX_xX, STAYa_p1_u0, STAYa_u0_p1);
+      writeMetaState(e, STAYb_p1_u0, STAYa_u0_p1, ALL_xX_xX, STAYb_p1_u0, STAYa_u0_p1);
+      writeMetaState(e, STAYa_p1_u0, STAYb_u0_p1, ALL_xX_xX, STAYa_p1_u0, STAYb_u0_p1);
+      writeMetaState(e, STAYb_p1_u0, STAYb_u0_p1, ALL_xX_xX, STAYb_p1_u0, STAYb_u0_p1);
+      //    0    0   0           =>   0    0   0
+      //    1        0   1       =>   1        0   1
+      //    2            0   1   =>   2            0   1
+      writeMetaState(e, STAYb_u0_p1, STAYa_u0_p1, ALL_xX_xX, STAYb_u0_p1, STAYa_u0_p1);
+      writeMetaState(e, STAYa_u0_p1, STAYb_u0_p1, ALL_xX_xX, STAYa_u0_p1, STAYb_u0_p1);
+      //    0    0   0           =>   0    0   0
+      //    3        1   0       =>   3        1   0
+      //    4            1   0   =>   4            1   0
+      writeMetaState(e, STAYb_p1_u0, STAYa_p1_u0, ALL_xX_xX, STAYb_p1_u0, STAYa_p1_u0);
+      //    0    0   0           =>   0    0   0
+      //    4        1   0       =>   4        1   0
+      //    3            1   0   =>   3            1   0
+      writeMetaState(e, STAYa_p1_u0, STAYb_p1_u0, ALL_xX_xX, STAYa_p1_u0, STAYb_p1_u0);
+      //    0    0   0           =>   0    0   0
+      //    3        1   0       =>   3        1   0
+      //    3            1   0   =>   3            1   0
+      writeMetaState(e, STAYa_p1_u0, STAYa_p1_u0, ALL_xX_xX, STAYa_p1_u0, STAYa_p1_u0);
+      //    0    0   0           =>   0    0   0
+      //    4        1   0       =>   4        1   0
+      //    4            1   0   =>   4            1   0
+      writeMetaState(e, STAYb_p1_u0, STAYb_p1_u0, ALL_xX_xX, STAYb_p1_u0, STAYb_p1_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // left:
-      //    3    0   1       =>   3    0   1
-      //    0        0   0   =>   0        0   0
-      writeMetaState(e, NULL_u0_u0, LEFT_u0_p1, NULL_u0_u0, LEFT_u0_p1);
-      //    0    0   0       =>   0    0   0
-      //    3        0   1   =>   3        0   1
-      writeMetaState(e, LEFT_u0_p1, NULL_u0_u0, LEFT_u0_p1, NULL_u0_u0);
-      //    4    1   0       =>   4    1   0
-      //    0        0   0   =>   0        0   0
-      writeMetaState(e, NULL_u0_u0, LEFT_p1_u0, NULL_u0_u0, LEFT_p1_u0);
-      //    0    0   0       =>   3    0   1
-      //    4        1   0   =>   0        0   0
-      writeMetaState(e, LEFT_p1_u0, NULL_u0_u0, NULL_u0_u0, LEFT_u0_p1);
-      //    3    0   1       =>   3    0   1       3:left -> 3:left
-      //    3        0   1   =>   3        0   1   3:left -> 3:left
-      writeMetaState(e, LEFT_u0_p1, LEFT_u0_p1, LEFT_u0_p1, LEFT_u0_p1);
-      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      // collision (left, right):
-      //    5    1   0       =>   7    1   0
-      //    4        1   0   =>   0        1   0
-      writeMetaState(e, LEFT_p1_u0, RIGHT_p1_u0, RIGHT_p1_u0, LEFT_p1_u0);
-      //    8    0   1       =>   5    0   1
-      //    6        1   0   =>   7        1   0
-      writeMetaState(e, LEFT_p1_u0, RIGHT_u0_p1, RIGHT_p1_u0, LEFT_u0_p1);
-      //    7    1   0       =>   7    1   0
-      //    5        0   1   =>   5        0   1
-      writeMetaState(e, LEFT_u0_p1, RIGHT_p1_u0, LEFT_u0_p1, RIGHT_p1_u0);
+      //    *    *   *           =>   *    *   *
+      //    5        0   1       =>   5        0   1
+      //    0            0   0   =>   0            0   0
+      writeMetaState(e, NULL_u0_u0, LEFTa_u0_p1, ALL_xX_xX, NULL_u0_u0, LEFTa_u0_p1);
+      writeMetaState(e, NULL_u0_u0, LEFTb_u0_p1, ALL_xX_xX, NULL_u0_u0, LEFTb_u0_p1);
+      //    *    *   *           =>   *    *   *
+      //    4        1   0       =>   4        1   0
+      //    0            0   0   =>   0            0   0
+      writeMetaState(e, NULL_u0_u0, LEFTa_p1_u0, ALL_xX_xX, NULL_u0_u0, LEFTa_p1_u0);
+      writeMetaState(e, NULL_u0_u0, LEFTb_p1_u0, ALL_xX_xX, NULL_u0_u0, LEFTb_p1_u0);
+      //    *    *   *           =>   *    *   *
+      //    0        0   0       =>   6        0   1
+      //    5            0   1   =>   0            0   0
+      writeMetaState(e, LEFTa_u0_p1, NULL_u0_u0, ALL_xX_xX, NULL_u0_u0, LEFTb_u0_p1);
+      writeMetaState(e, LEFTb_u0_p1, NULL_u0_u0, ALL_xX_xX, LEFTb_u0_p1, NULL_u0_u0);
+      //    *    *   *           =>   *    *   *
+      //    0        0   0       =>   8        1   0
+      //    7            1   0   =>   0            0   0
+      writeMetaState(e, LEFTa_p1_u0, NULL_u0_u0, ALL_xX_xX, NULL_u0_u0, LEFTb_p1_u0);
+      writeMetaState(e, LEFTb_p1_u0, NULL_u0_u0, ALL_xX_xX, LEFTb_p1_u0, NULL_u0_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // collision (left, left):
-      //    6    1   0       =>   6    1   0
-      //    6        1   0   =>   6        1   0
-      writeMetaState(e, LEFT_p1_u0, LEFT_p1_u0, LEFT_p1_u0, LEFT_p1_u0);
+      //    *    *   *           =>   *    *   *
+      //    5        0   1       =>   5        0   1       // !!! no move !!!
+      //    5            0   1   =>   5            0   1   // !!! no move !!!
+      writeMetaState(e, LEFTa_u0_p1, LEFTa_u0_p1, ALL_xX_xX, LEFTa_u0_p1, LEFTa_u0_p1);
+      writeMetaState(e, LEFTb_u0_p1, LEFTa_u0_p1, ALL_xX_xX, LEFTb_u0_p1, LEFTa_u0_p1);
+      writeMetaState(e, LEFTa_u0_p1, LEFTb_u0_p1, ALL_xX_xX, LEFTa_u0_p1, LEFTb_u0_p1);
+      writeMetaState(e, LEFTb_u0_p1, LEFTb_u0_p1, ALL_xX_xX, LEFTb_u0_p1, LEFTb_u0_p1);
+      //    *    *   *           =>   *    *   *
+      //    6        1   0       =>   6        1   0
+      //    6            1   0   =>   6            1   0    // !!! no move !!!
+      writeMetaState(e, LEFTa_p1_u0, LEFTa_p1_u0, ALL_xX_xX, LEFTa_p1_u0, LEFTa_p1_u0);
+      writeMetaState(e, LEFTb_p1_u0, LEFTa_p1_u0, ALL_xX_xX, LEFTb_p1_u0, LEFTa_p1_u0);
+      writeMetaState(e, LEFTa_p1_u0, LEFTb_p1_u0, ALL_xX_xX, LEFTa_p1_u0, LEFTb_p1_u0);
+      writeMetaState(e, LEFTb_p1_u0, LEFTb_p1_u0, ALL_xX_xX, LEFTb_p1_u0, LEFTb_p1_u0);
+      //    *    *   *           =>   *    *   *
+      //    5        0   1       =>   6        1   0
+      //    7            1   0   =>   6            1   0    // !!! no move !!!
+      writeMetaState(e, LEFTa_p1_u0, LEFTa_u0_p1, ALL_xX_xX, LEFTa_p1_u0, LEFTa_u0_p1);
+      writeMetaState(e, LEFTb_p1_u0, LEFTa_u0_p1, ALL_xX_xX, LEFTb_p1_u0, LEFTa_u0_p1);
+      writeMetaState(e, LEFTa_p1_u0, LEFTb_u0_p1, ALL_xX_xX, LEFTa_p1_u0, LEFTb_u0_p1);
+      writeMetaState(e, LEFTb_p1_u0, LEFTb_u0_p1, ALL_xX_xX, LEFTb_p1_u0, LEFTb_u0_p1);
+      //    *    *   *           =>   *    *   *
+      //    6        1   0       =>   6        1   0
+      //    5            0   1   =>   5            0   1    // !!! no move !!!
+      writeMetaState(e, LEFTa_u0_p1, LEFTa_p1_u0, ALL_xX_xX, LEFTa_u0_p1, LEFTa_p1_u0);
+      writeMetaState(e, LEFTb_u0_p1, LEFTa_p1_u0, ALL_xX_xX, LEFTb_u0_p1, LEFTa_p1_u0);
+      writeMetaState(e, LEFTa_u0_p1, LEFTb_p1_u0, ALL_xX_xX, LEFTa_u0_p1, LEFTb_p1_u0);
+      writeMetaState(e, LEFTb_u0_p1, LEFTb_p1_u0, ALL_xX_xX, LEFTb_u0_p1, LEFTb_p1_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      // collision (right, left):
-      // 3,6  =>  7,0
-      //    6    0   1       =>   0    0   1       6:right -> 0:null
-      //    3        0   1   =>   7        0   1   3:left  -> 7:collision
-      writeMetaState(e, RIGHT_u0_p1, LEFT_u0_p1, RIGHT_u0_p1, LEFT_u0_p1);
-      // 6,4  =>  6,4
-      //    4    1   0       =>   4    1   0       4:left -> 4:left
-      //    6        0   1   =>   6        0   1   6:right -> 6:right
-      writeMetaState(e, RIGHT_u0_p1, LEFT_p1_u0, RIGHT_u0_p1, LEFT_p1_u0);
-      // 4,6  =>  5,3
-      //    5    0   1       =>   5    0   1       6:right -> 3:left
-      //    7        1   0   =>   7        1   0   4:left  -> 5:right
-      writeMetaState(e, RIGHT_p1_u0, LEFT_u0_p1, RIGHT_p1_u0, LEFT_u0_p1);
-      //    2    0   1       =>   2    0   1
-      //    9        1   1   =>   9        1   1
-      writeMetaState(e, COLL_LR_p1_p1, STAYb_u0_p1, COLL_LR_p1_p1, STAYb_u0_p1);
+      // right:
+      //    *    *   *           =>   *    *   *
+      //    7        1   0       =>   0        0   0
+      //    0            0   0   =>   7            1   0
+      writeMetaState(e, NULL_u0_u0, RIGHTa_p1_u0, ALL_xX_xX, RIGHTb_p1_u0, NULL_u0_u0);
+      writeMetaState(e, NULL_u0_u0, RIGHTb_p1_u0, ALL_xX_xX, NULL_u0_u0, RIGHTb_p1_u0);
+      //    *    *   *           =>   *    *   *
+      //    8        0   1       =>   0        0   0
+      //    0            0   0   =>   8            0   1
+      writeMetaState(e, NULL_u0_u0, RIGHTa_u0_p1, ALL_xX_xX, RIGHTb_u0_p1, NULL_u0_u0);
+      writeMetaState(e, NULL_u0_u0, RIGHTb_u0_p1, ALL_xX_xX, NULL_u0_u0, RIGHTb_u0_p1);
+      //    *    *   *           =>   *    *   *
+      //    0        0   0       =>   0        0   0
+      //    7            1   0   =>   7            1   0
+      writeMetaState(e, RIGHTa_p1_u0, NULL_u0_u0, ALL_xX_xX, RIGHTa_p1_u0, NULL_u0_u0);
+      writeMetaState(e, RIGHTb_p1_u0, NULL_u0_u0, ALL_xX_xX, RIGHTb_p1_u0, NULL_u0_u0);
+      //    *    *   *           =>   *    *   *
+      //    0        0   0       =>   0        0   0
+      //    8            0   1   =>   8            0   1
+      writeMetaState(e, RIGHTa_u0_p1, NULL_u0_u0, ALL_xX_xX, RIGHTa_u0_p1, NULL_u0_u0);
+      writeMetaState(e, RIGHTb_u0_p1, NULL_u0_u0, ALL_xX_xX, RIGHTb_u0_p1, NULL_u0_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      // collision (stay, right):
-      //    7    1   0       =>   7    1   0
-      //    2        0   1   =>   2        1   0
-      writeMetaState(e, STAYb_u0_p1, RIGHT_p1_u0, STAYb_u0_p1, RIGHT_p1_u0);
-      //    8    0   1       =>   2    0   1
-      //    1        0   1   =>   8        0   1
-      writeMetaState(e, STAYa_u0_p1, RIGHT_u0_p1, RIGHT_u0_p1, STAYb_u0_p1);
-      //    8    0   1       =>   1    0   1
-      //    2        0   1   =>   8        0   1
-      writeMetaState(e, STAYb_u0_p1, RIGHT_u0_p1, RIGHT_u0_p1, STAYa_u0_p1);
-      //    8    0   1       =>   4    0   1
-      //    3        1   0   =>   7        1   0
-      writeMetaState(e, STAYa_p1_u0, RIGHT_u0_p1, RIGHT_p1_u0, STAYa_u0_p1);
-      //    8    0   1       =>   2    0   1
-      //    4        1   0   =>   7        1   0
-      writeMetaState(e, STAYb_p1_u0, RIGHT_u0_p1, RIGHT_p1_u0, STAYb_u0_p1);
-      //    7    1   0       =>   7    1   0
-      //    1        0   1   =>   1        0   1
-      writeMetaState(e, STAYa_u0_p1, RIGHT_p1_u0, STAYa_u0_p1, RIGHT_p1_u0);
-      //    7    1   0       =>   3    1   0
-      //    4        1   0   =>   7        1   0
-      writeMetaState(e, STAYb_p1_u0, RIGHT_p1_u0, RIGHT_p1_u0, STAYa_p1_u0);
-      //    7    1   0       =>   4    1   0
-      //    3        1   0   =>   7        1   0
-      writeMetaState(e, STAYa_p1_u0, RIGHT_p1_u0, RIGHT_p1_u0, STAYb_p1_u0);
+      // collision (right, right):
+      //    *    *   *           =>   *    *   *
+      //    8        0   1       =>   8        0   1       // !!! no move !!!  (!!! Unschön: bleibt stehen bis Platz ist !!!)
+      //    8            0   1   =>   8            0   1   // !!! no move !!!  (!!! Alternativ: collision-left-left !!!)
+      writeMetaState(e, RIGHTa_u0_p1, RIGHTa_u0_p1, ALL_xX_xX, RIGHTa_u0_p1, RIGHTa_u0_p1);
+      writeMetaState(e, RIGHTb_u0_p1, RIGHTa_u0_p1, ALL_xX_xX, RIGHTb_u0_p1, RIGHTa_u0_p1);
+      writeMetaState(e, RIGHTa_u0_p1, RIGHTb_u0_p1, ALL_xX_xX, RIGHTa_u0_p1, RIGHTb_u0_p1);
+      writeMetaState(e, RIGHTb_u0_p1, RIGHTb_u0_p1, ALL_xX_xX, RIGHTb_u0_p1, RIGHTb_u0_p1);
+      //    *    *   *           =>   *    *   *
+      //    7        1   0       =>   7        1   0        // !!! no move !!!
+      //    7            1   0   =>   7            1   0
+      writeMetaState(e, RIGHTa_p1_u0, RIGHTa_p1_u0, ALL_xX_xX, RIGHTa_p1_u0, RIGHTa_p1_u0);
+      writeMetaState(e, RIGHTb_p1_u0, RIGHTa_p1_u0, ALL_xX_xX, RIGHTb_p1_u0, RIGHTa_p1_u0);
+      writeMetaState(e, RIGHTa_p1_u0, RIGHTb_p1_u0, ALL_xX_xX, RIGHTa_p1_u0, RIGHTb_p1_u0);
+      writeMetaState(e, RIGHTb_p1_u0, RIGHTb_p1_u0, ALL_xX_xX, RIGHTb_p1_u0, RIGHTb_p1_u0);
+      {
+         // 0/1/0:             >  11|11| 0    11|11| 1 >2282| 0| 0  2282| 0| 0 >   0| 0| 0     0| 0| 0
+         // 0/1/1: >   0| 0| 0     0| 0| 0 > 163| 9| 1   163| 9| 0 >1764| 0| 0  1764| 0| 0
+         //-------  ----------  ----------  ----------  ----------  ----------  ---------- : runCalcNextState
+         // 0/1/0:             >  11|11| 0    11|11| 1 >1869|10| 1  1869|10| 0 >1690| 0| 0  1690| 0| 0
+         // 0/1/1: >   0| 0| 0     0| 0| 0 > 143| 0| 0   143| 0| 0 > 130| 0| 0   130| 0| 0
+         //-------  ----------  ----------  ----------  ----------  ----------  ---------- : runCalcNextMetaState
+         // 1/1/0:             >  11|11| 0    11|11| 1 >1869|10| 1  1869|10| 0 >1690| 0| 0  1690| 0| 0
+         // 1/1/1: >   0| 0| 0     0| 0| 0 > 143| 0| 0   143| 0| 0 > 130| 0| 0   130| 0| 0
+         //-------  ----------  ----------  ----------  ----------  ----------  ---------- : runLevelUp
+         //    *    *   *           =>   *    *   *
+         //    *        0   1       =>   *        0   1        // !!! no move !!!
+         //    *            1   0   =>   *            1   0
+
+         //    *    0   1a          =>   *    0   1a
+         //    *        1a  0       =>   *        x   0        // !!! no move !!!
+         //    *            0   0   =>   *            1b  0
+
+         //    *    *   *           =>   *    *   *
+         //   11        0   1       =>   0        0   0
+         //    9            1   0   =>  13            1   1
+         //writeMetaState(e, RIGHTa_p1_u0, RIGHTa_u0_p1, ALL_xX_xX, COLLa_RR_p1_p1, NULL_u0_u0);
+         //    *    *   *           =>   *    *   *
+         //   13        1   1       =>   9        1   0
+         //    0            0   0   =>  11            0   1
+         //writeMetaState(e, NULL_u0_u0, COLLa_RR_p1_p1, ALL_xX_xX, RIGHTa_u0_p1, RIGHTa_p1_u0);
+      }
+
+      //    *    *   *           =>   *    *   *
+      //    *        0   1       =>   *        0   1        // !!! no move !!!
+      //    *            1   0   =>   *            1   0
+      writeMetaState(e, RIGHTa_p1_u0, RIGHTa_u0_p1, ALL_xX_xX, RIGHTa_p1_u0, RIGHTa_u0_p1);
+      writeMetaState(e, RIGHTb_p1_u0, RIGHTa_u0_p1, ALL_xX_xX, RIGHTb_p1_u0, RIGHTa_u0_p1);
+      writeMetaState(e, RIGHTa_p1_u0, RIGHTb_u0_p1, ALL_xX_xX, RIGHTa_p1_u0, RIGHTb_u0_p1);
+      writeMetaState(e, RIGHTb_p1_u0, RIGHTb_u0_p1, ALL_xX_xX, RIGHTb_p1_u0, RIGHTb_u0_p1);
+
+      // try
+      //    *    0   1           =>   *    0   0
+      //    *        1   0       =>   *        0   1
+      //    *            0   0   =>   *            1   0
+      writeMetaState(e, NULL_u0_u0, RIGHTa_p1_u0, RIGHTa_u0_p1,   RIGHTb_p1_u0, RIGHTb_u0_p1, NULL_u0_u0);
+
+      //    *    *   *           =>   *    *   *
+      //    7        1   0       =>   7        1   0        // !!! no move !!!
+      //    8            0   1   =>   8            0   1
+      writeMetaState(e, RIGHTa_u0_p1, RIGHTa_p1_u0, ALL_xX_xX, RIGHTa_u0_p1, RIGHTa_p1_u0);
+      writeMetaState(e, RIGHTb_u0_p1, RIGHTa_p1_u0, ALL_xX_xX, RIGHTb_u0_p1, RIGHTa_p1_u0);
+      writeMetaState(e, RIGHTa_u0_p1, RIGHTb_p1_u0, ALL_xX_xX, RIGHTa_u0_p1, RIGHTb_p1_u0);
+      writeMetaState(e, RIGHTb_u0_p1, RIGHTb_p1_u0, ALL_xX_xX, RIGHTb_u0_p1, RIGHTb_p1_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // collision (right, stay):
-      //    1    0   1       =>   1    0   1
-      //    8        0   1   =>   8        0   1
-      writeMetaState(e, RIGHT_u0_p1, STAYa_u0_p1, RIGHT_u0_p1, STAYa_u0_p1);
+      //    *    *   *           =>   *    *   *
+      //    2        0   1       =>   2        0   1
+      //    8            0   1   =>   8            0   1
+      writeMetaState(e, RIGHTa_u0_p1, STAYa_u0_p1, ALL_xX_xX, RIGHTa_u0_p1, STAYa_u0_p1);
+      writeMetaState(e, RIGHTb_u0_p1, STAYa_u0_p1, ALL_xX_xX, RIGHTb_u0_p1, STAYa_u0_p1);
+      writeMetaState(e, RIGHTa_u0_p1, STAYb_u0_p1, ALL_xX_xX, RIGHTa_u0_p1, STAYb_u0_p1);
+      writeMetaState(e, RIGHTb_u0_p1, STAYb_u0_p1, ALL_xX_xX, RIGHTb_u0_p1, STAYb_u0_p1);
+      //    *    *   *           =>   *    *   *
+      //    3        1   0       =>   5        1   0
+      //    8            0   1   =>   6            0   1
+      writeMetaState(e, RIGHTa_u0_p1, STAYa_p1_u0, ALL_xX_xX, RIGHTa_u0_p1, STAYa_p1_u0);
+      writeMetaState(e, RIGHTb_u0_p1, STAYa_p1_u0, ALL_xX_xX, RIGHTb_u0_p1, STAYa_p1_u0);
+      writeMetaState(e, RIGHTa_u0_p1, STAYb_p1_u0, ALL_xX_xX, RIGHTa_u0_p1, STAYb_p1_u0);
+      writeMetaState(e, RIGHTb_u0_p1, STAYb_p1_u0, ALL_xX_xX, RIGHTb_u0_p1, STAYb_p1_u0);
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // collision (left, right):
+      //    *    *   *           =>   *    *   *
+      //    5        1   0       =>   7        1   0
+      //    4            1   0   =>   0            1   0
+      writeMetaState(e, LEFTa_p1_u0, RIGHTa_p1_u0, ALL_xX_xX, RIGHTa_p1_u0, LEFTa_p1_u0);
+      writeMetaState(e, LEFTb_p1_u0, RIGHTa_p1_u0, ALL_xX_xX, RIGHTb_p1_u0, LEFTa_p1_u0);
+      writeMetaState(e, LEFTa_p1_u0, RIGHTb_p1_u0, ALL_xX_xX, RIGHTa_p1_u0, LEFTb_p1_u0);
+      writeMetaState(e, LEFTb_p1_u0, RIGHTb_p1_u0, ALL_xX_xX, RIGHTb_p1_u0, LEFTb_p1_u0);
+      //    *    *   *           =>   *    *   *
+      //    8        0   1       =>   5        0   1
+      //    6            1   0   =>   7            1   0
+      writeMetaState(e, LEFTa_p1_u0, RIGHTa_u0_p1, ALL_xX_xX, RIGHTa_p1_u0, LEFTa_u0_p1);
+      writeMetaState(e, LEFTb_p1_u0, RIGHTa_u0_p1, ALL_xX_xX, RIGHTb_p1_u0, LEFTa_u0_p1);
+      writeMetaState(e, LEFTa_p1_u0, RIGHTb_u0_p1, ALL_xX_xX, RIGHTa_p1_u0, LEFTb_u0_p1);
+      writeMetaState(e, LEFTb_p1_u0, RIGHTb_u0_p1, ALL_xX_xX, RIGHTb_p1_u0, LEFTb_u0_p1);
+      //    *    *   *           =>   *    *   *
+      //    7        1   0       =>   7        1   0
+      //    5            0   1   =>   5            0   1
+      writeMetaState(e, LEFTa_u0_p1, RIGHTa_p1_u0, ALL_xX_xX, LEFTa_u0_p1, RIGHTa_p1_u0);
+      writeMetaState(e, LEFTb_u0_p1, RIGHTa_p1_u0, ALL_xX_xX, LEFTb_u0_p1, RIGHTa_p1_u0);
+      writeMetaState(e, LEFTa_u0_p1, RIGHTb_p1_u0, ALL_xX_xX, LEFTa_u0_p1, RIGHTb_p1_u0);
+      writeMetaState(e, LEFTb_u0_p1, RIGHTb_p1_u0, ALL_xX_xX, LEFTb_u0_p1, RIGHTb_p1_u0);
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // collision (right, left):
+      //    *    *   *           =>   *    *   *
+      //    6        0   1       =>   0        0   1       6:right -> 0:null
+      //    3            0   1   =>   7            0   1   3:left  -> 7:collision
+      writeMetaState(e, RIGHTa_u0_p1, LEFTa_u0_p1, ALL_xX_xX, RIGHTa_u0_p1, LEFTa_u0_p1);
+      writeMetaState(e, RIGHTb_u0_p1, LEFTa_u0_p1, ALL_xX_xX, RIGHTb_u0_p1, LEFTa_u0_p1);
+      writeMetaState(e, RIGHTa_u0_p1, LEFTb_u0_p1, ALL_xX_xX, RIGHTa_u0_p1, LEFTb_u0_p1);
+      writeMetaState(e, RIGHTb_u0_p1, LEFTb_u0_p1, ALL_xX_xX, RIGHTb_u0_p1, LEFTb_u0_p1);
+      //    *    *   *           =>   *    *   *
+      //    4        1   0       =>   4        1   0       4:left -> 4:left
+      //    6            0   1   =>   6            0   1   6:right -> 6:right
+      writeMetaState(e, RIGHTa_u0_p1, LEFTa_p1_u0, ALL_xX_xX, RIGHTa_u0_p1, LEFTa_p1_u0);
+      writeMetaState(e, RIGHTb_u0_p1, LEFTa_p1_u0, ALL_xX_xX, RIGHTb_u0_p1, LEFTa_p1_u0);
+      writeMetaState(e, RIGHTa_u0_p1, LEFTb_p1_u0, ALL_xX_xX, RIGHTa_u0_p1, LEFTb_p1_u0);
+      writeMetaState(e, RIGHTb_u0_p1, LEFTb_p1_u0, ALL_xX_xX, RIGHTb_u0_p1, LEFTb_p1_u0);
+      //    *    *   *           =>   *    *   *
+      //    5        0   1       =>   5        0   1       6:right -> 3:left
+      //    7            1   0   =>   7            1   0   4:left  -> 5:right
+      writeMetaState(e, RIGHTa_p1_u0, LEFTa_u0_p1, ALL_xX_xX, RIGHTa_p1_u0, LEFTa_u0_p1);
+      writeMetaState(e, RIGHTb_p1_u0, LEFTa_u0_p1, ALL_xX_xX, RIGHTb_p1_u0, LEFTa_u0_p1);
+      writeMetaState(e, RIGHTa_p1_u0, LEFTb_u0_p1, ALL_xX_xX, RIGHTa_p1_u0, LEFTb_u0_p1);
+      writeMetaState(e, RIGHTb_p1_u0, LEFTb_u0_p1, ALL_xX_xX, RIGHTb_p1_u0, LEFTb_u0_p1);
+      //    2    0   1       =>   2    0   1
+      //    9        1   1   =>   9        1   1
+      //writeMetaState(e, COLL_LR_p1_p1, STAYb_u0_p1, COLL_LR_p1_p1, STAYb_u0_p1);
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // collision (stay, right):
+      //    *    *   *           =>   *    *   *
+      //    7        1   0       =>   7        1   0        // !!! no move !!!
+      //    2            0   1   =>   2            0   1
+      writeMetaState(e, STAYa_u0_p1, RIGHTa_p1_u0, ALL_xX_xX, STAYa_u0_p1, RIGHTa_p1_u0);
+      writeMetaState(e, STAYb_u0_p1, RIGHTa_p1_u0, ALL_xX_xX, STAYb_u0_p1, RIGHTa_p1_u0);
+      writeMetaState(e, STAYa_u0_p1, RIGHTb_p1_u0, ALL_xX_xX, STAYa_u0_p1, RIGHTb_p1_u0);
+      writeMetaState(e, STAYb_u0_p1, RIGHTb_p1_u0, ALL_xX_xX, STAYb_u0_p1, RIGHTb_p1_u0);
+      //    *    *   *           =>   *    *   *
+      //    8        0   1       =>   2        0   1
+      //    1            0   1   =>   8            0   1
+      writeMetaState(e, STAYa_u0_p1, RIGHTa_u0_p1, ALL_xX_xX, RIGHTa_u0_p1, STAYa_u0_p1);
+      writeMetaState(e, STAYb_u0_p1, RIGHTa_u0_p1, ALL_xX_xX, RIGHTb_u0_p1, STAYa_u0_p1);
+      writeMetaState(e, STAYa_u0_p1, RIGHTb_u0_p1, ALL_xX_xX, RIGHTa_u0_p1, STAYb_u0_p1);
+      writeMetaState(e, STAYb_u0_p1, RIGHTb_u0_p1, ALL_xX_xX, RIGHTb_u0_p1, STAYb_u0_p1);
+      //    8        0   1       =>   4        0   1
+      //    3            1   0   =>   7            1   0
+      writeMetaState(e, STAYa_p1_u0, RIGHTa_u0_p1, ALL_xX_xX, RIGHTa_p1_u0, STAYa_u0_p1);
+      writeMetaState(e, STAYb_p1_u0, RIGHTa_u0_p1, ALL_xX_xX, RIGHTb_p1_u0, STAYa_u0_p1);
+      writeMetaState(e, STAYa_p1_u0, RIGHTb_u0_p1, ALL_xX_xX, RIGHTa_p1_u0, STAYb_u0_p1);
+      writeMetaState(e, STAYb_p1_u0, RIGHTb_u0_p1, ALL_xX_xX, RIGHTb_p1_u0, STAYb_u0_p1);
+      //    7        1   0       =>   4        1   0
+      //    3            1   0   =>   7            1   0
+      writeMetaState(e, STAYa_p1_u0, RIGHTa_p1_u0, ALL_xX_xX, RIGHTa_p1_u0, STAYa_p1_u0);
+      writeMetaState(e, STAYb_p1_u0, RIGHTa_p1_u0, ALL_xX_xX, RIGHTb_p1_u0, STAYa_p1_u0);
+      writeMetaState(e, STAYa_p1_u0, RIGHTb_p1_u0, ALL_xX_xX, RIGHTa_p1_u0, STAYb_p1_u0);
+      writeMetaState(e, STAYb_p1_u0, RIGHTb_p1_u0, ALL_xX_xX, RIGHTb_p1_u0, STAYb_p1_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // collision (stay, left):
-      //    6    1   0       =>   6    1   0
-      //    4        1   0   =>   4        1   0
-      writeMetaState(e, STAYb_p1_u0, LEFT_p1_u0, STAYb_p1_u0, LEFT_p1_u0);
+      //    6        1   0       =>   6        1   0
+      //    4            1   0   =>   4            1   0
+      writeMetaState(e, STAYa_p1_u0, LEFTa_p1_u0, ALL_xX_xX, STAYa_p1_u0, LEFTa_p1_u0);
+      writeMetaState(e, STAYb_p1_u0, LEFTa_p1_u0, ALL_xX_xX, STAYb_p1_u0, LEFTa_p1_u0);
+      writeMetaState(e, STAYa_p1_u0, LEFTb_p1_u0, ALL_xX_xX, STAYa_p1_u0, LEFTb_p1_u0);
+      writeMetaState(e, STAYb_p1_u0, LEFTb_p1_u0, ALL_xX_xX, STAYb_p1_u0, LEFTb_p1_u0);
      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // collision (left, stay):
-      //    2    0   1       =>   5    0   1
-      //    6        1   0   =>   4        1   0
-      writeMetaState(e, LEFT_p1_u0, STAYb_u0_p1, STAYb_p1_u0, LEFT_u0_p1);
-      //    1    0   1       =>   5    0   1
-      //    6        1   0   =>   3        1   0
-      writeMetaState(e, LEFT_p1_u0, STAYa_u0_p1, STAYa_p1_u0, LEFT_u0_p1);
-      //    3    1   0       =>   6    1   0
-      //    6        1   0   =>   4        1   0
-      writeMetaState(e, LEFT_p1_u0, STAYa_p1_u0, STAYb_p1_u0, LEFT_p1_u0);
-      //    4    1   0       =>   6    1   0
-      //    6        1   0   =>   3        1   0
-      writeMetaState(e, LEFT_p1_u0, STAYb_p1_u0, STAYa_p1_u0, LEFT_p1_u0);
+      //    1        0   1       =>   5        0   1
+      //    6            1   0   =>   3            1   0
+      writeMetaState(e, LEFTa_p1_u0, STAYa_u0_p1, ALL_xX_xX, STAYa_p1_u0, LEFTa_u0_p1);
+      writeMetaState(e, LEFTb_p1_u0, STAYa_u0_p1, ALL_xX_xX, STAYb_p1_u0, LEFTa_u0_p1);
+      writeMetaState(e, LEFTa_p1_u0, STAYb_u0_p1, ALL_xX_xX, STAYa_p1_u0, LEFTb_u0_p1);
+      writeMetaState(e, LEFTb_p1_u0, STAYb_u0_p1, ALL_xX_xX, STAYb_p1_u0, LEFTb_u0_p1);
+      //    3        1   0       =>   6        1   0
+      //    6            1   0   =>   4            1   0
+      writeMetaState(e, LEFTa_p1_u0, STAYa_p1_u0, ALL_xX_xX, STAYa_p1_u0, LEFTa_p1_u0);
+      writeMetaState(e, LEFTb_p1_u0, STAYa_p1_u0, ALL_xX_xX, STAYb_p1_u0, LEFTa_p1_u0);
+      writeMetaState(e, LEFTa_p1_u0, STAYb_p1_u0, ALL_xX_xX, STAYa_p1_u0, LEFTb_p1_u0);
+      writeMetaState(e, LEFTb_p1_u0, STAYb_p1_u0, ALL_xX_xX, STAYb_p1_u0, LEFTb_p1_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // 7:collision (left -> <- right):
       // 8:collision-to-right (right -> stay):
@@ -296,7 +426,7 @@ public class CreateLevel1SpinMoveEngineService {
       // 0,0  =>  5,3
       //    0    0   0       =>   3    0   1       0:null -> 3:left
       //    0        0   0   =>   5        1   0   0:null -> 5:right
-      level1moveEngine.metaStateArr[metaPos(e, NULL_u0_u0, NULL_u0_u0)].levelUpOutputMetaStatePosArr[metaPos(e, NULL_u0_u0, NULL_u0_u0)] = metaPos(e, RIGHT_p1_u0, 3);
+      level1moveEngine.metaStateArr[metaPos(e, NULL_u0_u0, NULL_u0_u0)].levelUpOutputMetaStatePosArr[metaPos(e, NULL_u0_u0, NULL_u0_u0)] = metaPos(e, RIGHTa_p1_u0, 3);
       // stay -> 1 (1:stay <- 1:stay -> 7:collision)
       // 1,0  =>  7,1
       //    0    0   0       =>   1    0   1       0:null -> 1:stay
@@ -306,12 +436,12 @@ public class CreateLevel1SpinMoveEngineService {
       // 3,0  =>  7,3
       //    0    0   0       =>   3    0   1       0:null -> 3:left
       //    3        0   1   =>   7        1   1   3:left -> 7:collision
-      level1moveEngine.metaStateArr[metaPos(e, LEFT_u0_p1, NULL_u0_u0)].levelUpOutputMetaStatePosArr[metaPos(e, NULL_u0_u0, NULL_u0_u0)] = metaPos(e, 7, 3);
+      level1moveEngine.metaStateArr[metaPos(e, LEFTa_u0_p1, NULL_u0_u0)].levelUpOutputMetaStatePosArr[metaPos(e, NULL_u0_u0, NULL_u0_u0)] = metaPos(e, 7, 3);
       // stay -> 1 (6:right <- 6:right -> 7:collision)
       // 6,0  =>  7,6
       //    0    0   0       =>   6    0   1       0:null -> 6:right
       //    6        0   1   =>   7        1   1   6:right -> 7:collision
-      level1moveEngine.metaStateArr[metaPos(e, RIGHT_u0_p1, NULL_u0_u0)].levelUpOutputMetaStatePosArr[metaPos(e, NULL_u0_u0, NULL_u0_u0)] = metaPos(e, 7, 6);
+      level1moveEngine.metaStateArr[metaPos(e, RIGHTa_u0_p1, NULL_u0_u0)].levelUpOutputMetaStatePosArr[metaPos(e, NULL_u0_u0, NULL_u0_u0)] = metaPos(e, 7, 6);
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       return level1moveEngine;

@@ -41,8 +41,9 @@ public class EngineService {
       return searchMetaStatePos(engine.metaStateArr, inputMetaStatePosArr);
    }
 
-   static int calcMetaStateSize(final Engine engine) {
-      return engine.cellSize == 1 ? 2 : engine.cellSize;
+   public static int calcMetaStateSize(final Engine engine) {
+      //return engine.cellSize == 1 ? 2 : (engine.cellSize + (engine.extendedMeta ? 1 : 0));
+      return (engine.cellSize + (engine.extendedMeta ? 1 : 0));
    }
 
    public static int searchStatePosWithNewStateOnPos(final Engine engine, final Cell metaCell, final int statePosOfSearchedNewState, final State searchedNewState) {

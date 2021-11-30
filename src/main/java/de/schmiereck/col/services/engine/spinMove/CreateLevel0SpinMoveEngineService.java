@@ -6,11 +6,11 @@ import static de.schmiereck.col.model.State.posState;
 import static de.schmiereck.col.services.engine.CreateEngineService.initMetaStateArr;
 import static de.schmiereck.col.services.engine.CreateEngineService.metaPos;
 import static de.schmiereck.col.services.engine.CreateEngineService.writeMetaState;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.LEFT_p1_u0;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.LEFT_u0_p1;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.LEFTa_p1_u0;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.LEFTa_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.NULL_u0_u0;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHT_p1_u0;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHT_u0_p1;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHTa_p1_u0;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHTa_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.STAYa_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.STAYa_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.STAYb_p1_u0;
@@ -41,7 +41,7 @@ public class CreateLevel0SpinMoveEngineService {
 
    public static Engine createLevel0SpinMoveEngine() {
       //----------------------------------------------------------------------------------------------------------------
-      final Engine level0Engine = new Engine(1, 13);
+      final Engine level0Engine = new Engine(1, 13, true);
 
       //----------------------------------------------------------------------------------------------------------------
       // null:
@@ -251,16 +251,16 @@ public class CreateLevel0SpinMoveEngineService {
       //    7        1   =>   5        1   0
       //    NULL_u0      ->   RIGHT_u0_p1
       //       RIGHT_p1  ->      RIGHT_p1_u0
-      e0.metaStateArr[metaPos(e0, RIGHTa_p1, NULL_u0)].levelUpOutputMetaStatePosArr[metaPos(e1, NULL_u0_u0, NULL_u0_u0)] = metaPos(e1, RIGHT_p1_u0, RIGHT_u0_p1);
-      e0.metaStateArr[metaPos(e0, RIGHTb_p1, NULL_u0)].levelUpOutputMetaStatePosArr[metaPos(e1, NULL_u0_u0, NULL_u0_u0)] = metaPos(e1, RIGHT_p1_u0, RIGHT_u0_p1);
+      e0.metaStateArr[metaPos(e0, RIGHTa_p1, NULL_u0)].levelUpOutputMetaStatePosArr[metaPos(e1, NULL_u0_u0, NULL_u0_u0)] = metaPos(e1, RIGHTa_p1_u0, RIGHTa_u0_p1);
+      e0.metaStateArr[metaPos(e0, RIGHTb_p1, NULL_u0)].levelUpOutputMetaStatePosArr[metaPos(e1, NULL_u0_u0, NULL_u0_u0)] = metaPos(e1, RIGHTa_p1_u0, RIGHTa_u0_p1);
       // left -> (left, left)
       // 7,0  =>  5,6
       //    0    0       =>   6    0   1
       //    7        1   =>   5        1   0
       //    NULL_u0      ->   LEFT_u0_p1
       //       LEFT_p1   ->      LEFT_p1_u0
-      e0.metaStateArr[metaPos(e0, LEFTa_p1, NULL_u0)].levelUpOutputMetaStatePosArr[metaPos(e1, NULL_u0_u0, NULL_u0_u0)] = metaPos(e1, LEFT_p1_u0, LEFT_u0_p1);
-      e0.metaStateArr[metaPos(e0, LEFTb_p1, NULL_u0)].levelUpOutputMetaStatePosArr[metaPos(e1, NULL_u0_u0, NULL_u0_u0)] = metaPos(e1, LEFT_p1_u0, LEFT_u0_p1);
+      e0.metaStateArr[metaPos(e0, LEFTa_p1, NULL_u0)].levelUpOutputMetaStatePosArr[metaPos(e1, NULL_u0_u0, NULL_u0_u0)] = metaPos(e1, LEFTa_p1_u0, LEFTa_u0_p1);
+      e0.metaStateArr[metaPos(e0, LEFTb_p1, NULL_u0)].levelUpOutputMetaStatePosArr[metaPos(e1, NULL_u0_u0, NULL_u0_u0)] = metaPos(e1, LEFTa_p1_u0, LEFTa_u0_p1);
       //----------------------------------------------------------------------------------------------------------------
    }
 }

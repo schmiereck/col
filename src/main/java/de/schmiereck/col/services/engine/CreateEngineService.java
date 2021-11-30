@@ -1,6 +1,7 @@
 package de.schmiereck.col.services.engine;
 
 import static de.schmiereck.col.model.State.negState;
+import static de.schmiereck.col.services.EngineService.calcMetaStateSize;
 import static de.schmiereck.col.services.StateUtils.convertToDebugString;
 
 import de.schmiereck.col.model.Engine;
@@ -28,6 +29,32 @@ public class CreateEngineService {
       engine.metaStateArr[metaPos(engine, input0MetaStatePos, input1MetaStatePos)].outputMetaStatePos = metaPos(engine, output0MetaStatePos, output1MetaStatePos);
    }
 
+   public static void writeMetaState(final Engine engine,
+                                     final int input0MetaStatePos, final int input1MetaStatePos, final int input2MetaStatePos,
+                                     final int output0MetaStatePos, final int output1MetaStatePos, final int output2MetaStatePos) {
+      engine.metaStateArr[metaPos(engine, input0MetaStatePos, input1MetaStatePos, input2MetaStatePos)].outputMetaStatePos = metaPos(engine, output0MetaStatePos, output1MetaStatePos, output2MetaStatePos);
+   }
+
+
+   public static void writeMetaState(final Engine engine,
+                                     final int input0MetaStatePos, final int input1MetaStatePos, final int[] input2MetaStatePosArr,
+                                     final int output0MetaStatePos, final int output1MetaStatePos) {
+      for (final int input2MetaStatePos: input2MetaStatePosArr) {
+         engine.metaStateArr[metaPos(engine, input0MetaStatePos, input1MetaStatePos, input2MetaStatePos)].outputMetaStatePos =
+                 metaPos(engine, output0MetaStatePos, output1MetaStatePos, input2MetaStatePos);
+      }
+   }
+
+   public static void writeMetaState(final Engine engine,
+                                     final int input0MetaStatePos, final int input1MetaStatePos, final int[] input2MetaStatePosArr,
+                                     final int output0MetaStatePos, final int output1MetaStatePos, final int[] output2MetaStatePosArr) {
+      for (final int input2MetaStatePos: input2MetaStatePosArr) {
+         for (final int output2MetaStatePos: output2MetaStatePosArr) {
+            engine.metaStateArr[metaPos(engine, input0MetaStatePos, input1MetaStatePos, input2MetaStatePos)].outputMetaStatePos = metaPos(engine, output0MetaStatePos, output1MetaStatePos, output2MetaStatePos);
+         }
+      }
+   }
+
    public static int metaPos(final Engine engine, final int ... inputMetaStatePosArr) {
       int metaStatePos = 0;
       for (int metaPos = 0; metaPos < inputMetaStatePosArr.length; metaPos++) {
@@ -45,7 +72,7 @@ public class CreateEngineService {
    }
 
    public static void initMetaStateArr(final Engine engine) {
-      final int size = engine.cellSize == 1 ? 2 : engine.cellSize;
+      final int size = calcMetaStateSize(engine);
       engine.metaStateArr = new MetaState[(int)Math.pow(engine.inputStateArr.length, size)];
       engine.inputMetaStatePosToMetaStateArr = new MetaState[(int)Math.pow(engine.inputStateArr.length, size)];
 

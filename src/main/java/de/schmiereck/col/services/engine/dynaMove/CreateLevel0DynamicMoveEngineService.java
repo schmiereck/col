@@ -37,7 +37,7 @@ public class CreateLevel0DynamicMoveEngineService {
 
    public static Engine createLevel0DynamicMoveEngine() {
       //----------------------------------------------------------------------------------------------------------------
-      final Engine level0Engine = new Engine(1, 11);
+      final Engine level0Engine = new Engine(1, 11, true);
 
       //----------------------------------------------------------------------------------------------------------------
       // null:
