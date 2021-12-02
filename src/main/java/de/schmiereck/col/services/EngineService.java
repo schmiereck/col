@@ -121,4 +121,8 @@ public class EngineService {
       }
       return metaStatePos;
    }
+
+   public static MetaState readMetaState(final Engine engine, final Cell cell) {
+      return engine.metaStateArr[cell.metaStatePos];
+   }
 }

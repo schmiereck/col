@@ -4,6 +4,7 @@ import static de.schmiereck.col.services.StateUtils.convertToValue;
 
 import de.schmiereck.col.model.Cell;
 import de.schmiereck.col.model.Engine;
+import de.schmiereck.col.model.Event;
 import de.schmiereck.col.model.Level;
 import de.schmiereck.col.model.LevelCell;
 import de.schmiereck.col.model.State;
@@ -87,16 +88,30 @@ public class UniverseUtils {
    }
 
    public static void setStatePos(final Universe universe, final int cellPos, final int levelPos, final int statePos) {
-      setStatePos(universe, cellPos, levelPos, 0, statePos);
+      setStatePos(universe, cellPos, levelPos, 0, statePos, null);
+   }
+
+   public static void setStatePos(final Universe universe, final int cellPos, final int levelPos, final int statePos, final Event event) {
+      setStatePos(universe, cellPos, levelPos, 0, statePos, event);
    }
 
    public static void setStatePos(final Universe universe, final int cellPos, final int levelPos, final int metaCellPos, final int statePos) {
+      setStatePos(universe, cellPos, levelPos, metaCellPos, statePos, null);
+   }
+
+   public static void setStatePos(final Universe universe, final int cellPos, final int levelPos, final int metaCellPos, final int statePos, final Event event) {
       final Level level = readLevel(universe, levelPos);
-      setStatePos(level, cellPos, metaCellPos, statePos);
+      setStatePos(level, cellPos, metaCellPos, statePos, event);
    }
 
    public static void setStatePos(final Level level, final int cellPos, final int metaCellPos, final int statePos) {
-      level.levelCellArr[cellPos].metaCellArr[metaCellPos].statePos = statePos;
+      setStatePos(level, cellPos, metaCellPos, statePos, null);
+   }
+
+   public static void setStatePos(final Level level, final int cellPos, final int metaCellPos, final int statePos, final Event event) {
+      final Cell cell = level.levelCellArr[cellPos].metaCellArr[metaCellPos];
+      cell.statePos = statePos;
+      cell.event = event;
    }
 
    public static State readCellState(final Universe universe, final int cellPos, final int levelPos, final int inputStatePos) {
@@ -116,16 +131,34 @@ public class UniverseUtils {
    }
 
    public static Cell readCell(final Level level, final int cellPos) {
-      return readCell(level, cellPos, 0);
+      final LevelCell levelCell = readLevelCell(level, cellPos);
+      return readCell(levelCell);
+   }
+
+   public static Cell readCell(final LevelCell levelCell) {
+      return readCell(levelCell, 0);
+   }
+
+   public static Cell readCell(final LevelCell levelCell, final int metaCellPos) {
+      return levelCell.metaCellArr[metaCellPos];
    }
 
    public static Cell readCell(final Level level, final int cellPos, final int metaCellPos) {
-      return readLevelCell(level, cellPos).metaCellArr[metaCellPos];
+      final LevelCell levelCell = readLevelCell(level, cellPos);
+      return readCell(levelCell, metaCellPos);
    }
 
    public static int readCellStatePos(final Universe universe, final int cellPos, final int levelPos, final int metaCellPos) {
       final Level level = readLevel(universe, levelPos);
       return readLevelCell(level, cellPos).metaCellArr[metaCellPos].statePos;
+   }
+
+   public static int readMetaStatePos(final LevelCell levelCell) {
+      return readMetaStatePos(levelCell, 0);
+   }
+
+   public static int readMetaStatePos(final LevelCell levelCell, final int metaCellPos) {
+      return levelCell.metaCellArr[metaCellPos].metaStatePos;
    }
 
    public static Level readLevel(final Universe universe, final int levelPos) {

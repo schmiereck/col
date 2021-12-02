@@ -3,11 +3,8 @@ package de.schmiereck.col.services.engine.dynaMove;
 import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
 import static de.schmiereck.col.services.RunTestUtils.runTestNextUpStateDownMeta;
-import static de.schmiereck.col.services.UniverseService.runNextUSDM;
-import static de.schmiereck.col.services.UniverseUtils.printCellsMinimal;
 import static de.schmiereck.col.services.engine.dynaMove.CreateLevel0DynamicMoveEngineService.NULL_u0;
 import static de.schmiereck.col.services.engine.dynaMove.CreateLevel0DynamicMoveEngineService.STAY_p1;
-import static de.schmiereck.col.services.RunTestUtils.runTestNextUpStateMeta;
 import static de.schmiereck.col.services.UniverseUtils.printCells;
 import static de.schmiereck.col.services.UniverseUtils.readCell;
 import static de.schmiereck.col.services.UniverseUtils.readCellState;
@@ -17,8 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.Universe;
 import de.schmiereck.col.services.UniverseService;
-import de.schmiereck.col.services.engine.dynaMove.CreateLevel0DynamicMoveEngineService;
-import de.schmiereck.col.services.engine.dynaMove.CreateLevel1DynamicMoveEngineService;
 
 import org.junit.jupiter.api.Test;
 
@@ -44,7 +39,7 @@ public class Test_UniverseService_WHEN_runTestNextUpStateDownMeta_is_called_with
       UniverseService.calcInitialMetaStates(universe);
       CreateLevel0DynamicMoveEngineService.initLevelUpOutputMetaStates(level0Engine, level1Engine);
 
-      UniverseService.use_levelUpOutputMetaStatePos = true;
+      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
 
       // Act
       printCells(universe, 0, "initial");

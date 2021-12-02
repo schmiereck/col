@@ -14,7 +14,15 @@ import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
  *                              ^
  *    0 1 2 3 4 5 6 7 8 9 0 1   cell[]
  * </code>
- * Level[] -> { LevelCell[], Engine } -> Cell[] -> { Cell[] metaCellArr, statePos }
+ * Universe
+ *    -> Engine[] engineArr
+ *    -> Level[] levelArr
+ *       -> Engine engine
+ *       -> LevelCell[] levelCellArr
+ *          -> Cell[] metaCellArr
+ *             -> statePos
+ *             -> metaStatePos
+ *             -> Event event
  */
 public class Universe {
    public final Engine[] engineArr;

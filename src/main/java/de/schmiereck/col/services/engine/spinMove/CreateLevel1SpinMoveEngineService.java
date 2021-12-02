@@ -5,6 +5,8 @@ import static de.schmiereck.col.model.State.posState;
 import static de.schmiereck.col.services.engine.CreateEngineService.initMetaStateArr;
 import static de.schmiereck.col.services.engine.CreateEngineService.metaPos;
 import static de.schmiereck.col.services.engine.CreateEngineService.writeMetaState;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.LEFTa_p1;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.NULL_u0;
 
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.State;
@@ -294,7 +296,8 @@ public class CreateLevel1SpinMoveEngineService {
       //    *    *   *           =>   *    *   *
       //    9        1   0       =>   9        0   1        // collision + move
       //    5            0   1   =>   5            1   0
-      writeMetaState(e, LEFTa_u0_p1, RIGHTa_p1_u0, ALL_xX_xX, RIGHTb_p1_u0, LEFTb_u0_p1);    // Move (or Level Down?)
+      //writeMetaState(e, LEFTa_u0_p1, RIGHTa_p1_u0, ALL_xX_xX, RIGHTb_p1_u0, LEFTb_u0_p1);    // Move (or Level Down?)
+      writeMetaState(e, LEFTa_u0_p1, RIGHTa_p1_u0, ALL_xX_xX, LEFTa_u0_p1, RIGHTa_p1_u0, true);    // Level Down
       writeMetaState(e, LEFTb_u0_p1, RIGHTa_p1_u0, ALL_xX_xX, LEFTb_u0_p1, RIGHTa_p1_u0);
       writeMetaState(e, LEFTa_u0_p1, RIGHTb_p1_u0, ALL_xX_xX, LEFTa_u0_p1, RIGHTb_p1_u0);
       writeMetaState(e, LEFTb_u0_p1, RIGHTb_p1_u0, ALL_xX_xX, LEFTb_u0_p1, RIGHTb_p1_u0);
@@ -453,23 +456,38 @@ public class CreateLevel1SpinMoveEngineService {
       // 0,0  =>  5,3
       //    0    0   0       =>   3    0   1       0:null -> 3:left
       //    0        0   0   =>   5        1   0   0:null -> 5:right
-      level1moveEngine.metaStateArr[metaPos(e, NULL_u0_u0, NULL_u0_u0)].levelUpOutputMetaStatePosArr[metaPos(e, NULL_u0_u0, NULL_u0_u0)] = metaPos(e, RIGHTa_p1_u0, 3);
+      level1moveEngine.metaStateArr[metaPos(e, NULL_u0_u0, NULL_u0_u0)].levelUpOutputMetaStatePosArr[metaPos(e, NULL_u0_u0, NULL_u0_u0)] = metaPos(e, RIGHTa_p1_u0, LEFTa_p1_u0);
       // stay -> 1 (1:stay <- 1:stay -> 7:collision)
       // 1,0  =>  7,1
       //    0    0   0       =>   1    0   1       0:null -> 1:stay
       //    1        0   1   =>   7        1   1   1:stay -> 7:collision
-      level1moveEngine.metaStateArr[metaPos(e, STAYa_u0_p1, NULL_u0_u0)].levelUpOutputMetaStatePosArr[metaPos(e, NULL_u0_u0, NULL_u0_u0)] = metaPos(e, 7, 1);
+      //level1moveEngine.metaStateArr[metaPos(e, STAYa_u0_p1, NULL_u0_u0)].levelUpOutputMetaStatePosArr[metaPos(e, NULL_u0_u0, NULL_u0_u0)] = metaPos(e, 7, 1);
       // stay -> 1 (3:left <- 3:left -> 7:collision)
       // 3,0  =>  7,3
       //    0    0   0       =>   3    0   1       0:null -> 3:left
       //    3        0   1   =>   7        1   1   3:left -> 7:collision
-      level1moveEngine.metaStateArr[metaPos(e, LEFTa_u0_p1, NULL_u0_u0)].levelUpOutputMetaStatePosArr[metaPos(e, NULL_u0_u0, NULL_u0_u0)] = metaPos(e, 7, 3);
+      //level1moveEngine.metaStateArr[metaPos(e, LEFTa_u0_p1, NULL_u0_u0)].levelUpOutputMetaStatePosArr[metaPos(e, NULL_u0_u0, NULL_u0_u0)] = metaPos(e, 7, 3);
       // stay -> 1 (6:right <- 6:right -> 7:collision)
       // 6,0  =>  7,6
       //    0    0   0       =>   6    0   1       0:null -> 6:right
       //    6        0   1   =>   7        1   1   6:right -> 7:collision
-      level1moveEngine.metaStateArr[metaPos(e, RIGHTa_u0_p1, NULL_u0_u0)].levelUpOutputMetaStatePosArr[metaPos(e, NULL_u0_u0, NULL_u0_u0)] = metaPos(e, 7, 6);
-
+      //level1moveEngine.metaStateArr[metaPos(e, RIGHTa_u0_p1, NULL_u0_u0)].levelUpOutputMetaStatePosArr[metaPos(e, NULL_u0_u0, NULL_u0_u0)] = metaPos(e, 7, 6);
+      //----------------------------------------------------------------------------------------------------------------
+      // Level Down output:
+      // ALL_xX_xX
+      // 95/1/0:            >  11|11| 0    11|11| 1 >1981| 5| 0  1981| 5| 1 > 936| 0| 0   936| 0| 0
+      // 95/1/1:    0| 0| 0     0| 0| 0 > 152| 9| 1   152| 9| 0 >1593| 7| 1  1593| 7| 0
+      //                            11:RIGHTa_u0_p1           5:LEFTa_u0_p1
+      //                                9:RIGHTa_p1_u0           7:LEFTa_p1_u0
+      //    *    *   *           =>   *    *   *
+      //    9        1   0       =>   9        0   1        // collision + move
+      //    5            0   1   =>   5            1   0
+      // =>               |           |           |           |           |           |           |
+      //                                                           LEFTa_p1
+      //                                                NULL_u0
+      //    0    0
+      //    5        1
+      level1moveEngine.metaStateArr[metaPos(e, LEFTa_u0_p1, RIGHTa_p1_u0, NULL_u0_u0)].levelDownOutputMetaStatePosArr[metaPos(e, NULL_u0, NULL_u0)] = metaPos(e, LEFTa_p1, NULL_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       return level1moveEngine;
    }

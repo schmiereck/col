@@ -17,10 +17,9 @@ import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEng
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import de.schmiereck.col.model.Engine;
+import de.schmiereck.col.model.Event;
 import de.schmiereck.col.model.Universe;
 import de.schmiereck.col.services.UniverseService;
-import de.schmiereck.col.services.engine.dynaMove.CreateLevel0DynamicMoveEngineService;
-import de.schmiereck.col.services.engine.dynaMove.CreateLevel1DynamicMoveEngineService;
 
 import org.junit.jupiter.api.Test;
 
@@ -40,13 +39,14 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
 
       final Universe universe = new Universe(engineArr, universeSize);
 
+      final Event event = new Event(null);
       //setStatePos(universe, 2, 0, STAY_p1);
-      setStatePos(universe, 2, 0, STAYa_p1);
+      setStatePos(universe, 2, 0, STAYa_p1, event);
 
       UniverseService.calcInitialMetaStates(universe);
       //CreateLevel0DynamicMoveEngineService.initLevelUpOutputMetaStates(level0Engine, level1Engine);
 
-      UniverseService.use_levelUpOutputMetaStatePos = true;
+      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
 
       // Act
       printCells(universe, 0, "initial");
@@ -62,6 +62,8 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
       assertEquals(NULL_u0, readCell(universe, 1, 0).statePos);
       assertEquals(STAYb_p1, readCell(universe, 2, 0).statePos);
       assertEquals(NULL_u0, readCell(universe, 3, 0).statePos);
+
+      assertEquals(event, readCell(universe, 2, 0).event);
    }
 
    @Test
@@ -78,12 +80,13 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
 
       final Universe universe = new Universe(engineArr, universeSize);
 
-      setStatePos(universe, 2, 0, LEFTa_p1);
+      final Event event = new Event(null);
+      setStatePos(universe, 2, 0, LEFTa_p1, event);
 
       UniverseService.calcInitialMetaStates(universe);
       //CreateLevel0DynamicMoveEngineService.initLevelUpOutputMetaStates(level0Engine, level1Engine);
 
-      UniverseService.use_levelUpOutputMetaStatePos = true;
+      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
 
       // Act
       printCells(universe, 0, "initial");
@@ -99,6 +102,8 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
       assertEquals(NULL_u0, readCell(universe, -1, 0).statePos);
       assertEquals(LEFTb_p1, readCell(universe, 0, 0).statePos);
       assertEquals(NULL_u0, readCell(universe, 1, 0).statePos);
+
+      assertEquals(event, readCell(universe, 0, 0).event);
    }
 
    @Test
@@ -120,7 +125,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
       UniverseService.calcInitialMetaStates(universe);
       //CreateLevel0DynamicMoveEngineService.initLevelUpOutputMetaStates(level0Engine, level1Engine);
 
-      UniverseService.use_levelUpOutputMetaStatePos = true;
+      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
 
       // Act
       printCells(universe, 0, "initial");

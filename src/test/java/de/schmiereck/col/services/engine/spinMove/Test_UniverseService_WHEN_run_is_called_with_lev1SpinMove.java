@@ -3,17 +3,17 @@ package de.schmiereck.col.services.engine.spinMove;
 import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
 import static de.schmiereck.col.services.RunTestUtils.runTestNextStateMeta;
+import static de.schmiereck.col.services.RunTestUtils.runTestNextUpStateDownMeta;
 import static de.schmiereck.col.services.RunTestUtils.runTestNextUpStateMeta;
 import static de.schmiereck.col.services.UniverseUtils.printCells;
 import static de.schmiereck.col.services.UniverseUtils.printCellsMinimal;
 import static de.schmiereck.col.services.UniverseUtils.readCell;
 import static de.schmiereck.col.services.UniverseUtils.readCellState;
 import static de.schmiereck.col.services.UniverseUtils.setStatePos;
+import static de.schmiereck.col.services.engine.CreateEngineService.writeMetaState;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.LEFTa_p1;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.NULL_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.RIGHTa_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.STAYa_p1;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.STAYb_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.LEFTa_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.LEFTb_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.LEFTa_u0_p1;
@@ -30,6 +30,7 @@ import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEng
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import de.schmiereck.col.model.Engine;
+import de.schmiereck.col.model.Event;
 import de.schmiereck.col.model.Universe;
 import de.schmiereck.col.services.UniverseService;
 
@@ -53,7 +54,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
 
       UniverseService.calcInitialMetaStates(universe);
 
-      UniverseService.use_levelUpOutputMetaStatePos = true;
+      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
 
       // Act
       printCells(universe, 0, "initial");
@@ -94,7 +95,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
 
       UniverseService.calcInitialMetaStates(universe);
 
-      UniverseService.use_levelUpOutputMetaStatePos = true;
+      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
 
       // Act
       printCells(universe, 0, "initial");
@@ -134,7 +135,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
 
       UniverseService.calcInitialMetaStates(universe);
 
-      UniverseService.use_levelUpOutputMetaStatePos = true;
+      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
 
       // Act
       printCells(universe, 0, "initial");
@@ -178,7 +179,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
       UniverseService.calcInitialMetaStates(universe);
       CreateLevel0SpinMoveEngineService.initLevelUpOutputMetaStates(level0Engine, level1Engine);
 
-      UniverseService.use_levelUpOutputMetaStatePos = true;
+      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
 
       // Act
       printCells(universe, 0, "initial");
@@ -222,7 +223,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
       UniverseService.calcInitialMetaStates(universe);
       CreateLevel0SpinMoveEngineService.initLevelUpOutputMetaStates(level0Engine, level1Engine);
 
-      UniverseService.use_levelUpOutputMetaStatePos = true;
+      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
 
       // Act
       printCells(universe, 0, "initial");
@@ -272,7 +273,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
       UniverseService.calcInitialMetaStates(universe);
       CreateLevel0SpinMoveEngineService.initLevelUpOutputMetaStates(level0Engine, level1Engine);
 
-      UniverseService.use_levelUpOutputMetaStatePos = true;
+      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
 
       // Act
       printCells(universe, 0, "initial");
@@ -320,13 +321,69 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
       UniverseService.calcInitialMetaStates(universe);
       CreateLevel0SpinMoveEngineService.initLevelUpOutputMetaStates(level0Engine, level1Engine);
 
-      UniverseService.use_levelUpOutputMetaStatePos = true;
+      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
 
       // Act
       printCells(universe, 0, "initial");
       for (int cnt = 0; cnt < 12*2*2*2; cnt++) {
          //runTestNextUpStateMeta(universe, cnt);
          UniverseService.runNextUSM(universe); printCellsMinimal(universe, cnt);
+      }
+
+      // Assert
+      assertEquals(posState, readCellState(universe, 0, 1, 0));
+      assertEquals(posState, readCellState(universe, 4, 1, 0));
+      assertEquals(posState, readCellState(universe, 5, 1, 0));
+      assertEquals(posState, readCellState(universe, 6, 1, 1));
+      assertEquals(posState, readCellState(universe, 7, 1, 0));
+      assertEquals(posState, readCellState(universe, 11, 1, 1));
+
+      assertEquals(STAYa_p1_u0, readCell(universe, 0, 1).statePos);
+      assertEquals(LEFTb_p1_u0, readCell(universe, 4, 1).statePos);
+      assertEquals(RIGHTb_p1_u0, readCell(universe, 5, 1).statePos);
+      assertEquals(LEFTa_u0_p1, readCell(universe, 6, 1).statePos);
+      assertEquals(RIGHTa_p1_u0, readCell(universe, 7, 1).statePos);
+      assertEquals(STAYb_u0_p1, readCell(universe, 11, 1).statePos);
+   }
+
+   @Test
+   void GIVEN_lev1spinMove_state_LEFT_RIGHT_p1_run_THEN_state_is_calculated() {
+      // Arrange
+      final int universeSize = 6;
+
+      final Engine level0Engine = CreateLevel0SpinMoveEngineService.createLevel0SpinMoveEngine();
+      final Engine level1Engine = CreateLevel1SpinMoveEngineService.createLevel1SpinMoveEngine();
+
+      final Engine[] engineArr = new Engine[2];
+      engineArr[0] = level0Engine;
+      engineArr[1] = level1Engine;
+
+      final Universe universe = new Universe(engineArr, universeSize);
+
+      // 95/1/0:            >  11|11| 0    11|11| 1 >1981| 5| 0  1981| 5| 1 > 936| 0| 0   936| 0| 0
+      // 95/1/1:    0| 0| 0     0| 0| 0 > 152| 9| 1   152| 9| 0 >1593| 7| 1  1593| 7| 0
+      //                            11:RIGHTa_u0_p1           5:LEFTa_u0_p1
+      //                                9:RIGHTa_p1_u0           7:LEFTa_p1_u0
+      //    *    *   *           =>   *    *   *
+      //    9        1   0       =>   9        0   1        // collision + move
+      //    5            0   1   =>   5            1   0
+      //writeMetaState(e, LEFTa_u0_p1, RIGHTa_p1_u0, ALL_xX_xX, RIGHTb_p1_u0, LEFTb_u0_p1);    // Move (or Level Down?)
+      final Event rightEvent = new Event(null);
+      final Event leftEvent = new Event(null);
+      setStatePos(universe, 2, 1, RIGHTa_p1_u0, rightEvent);
+      setStatePos(universe, 3, 1, LEFTa_u0_p1, leftEvent);
+
+      UniverseService.calcInitialMetaStates(universe);
+      CreateLevel0SpinMoveEngineService.initLevelUpOutputMetaStates(level0Engine, level1Engine);
+
+      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
+      UniverseService.CONFIG_use_levelDown_flag = true;
+
+      // Act
+      printCells(universe, 0, "initial");
+      for (int cnt = 0; cnt < 4; cnt++) {
+         runTestNextUpStateDownMeta(universe, cnt);
+         //UniverseService.runNextUSM(universe); printCellsMinimal(universe, cnt);
       }
 
       // Assert

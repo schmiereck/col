@@ -35,13 +35,21 @@ public class CreateEngineService {
       engine.metaStateArr[metaPos(engine, input0MetaStatePos, input1MetaStatePos, input2MetaStatePos)].outputMetaStatePos = metaPos(engine, output0MetaStatePos, output1MetaStatePos, output2MetaStatePos);
    }
 
-
    public static void writeMetaState(final Engine engine,
                                      final int input0MetaStatePos, final int input1MetaStatePos, final int[] input2MetaStatePosArr,
                                      final int output0MetaStatePos, final int output1MetaStatePos) {
+      writeMetaState(engine,
+                     input0MetaStatePos, input1MetaStatePos, input2MetaStatePosArr,
+                     output0MetaStatePos, output1MetaStatePos, false);
+   }
+
+   public static void writeMetaState(final Engine engine,
+                                     final int input0MetaStatePos, final int input1MetaStatePos, final int[] input2MetaStatePosArr,
+                                     final int output0MetaStatePos, final int output1MetaStatePos, final boolean levelDown) {
       for (final int input2MetaStatePos: input2MetaStatePosArr) {
-         engine.metaStateArr[metaPos(engine, input0MetaStatePos, input1MetaStatePos, input2MetaStatePos)].outputMetaStatePos =
-                 metaPos(engine, output0MetaStatePos, output1MetaStatePos, input2MetaStatePos);
+         final MetaState metaState = engine.metaStateArr[metaPos(engine, input0MetaStatePos, input1MetaStatePos, input2MetaStatePos)];
+         metaState.outputMetaStatePos = metaPos(engine, output0MetaStatePos, output1MetaStatePos, input2MetaStatePos);
+         metaState.levelDown = levelDown;
       }
    }
 
