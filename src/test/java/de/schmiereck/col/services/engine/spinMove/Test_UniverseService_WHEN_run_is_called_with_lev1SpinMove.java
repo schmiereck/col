@@ -326,8 +326,8 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
       // Act
       printCells(universe, 0, "initial");
       for (int cnt = 0; cnt < 12*2*2*2; cnt++) {
-         //runTestNextUpStateMeta(universe, cnt);
-         UniverseService.runNextUSM(universe); printCellsMinimal(universe, cnt);
+         runTestNextUpStateMeta(universe, cnt);
+         //UniverseService.runNextUSM(universe); printCellsMinimal(universe, cnt);
       }
 
       // Assert
@@ -367,9 +367,16 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
       //    *    *   *           =>   *    *   *
       //    9        1   0       =>   9        0   1        // collision + move
       //    5            0   1   =>   5            1   0
+      // =>               |           |           |           |           |           |           |
+      //                                                           LEFTa_p1
+      //                                                NULL_u0
+      //    0    0
+      //    5        1
       //writeMetaState(e, LEFTa_u0_p1, RIGHTa_p1_u0, ALL_xX_xX, RIGHTb_p1_u0, LEFTb_u0_p1);    // Move (or Level Down?)
-      final Event rightEvent = new Event(null);
-      final Event leftEvent = new Event(null);
+      final Event parentRightEvent = new Event(null);
+      final Event rightEvent = new Event(parentRightEvent);
+      final Event parentLeftEvent = new Event(null);
+      final Event leftEvent = new Event(parentLeftEvent);
       setStatePos(universe, 2, 1, RIGHTa_p1_u0, rightEvent);
       setStatePos(universe, 3, 1, LEFTa_u0_p1, leftEvent);
 
@@ -381,24 +388,24 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
 
       // Act
       printCells(universe, 0, "initial");
-      for (int cnt = 0; cnt < 4; cnt++) {
+      for (int cnt = 0; cnt < 1; cnt++) {
          runTestNextUpStateDownMeta(universe, cnt);
          //UniverseService.runNextUSM(universe); printCellsMinimal(universe, cnt);
       }
 
       // Assert
-      assertEquals(posState, readCellState(universe, 0, 1, 0));
-      assertEquals(posState, readCellState(universe, 4, 1, 0));
-      assertEquals(posState, readCellState(universe, 5, 1, 0));
-      assertEquals(posState, readCellState(universe, 6, 1, 1));
-      assertEquals(posState, readCellState(universe, 7, 1, 0));
-      assertEquals(posState, readCellState(universe, 11, 1, 1));
+      assertEquals(nulState, readCellState(universe, 0, 1, 0));
+      assertEquals(nulState, readCellState(universe, 1, 1, 0));
+      assertEquals(posState, readCellState(universe, 2, 1, 0));
+      assertEquals(nulState, readCellState(universe, 2, 1, 1));
+      assertEquals(nulState, readCellState(universe, 3, 1, 0));
+      assertEquals(posState, readCellState(universe, 3, 1, 1));
+      assertEquals(nulState, readCellState(universe, 4, 1, 0));
+      assertEquals(nulState, readCellState(universe, 5, 1, 0));
 
-      assertEquals(STAYa_p1_u0, readCell(universe, 0, 1).statePos);
-      assertEquals(LEFTb_p1_u0, readCell(universe, 4, 1).statePos);
-      assertEquals(RIGHTb_p1_u0, readCell(universe, 5, 1).statePos);
-      assertEquals(LEFTa_u0_p1, readCell(universe, 6, 1).statePos);
-      assertEquals(RIGHTa_p1_u0, readCell(universe, 7, 1).statePos);
-      assertEquals(STAYb_u0_p1, readCell(universe, 11, 1).statePos);
+      assertEquals(posState, readCellState(universe, 3, 0, 0));
+
+      assertEquals(RIGHTa_p1_u0, readCell(universe, 2, 1).statePos);
+      assertEquals(LEFTa_u0_p1, readCell(universe, 3, 1).statePos);
    }
 }

@@ -309,18 +309,21 @@ public class UniverseService {
          final Level targetLevel = readLevel(universe, targetLevelPos);
 
          for (int cellPos = 0; cellPos < universe.universeSize; cellPos++) {
-            if (CONFIG_use_levelDown_flag) {
+            if (CONFIG_use_levelDown_flag) { // && Objects.nonNull(sourceCell.event)) {
                final LevelCell sourceLevelCell = readLevelCell(sourceLevel, cellPos);
                final Cell sourceCell = readCell(sourceLevelCell);
                final MetaState sourceCellMetaState = readMetaState(sourceEngine, sourceCell);
                if (sourceCellMetaState.levelDown) {
                   //move state down to next level
-                  final LevelCell targetLevelCell = readLevelCell(targetLevel, cellPos);
+                  final LevelCell targetLevelCell = readLevelCell(targetLevel, cellPos + (sourceEngine.cellSize - targetEngine.cellSize));
                   final int targetMetaStatePos = readMetaStatePos(targetLevelCell);
-                  final int levelDownOutputMetaStatePos = sourceEngine.metaStateArr[sourceCell.metaStatePos].levelDownOutputMetaStatePosArr[targetMetaStatePos];
+                  final MetaState sourceMetaState = sourceEngine.metaStateArr[sourceCell.metaStatePos];
+                  final int levelDownOutputMetaStatePos = sourceMetaState.levelDownOutputMetaStatePosArr[targetMetaStatePos];
                   if (levelDownOutputMetaStatePos == -1) {
                      final MetaState targetMetaState = targetEngine.metaStateArr[targetMetaStatePos];
-                     throw new RuntimeException(String.format("Level-Cell-Size %d: For Meta-State %s no levelDownOutputMetaStatePos defined.", targetEngine.cellSize, convertToDebugString(targetMetaState)));
+                     throw new RuntimeException(String.format("For Meta-State no levelDownOutputMetaStatePos defined: source(%d:%s), target(%d:%s).",
+                             sourceEngine.cellSize, convertToDebugString(sourceMetaState),
+                             targetEngine.cellSize, convertToDebugString(targetMetaState)));
                   }
                   writeNewMetaStatePos(targetEngine, targetLevelCell, levelDownOutputMetaStatePos);
                   sourceCell.event.levelDownFlag = true;

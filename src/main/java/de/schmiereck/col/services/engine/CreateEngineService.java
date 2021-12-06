@@ -32,7 +32,17 @@ public class CreateEngineService {
    public static void writeMetaState(final Engine engine,
                                      final int input0MetaStatePos, final int input1MetaStatePos, final int input2MetaStatePos,
                                      final int output0MetaStatePos, final int output1MetaStatePos, final int output2MetaStatePos) {
-      engine.metaStateArr[metaPos(engine, input0MetaStatePos, input1MetaStatePos, input2MetaStatePos)].outputMetaStatePos = metaPos(engine, output0MetaStatePos, output1MetaStatePos, output2MetaStatePos);
+      writeMetaState(engine,
+                     input0MetaStatePos, input1MetaStatePos, input2MetaStatePos,
+                     output0MetaStatePos, output1MetaStatePos, output2MetaStatePos, false);
+   }
+
+   public static void writeMetaState(final Engine engine,
+                                     final int input0MetaStatePos, final int input1MetaStatePos, final int input2MetaStatePos,
+                                     final int output0MetaStatePos, final int output1MetaStatePos, final int output2MetaStatePos, final boolean levelDown) {
+      final MetaState metaState = engine.metaStateArr[metaPos(engine, input0MetaStatePos, input1MetaStatePos, input2MetaStatePos)];
+      metaState.outputMetaStatePos = metaPos(engine, output0MetaStatePos, output1MetaStatePos, output2MetaStatePos);
+      metaState.levelDown = levelDown;
    }
 
    public static void writeMetaState(final Engine engine,
