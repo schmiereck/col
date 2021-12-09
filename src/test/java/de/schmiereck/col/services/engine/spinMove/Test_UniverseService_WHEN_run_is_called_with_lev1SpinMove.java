@@ -79,6 +79,46 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
    }
 
    @Test
+   void GIVEN_lev1spinMove_state_RIGHT_p1_run_THEN_state_is_calculated() {
+      // Arrange
+      final int universeSize = 6;
+
+      final Engine level1Engine = CreateLevel1SpinMoveEngineService.createLevel1SpinMoveEngine();
+
+      final Engine[] engineArr = new Engine[1];
+      engineArr[0] = level1Engine;
+
+      final Universe universe = new Universe(engineArr, universeSize);
+
+      setStatePos(universe, 5, 0, RIGHTa_u0_p1);
+
+      UniverseService.calcInitialMetaStates(universe);
+
+      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
+
+      // Act
+      printCells(universe, 0, "initial");
+      for (int cnt = 0; cnt < 8; cnt++) {
+         runTestNextStateMeta(universe, cnt);
+         //runNextUSDM(universe); printCellsMinimal(universe, cnt);
+      }
+
+      // Assert
+      assertEquals(nulState, readCellState(universe, 0, 0, 0));
+      assertEquals(posState, readCellState(universe, 1, 0, 0));
+      assertEquals(nulState, readCellState(universe, 1, 0, 1));
+      assertEquals(nulState, readCellState(universe, 2, 0, 0));
+      assertEquals(nulState, readCellState(universe, 3, 0, 0));
+      assertEquals(nulState, readCellState(universe, 4, 0, 0));
+      assertEquals(nulState, readCellState(universe, 5, 0, 0));
+
+      assertEquals(NULL_u0_u0, readCell(universe, 0, 0).statePos);
+      assertEquals(RIGHTb_p1_u0, readCell(universe, 1, 0).statePos);
+      assertEquals(NULL_u0_u0, readCell(universe, 2, 0).statePos);
+      assertEquals(NULL_u0_u0, readCell(universe, 3, 0).statePos);
+   }
+
+   @Test
    void GIVEN_lev1spinMove_2_state_LEFT_p1_run_THEN_state_is_calculated() {
       // Arrange
       final int universeSize = 6;
@@ -110,53 +150,14 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
       assertEquals(nulState, readCellState(universe, 2, 0, 0));
       assertEquals(nulState, readCellState(universe, 3, 0, 0));
       assertEquals(posState, readCellState(universe, 3, 0, 1));
-      assertEquals(posState, readCellState(universe, 4, 0, 0));
+      assertEquals(nulState, readCellState(universe, 4, 0, 0));
+      assertEquals(posState, readCellState(universe, 4, 0, 1));
       assertEquals(nulState, readCellState(universe, 5, 0, 0));
 
       assertEquals(NULL_u0_u0, readCell(universe, 2, 0).statePos);
       assertEquals(LEFTb_u0_p1, readCell(universe, 3, 0).statePos);
-      assertEquals(LEFTb_p1_u0, readCell(universe, 4, 0).statePos);
+      assertEquals(LEFTb_u0_p1, readCell(universe, 4, 0).statePos);
       assertEquals(NULL_u0_u0, readCell(universe, 5, 0).statePos);
-   }
-
-   @Test
-   void GIVEN_lev1spinMove_state_RIGHT_p1_run_THEN_state_is_calculated() {
-      // Arrange
-      final int universeSize = 6;
-
-      final Engine level1Engine = CreateLevel1SpinMoveEngineService.createLevel1SpinMoveEngine();
-
-      final Engine[] engineArr = new Engine[1];
-      engineArr[0] = level1Engine;
-
-      final Universe universe = new Universe(engineArr, universeSize);
-
-      setStatePos(universe, 5, 0, RIGHTa_u0_p1);
-
-      UniverseService.calcInitialMetaStates(universe);
-
-      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
-
-      // Act
-      printCells(universe, 0, "initial");
-      for (int cnt = 0; cnt < 8; cnt++) {
-         runTestNextStateMeta(universe, cnt);
-         //runNextUSDM(universe); printCellsMinimal(universe, cnt);
-      }
-
-      // Assert
-      assertEquals(nulState, readCellState(universe, 0, 0, 0));
-      assertEquals(nulState, readCellState(universe, 1, 0, 0));
-      assertEquals(posState, readCellState(universe, 1, 0, 1));
-      assertEquals(nulState, readCellState(universe, 2, 0, 0));
-      assertEquals(nulState, readCellState(universe, 3, 0, 0));
-      assertEquals(nulState, readCellState(universe, 4, 0, 0));
-      assertEquals(nulState, readCellState(universe, 5, 0, 0));
-
-      assertEquals(NULL_u0_u0, readCell(universe, 0, 0).statePos);
-      assertEquals(RIGHTb_u0_p1, readCell(universe, 1, 0).statePos);
-      assertEquals(NULL_u0_u0, readCell(universe, 2, 0).statePos);
-      assertEquals(NULL_u0_u0, readCell(universe, 3, 0).statePos);
    }
 
    @Test
@@ -199,7 +200,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
       assertEquals(nulState, readCellState(universe, 3, 1, 0));
 
       assertEquals(STAYa_u0_p1, readCell(universe, 1, 1).statePos);
-      assertEquals(STAYb_p1_u0, readCell(universe, 2, 1).statePos);
+      assertEquals(STAYa_p1_u0, readCell(universe, 2, 1).statePos);
       assertEquals(NULL_u0_u0, readCell(universe, 3, 1).statePos);
    }
 
@@ -240,7 +241,8 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
       assertEquals(nulState, readCellState(universe, 0, 1, 0));
       assertEquals(nulState, readCellState(universe, 1, 1, 0));
       assertEquals(posState, readCellState(universe, 1, 1, 1));
-      assertEquals(posState, readCellState(universe, 2, 1, 0));
+      assertEquals(nulState, readCellState(universe, 2, 1, 0));
+      assertEquals(posState, readCellState(universe, 2, 1, 1));
       assertEquals(nulState, readCellState(universe, 3, 1, 0));
       assertEquals(nulState, readCellState(universe, 3, 1, 1));
       assertEquals(nulState, readCellState(universe, 4, 1, 0));
@@ -248,7 +250,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
 
       assertEquals(NULL_u0_u0, readCell(universe, 0, 1).statePos);
       assertEquals(LEFTb_u0_p1, readCell(universe, 1, 1).statePos);
-      assertEquals(LEFTb_p1_u0, readCell(universe, 2, 1).statePos);
+      assertEquals(LEFTb_u0_p1, readCell(universe, 2, 1).statePos);
       assertEquals(NULL_u0_u0, readCell(universe, 3, 1).statePos);
       assertEquals(NULL_u0_u0, readCell(universe, 5, 1).statePos);
    }
@@ -287,9 +289,10 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
       assertEquals(nulState, readCellState(universe, 2, 0, 0));
       assertEquals(nulState, readCellState(universe, 3, 0, 0));
 
-      assertEquals(nulState, readCellState(universe, 2, 1, 0));
-      assertEquals(nulState, readCellState(universe, 3, 1, 0));
-      assertEquals(posState, readCellState(universe, 3, 1, 1));
+      assertEquals(nulState, readCellState(universe, 0, 1, 0));
+      assertEquals(nulState, readCellState(universe, 1, 1, 0));
+      assertEquals(posState, readCellState(universe, 2, 1, 0));
+      assertEquals(nulState, readCellState(universe, 2, 1, 1));
       assertEquals(posState, readCellState(universe, 4, 1, 0));
       assertEquals(nulState, readCellState(universe, 5, 1, 0));
       assertEquals(nulState, readCellState(universe, 6, 1, 0));

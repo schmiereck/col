@@ -243,8 +243,8 @@ public class CreateLevel0SpinMoveEngineService {
       //    1        1   =>   2        1   0
       //    NULL_u0      ->   STAY_u0_p1
       //       STAY_p1   ->      STAY_p1_u0
-      e0.metaStateArr[metaPos(e0, STAYa_p1, NULL_u0)].levelUpOutputMetaStatePosArr[metaPos(e1, NULL_u0_u0, NULL_u0_u0)] = metaPos(e1, STAYa_p1_u0, STAYb_u0_p1);
-      e0.metaStateArr[metaPos(e0, STAYb_p1, NULL_u0)].levelUpOutputMetaStatePosArr[metaPos(e1, NULL_u0_u0, NULL_u0_u0)] = metaPos(e1, STAYb_p1_u0, STAYa_u0_p1);
+      e0.metaStateArr[metaPos(e0, STAYa_p1, NULL_u0)].levelUpOutputMetaStatePosArr[metaPos(e1, NULL_u0_u0, NULL_u0_u0)] = metaPos(e1, STAYa_p1_u0, STAYa_u0_p1);
+      e0.metaStateArr[metaPos(e0, STAYb_p1, NULL_u0)].levelUpOutputMetaStatePosArr[metaPos(e1, NULL_u0_u0, NULL_u0_u0)] = metaPos(e1, STAYa_p1_u0, STAYa_u0_p1);
       // right -> (right, right)
       // 7,0  =>  5,6
       //    0    0       =>   6    0   1
