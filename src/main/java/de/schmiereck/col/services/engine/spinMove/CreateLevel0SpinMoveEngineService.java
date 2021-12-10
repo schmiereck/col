@@ -13,8 +13,6 @@ import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEng
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHTa_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.STAYa_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.STAYa_u0_p1;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.STAYb_p1_u0;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.STAYb_u0_p1;
 
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.State;

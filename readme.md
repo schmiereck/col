@@ -466,3 +466,23 @@ E-C-D:
 # Bewegung
 Ist ein eigener Zweig in der Engine der die Folgezustände nicht mehr symmetrisch bestimmt, sondern nach rechts oder links.
 In den entsprechenden Zweig zu kommen entspricht einen Impuls von außen.
+
+```
+      //    *    1   0           =>   *    0   0               // Move-Meta-Right
+      //    9        0   0       =>   9        1   0
+      //    0            0   0   =>   0            0   0
+
+      //    *    0   0           =>   *    0   0
+      //    9        1   0       =>   9        0   0           // Move-Meta-Right
+      //    0            0   0   =>   0            1   0
+
+      //    *    *   *           =>   *    *   *
+      //    0        0   0       =>   0        0   0
+      //    9            1   0   =>   9            1   0       // nothing to do
+
+      //    *    1   0   0               =>   *    0   0   0               // Move-Meta-Right
+      //    9        0   0   0           =>   9        1   0   0
+      //    0            0   0   0       =>   0            0   0   0
+      //    0                0   0   0   =>   0                0   0   0
+
+```
