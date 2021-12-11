@@ -42,10 +42,10 @@ public class Universe {
          final Level level = new Level(engine, levelSize);
          this.levelArr[levelPos] = level;
 
-         final int size = calcMetaStateSize(engine);
+         final int metaStateSize = calcMetaStateSize(engine);
 
          for (int levelCellPos = 0; levelCellPos < levelSize; levelCellPos++) {
-            final LevelCell levelCell = new LevelCell(size);
+            final LevelCell levelCell = new LevelCell(metaStateSize);
 
             level.levelCellArr[levelCellPos] = levelCell;
          }
@@ -53,7 +53,7 @@ public class Universe {
          for (int levelCellPos = 0; levelCellPos < levelSize; levelCellPos++) {
             final Cell newCell = new Cell();
 
-            for (int metaCellPos = 0; metaCellPos < size; metaCellPos++) {
+            for (int metaCellPos = 0; metaCellPos < metaStateSize; metaCellPos++) {
                level.levelCellArr[calcCellPos(level, levelCellPos + metaCellPos)].metaCellArr[metaCellPos] = newCell;
             }
          }

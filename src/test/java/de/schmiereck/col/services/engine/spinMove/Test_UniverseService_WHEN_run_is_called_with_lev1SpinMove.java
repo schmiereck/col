@@ -13,9 +13,11 @@ import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEng
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.STAYa_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.LEFTa_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.LEFTa_u0_p1;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.LEFTb_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.NULL_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHTa_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHTa_u0_p1;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHTb_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.STAYa_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.STAYa_u0_p1;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -49,7 +51,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
       // Act
       printCells(universe, 0, "initial");
       for (int cnt = 0; cnt < 8; cnt++) {
-         runTestNextMeta(universe, cnt);
+         runTestNextStateMeta(universe, cnt);
          //runNextUSDM(universe); printCellsMinimal(universe, cnt);
       }
 
@@ -63,7 +65,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
       assertEquals(nulState, readCellState(universe, 5, 0, 0));
 
       assertEquals(NULL_u0_u0, readCell(universe, 2, 0).statePos);
-      assertEquals(LEFTa_u0_p1, readCell(universe, 3, 0).statePos);
+      assertEquals(LEFTb_u0_p1, readCell(universe, 3, 0).statePos);
       assertEquals(NULL_u0_u0, readCell(universe, 4, 0).statePos);
       assertEquals(NULL_u0_u0, readCell(universe, 5, 0).statePos);
    }
@@ -89,7 +91,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
       // Act
       printCells(universe, 0, "initial");
       for (int cnt = 0; cnt < 8; cnt++) {
-         runTestNextMeta(universe, cnt);
+         runTestNextStateMeta(universe, cnt);
          //runNextUSDM(universe); printCellsMinimal(universe, cnt);
       }
 /*
@@ -108,15 +110,15 @@ WRONG 35| 0| 0
  */
       // Assert
       assertEquals(nulState, readCellState(universe, 0, 0, 0));
-      assertEquals(posState, readCellState(universe, 1, 0, 0));
-      assertEquals(nulState, readCellState(universe, 1, 0, 1));
+      assertEquals(nulState, readCellState(universe, 1, 0, 0));
+      assertEquals(posState, readCellState(universe, 1, 0, 1));
       assertEquals(nulState, readCellState(universe, 2, 0, 0));
       assertEquals(nulState, readCellState(universe, 3, 0, 0));
       assertEquals(nulState, readCellState(universe, 4, 0, 0));
       assertEquals(nulState, readCellState(universe, 5, 0, 0));
 
       assertEquals(NULL_u0_u0, readCell(universe, 0, 0).statePos);
-      assertEquals(RIGHTa_p1_u0, readCell(universe, 1, 0).statePos);
+      assertEquals(RIGHTb_u0_p1, readCell(universe, 1, 0).statePos);
       assertEquals(NULL_u0_u0, readCell(universe, 2, 0).statePos);
       assertEquals(NULL_u0_u0, readCell(universe, 3, 0).statePos);
    }

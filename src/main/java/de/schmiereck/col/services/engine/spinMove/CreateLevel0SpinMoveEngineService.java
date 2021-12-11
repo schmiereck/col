@@ -39,7 +39,7 @@ public class CreateLevel0SpinMoveEngineService {
 
    public static Engine createLevel0SpinMoveEngine() {
       //----------------------------------------------------------------------------------------------------------------
-      final Engine level0Engine = new Engine(1, 13, true);
+      final Engine level0Engine = new Engine(1, 13);
 
       //----------------------------------------------------------------------------------------------------------------
       // null:

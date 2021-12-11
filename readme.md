@@ -467,22 +467,25 @@ E-C-D:
 Ist ein eigener Zweig in der Engine der die Folgezustände nicht mehr symmetrisch bestimmt, sondern nach rechts oder links.
 In den entsprechenden Zweig zu kommen entspricht einen Impuls von außen.
 
+## Level 0  0=(1 + (1 * 1))   0
+## Level 1  2=(1 + (1 * 1))   1  1  3  2-0*1
 ```
-      //    *    1   0           =>   *    0   0               // Move-Meta-Right
-      //    9        0   0       =>   9        1   0
-      //    0            0   0   =>   0            0   0
+      //    5    0       =>   0    0   .
+      //    0        1   =>   5        0  (1)                              // Move-Meta-Right (+1)
+```
+## Level 2  2=(1 + (2 * 2))   4  3  5  3-1*1
+```
+      //    9        1   0           =>   9        0   0                   // Move-Meta-Right
+      //    0            0   0       =>   0            1   0
 
-      //    *    0   0           =>   *    0   0
-      //    9        1   0       =>   9        0   0           // Move-Meta-Right
-      //    0            0   0   =>   0            1   0
-
-      //    *    *   *           =>   *    *   *
-      //    0        0   0       =>   0        0   0
-      //    9            1   0   =>   9            1   0       // nothing to do
-
+      //    0        0   0           =>   0        0   0  (1)  .
+      //    9            1   0       =>   9            0   0   .   .       // Move-Meta-Right (+1)
+```
+## Level 3  3=(1 + (3 * 3))   9  5  7  4-2*1
+```
       //    *    1   0   0               =>   *    0   0   0               // Move-Meta-Right
       //    9        0   0   0           =>   9        1   0   0
       //    0            0   0   0       =>   0            0   0   0
-      //    0                0   0   0   =>   0                0   0   0
 
 ```
+## Level 4  4=(1 + (4 * 4))   16  7  9  5-3*1

@@ -19,21 +19,15 @@ public class Engine {
     * 11
     */
    public MetaState[] inputMetaStatePosToMetaStateArr;
-   public final boolean extendedMeta;
 
    public Engine(final int cellSize) {
-      this(cellSize, (int)Math.pow(3, cellSize), false);
+      this(cellSize, (int)Math.pow(3, cellSize));
    }
 
    public Engine(final int cellSize, final int size) {
-      this(cellSize, size, false);
-   }
-
-   public Engine(final int cellSize, final int size, final boolean extendedMeta) {
       this.cellSize = cellSize;
       this.inputStateArr = new State[size];
       this.outputStatePosArr = new LarrayInt(size);
-      this.extendedMeta = extendedMeta;
    }
 
    public void setState(final int pos, final State inputState, final int outputStatePos) {
