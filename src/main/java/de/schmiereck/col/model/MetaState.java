@@ -8,6 +8,7 @@ public class MetaState {
    public int[] levelDownOutputMetaStatePosArr;
    //public int metaStateOutputStatePos;
    public boolean levelDown;
+   public int cellPosOffset;
 
    public MetaState(final int outputMetaStatePos, final int ... inputMetaStatePosArr) {
       this.outputMetaStatePos = outputMetaStatePos;
@@ -16,5 +17,6 @@ public class MetaState {
       this.levelUpOutputMetaStatePosArr = new int[] { -1, -1 };
       this.levelDownOutputMetaStatePosArr = new int[] { -1, -1 };
       this.levelDown = false;
+      this.cellPosOffset = 0;
    }
 }

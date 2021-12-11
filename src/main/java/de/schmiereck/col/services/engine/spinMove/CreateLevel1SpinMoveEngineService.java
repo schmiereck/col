@@ -15,20 +15,25 @@ public class CreateLevel1SpinMoveEngineService {
 
    // null:
    final static int NULL_u0_u0 = 0;
+   // a:
    // stay:
    final static int STAYa_u0_p1 = 1;
-   final static int STAYb_u0_p1 = 2;
-   final static int STAYa_p1_u0 = 3;
-   final static int STAYb_p1_u0 = 4;
+   final static int STAYa_p1_u0 = 2;
    // left:
-   final static int LEFTa_u0_p1 = 5;
-   final static int LEFTb_u0_p1 = 6;
-   final static int LEFTa_p1_u0 = 7;
-   final static int LEFTb_p1_u0 = 8;
+   final static int LEFTa_u0_p1 = 3;
+   final static int LEFTa_p1_u0 = 4;
    // right:
-   final static int RIGHTa_p1_u0 = 9;
-   final static int RIGHTb_p1_u0 = 10;
-   final static int RIGHTa_u0_p1 = 11;
+   final static int RIGHTa_p1_u0 = 5;
+   final static int RIGHTa_u0_p1 = 6;
+   // b:
+   // stay:
+   final static int STAYb_u0_p1 = 7;
+   final static int STAYb_p1_u0 = 8;
+   // left:
+   final static int LEFTb_u0_p1 = 9;
+   final static int LEFTb_p1_u0 = 10;
+   // right:
+   final static int RIGHTb_p1_u0 = 11;
    final static int RIGHTb_u0_p1 = 12;
    // collision:
    //final static int COLLa_RR_p1_p1 = 13;
@@ -130,23 +135,27 @@ public class CreateLevel1SpinMoveEngineService {
       //    5            0   1   =>   5            0   0       // move-Meta-Left
       writeMetaState(e, LEFTa_u0_p1, NULL_u0_u0,    NULL_u0_u0, LEFTb_u0_p1);
       writeMetaState(e, LEFTb_u0_p1, NULL_u0_u0,    LEFTb_u0_p1, NULL_u0_u0);
-      //    5        0   1       =>   5        0   1           // nothing to do
-      //    0            0   0   =>   0            0   0
-      writeMetaState(e, NULL_u0_u0, LEFTa_u0_p1,   NULL_u0_u0, LEFTa_u0_p1);
-      writeMetaState(e, NULL_u0_u0, LEFTb_u0_p1,   NULL_u0_u0, LEFTb_u0_p1);
-      //    4        1   0       =>   4        1   0           // nothing to do
-      //    0            0   0   =>   0            0   0
-      writeMetaState(e, NULL_u0_u0, LEFTa_p1_u0,   NULL_u0_u0, LEFTa_p1_u0);
+      //    4        1   0       =>   4        0   0           // move-Meta-Left (-2)
+      //    0            0   0   =>   0            1   0
+      //writeMetaState(e, NULL_u0_u0, LEFTa_p1_u0,   NULL_u0_u0, LEFTa_p1_u0);   // nothing to do
+      writeMetaState(e, NULL_u0_u0, LEFTa_p1_u0,   LEFTb_p1_u0, NULL_u0_u0, -2);  // move-Meta-Left (-2)
       writeMetaState(e, NULL_u0_u0, LEFTb_p1_u0,   NULL_u0_u0, LEFTb_p1_u0);
+      //    5        0   1       =>   5        0   0           // move-Meta-Left (-2)
+      //    0            0   0   =>   0            0   1
+      //writeMetaState(e, NULL_u0_u0, LEFTa_u0_p1,   NULL_u0_u0, LEFTa_u0_p1);     // nothing to do
+      writeMetaState(e, NULL_u0_u0, LEFTa_u0_p1,   LEFTb_u0_p1, NULL_u0_u0, -2);     // move-Meta-Left (-2)
+      writeMetaState(e, NULL_u0_u0, LEFTb_u0_p1,   NULL_u0_u0, LEFTb_u0_p1);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // right:
-      //    0        0   0       =>   0        0   0
-      //    9            1   0   =>   9            1   0       // nothing to do
-      writeMetaState(e, RIGHTa_p1_u0, NULL_u0_u0,   RIGHTa_p1_u0, NULL_u0_u0);
+      //    0        0   0       =>   0        1   0
+      //    9            1   0   =>   9            0   0       // Move-Meta-Right (+2)
+      //writeMetaState(e, RIGHTa_p1_u0, NULL_u0_u0,   RIGHTa_p1_u0, NULL_u0_u0);      // nothing to do
+      writeMetaState(e, RIGHTa_p1_u0, NULL_u0_u0,   NULL_u0_u0, RIGHTb_p1_u0, +2);     // Move-Meta-Right (+2)
       writeMetaState(e, RIGHTb_p1_u0, NULL_u0_u0,   RIGHTb_p1_u0, NULL_u0_u0);
-      //    0        0   0       =>   0        0   0
-      //   11            0   1   =>  11            0   1       // nothing to do
-      writeMetaState(e, RIGHTa_u0_p1, NULL_u0_u0,   RIGHTa_u0_p1, NULL_u0_u0);
+      //    0        0   0       =>   0        0   1
+      //   11            0   1   =>  11            0   0       // Move-Meta-Right (+2)
+      //writeMetaState(e, RIGHTa_u0_p1, NULL_u0_u0,   RIGHTa_u0_p1, NULL_u0_u0);      // nothing to do
+      writeMetaState(e, RIGHTa_u0_p1, NULL_u0_u0,   NULL_u0_u0, RIGHTb_u0_p1, +2);      // Move-Meta-Right (+2)
       writeMetaState(e, RIGHTb_u0_p1, NULL_u0_u0,   RIGHTb_u0_p1, NULL_u0_u0);
       //    9        1   0       =>   9        0   0           // Move-Meta-Right
       //    0            0   0   =>   0            1   0

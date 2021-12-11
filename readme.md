@@ -475,11 +475,16 @@ In den entsprechenden Zweig zu kommen entspricht einen Impuls von außen.
 ```
 ## Level 2  2=(1 + (2 * 2))   4  3  5  3-1*1
 ```
+Left:
+      //    4        1   0           =>   4.   .   1   0                   // Move-Meta-Left (-2)
+      //    0            0   0       =>   0   (1)  .   0   0
+      
+Right:
       //    9        1   0           =>   9        0   0                   // Move-Meta-Right
       //    0            0   0       =>   0            1   0
 
       //    0        0   0           =>   0        0   0  (1)  .
-      //    9            1   0       =>   9            0   0   .   .       // Move-Meta-Right (+1)
+      //    9            1   0       =>   9            0   0   .   .       // Move-Meta-Right (+2)
 ```
 ## Level 3  3=(1 + (3 * 3))   9  5  7  4-2*1
 ```

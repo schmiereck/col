@@ -21,20 +21,25 @@ public class CreateLevel0SpinMoveEngineService {
 
    // null:
    public final static int NULL_u0 = 0;
+   // a:
    // stay:
    public final static int STAYa_p1 = 1;
-   public final static int STAYb_p1 = 2;
-   public final static int STAYa_n1 = 3;
-   public final static int STAYb_n1 = 4;
+   public final static int STAYa_n1 = 2;
    // left:
-   public final static int LEFTa_p1 = 5;
-   public final static int LEFTb_p1 = 6;
-   public final static int LEFTa_n1 = 7;
-   public final static int LEFTb_n1 = 8;
+   public final static int LEFTa_p1 = 3;
+   public final static int LEFTa_n1 = 4;
    // right:
-   public final static int RIGHTa_p1 = 9;
-   public final static int RIGHTb_p1 = 10;
-   public final static int RIGHTa_n1 = 11;
+   public final static int RIGHTa_p1 = 5;
+   public final static int RIGHTa_n1 = 6;
+   // b:
+   // stay:
+   public final static int STAYb_p1 = 7;
+   public final static int STAYb_n1 = 8;
+   // left:
+   public final static int LEFTb_p1 = 9;
+   public final static int LEFTb_n1 = 10;
+   // right:
+   public final static int RIGHTb_p1 = 11;
    public final static int RIGHTb_n1 = 12;
 
    public static Engine createLevel0SpinMoveEngine() {

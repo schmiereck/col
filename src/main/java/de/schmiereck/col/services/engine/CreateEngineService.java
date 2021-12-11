@@ -26,7 +26,18 @@ public class CreateEngineService {
    public static void writeMetaState(final Engine engine,
                                      final int input0MetaStatePos, final int input1MetaStatePos,
                                      final int output0MetaStatePos, final int output1MetaStatePos) {
-      engine.metaStateArr[metaPos(engine, input0MetaStatePos, input1MetaStatePos)].outputMetaStatePos = metaPos(engine, output0MetaStatePos, output1MetaStatePos);
+      writeMetaState(engine,
+                     input0MetaStatePos, input1MetaStatePos,
+                     output0MetaStatePos, output1MetaStatePos, 0);
+   }
+
+   public static void writeMetaState(final Engine engine,
+                                     final int input0MetaStatePos, final int input1MetaStatePos,
+                                     final int output0MetaStatePos, final int output1MetaStatePos,
+                                     final int cellPosOffset) {
+      final MetaState metaState = engine.metaStateArr[metaPos(engine, input0MetaStatePos, input1MetaStatePos)];
+      metaState.outputMetaStatePos = metaPos(engine, output0MetaStatePos, output1MetaStatePos);
+      metaState.cellPosOffset = cellPosOffset;
    }
 
    public static void writeMetaState(final Engine engine,

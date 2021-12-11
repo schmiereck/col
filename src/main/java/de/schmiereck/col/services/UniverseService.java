@@ -137,7 +137,7 @@ public class UniverseService {
 
          if (Objects.nonNull(engine.metaStateArr)) {
             //for (int cellPos = universe.universeSize - 1; cellPos >= 0; cellPos--) {
-            for (int cellPos = 0; cellPos < universe.universeSize; cellPos++) {
+            for (int cellPos = 0; cellPos < universe.universeSize; cellPos += engine.cellSize) {
                calcNextStatePosByMetaStatePos(engine, level, cellPos);
                calcMetaStatePosByStatePosForNeighbours(engine, level, cellPos);
             }
@@ -156,15 +156,23 @@ public class UniverseService {
    public static void calcNextStatePosByMetaStatePos(final Engine engine, final Level level, final int cellPos) {
       final int metaStateSize = calcMetaStateSize(engine);
       final LevelCell sourceLevelCell = readLevelCell(level, cellPos);
-      final Cell sourceCell = readCell(level, cellPos);
-      final MetaState metaState = engine.metaStateArr[sourceCell.metaStatePos];
-      final int nextMetaStatePos = metaState.outputMetaStatePos;
-      if (nextMetaStatePos == -1) throw new RuntimeException(String.format("Level-Cell-Size %d: For Meta-State %s no output state found.", engine.cellSize, convertToDebugString(metaState)));
-      sourceCell.metaStatePos = nextMetaStatePos;
-      final MetaState nextMetaState = engine.metaStateArr[nextMetaStatePos];
+      final Cell sourceCell = readCell(sourceLevelCell);
+      final MetaState sourceMetaState = engine.metaStateArr[sourceCell.metaStatePos];
+      final int nextSourceMetaStatePos = sourceMetaState.outputMetaStatePos;
+      if (nextSourceMetaStatePos == -1) throw new RuntimeException(String.format("Level-Cell-Size %d: For Meta-State %s no output state found.", engine.cellSize, convertToDebugString(sourceMetaState)));
+
+      final int targetCellPos = cellPos + sourceMetaState.cellPosOffset;
+      final LevelCell targetLevelCell = readLevelCell(level, targetCellPos);
+      final Cell targetCell = readCell(targetLevelCell);
+
+      sourceCell.metaStatePos = 0;
+      targetCell.metaStatePos = nextSourceMetaStatePos;
+
+      final MetaState nextMetaState = engine.metaStateArr[nextSourceMetaStatePos];
       //for (int metaPos = 0; metaPos < sourceLevelCell.metaCellArr.length; metaPos++) {
       for (int metaPos = 0; metaPos < metaStateSize; metaPos++) {
-         sourceLevelCell.metaCellArr[metaPos].statePos = nextMetaState.inputMetaStatePosArr[metaPos];
+         sourceLevelCell.metaCellArr[metaPos].statePos = 0;
+         targetLevelCell.metaCellArr[metaPos].statePos = nextMetaState.inputMetaStatePosArr[metaPos];
       }
    }
 
