@@ -1,6 +1,7 @@
 package de.schmiereck.col.services;
 
 import static de.schmiereck.col.services.UniverseService.runCalcNextMetaState;
+import static de.schmiereck.col.services.UniverseService.runCalcNextMetaState2;
 import static de.schmiereck.col.services.UniverseService.runCalcNextState;
 import static de.schmiereck.col.services.UniverseService.runLevelDown;
 import static de.schmiereck.col.services.UniverseService.runLevelUp;
@@ -34,6 +35,11 @@ public class RunTestUtils {
       runCalcNextState(universe);
       printCells(universe, cnt, "runCalcNextState");
       runCalcNextMetaState(universe);
+      printCells(universe, cnt, "runCalcNextMetaState");
+   }
+
+   public static void runTestNextMeta2(final Universe universe, final int cnt) {
+      runCalcNextMetaState2(universe);
       printCells(universe, cnt, "runCalcNextMetaState");
    }
 

@@ -40,8 +40,8 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
       final Universe universe = new Universe(engineArr, universeSize);
 
       final Event event = new Event(null);
-      //setStatePos(universe, 2, 0, STAY_p1);
-      setStatePos(universe, 2, 0, STAYa_p1, event);
+      //setStatePos(universe, 2, STAY_p1);
+      setStatePos(universe, 2, STAYa_p1, event);
 
       UniverseService.calcInitialMetaStates(universe);
       //CreateLevel0DynamicMoveEngineService.initLevelUpOutputMetaStates(level0Engine, level1Engine);
@@ -81,7 +81,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
       final Universe universe = new Universe(engineArr, universeSize);
 
       final Event event = new Event(null);
-      setStatePos(universe, 2, 0, LEFTa_p1, event);
+      setStatePos(universe, 2, LEFTa_p1, event);
 
       UniverseService.calcInitialMetaStates(universe);
       //CreateLevel0DynamicMoveEngineService.initLevelUpOutputMetaStates(level0Engine, level1Engine);
@@ -120,7 +120,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
 
       final Universe universe = new Universe(engineArr, universeSize);
 
-      setStatePos(universe, 2, 0, RIGHTa_p1);
+      setStatePos(universe, 2, RIGHTa_p1);
 
       UniverseService.calcInitialMetaStates(universe);
       //CreateLevel0DynamicMoveEngineService.initLevelUpOutputMetaStates(level0Engine, level1Engine);

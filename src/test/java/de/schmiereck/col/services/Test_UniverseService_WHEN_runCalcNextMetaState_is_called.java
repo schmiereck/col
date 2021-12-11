@@ -9,6 +9,7 @@ import static de.schmiereck.col.services.UniverseUtils.printCells;
 import static de.schmiereck.col.services.UniverseUtils.readCell;
 import static de.schmiereck.col.services.UniverseUtils.readCellState;
 import static de.schmiereck.col.services.UniverseUtils.readCellStatePos;
+import static de.schmiereck.col.services.UniverseUtils.setMetaStatePos;
 import static de.schmiereck.col.services.UniverseUtils.setStatePos;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -43,7 +44,7 @@ public class Test_UniverseService_WHEN_runCalcNextMetaState_is_called {
 
       //setStatePos(universe, 2, 0, 0,  1);   // l2dyn 3: 0, 0, 0
       //setStatePos(universe, 6, 0, 0,  2);   // l2dyn 1: 0, 0, 0
-      setStatePos(universe, 3, 0, 0,  1);   // l2dyn 1: 0, 0, 0
+      setMetaStatePos(universe, 3, 0,  1);   // l2dyn 1: 0, 0, 0
 
       UniverseService.calcInitialMetaStates(universe);
 

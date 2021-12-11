@@ -1,5 +1,6 @@
 package de.schmiereck.col.services;
 
+import static de.schmiereck.col.model.State.NULL_pos;
 import static de.schmiereck.col.model.State.negState;
 import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
@@ -10,6 +11,7 @@ import static de.schmiereck.col.services.EngineService.searchMetaStatePos;
 import static de.schmiereck.col.services.EngineService.searchStatePosWithNewStateOnPos;
 import static de.schmiereck.col.services.LevelService.calcEqualMetaStateValues;
 import static de.schmiereck.col.services.StateUtils.convertToDebugString;
+import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
 import static de.schmiereck.col.services.UniverseUtils.readCell;
 import static de.schmiereck.col.services.UniverseUtils.readEngine;
 import static de.schmiereck.col.services.UniverseUtils.readLevel;
@@ -18,6 +20,7 @@ import static de.schmiereck.col.services.UniverseUtils.readMetaStatePos;
 
 import de.schmiereck.col.model.Cell;
 import de.schmiereck.col.model.Engine;
+import de.schmiereck.col.model.HyperCell;
 import de.schmiereck.col.model.Level;
 import de.schmiereck.col.model.LevelCell;
 import de.schmiereck.col.model.MetaState;
@@ -85,7 +88,7 @@ public class UniverseService {
 
             final int nextStatePos;
             if (CONFIG_use_levelDown_flag && Objects.nonNull(cell.event) && cell.event.levelDownFlag) {
-               nextStatePos = 0;
+               nextStatePos = NULL_pos;
                cell.event = null;
             } else {
                nextStatePos = engine.outputStatePosArr.get(cell.statePos);
@@ -145,6 +148,19 @@ public class UniverseService {
       }
    }
 
+   public static void runCalcNextMetaState2(final Universe universe) {
+      final Engine[] engineArr = universe.engineArr;
+      for (int levelPos = 0; levelPos < engineArr.length; levelPos++) {
+         final Engine engine = readEngine(universe, levelPos);
+         final Level level = readLevel(universe, levelPos);
+
+         if (Objects.nonNull(engine.metaStateArr)) {
+            calcNextStatePosByMetaStatePos2(engine, level);
+            //calcMetaStatePosByStatePosForNeighbours(engine, level, cellPos);
+         }
+      }
+   }
+
    public static void calcMetaStatePosByStatePosForNeighbours(final Engine engine, final Level level, final int cellPos) {
       final int metaStateSize = calcMetaStateSize(engine);
       for (int pos = 1; pos < metaStateSize; pos++) {
@@ -165,15 +181,28 @@ public class UniverseService {
       final LevelCell targetLevelCell = readLevelCell(level, targetCellPos);
       final Cell targetCell = readCell(targetLevelCell);
 
-      sourceCell.metaStatePos = 0;
+      sourceCell.metaStatePos = NULL_pos;
       targetCell.metaStatePos = nextSourceMetaStatePos;
 
       final MetaState nextMetaState = engine.metaStateArr[nextSourceMetaStatePos];
       //for (int metaPos = 0; metaPos < sourceLevelCell.metaCellArr.length; metaPos++) {
       for (int metaPos = 0; metaPos < metaStateSize; metaPos++) {
-         sourceLevelCell.metaCellArr[metaPos].statePos = 0;
+         sourceLevelCell.metaCellArr[metaPos].statePos = NULL_pos;
          targetLevelCell.metaCellArr[metaPos].statePos = nextMetaState.inputMetaStatePosArr[metaPos];
       }
+   }
+
+   public static void calcNextStatePosByMetaStatePos2(final Engine engine, final Level level) {
+      final HyperCell hyperCell = level.hyperCell;
+
+      final MetaState sourceMetaState = engine.metaStateArr[hyperCell.metaStatePos];
+      final int nextSourceMetaStatePos = sourceMetaState.outputMetaStatePos;
+      if (nextSourceMetaStatePos == -1) throw new RuntimeException(String.format("Level-Cell-Size %d: For Meta-State %s no output state found.", engine.cellSize, convertToDebugString(sourceMetaState)));
+
+      final int targetCellPos = calcCellPos(level, hyperCell.cellPos + sourceMetaState.cellPosOffset);
+
+      hyperCell.metaStatePos = nextSourceMetaStatePos;
+      hyperCell.cellPos = targetCellPos;
    }
 
    private static void calcMetaStatePosByStatePos(final Engine engine, final Level level, final int cellPos) {

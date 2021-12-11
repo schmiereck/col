@@ -1,6 +1,7 @@
 package de.schmiereck.col.model;
 
 public class State {
+   public final static int NULL_pos = 0;
 
    public final static State nulState = new State(0);
    public final static State posState = new State(0);

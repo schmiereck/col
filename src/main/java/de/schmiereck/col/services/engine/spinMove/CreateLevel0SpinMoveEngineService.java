@@ -1,5 +1,6 @@
 package de.schmiereck.col.services.engine.spinMove;
 
+import static de.schmiereck.col.model.State.NULL_pos;
 import static de.schmiereck.col.model.State.negState;
 import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
@@ -20,7 +21,7 @@ import de.schmiereck.col.model.State;
 public class CreateLevel0SpinMoveEngineService {
 
    // null:
-   public final static int NULL_u0 = 0;
+   public final static int NULL_u0 = NULL_pos;
    // a:
    // stay:
    public final static int STAYa_p1 = 1;

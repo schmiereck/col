@@ -1,5 +1,6 @@
 package de.schmiereck.col.services.engine;
 
+import static de.schmiereck.col.model.State.NULL_pos;
 import static de.schmiereck.col.model.State.negState;
 import static de.schmiereck.col.services.EngineService.calcMetaStateSize;
 import static de.schmiereck.col.services.StateUtils.convertToDebugString;
@@ -85,7 +86,7 @@ public class CreateEngineService {
    }
 
    public static int metaPos(final Engine engine, final int ... inputMetaStatePosArr) {
-      int metaStatePos = 0;
+      int metaStatePos = NULL_pos;
       for (int metaPos = 0; metaPos < inputMetaStatePosArr.length; metaPos++) {
          metaStatePos += inputMetaStatePosArr[metaPos] * Math.pow(engine.inputStateArr.length, metaPos);
       }
@@ -105,7 +106,7 @@ public class CreateEngineService {
       engine.metaStateArr = new MetaState[(int)Math.pow(engine.inputStateArr.length, size)];
       engine.inputMetaStatePosToMetaStateArr = new MetaState[(int)Math.pow(engine.inputStateArr.length, size)];
 
-      int inputMetaStatePos = 0;
+      int inputMetaStatePos = NULL_pos;
       final int[] inputMetaStatePosArr = new int[size];
       initMetaStatePos(engine, inputMetaStatePos, inputMetaStatePosArr, size - 1);
    }

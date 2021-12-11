@@ -1,5 +1,7 @@
 package de.schmiereck.col.services;
 
+import static de.schmiereck.col.model.State.NULL_pos;
+
 import de.schmiereck.col.model.Cell;
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.LevelCell;
@@ -46,7 +48,7 @@ public class EngineService {
    }
 
    public static int searchStatePosWithNewStateOnPos(final Engine engine, final Cell metaCell, final int statePosOfSearchedNewState, final State searchedNewState) {
-      int retStatePos = 0;
+      int retStatePos = NULL_pos;
       final State givenMetaCellState = engine.inputStateArr[metaCell.statePos];
 
       for (int engineInputStatePos = 0; engineInputStatePos < engine.inputStateArr.length; engineInputStatePos++) {
@@ -114,7 +116,7 @@ public class EngineService {
    }
 
    public static int calcMetaStatePosByLevelCell(final Engine engine, final LevelCell levelCell) {
-      int metaStatePos = 0;
+      int metaStatePos = NULL_pos;
       for (int metaPos = 0; metaPos < levelCell.metaCellArr.length; metaPos++) {
          metaStatePos += levelCell.metaCellArr[metaPos].statePos * Math.pow(engine.inputStateArr.length, metaPos);
       }
