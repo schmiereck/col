@@ -1,50 +1,39 @@
 package de.schmiereck.col.services;
 
-import static de.schmiereck.col.services.UniverseService.runCalcNextMetaState;
 import static de.schmiereck.col.services.UniverseService.runCalcNextMetaState2;
-import static de.schmiereck.col.services.UniverseService.runCalcNextState;
-import static de.schmiereck.col.services.UniverseService.runLevelDown;
-import static de.schmiereck.col.services.UniverseService.runLevelUp;
+import static de.schmiereck.col.services.UniverseService.runCalcNextPart;
 import static de.schmiereck.col.services.UniverseUtils.printCells;
 
+import de.schmiereck.col.model.Part;
 import de.schmiereck.col.model.Universe;
 
 public class RunTestUtils {
 
-   public static void runTestNextUpStateDownMeta(final Universe universe, final int cnt) {
-      runLevelUp(universe);
-      printCells(universe, cnt, "runLevelUp");
-      runCalcNextState(universe);
-      printCells(universe, cnt, "runCalcNextState");
-      runLevelDown(universe);
-      printCells(universe, cnt, "runLevelDown");
-      runCalcNextMetaState(universe);
-      printCells(universe, cnt, "runCalcNextMetaState");
-   }
-
-   public static void runTestNextUpStateMeta(final Universe universe, final int cnt) {
-      runLevelUp(universe);
-      printCells(universe, cnt, "runLevelUp");
-      runCalcNextState(universe);
-      printCells(universe, cnt, "runCalcNextState");
-      runCalcNextMetaState(universe);
-      printCells(universe, cnt, "runCalcNextMetaState");
-   }
-
-   public static void runTestNextStateMeta(final Universe universe, final int cnt) {
-      runCalcNextState(universe);
-      printCells(universe, cnt, "runCalcNextState");
-      runCalcNextMetaState(universe);
-      printCells(universe, cnt, "runCalcNextMetaState");
-   }
-
-   public static void runTestNextMeta2(final Universe universe, final int cnt) {
+   public static void runTestNextUpDownMeta(final Universe universe, final Part part, final int cnt) {
+      //runLevelUp(universe);
+      printCells(universe, part, cnt, "runLevelUp");
+      //runLevelDown(universe);
+      printCells(universe, part, cnt, "runLevelDown");
       runCalcNextMetaState2(universe);
-      printCells(universe, cnt, "runCalcNextMetaState");
+      printCells(universe, part, cnt, "runCalcNextMetaState");
    }
 
-   public static void runTestNextMeta(final Universe universe, final int cnt) {
-      runCalcNextMetaState(universe);
-      printCells(universe, cnt, "runCalcNextMetaState");
+   public static void runTestNextUpMeta(final Universe universe, final Part part, final int cnt) {
+      //runLevelUp(universe);
+      printCells(universe, part, cnt, "runLevelUp");
+      runCalcNextMetaState2(universe);
+      printCells(universe, part, cnt, "runCalcNextMetaState");
+   }
+
+   public static void runTestNextMeta2(final Universe universe, final Part part, final int cnt) {
+      runCalcNextMetaState2(universe);
+      printCells(universe, part, cnt, "runCalcNextMetaState");
+   }
+
+   public static void runTestPartMeta(final Universe universe, final Part part, final int cnt) {
+      runCalcNextPart(universe);
+      printCells(universe, part, cnt, "runCalcNextMetaState");
+      runCalcNextMetaState2(universe);
+      printCells(universe, part, cnt, "runCalcNextMetaState");
    }
 }

@@ -1,31 +1,29 @@
 package de.schmiereck.col.services;
 
 import static de.schmiereck.col.model.State.NULL_pos;
-import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.services.StateUtils.convertToValue;
 
 import de.schmiereck.col.model.Cell;
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.Event;
-import de.schmiereck.col.model.Level;
 import de.schmiereck.col.model.LevelCell;
 import de.schmiereck.col.model.MetaState;
+import de.schmiereck.col.model.Part;
 import de.schmiereck.col.model.State;
 import de.schmiereck.col.model.Universe;
 
 public class UniverseUtils {
 
-   public static void printCells(final Universe universe, final int cnt) {
-      printCells(universe, cnt, null);
+   public static void printCells(final Universe universe, final Part part, final int cnt) {
+      printCells(universe, part, cnt, null);
    }
 
-   public static void printCells(final Universe universe, final int cnt, final String msg) {
+   public static void printCells(final Universe universe, final Part part, final int cnt, final String msg) {
       final Engine[] engineArr = universe.engineArr;
       for (int levelPos = engineArr.length - 1; levelPos >= 0; levelPos--) {
          final Engine engine = readEngine(universe, levelPos);
-         final Level level = readLevel(universe, levelPos);
          for (int levelShift = engine.cellSize - 1; levelShift >= 0; levelShift--) {
-            printCellLine(universe, engine, level, cnt, engine.cellSize, levelPos, levelShift);
+            printCellLine(universe, engine, part, cnt, engine.cellSize, levelPos, levelShift);
          }
       }
       System.out.print("  ------- ");
@@ -34,17 +32,17 @@ public class UniverseUtils {
       System.out.println();
    }
 
-   private static void printCellLine(final Universe universe, final Engine engine, final Level level, final int cnt, final int cellSize, final int levelPos, final int levelShift) {
+   private static void printCellLine(final Universe universe, final Engine engine, final Part part, final int cnt, final int cellSize, final int levelPos, final int levelShift) {
       final int metaPos = (cellSize - 1) - levelShift;
       System.out.printf("%4d/%1d/%1d:%s ", cnt, levelPos, levelShift, " ".repeat(levelShift * (1+4+1+2+1+1+1+1)));
       for (int cellPos = levelShift; cellPos < universe.universeSize; cellPos += cellSize) {
-         final int printCellPos = calcCellPos(level, cellPos + levelShift);
+         final int printCellPos = calcCellPos(universe, cellPos + levelShift);
          final int cellMetaStatePos;
          final int cellStatePos;
          final State state;
 
-         if (printCellPos == level.hyperCell.cellPos) {
-            cellMetaStatePos = level.hyperCell.metaStatePos;
+         if (printCellPos == part.hyperCell.cellPos) {
+            cellMetaStatePos = part.hyperCell.metaStatePos;
             final MetaState metaState = engine.metaStateArr[cellMetaStatePos];
             final int inputMetaStatePos = metaState.inputMetaStatePosArr[levelShift];
             cellStatePos = inputMetaStatePos;
@@ -78,8 +76,8 @@ public class UniverseUtils {
       }
       System.out.print(" ");
    }
-
-   public static void printCellsMinimal(final Universe universe, final int cnt) {
+/*
+   public static void printCellsMinimal(final Universe universe, final Part part, final int cnt) {
       final Engine[] engineArr = universe.engineArr;
 
       System.out.printf("%4d: ", cnt);
@@ -88,7 +86,7 @@ public class UniverseUtils {
          int outValue = 0;
          for (int levelPos = 0; levelPos < engineArr.length; levelPos++) {
             final Engine engine = readEngine(universe, levelPos);
-            final Level level = readLevel(universe, levelPos);
+            final Level level = readLevel(part, levelPos);
             final Cell cell = readCell(level, cellPos);
 
             final State state = engine.inputStateArr[cell.statePos];
@@ -105,7 +103,7 @@ public class UniverseUtils {
       }
       System.out.println();
    }
-
+*/
    static Engine readEngine(final Universe universe, final int levelPos) {
       return universe.engineArr[levelPos];
    }
@@ -118,51 +116,24 @@ public class UniverseUtils {
       setMetaStatePos(universe, cellPos, levelPos, 0, event);
    }
 
-   public static void setMetaStatePos(final Universe universe, final int cellPos, final int levelPos, final int metaStatePos) {
-      setMetaStatePos(universe, cellPos, levelPos, metaStatePos, null);
+   public static Part setMetaStatePos(final Universe universe, final int cellPos, final int levelPos, final int metaStatePos) {
+      return setMetaStatePos(universe, cellPos, levelPos, metaStatePos, null);
    }
 
-   public static void setMetaStatePos(final Universe universe, final int cellPos, final int levelPos, final int metaStatePos, final Event event) {
-      final Level level = readLevel(universe, levelPos);
-      setMetaStatePos(level, cellPos, metaStatePos, event);
+   public static Part setMetaStatePos(final Universe universe, final int cellPos, final int levelPos, final int metaStatePos, final Event event) {
+      final Part part = new Part(levelPos);
+      universe.partList.add(part);
+      setMetaStatePos(part, cellPos, metaStatePos, event);
+      return part;
    }
 
-   public static void setMetaStatePos(final Level level, final int cellPos, final int metaStatePos) {
-      setMetaStatePos(level, cellPos, metaStatePos, null);
+   public static void setMetaStatePos(final Part part, final int cellPos, final int metaStatePos) {
+      setMetaStatePos(part, cellPos, metaStatePos, null);
    }
 
-   public static void setMetaStatePos(final Level level, final int cellPos, final int metaStatePos, final Event event) {
-      level.hyperCell.cellPos = cellPos;
-      level.hyperCell.metaStatePos = metaStatePos;
-   }
-
-   public static State readCellState(final Universe universe, final int cellPos, final int levelPos, final int inputStatePos) {
-      final Engine levelEngine = readEngine(universe, levelPos);
-      final Level level = readLevel(universe, levelPos);
-
-      if (level.hyperCell.cellPos == cellPos) {
-         final MetaState metaState = levelEngine.metaStateArr[level.hyperCell.metaStatePos];
-         final int metaInputStatePos = metaState.inputMetaStatePosArr[inputStatePos];
-         return levelEngine.inputStateArr[metaInputStatePos].inputStateArr[inputStatePos];
-      } else {
-         return nulState;
-      }
-      //return levelEngine.inputStateArr[readCell(level, cellPos).statePos].inputStateArr[inputStatePos];
-   }
-
-   public static Cell readCell(final Universe universe, final int cellPos, final int levelPos) {
-      final Level level = readLevel(universe, levelPos);
-      return readCell(level, cellPos, 0);
-   }
-
-   public static Cell readCell(final Universe universe, final int cellPos, final int levelPos, final int metaCellPos) {
-      final Level level = readLevel(universe, levelPos);
-      return readLevelCell(level, cellPos).metaCellArr[metaCellPos];
-   }
-
-   public static Cell readCell(final Level level, final int cellPos) {
-      final LevelCell levelCell = readLevelCell(level, cellPos);
-      return readCell(levelCell);
+   public static void setMetaStatePos(final Part part, final int cellPos, final int metaStatePos, final Event event) {
+      part.hyperCell.cellPos = cellPos;
+      part.hyperCell.metaStatePos = metaStatePos;
    }
 
    public static Cell readCell(final LevelCell levelCell) {
@@ -173,16 +144,6 @@ public class UniverseUtils {
       return levelCell.metaCellArr[metaCellPos];
    }
 
-   public static Cell readCell(final Level level, final int cellPos, final int metaCellPos) {
-      final LevelCell levelCell = readLevelCell(level, cellPos);
-      return readCell(levelCell, metaCellPos);
-   }
-
-   public static int readCellStatePos(final Universe universe, final int cellPos, final int levelPos, final int metaCellPos) {
-      final Level level = readLevel(universe, levelPos);
-      return readLevelCell(level, cellPos).metaCellArr[metaCellPos].statePos;
-   }
-
    public static int readMetaStatePos(final LevelCell levelCell) {
       return readMetaStatePos(levelCell, 0);
    }
@@ -190,30 +151,17 @@ public class UniverseUtils {
    public static int readMetaStatePos(final LevelCell levelCell, final int metaCellPos) {
       return levelCell.metaCellArr[metaCellPos].metaStatePos;
    }
-
-   public static Level readLevel(final Universe universe, final int levelPos) {
-      return universe.levelArr[levelPos];
+   public static int calcCellPos(final Universe universe, final int pos) {
+      return calcCellPos(universe.universeSize, pos);
    }
 
-   public static LevelCell readLevelCell(final Level level, final int cellPos) {
-      return level.levelCellArr[calcCellPos(level, cellPos)];
-   }
-
-   public static int readCellSize(final Level level) {
-      return level.engine.cellSize;
-   }
-
-   public static int calcCellPos(final Level level, final int pos) {
-      return calcCellPos(level.levelSize, pos);
-   }
-
-   public static int calcCellPos(final int levelSize, final int pos) {
+   public static int calcCellPos(final int universeSize, final int pos) {
       final int retPos;
-      if (pos >= levelSize) {
-         retPos = pos - levelSize;
+      if (pos >= universeSize) {
+         retPos = pos - universeSize;
       } else {
          if (pos < 0) {
-            retPos = pos + levelSize;
+            retPos = pos + universeSize;
          } else {
             retPos = pos;
          }

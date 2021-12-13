@@ -1,23 +1,20 @@
 package de.schmiereck.col.services.engine.spinMove;
 
-import static de.schmiereck.col.model.State.nulState;
-import static de.schmiereck.col.model.State.posState;
-import static de.schmiereck.col.services.RunTestUtils.runTestNextUpStateMeta;
+import static de.schmiereck.col.services.RunTestUtils.runTestNextMeta2;
 import static de.schmiereck.col.services.UniverseUtils.printCells;
-import static de.schmiereck.col.services.UniverseUtils.readCell;
-import static de.schmiereck.col.services.UniverseUtils.readCellState;
+import static de.schmiereck.col.services.UniverseUtils.setMetaStatePos;
 import static de.schmiereck.col.services.UniverseUtils.setStatePos;
+import static de.schmiereck.col.services.engine.CreateEngineService.metaPos;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.LEFTa_p1;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.LEFTb_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.NULL_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.RIGHTa_p1;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.RIGHTb_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.STAYa_p1;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.STAYb_p1;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.NULL_u0_u0;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHTa_u0_p1;
 
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.Event;
+import de.schmiereck.col.model.Part;
 import de.schmiereck.col.model.Universe;
 import de.schmiereck.col.services.UniverseService;
 
@@ -41,7 +38,8 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
 
       final Event event = new Event(null);
       //setStatePos(universe, 2, STAY_p1);
-      setStatePos(universe, 2, STAYa_p1, event);
+      //setStatePos(universe, 2, STAYa_p1, event);
+      final Part part = setMetaStatePos(universe, 2, 0, metaPos(level0Engine, STAYa_p1, NULL_u0));
 
       UniverseService.calcInitialMetaStates(universe);
       //CreateLevel0DynamicMoveEngineService.initLevelUpOutputMetaStates(level0Engine, level1Engine);
@@ -49,21 +47,15 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
       UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
 
       // Act
-      printCells(universe, 0, "initial");
+      printCells(universe, part, 0, "initial");
       for (int cnt = 0; cnt < 3; cnt++) {
-         runTestNextUpStateMeta(universe, cnt);
+         runTestNextMeta2(universe, part, cnt);
          //runNextUSDM(universe); printCellsMinimal(universe, cnt);
       }
 
       // Assert
-      assertEquals(nulState, readCellState(universe, 1, 0, 0));
-      assertEquals(posState, readCellState(universe, 2, 0, 0));
-      assertEquals(nulState, readCellState(universe, 3, 0, 0));
-      assertEquals(NULL_u0, readCell(universe, 1, 0).statePos);
-      assertEquals(STAYb_p1, readCell(universe, 2, 0).statePos);
-      assertEquals(NULL_u0, readCell(universe, 3, 0).statePos);
-
-      assertEquals(event, readCell(universe, 2, 0).event);
+      //assertEquals(2, universe.partList.get(0).levelArr[0].hyperCell.cellPos);
+      //assertEquals(metaPos(level1Engine, NULL_u0_u0, RIGHTa_u0_p1), universe.partList.get(0).levelArr[0].hyperCell.metaStatePos);
    }
 
    @Test
@@ -81,7 +73,8 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
       final Universe universe = new Universe(engineArr, universeSize);
 
       final Event event = new Event(null);
-      setStatePos(universe, 2, LEFTa_p1, event);
+      //setStatePos(universe, 2, LEFTa_p1, event);
+      final Part part = setMetaStatePos(universe, 2, 0, metaPos(level0Engine, LEFTa_p1, NULL_u0));
 
       UniverseService.calcInitialMetaStates(universe);
       //CreateLevel0DynamicMoveEngineService.initLevelUpOutputMetaStates(level0Engine, level1Engine);
@@ -89,21 +82,15 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
       UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
 
       // Act
-      printCells(universe, 0, "initial");
+      printCells(universe, part, 0, "initial");
       for (int cnt = 0; cnt < 2; cnt++) {
-         runTestNextUpStateMeta(universe, cnt);
+         runTestNextMeta2(universe, part, cnt);
          //runNextUSDM(universe); printCellsMinimal(universe, cnt);
       }
 
       // Assert
-      assertEquals(nulState, readCellState(universe, -1, 0, 0));
-      assertEquals(posState, readCellState(universe, 0, 0, 0));
-      assertEquals(nulState, readCellState(universe, 1, 0, 0));
-      assertEquals(NULL_u0, readCell(universe, -1, 0).statePos);
-      assertEquals(LEFTb_p1, readCell(universe, 0, 0).statePos);
-      assertEquals(NULL_u0, readCell(universe, 1, 0).statePos);
-
-      assertEquals(event, readCell(universe, 0, 0).event);
+      //assertEquals(2, universe.partList.get(0).levelArr[0].hyperCell.cellPos);
+      //assertEquals(metaPos(level1Engine, NULL_u0_u0, RIGHTa_u0_p1), universe.partList.get(0).levelArr[0].hyperCell.metaStatePos);
    }
 
    @Test
@@ -120,7 +107,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
 
       final Universe universe = new Universe(engineArr, universeSize);
 
-      setStatePos(universe, 2, RIGHTa_p1);
+      final Part part = setMetaStatePos(universe, 3, 0, metaPos(level0Engine, RIGHTa_p1, NULL_u0));
 
       UniverseService.calcInitialMetaStates(universe);
       //CreateLevel0DynamicMoveEngineService.initLevelUpOutputMetaStates(level0Engine, level1Engine);
@@ -128,18 +115,14 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
       UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
 
       // Act
-      printCells(universe, 0, "initial");
+      printCells(universe, part, 0, "initial");
       for (int cnt = 0; cnt < 2; cnt++) {
-         runTestNextUpStateMeta(universe, cnt);
+         runTestNextMeta2(universe, part, cnt);
          //runNextUSDM(universe); printCellsMinimal(universe, cnt);
       }
 
       // Assert
-      assertEquals(nulState, readCellState(universe, 3, 0, 0));
-      assertEquals(posState, readCellState(universe, 4, 0, 0));
-      assertEquals(nulState, readCellState(universe, 5, 0, 0));
-      assertEquals(NULL_u0, readCell(universe, 3, 0).statePos);
-      assertEquals(RIGHTb_p1, readCell(universe, 4, 0).statePos);
-      assertEquals(NULL_u0, readCell(universe, 5, 0).statePos);
+      //assertEquals(2, universe.partList.get(0).levelArr[0].hyperCell.cellPos);
+      //assertEquals(metaPos(level1Engine, NULL_u0_u0, RIGHTa_u0_p1), universe.partList.get(0).levelArr[0].hyperCell.metaStatePos);
    }
 }

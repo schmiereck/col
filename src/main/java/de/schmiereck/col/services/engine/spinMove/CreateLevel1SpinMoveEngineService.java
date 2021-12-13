@@ -102,18 +102,18 @@ public class CreateLevel1SpinMoveEngineService {
       writeMetaState(e, NULL_u0_u0, NULL_u0_u0,   NULL_u0_u0, NULL_u0_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // stay:
-      //    1        0   1       =>   1        0   1
-      //    0            0   0   =>   0            0   0
-      writeMetaState(e, NULL_u0_u0, STAYa_u0_p1,   NULL_u0_u0, STAYa_u0_p1);
-      //    0        0   0       =>   0        0   0
-      //    1            0   1   =>   1            0   1
-      writeMetaState(e, STAYa_u0_p1, NULL_u0_u0,   STAYa_u0_p1, NULL_u0_u0);
-      //    2        1   0       =>   2        1   0       2:stay -> 2:stay
-      //    0            0   0   =>   0            0   0
-      writeMetaState(e, NULL_u0_u0, STAYa_p1_u0,   NULL_u0_u0, STAYa_p1_u0);
-      //    0        0   0       =>   0        0   0
-      //    2            1   0   =>   2            1   0   2:stay -> 2:stay
-      writeMetaState(e, STAYa_p1_u0, NULL_u0_u0,   STAYa_p1_u0, NULL_u0_u0);
+      //    1        0   1       =>   1        0   0
+      //    0            0   0   =>   0            1   0
+      writeMetaState(e, NULL_u0_u0, STAYa_u0_p1,   STAYa_p1_u0, NULL_u0_u0);
+      //    0        0   0       =>   0        0   0  (1)  .
+      //    1            0   1   =>   1            0   0   .   .
+      writeMetaState(e, STAYa_u0_p1, NULL_u0_u0,   NULL_u0_u0, STAYa_p1_u0, +2);
+      //    2        1   0       =>   2.   .   1   0       2:stay -> 2:stay
+      //    0            0   0   =>   0    .  (1)  0   0
+      writeMetaState(e, NULL_u0_u0, STAYa_p1_u0,   STAYa_u0_p1, NULL_u0_u0, -2);
+      //    0        0   0       =>   0        0   1
+      //    2            1   0   =>   2            0   0   2:stay -> 2:stay
+      writeMetaState(e, STAYa_p1_u0, NULL_u0_u0,   NULL_u0_u0, STAYa_u0_p1);
       //    1        0   1       =>   1        0   1
       //    1            0   1   =>   1            0   1
       writeMetaState(e, STAYa_u0_p1, STAYa_u0_p1,   STAYa_u0_p1, STAYa_u0_p1);

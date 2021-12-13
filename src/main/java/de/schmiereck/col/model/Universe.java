@@ -3,6 +3,9 @@ package de.schmiereck.col.model;
 import static de.schmiereck.col.services.EngineService.calcMetaStateSize;
 import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * <code>
  *    00000 33333 66666 99999
@@ -27,36 +30,18 @@ import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
 public class Universe {
    public final Engine[] engineArr;
    public final int universeSize;
-   public final Level[] levelArr;
+   public final List<Part> partList = new LinkedList<>();
 
    public Universe(final Engine[] engineArr, final int levelSize) {
       this.engineArr = engineArr;
       this.universeSize = levelSize;
 
       final int levelCount = engineArr.length;
-      this.levelArr = new Level[levelCount];
 
       for (int levelPos = 0; levelPos < levelCount; levelPos++) {
          final Engine engine = engineArr[levelPos];
 
-         final Level level = new Level(engine, levelSize);
-         this.levelArr[levelPos] = level;
-
          final int metaStateSize = calcMetaStateSize(engine);
-
-         for (int levelCellPos = 0; levelCellPos < levelSize; levelCellPos++) {
-            final LevelCell levelCell = new LevelCell(metaStateSize);
-
-            level.levelCellArr[levelCellPos] = levelCell;
-         }
-
-         for (int levelCellPos = 0; levelCellPos < levelSize; levelCellPos++) {
-            final Cell newCell = new Cell();
-
-            for (int metaCellPos = 0; metaCellPos < metaStateSize; metaCellPos++) {
-               level.levelCellArr[calcCellPos(level, levelCellPos + metaCellPos)].metaCellArr[metaCellPos] = newCell;
-            }
-         }
       }
    }
 }

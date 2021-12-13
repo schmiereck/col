@@ -1,16 +1,11 @@
 package de.schmiereck.col;
 
-import static de.schmiereck.col.services.UniverseService.runNextUSDS;
-import static de.schmiereck.col.services.UniverseService.runCalcNextMetaState;
-import static de.schmiereck.col.services.UniverseService.runCalcNextState;
-import static de.schmiereck.col.services.UniverseService.runLevelUp;
-import static de.schmiereck.col.services.UniverseService.runLevelDown;
+import static de.schmiereck.col.services.UniverseService.runCalcNextMetaState2;
 import static de.schmiereck.col.services.UniverseUtils.printCells;
-import static de.schmiereck.col.services.UniverseUtils.printCellsMinimal;
 import static de.schmiereck.col.services.UniverseUtils.setMetaStatePos;
-import static de.schmiereck.col.services.UniverseUtils.setStatePos;
 
 import de.schmiereck.col.model.Engine;
+import de.schmiereck.col.model.Part;
 import de.schmiereck.col.model.Universe;
 import de.schmiereck.col.services.UniverseService;
 import de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService;
@@ -76,95 +71,37 @@ public class Main2 {
             setMetaStatePos(universe, cellPos + 0, 1, 3);   // l1mov 3:0,1
             setMetaStatePos(universe, cellPos + 2, 1, 5);   // l1mov 5:1,0
          }
+      final Part part = setMetaStatePos(universe, 2, 1, 5);   // l1mov 5:1,0
       UniverseService.calcInitialMetaStates(universe);
 
       //----------------------------------------------------------------------------------------------------------------
       for (int cnt = 0; cnt < 6*2*8; cnt++) {
          //runTest1(universe, cnt);
          //runTest2(universe, cnt);
-         printCellsMinimal(universe, cnt);
+
+         //printCellsMinimal(universe, part, cnt);
+
          //runTest3(universe, cnt, false);
          //runTest4(universe, cnt, false);
          //runTest5(universe, cnt, false);
-         runTestNextMS(universe, cnt, false);
+         runTestNextM(universe, part, cnt, false);
       }
-   }
-
-   private static void runTest1(final Universe universe, final int cnt) {
-      printCells(universe, cnt);
-      runNextUSDS(universe);
-   }
-
-   private static void runTest2(final Universe universe, final int cnt) {
-      printCells(universe, cnt);
-      runLevelDown(universe);
-
-      printCells(universe, cnt);
-      runCalcNextState(universe);
-
-      printCells(universe, cnt);
-      runLevelUp(universe);
-
-      printCells(universe, cnt);
-      runCalcNextState(universe);
-   }
-
-   private static void runTest3(final Universe universe, final int cnt, final boolean doPrint) {
-      if (doPrint) printCells(universe, cnt);
-      runLevelDown(universe);
-
-      if (doPrint) printCells(universe, cnt);
-      runCalcNextState(universe);
-
-      if (doPrint) printCells(universe, cnt);
-      runLevelUp(universe);
-
-      if (doPrint) printCells(universe, cnt);
-      runCalcNextMetaState(universe);
-   }
-
-   private static void runTest4(final Universe universe, final int cnt, final boolean doPrint) {
-      if (doPrint) printCells(universe, cnt);
-      runLevelDown(universe);
-
-      if (doPrint) printCells(universe, cnt);
-      runCalcNextMetaState(universe);
-
-      if (doPrint) printCells(universe, cnt);
-      runLevelUp(universe);
-
-      if (doPrint) printCells(universe, cnt);
-      runCalcNextState(universe);
-   }
-
-   private static void runTest5(final Universe universe, final int cnt, final boolean doPrint) {
-      if (doPrint) printCells(universe, cnt);
-      runLevelUp(universe);
-
-      if (doPrint) printCells(universe, cnt);
-      runCalcNextMetaState(universe);
-
-      if (doPrint) printCells(universe, cnt);
-      runLevelDown(universe);
-
-      if (doPrint) printCells(universe, cnt);
-      runCalcNextState(universe);
    }
 
    /**
     * Run Next Meta+State
     */
-   private static void runTestNextMS(final Universe universe, final int cnt, final boolean doPrint) {
+   private static void runTestNextM(final Universe universe, final Part part, final int cnt, final boolean doPrint) {
       //if (doPrint) printCells(universe, cnt);
       //runLevelUp(universe);
 
-      if (doPrint) printCells(universe, cnt);
-      runCalcNextMetaState(universe);
+      if (doPrint) printCells(universe, part, cnt);
+      runCalcNextMetaState2(universe);
 
       //if (doPrint) printCells(universe, cnt);
       //runLevelDown(universe);
 
-      if (doPrint) printCells(universe, cnt);
-      runCalcNextState(universe);
+      //if (doPrint) printCells(universe, cnt);
+      //runCalcNextState(universe);
    }
 }
