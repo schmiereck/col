@@ -55,10 +55,10 @@ public class CreateLevel0SpinMoveEngineService {
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // stay:
       // STAYa_p1   =>   STAYb_p1   =>   STAYa_p1
-      level0Engine.setState(STAYa_p1, new State(1, posState), STAYb_p1);
+      level0Engine.setState(STAYa_p1, new State(1, posState), STAYa_p1);
       level0Engine.setState(STAYb_p1, new State(1, posState), STAYa_p1);
       // STAYa_n1   =>   STAYb_n1   =>   STAYa_n1
-      level0Engine.setState(STAYa_n1, new State(1, negState), STAYb_n1);
+      level0Engine.setState(STAYa_n1, new State(1, negState), STAYa_n1);
       level0Engine.setState(STAYb_n1, new State(1, negState), STAYa_n1);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // left:
@@ -135,10 +135,10 @@ public class CreateLevel0SpinMoveEngineService {
       // left:
       //    0    0       =>   6    1
       //    5        1   =>   0        0
-      writeMetaState(e, LEFTa_p1, NULL_u0, NULL_u0, LEFTb_p1);
+      writeMetaState(e, LEFTa_p1, NULL_u0, LEFTa_p1, NULL_u0, -1);
       //    0    0       =>   8   -1
       //    7       -1   =>   0        0
-      writeMetaState(e, LEFTa_n1, NULL_u0, NULL_u0, LEFTb_n1);
+      writeMetaState(e, LEFTa_n1, NULL_u0, LEFTb_n1, NULL_u0, -1);
       //    5    1       =>   5    1
       //    0        0   =>   0        0
       writeMetaState(e, NULL_u0, LEFTa_p1, NULL_u0, LEFTa_p1);
@@ -173,22 +173,22 @@ public class CreateLevel0SpinMoveEngineService {
       // right:
       //    0    0       =>   0    0
       //    9        1   =>   9        1
-      writeMetaState(e, RIGHTa_p1, NULL_u0, RIGHTa_p1, NULL_u0);
+      writeMetaState(e, RIGHTa_p1, NULL_u0, RIGHTa_p1, NULL_u0, +1);
       //    0    0       =>   0    0
       //   11       -1   =>  11       -1
-      writeMetaState(e, RIGHTa_n1, NULL_u0, RIGHTa_n1, NULL_u0);
+      writeMetaState(e, RIGHTa_n1, NULL_u0, RIGHTa_n1, NULL_u0, +1);
       //    0    0       =>   0    0
       //   12       -1   =>   12      -1
       writeMetaState(e, RIGHTb_n1, NULL_u0, RIGHTb_n1, NULL_u0);
       //    9    1       =>   0    0
       //    0        0   =>  10        1
-      writeMetaState(e, NULL_u0, RIGHTa_p1, RIGHTb_p1, NULL_u0);
+      writeMetaState(e, NULL_u0, RIGHTa_p1, NULL_u0, RIGHTa_p1);
       //   10    1       =>  10    1
       //    0        0   =>   0        0
       writeMetaState(e, NULL_u0, RIGHTb_p1, NULL_u0, RIGHTb_p1);
       //   11   -1       =>   0    0
       //    0        0   =>  12       -1
-      writeMetaState(e, NULL_u0, RIGHTa_n1, RIGHTb_n1, NULL_u0);
+      writeMetaState(e, NULL_u0, RIGHTa_n1, NULL_u0, RIGHTa_n1);
       //    9    1       =>   9    1
       //    1        1   =>   1        1
       writeMetaState(e, STAYa_p1, RIGHTa_p1, STAYa_p1, RIGHTa_p1);
