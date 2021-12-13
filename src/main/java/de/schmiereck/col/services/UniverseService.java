@@ -44,13 +44,16 @@ public class UniverseService {
    }
 
    public static void runCalcNextPart(final Universe universe) {
-      final Engine[] engineArr = universe.engineArr;
       for (final Part aPart : universe.partList) {
-         int levelPos = aPart.levelPos;
-         final Engine engine = readEngine(universe, levelPos);
-         //final Level level = readLevel(aPart, levelPos);
+         int aLevelPos = aPart.levelPos;
+         final Engine aEngine = readEngine(universe, aLevelPos);
 
-         if (Objects.nonNull(engine.metaStateArr)) {
+         for (final Part bPart : universe.partList) {
+            int bLevelPos = bPart.levelPos;
+            final Engine bEngine = readEngine(universe, bLevelPos);
+
+            final int diff = bPart.hyperCell.cellPos - aPart.hyperCell.cellPos;
+            final int absDiff = Math.abs(diff);
          }
       }
    }

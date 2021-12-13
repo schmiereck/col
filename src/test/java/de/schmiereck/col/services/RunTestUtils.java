@@ -32,7 +32,7 @@ public class RunTestUtils {
 
    public static void runTestPartMeta(final Universe universe, final Part part, final int cnt) {
       runCalcNextPart(universe);
-      printCells(universe, part, cnt, "runCalcNextMetaState");
+      printCells(universe, part, cnt, "runCalcNextPart");
       runCalcNextMetaState2(universe);
       printCells(universe, part, cnt, "runCalcNextMetaState");
    }
