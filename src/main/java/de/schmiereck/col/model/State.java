@@ -18,4 +18,10 @@ public class State {
          this.inputStateArr[pos] = state[pos];
       }
    }
+   public State(final State ... state) {
+      this.inputStateArr = new State[state.length];
+      for (int pos = 0; pos < state.length; pos++) {
+         this.inputStateArr[pos] = state[pos];
+      }
+   }
 }

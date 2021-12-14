@@ -18,21 +18,21 @@ public class CreateLevel1SpinMoveEngineService {
    final static int NULL_u0_u0 = NULL_pos;
    // a:
    // stay:
-   final static int STAYa_u0_p1 = 1;
-   final static int STAYa_p1_u0 = 2;
+   final static int STAYa_p1_u0 = 1;
+   final static int STAYa_u0_p1 = 2;
    // left:
-   final static int LEFTa_u0_p1 = 3;
-   final static int LEFTa_p1_u0 = 4;
+   final static int LEFTa_p1_u0 = 3;
+   final static int LEFTa_u0_p1 = 4;
    // right:
    final static int RIGHTa_p1_u0 = 5;
    final static int RIGHTa_u0_p1 = 6;
    // b:
    // stay:
-   final static int STAYb_u0_p1 = 7;
-   final static int STAYb_p1_u0 = 8;
+   final static int STAYb_p1_u0 = 7;
+   final static int STAYb_u0_p1 = 8;
    // left:
-   final static int LEFTb_u0_p1 = 9;
-   final static int LEFTb_p1_u0 = 10;
+   final static int LEFTb_p1_u0 = 9;
+   final static int LEFTb_u0_p1 = 10;
    // right:
    final static int RIGHTb_p1_u0 = 11;
    final static int RIGHTb_u0_p1 = 12;
@@ -98,7 +98,7 @@ public class CreateLevel1SpinMoveEngineService {
       // null:
       //    0        0   0       =>   0        0   0
       //    0            0   0   =>   0            0   0
-      writeMetaState(e, NULL_u0_u0, NULL_u0_u0, NULL_u0_u0, NULL_u0_u0, NULL_u0_u0, NULL_u0_u0);
+      //writeMetaState(e, NULL_u0_u0, NULL_u0_u0, NULL_u0_u0, NULL_u0_u0, NULL_u0_u0, NULL_u0_u0);
       writeMetaState(e, NULL_u0_u0, NULL_u0_u0,   NULL_u0_u0, NULL_u0_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // stay:

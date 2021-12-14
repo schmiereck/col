@@ -8,10 +8,13 @@ import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.HyperCell;
 import de.schmiereck.col.model.LevelCell;
 import de.schmiereck.col.model.MetaState;
+import de.schmiereck.col.model.NextPart;
 import de.schmiereck.col.model.Part;
 import de.schmiereck.col.model.Universe;
 
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 
 public class UniverseService {
 
@@ -47,28 +50,26 @@ public class UniverseService {
       //for (final Part aPart : universe.partList) {
       for (int aPartPos = 0; aPartPos < universe.partList.size(); aPartPos++) {
          final Part aPart = universe.partList.get(aPartPos);
-         int aLevelPos = aPart.levelPos;
-         final Engine aEngine = readEngine(universe, aLevelPos);
+         //final Engine aEngine = readEngine(universe, aPart.levelPos);
 
          //for (final Part bPart : universe.partList) {
          for (int bPartPos = aPartPos + 1; bPartPos < universe.partList.size(); bPartPos++) {
             final Part bPart = universe.partList.get(bPartPos);
-            int bLevelPos = bPart.levelPos;
-            final Engine bEngine = readEngine(universe, bLevelPos);
+            //final Engine bEngine = readEngine(universe, bPart.levelPos);
 
-            final int diff = bPart.hyperCell.cellPos - aPart.hyperCell.cellPos;
-            final int absDiff = Math.abs(diff);
-            final int minDiff = aEngine.cellSize + bEngine.cellSize;
+            //final int diff = bPart.hyperCell.cellPos - aPart.hyperCell.cellPos;
+            //final int absDiff = Math.abs(diff);
+            //final int minDiff = aEngine.cellSize + bEngine.cellSize;
 
-            if (absDiff < minDiff) {
-               calcNextPart(universe, aPart, bPart);
-            }
+            //if (absDiff < minDiff) {
+               final NextPart nextPart = FieldEngineService.calcNextPart(universe.fieldEngine, aPart, bPart);
+
+               if (Objects.nonNull(nextPart)) {
+
+               }
+            //}
          }
       }
-   }
-
-   private static void calcNextPart(final Universe universe, final Part bPart, final Part aPart) {
-      xxx
    }
 
    public static void runCalcNextMetaState2(final Universe universe) {
