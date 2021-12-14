@@ -11,6 +11,7 @@ import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEng
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import de.schmiereck.col.model.Engine;
+import de.schmiereck.col.model.FieldEngine;
 import de.schmiereck.col.model.Part;
 import de.schmiereck.col.model.Universe;
 import de.schmiereck.col.services.UniverseService;
@@ -29,7 +30,8 @@ public class Test_UniverseService_WHEN_runPartMeta_is_called_with_lev1SpinMove {
       final Engine[] engineArr = new Engine[1];
       engineArr[0] = level1Engine;
 
-      final Universe universe = new Universe(engineArr, universeSize);
+      final FieldEngine fieldEngine = new FieldEngine(engineArr);
+      final Universe universe = new Universe(fieldEngine, universeSize);
 
       final Part aPart = setMetaStatePos(universe, 2,  0, metaPos(level1Engine, NULL_u0_u0, STAYa_u0_p1));
       final Part bPart = setMetaStatePos(universe, 4,  0, metaPos(level1Engine, STAYa_p1_u0, NULL_u0_u0));

@@ -5,6 +5,7 @@ import static de.schmiereck.col.services.UniverseUtils.printCells;
 import static de.schmiereck.col.services.UniverseUtils.setMetaStatePos;
 
 import de.schmiereck.col.model.Engine;
+import de.schmiereck.col.model.FieldEngine;
 import de.schmiereck.col.model.Part;
 import de.schmiereck.col.model.Universe;
 import de.schmiereck.col.services.UniverseService;
@@ -49,8 +50,8 @@ public class Main2 {
       engine3Arr[2] = level2dynamicEngine;
 */
       final Engine[] engineArr = engine2Arr;    // !!!! TEST !!!!
-
-      final Universe universe = new Universe(engineArr, universeSize);
+      final FieldEngine fieldEngine = new FieldEngine(engineArr);
+      final Universe universe = new Universe(fieldEngine, universeSize);
 
 /*
       for (int metaCellPos = 0; metaCellPos < 3; metaCellPos++) {

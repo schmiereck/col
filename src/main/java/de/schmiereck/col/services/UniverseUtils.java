@@ -19,7 +19,7 @@ public class UniverseUtils {
    }
 
    public static void printCells(final Universe universe, final Part part, final int cnt, final String msg) {
-      final Engine[] engineArr = universe.engineArr;
+      final Engine[] engineArr = universe.fieldEngine.engineArr;
       for (int levelPos = engineArr.length - 1; levelPos >= 0; levelPos--) {
          final Engine engine = readEngine(universe, levelPos);
          for (int levelShift = engine.cellSize - 1; levelShift >= 0; levelShift--) {
@@ -105,7 +105,7 @@ public class UniverseUtils {
    }
 */
    static Engine readEngine(final Universe universe, final int levelPos) {
-      return universe.engineArr[levelPos];
+      return universe.fieldEngine.engineArr[levelPos];
    }
 
    public static void setStatePos(final Universe universe, final int cellPos, final int levelPos) {

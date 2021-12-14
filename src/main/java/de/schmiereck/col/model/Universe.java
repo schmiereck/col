@@ -28,18 +28,18 @@ import java.util.List;
  *             -> Event event
  */
 public class Universe {
-   public final Engine[] engineArr;
+   public final FieldEngine fieldEngine;
    public final int universeSize;
    public final List<Part> partList = new LinkedList<>();
 
-   public Universe(final Engine[] engineArr, final int levelSize) {
-      this.engineArr = engineArr;
+   public Universe(final FieldEngine fieldEngine, final int levelSize) {
+      this.fieldEngine = fieldEngine;
       this.universeSize = levelSize;
 
-      final int levelCount = engineArr.length;
+      final int levelCount = fieldEngine.engineArr.length;
 
       for (int levelPos = 0; levelPos < levelCount; levelPos++) {
-         final Engine engine = engineArr[levelPos];
+         final Engine engine = fieldEngine.engineArr[levelPos];
 
          final int metaStateSize = calcMetaStateSize(engine);
       }

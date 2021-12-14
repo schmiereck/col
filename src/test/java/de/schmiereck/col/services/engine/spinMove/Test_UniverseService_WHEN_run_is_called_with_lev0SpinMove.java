@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.Event;
+import de.schmiereck.col.model.FieldEngine;
 import de.schmiereck.col.model.Part;
 import de.schmiereck.col.model.Universe;
 import de.schmiereck.col.services.UniverseService;
@@ -36,7 +37,8 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
       engineArr[0] = level0Engine;
       //engineArr[1] = level1Engine;
 
-      final Universe universe = new Universe(engineArr, universeSize);
+      final FieldEngine fieldEngine = new FieldEngine(engineArr);
+      final Universe universe = new Universe(fieldEngine, universeSize);
 
       final Event event = new Event(null);
       //setStatePos(universe, 2, STAY_p1);
@@ -73,7 +75,8 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
       engineArr[0] = level0Engine;
       //engineArr[1] = level1Engine;
 
-      final Universe universe = new Universe(engineArr, universeSize);
+      final FieldEngine fieldEngine = new FieldEngine(engineArr);
+      final Universe universe = new Universe(fieldEngine, universeSize);
 
       final Event event = new Event(null);
       //setStatePos(universe, 2, LEFTa_p1, event);
@@ -109,7 +112,8 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
       engineArr[0] = level0Engine;
       //engineArr[1] = level1Engine;
 
-      final Universe universe = new Universe(engineArr, universeSize);
+      final FieldEngine fieldEngine = new FieldEngine(engineArr);
+      final Universe universe = new Universe(fieldEngine, universeSize);
 
       final Part part = setMetaStatePos(universe, 3, 0, metaPos(level0Engine, RIGHTa_p1, NULL_u0));
 
