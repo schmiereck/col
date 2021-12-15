@@ -25,18 +25,19 @@ public class UniverseUtils {
          for (int levelShift = engine.cellSize - 1; levelShift >= 0; levelShift--) {
             printCellLine(universe, engine, part, cnt, engine.cellSize, levelPos, levelShift);
          }
+         System.out.print("  ------- ");
+         System.out.print(" ---------- ".repeat(universe.universeSize + (engine.cellSize - 1)));
+         if (msg != null) System.out.print(": " + msg);
+         System.out.println();
       }
-      System.out.print("  ------- ");
-      System.out.print(" ---------- ".repeat(universe.universeSize));
-      if (msg != null) System.out.print(": " + msg);
-      System.out.println();
    }
 
    private static void printCellLine(final Universe universe, final Engine engine, final Part part, final int cnt, final int cellSize, final int levelPos, final int levelShift) {
       final int metaPos = (cellSize - 1) - levelShift;
-      System.out.printf("%4d/%1d/%1d:%s ", cnt, levelPos, levelShift, " ".repeat(levelShift * (1+4+1+2+1+1+1+1)));
-      for (int cellPos = levelShift; cellPos < universe.universeSize; cellPos += cellSize) {
-         final int printCellPos = calcCellPos(universe, cellPos + levelShift);
+      final int xPos = levelShift;
+      System.out.printf("%4d/%1d/%1d:%s ", cnt, levelPos, levelShift, " ".repeat(metaPos * (1+4+1+2+1+1+1+1)));
+      for (int cellPos = 0; cellPos < universe.universeSize; cellPos += cellSize) {
+         final int printCellPos = calcCellPos(universe, cellPos);
          final int cellMetaStatePos;
          final int cellStatePos;
          final State state;
@@ -55,7 +56,7 @@ public class UniverseUtils {
 
          printCellState(cellMetaStatePos, cellStatePos, state);
       }
-      //System.out.printf("  - levelNr:%d, levelShift:%d, metaPos:%1d", levelNr, levelShift, metaPos);
+      //System.out.printf("  - xPos:%d, levelShift:%d, metaPos:%1d", xPos, levelShift, metaPos);
       System.out.println();
    }
 

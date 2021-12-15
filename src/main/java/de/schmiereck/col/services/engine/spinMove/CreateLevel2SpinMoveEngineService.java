@@ -29,7 +29,7 @@ public class CreateLevel2SpinMoveEngineService {
    
    public static Engine createLevel2SpinMoveEngine() {
       //----------------------------------------------------------------------------------------------------------------
-      final Engine e = new Engine(3, 9);
+      final Engine e = new Engine(3, 10);
 
       //----------------------------------------------------------------------------------------------------------------
       // null:
@@ -85,7 +85,32 @@ public class CreateLevel2SpinMoveEngineService {
       //    x    0   0   0           =>   x    0   0   0   .   .   .
       //    x        0   0   0       =>   x        0   0   0  (1)  .   .
       //    x            0   0   1   =>   x            0   0   0   .   .   .
-      writeMetaState(e, STAYa_u0_p1_u0, NULL_u0_u0_u0, NULL_u0_u0_u0,   NULL_u0_u0_u0, STAYa_p1_u0_u0, NULL_u0_u0_u0, +3);
+      writeMetaState(e, STAYa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0,   NULL_u0_u0_u0, STAYa_p1_u0_u0, NULL_u0_u0_u0, +3);
+      //    x    0   0   0           =>   x    0   1   0
+      //    x        1   0   0       =>   x        0   0   0
+      //    x            0   0   0   =>   x            0   0   0
+      writeMetaState(e, NULL_u0_u0_u0, STAYa_p1_u0_u0, NULL_u0_u0_u0,   NULL_u0_u0_u0, NULL_u0_u0_u0, STAYa_u0_p1_u0);
+      //    x    0   0   0           =>   x    0   0   1
+      //    x        0   1   0       =>   x        0   0   0
+      //    x            0   0   0   =>   x            0   0   0
+      writeMetaState(e, NULL_u0_u0_u0, STAYa_u0_p1_u0, NULL_u0_u0_u0,   NULL_u0_u0_u0, NULL_u0_u0_u0, STAYa_u0_u0_p1);
+      //    x    0   0   0           =>   x    0   0   0  (1)  .   .
+      //    x        0   0   1       =>   x        0   0   0
+      //    x            0   0   0   =>   x            0   0   0
+      writeMetaState(e, NULL_u0_u0_u0, STAYa_u0_u0_p1, NULL_u0_u0_u0,   NULL_u0_u0_u0, NULL_u0_u0_u0, STAYa_p1_u0_u0, +3);
+      //    x    1   0   0           =>   x    .   .   .   0   0   0
+      //    x        0   0   0       =>   x        .   .   .   0   0   0
+      //    x            0   0   0   =>   x            .  (1)  .   0   0   0
+      writeMetaState(e, NULL_u0_u0_u0, NULL_u0_u0_u0, STAYa_p1_u0_u0,   STAYa_u0_p1_u0, NULL_u0_u0_u0, NULL_u0_u0_u0, -3);
+      //    x    0   1   0           =>   x    .   .   .   0   0   0
+      //    x        0   0   0       =>   x        .   .   .   0   0   0
+      //    x            0   0   0   =>   x            .   .  (1)  0   0   0
+      writeMetaState(e, NULL_u0_u0_u0, NULL_u0_u0_u0, STAYa_u0_p1_u0,   STAYa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0, -3);
+      //    x    0   0   1           =>   x    .   .   .   0   0   0
+      //    x        0   0   0       =>   x        .   .   .   0   0   0
+      //    x            0   0   0   =>   x            .   .   .   1   0   0
+      writeMetaState(e, NULL_u0_u0_u0, NULL_u0_u0_u0, STAYa_u0_u0_p1,   STAYa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0);
+
       //----------------------------------------------------------------------------------------------------------------
       return e;
    }
