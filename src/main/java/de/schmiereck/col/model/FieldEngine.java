@@ -13,7 +13,7 @@ public class FieldEngine {
 
    public FieldEngine(final Engine[] engineArr) {
       this.engineArr = engineArr;
-      this.maxLevelPos = this.engineArr.length - 1;
+      this.maxLevelPos = this.engineArr.length;
       final Optional<Engine> optionalEngine = Arrays.stream(this.engineArr).max((engine1, engine2) -> engine2.metaStateArr.length - engine1.metaStateArr.length);
       this.maxMetaStatePos = optionalEngine.get().metaStateArr.length;
       this.maxDiff = this.engineArr[this.engineArr.length - 1].cellSize * 2;
