@@ -1,5 +1,6 @@
 package de.schmiereck.col.services;
 
+import static de.schmiereck.col.model.State.NULL_pos;
 import static de.schmiereck.col.services.StateUtils.convertToDebugString;
 import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
 import static de.schmiereck.col.services.UniverseUtils.readEngine;
@@ -65,38 +66,48 @@ public class UniverseService {
                final NextPart nextPart = FieldEngineService.calcNextPart(universe.fieldEngine, aPart, bPart);
 
                if (Objects.nonNull(nextPart)) {
+                  final Part newPart = new Part(aPart.event, aPart,
+                                                nextPart.newPartLevelPos,
+                                                calcCellPos(universe, aPart.hyperCell.cellPos + nextPart.newPartOffsetCellPos),
+                                                nextPart.newPartMetaStatePos);
 
+                  universe.partList.add(newPart);
+
+                  if (nextPart.nextPartMetaStatePos != -1) {
+                     aPart.levelPos = nextPart.nextPartLevelPos;
+                     aPart.hyperCell.cellPos = calcCellPos(universe, aPart.hyperCell.cellPos + nextPart.nextPartOffsetCellPos);
+                     aPart.hyperCell.metaStatePos = nextPart.nextPartMetaStatePos;
+                  }
                }
             //}
          }
       }
+      universe.partList.removeIf(part -> part.hyperCell.metaStatePos == NULL_pos);
    }
 
    public static void runCalcNextMetaState2(final Universe universe) {
-      final Engine[] engineArr = universe.fieldEngine.engineArr;
       for (final Part part : universe.partList) {
-         int levelPos = part.levelPos;
-         final Engine engine = readEngine(universe, levelPos);
-
-         if (Objects.nonNull(engine.metaStateArr)) {
-            calcNextStatePosByMetaStatePos2(universe, engine, part);
-            //calcMetaStatePosByStatePosForNeighbours(engine, level, cellPos);
-         }
+         calcNextStatePosByMetaStatePos2(universe, part);
+         //calcMetaStatePosByStatePosForNeighbours(engine, level, cellPos);
       }
    }
 
-   public static void calcNextStatePosByMetaStatePos2(final Universe universe, final Engine engine, final Part part) {
-      final HyperCell hyperCell = part.hyperCell;
+   public static void calcNextStatePosByMetaStatePos2(final Universe universe, final Part part) {
+      final Engine engine = readEngine(universe, part.levelPos);
 
-      final MetaState sourceMetaState = engine.metaStateArr[hyperCell.metaStatePos];
-      final int nextSourceMetaStatePos = sourceMetaState.outputMetaStatePos;
-      if (nextSourceMetaStatePos == -1)
-         throw new RuntimeException(String.format("Level-Cell-Size %d: For Meta-State %s no output state found.", engine.cellSize, convertToDebugString(sourceMetaState)));
+      if (Objects.nonNull(engine.metaStateArr)) {
+         final HyperCell hyperCell = part.hyperCell;
 
-      final int targetCellPos = calcCellPos(universe, hyperCell.cellPos + sourceMetaState.cellPosOffset);
+         final MetaState sourceMetaState = engine.metaStateArr[hyperCell.metaStatePos];
+         final int nextSourceMetaStatePos = sourceMetaState.outputMetaStatePos;
+         if (nextSourceMetaStatePos == -1)
+            throw new RuntimeException(String.format("Level-Cell-Size %d: For Meta-State %s no output state found.", engine.cellSize, convertToDebugString(sourceMetaState)));
 
-      hyperCell.metaStatePos = nextSourceMetaStatePos;
-      hyperCell.cellPos = targetCellPos;
+         final int targetCellPos = calcCellPos(universe, hyperCell.cellPos + sourceMetaState.cellPosOffset);
+
+         hyperCell.metaStatePos = nextSourceMetaStatePos;
+         hyperCell.cellPos = targetCellPos;
+      }
    }
 
    public static boolean CONFIG_use_levelUpOutputMetaStatePos = false;

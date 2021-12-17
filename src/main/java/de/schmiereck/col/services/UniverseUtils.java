@@ -18,25 +18,31 @@ public class UniverseUtils {
       printCells(universe, part, cnt, null);
    }
 
+   public static void printCells(final Universe universe, final int cnt, final String msg) {
+      for (final Part part : universe.partList) {
+         printCells(universe, part, cnt, msg);
+      }
+   }
    public static void printCells(final Universe universe, final Part part, final int cnt, final String msg) {
       final Engine[] engineArr = universe.fieldEngine.engineArr;
-      for (int levelPos = engineArr.length - 1; levelPos >= 0; levelPos--) {
+      final int levelPos = part.levelPos;
+      {
          final Engine engine = readEngine(universe, levelPos);
          for (int levelShift = engine.cellSize - 1; levelShift >= 0; levelShift--) {
-            printCellLine(universe, engine, part, cnt, engine.cellSize, levelPos, levelShift);
+            printCellLine(universe, engine, part, cnt, levelPos, levelShift);
          }
          System.out.print("  ------- ");
-         System.out.print(" ---------- ".repeat(universe.universeSize + (engine.cellSize - 1)));
+         System.out.print(" ---------- ".repeat(universe.universeSize + (engine.cellSize + (universe.fieldEngine.maxCellSize - engine.cellSize) - 1)));
          if (msg != null) System.out.print(": " + msg);
          System.out.println();
       }
    }
 
-   private static void printCellLine(final Universe universe, final Engine engine, final Part part, final int cnt, final int cellSize, final int levelPos, final int levelShift) {
-      final int metaPos = (cellSize - 1) - levelShift;
+   private static void printCellLine(final Universe universe, final Engine engine, final Part part, final int cnt, final int levelPos, final int levelShift) {
+      final int metaPos = (engine.cellSize - 1) - levelShift;
       final int xPos = levelShift;
-      System.out.printf("%4d/%1d/%1d:%s ", cnt, levelPos, levelShift, " ".repeat(metaPos * (1+4+1+2+1+1+1+1)));
-      for (int cellPos = 0; cellPos < universe.universeSize; cellPos += cellSize) {
+      System.out.printf("%4d/%1d/%1d:%s ", cnt, levelPos, levelShift, " ".repeat((metaPos + (universe.fieldEngine.maxCellSize - engine.cellSize)) * (1+4+1+2+1+1+1+1)));
+      for (int cellPos = 0; cellPos < universe.universeSize; cellPos += engine.cellSize) {
          final int printCellPos = calcCellPos(universe, cellPos);
          final int cellMetaStatePos;
          final int cellStatePos;
@@ -109,30 +115,17 @@ public class UniverseUtils {
       return universe.fieldEngine.engineArr[levelPos];
    }
 
-   public static void setStatePos(final Universe universe, final int cellPos, final int levelPos) {
-      setMetaStatePos(universe, cellPos, levelPos, 0, null);
-   }
-
-   public static void setStatePos(final Universe universe, final int cellPos, final int levelPos, final Event event) {
-      setMetaStatePos(universe, cellPos, levelPos, 0, event);
-   }
-
    public static Part setMetaStatePos(final Universe universe, final int cellPos, final int levelPos, final int metaStatePos) {
-      return setMetaStatePos(universe, cellPos, levelPos, metaStatePos, null);
+      return setMetaStatePos(universe, null, null, cellPos, levelPos, metaStatePos);
    }
 
-   public static Part setMetaStatePos(final Universe universe, final int cellPos, final int levelPos, final int metaStatePos, final Event event) {
-      final Part part = new Part(levelPos);
+   public static Part setMetaStatePos(final Universe universe, final Event event, final Part parentPart, final int cellPos, final int levelPos, final int metaStatePos) {
+      final Part part = new Part(event, parentPart, levelPos, cellPos, metaStatePos);
       universe.partList.add(part);
-      setMetaStatePos(part, cellPos, metaStatePos, event);
       return part;
    }
 
    public static void setMetaStatePos(final Part part, final int cellPos, final int metaStatePos) {
-      setMetaStatePos(part, cellPos, metaStatePos, null);
-   }
-
-   public static void setMetaStatePos(final Part part, final int cellPos, final int metaStatePos, final Event event) {
       part.hyperCell.cellPos = cellPos;
       part.hyperCell.metaStatePos = metaStatePos;
    }

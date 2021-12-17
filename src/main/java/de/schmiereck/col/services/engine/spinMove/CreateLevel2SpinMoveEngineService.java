@@ -152,44 +152,44 @@ public class CreateLevel2SpinMoveEngineService {
       writeMetaState(e, NULL_u0_u0_u0, NULL_u0_u0_u0, LEFTa_u0_u0_p1,   LEFTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0, -3);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // right:
-      //    x    0   0   0           =>   x    0   0   0
-      //    x        0   0   0       =>   x        0   0   1
-      //    x            1   0   0   =>   x            0   0   0
-      writeMetaState(e, RIGHTa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0,   NULL_u0_u0_u0, RIGHTa_u0_u0_p1, NULL_u0_u0_u0);
-      //    x    0   0   0           =>   x    0   0   0   .   .   .
-      //    x        0   0   0       =>   x        0   0   0  (1)  .   .
-      //    x            0   1   0   =>   x            0   0   0   .   .   .
-      writeMetaState(e, RIGHTa_u0_p1_u0, NULL_u0_u0_u0, NULL_u0_u0_u0,   NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0, +3);
-      //    x    0   0   0           =>   x    0   0   0   .   .   .
-      //    x        0   0   0       =>   x        0   0   0   .  (1)  .
-      //    x            0   0   1   =>   x            0   0   0   .   .   .
-      writeMetaState(e, RIGHTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0,   NULL_u0_u0_u0, RIGHTa_u0_p1_u0, NULL_u0_u0_u0, +3);
-
-      //    x    0   0   0           =>   x    0   0   1
-      //    x        1   0   0       =>   x        0   0   0
-      //    x            0   0   0   =>   x            0   0   0
-      writeMetaState(e, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0,   NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_u0_u0_p1);
       //    x    0   0   0           =>   x    0   0   0  (1)  .   .
-      //    x        0   1   0       =>   x        0   0   0   .   .   .
-      //    x            0   0   0   =>   x            0   0   0   .   .   .
-      writeMetaState(e, NULL_u0_u0_u0, RIGHTa_u0_p1_u0, NULL_u0_u0_u0,   NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, +3);
+      //    x        0   0   0       =>   x        0   0   0   .   .   .
+      //    x            1   0   0   =>   x            0   0   0   .   .   .
+      writeMetaState(e, RIGHTa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0,   NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, +3);
       //    x    0   0   0           =>   x    0   0   0   .  (1)  .
+      //    x        0   0   0       =>   x        0   0   0   .   .   .
+      //    x            0   1   0   =>   x            0   0   0   .   .   .
+      writeMetaState(e, RIGHTa_u0_p1_u0, NULL_u0_u0_u0, NULL_u0_u0_u0,   NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_u0_p1_u0, +3);
+      //    x    0   0   0           =>   x    0   0   0   .   .  (1)
+      //    x        0   0   0       =>   x        0   0   0   .   .   .
+      //    x            0   0   1   =>   x            0   0   0   .   .   .
+      writeMetaState(e, RIGHTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0,   NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_u0_u0_p1, +3);
+
+      //    x    0   0   0           =>   x    0   0   0
+      //    x        1   0   0       =>   x        0   0   0
+      //    x            0   0   0   =>   x            1   0   0
+      writeMetaState(e, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0,   RIGHTa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0);
+      //    x    0   0   0           =>   x    0   0   0   .   .   .
+      //    x        0   1   0       =>   x        0   0   0   .   .   .
+      //    x            0   0   0   =>   x            0   1   0   .   .   .
+      writeMetaState(e, NULL_u0_u0_u0, RIGHTa_u0_p1_u0, NULL_u0_u0_u0,   RIGHTa_u0_p1_u0, NULL_u0_u0_u0, NULL_u0_u0_u0);
+      //    x    0   0   0           =>   x    0   0   0   .   .   .
       //    x        0   0   1       =>   x        0   0   0   .   .   .
-      //    x            0   0   0   =>   x            0   0   0   .   .   .
-      writeMetaState(e, NULL_u0_u0_u0, RIGHTa_u0_u0_p1, NULL_u0_u0_u0,   NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_u0_p1_u0, +3);
+      //    x            0   0   0   =>   x            0   0   1   .   .   .
+      writeMetaState(e, NULL_u0_u0_u0, RIGHTa_u0_u0_p1, NULL_u0_u0_u0,   RIGHTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0);
 
       //    x    1   0   0           =>   x    .   .   .   0   0   0
-      //    x        0   0   0       =>   x        .   .   .   0   0   0
-      //    x            0   0   0   =>   x            .   .  (1)  0   0   0
-      writeMetaState(e, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_p1_u0_u0,   RIGHTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0, -3);
+      //    x        0   0   0       =>   x        .   .   .   1   0   0
+      //    x            0   0   0   =>   x            .   .   .   0   0   0
+      writeMetaState(e, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_p1_u0_u0,   NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0);
       //    x    0   1   0           =>   x    .   .   .   0   0   0
-      //    x        0   0   0       =>   x        .   .   .   0   0   0
-      //    x            0   0   0   =>   x            .   .   .   1   0   0
-      writeMetaState(e, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_u0_p1_u0,   RIGHTa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0);
+      //    x        0   0   0       =>   x        .   .   .   0   1   0
+      //    x            0   0   0   =>   x            .   .   .   0   0   0
+      writeMetaState(e, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_u0_p1_u0,   NULL_u0_u0_u0, RIGHTa_u0_p1_u0, NULL_u0_u0_u0);
       //    x    0   0   1           =>   x    .   .   .   0   0   0
-      //    x        0   0   0       =>   x        .   .   .   0   0   0
-      //    x            0   0   0   =>   x            .   .   .   0   1   0
-      writeMetaState(e, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_u0_u0_p1,   RIGHTa_u0_p1_u0, NULL_u0_u0_u0, NULL_u0_u0_u0);
+      //    x        0   0   0       =>   x        .   .   .   0   0   1
+      //    x            0   0   0   =>   x            .   .   .   0   0   0
+      writeMetaState(e, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_u0_u0_p1,   NULL_u0_u0_u0, RIGHTa_u0_u0_p1, NULL_u0_u0_u0);
       //----------------------------------------------------------------------------------------------------------------
       //----------------------------------------------------------------------------------------------------------------
       return e;

@@ -3,7 +3,6 @@ package de.schmiereck.col.services.engine.spinMove;
 import static de.schmiereck.col.services.RunTestUtils.runTestNextMeta2;
 import static de.schmiereck.col.services.UniverseUtils.printCells;
 import static de.schmiereck.col.services.UniverseUtils.setMetaStatePos;
-import static de.schmiereck.col.services.UniverseUtils.setStatePos;
 import static de.schmiereck.col.services.engine.CreateEngineService.metaPos;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.LEFTa_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.NULL_u0;

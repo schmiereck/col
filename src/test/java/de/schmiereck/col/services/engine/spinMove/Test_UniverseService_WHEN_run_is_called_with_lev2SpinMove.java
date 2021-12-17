@@ -247,9 +247,9 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev2SpinMove {
       }
 
       // Assert
-      assertEquals(0, universe.partList.get(0).hyperCell.cellPos);
+      assertEquals(3, universe.partList.get(0).hyperCell.cellPos);
       assertEquals(0, universe.partList.get(0).levelPos);
-      assertEquals(metaPos(level2Engine, NULL_u0_u0_u0, RIGHTa_u0_u0_p1, NULL_u0_u0_u0), universe.partList.get(0).hyperCell.metaStatePos);
+      assertEquals(metaPos(level2Engine, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_p1_u0_u0), universe.partList.get(0).hyperCell.metaStatePos);
    }
 
    @Test
@@ -281,7 +281,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev2SpinMove {
       // Assert
       assertEquals(3, universe.partList.get(0).hyperCell.cellPos);
       assertEquals(0, universe.partList.get(0).levelPos);
-      assertEquals(metaPos(level2Engine, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0), universe.partList.get(0).hyperCell.metaStatePos);
+      assertEquals(metaPos(level2Engine, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_u0_p1_u0), universe.partList.get(0).hyperCell.metaStatePos);
    }
 
    @Test
@@ -313,6 +313,6 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev2SpinMove {
       // Assert
       assertEquals(3, universe.partList.get(0).hyperCell.cellPos);
       assertEquals(0, universe.partList.get(0).levelPos);
-      assertEquals(metaPos(level2Engine, NULL_u0_u0_u0, RIGHTa_u0_p1_u0, NULL_u0_u0_u0), universe.partList.get(0).hyperCell.metaStatePos);
+      assertEquals(metaPos(level2Engine, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_u0_u0_p1), universe.partList.get(0).hyperCell.metaStatePos);
    }
 }

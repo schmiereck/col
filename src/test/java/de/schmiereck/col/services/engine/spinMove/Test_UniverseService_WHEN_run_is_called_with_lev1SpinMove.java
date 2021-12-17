@@ -86,6 +86,38 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
    }
 
    @Test
+   void GIVEN_lev1spinMove_state_LEFT_u0_p1_NULL_run_THEN_state_is_calculated() {
+      // Arrange
+      final int universeSize = 6;
+
+      final Engine level1Engine = CreateLevel1SpinMoveEngineService.createLevel1SpinMoveEngine();
+
+      final Engine[] engineArr = new Engine[1];
+      engineArr[0] = level1Engine;
+
+      final FieldEngine fieldEngine = new FieldEngine(engineArr);
+      final Universe universe = new Universe(fieldEngine, universeSize);
+
+      final Part part = setMetaStatePos(universe, 0,  0, metaPos(level1Engine, LEFTa_u0_p1, NULL_u0_u0));
+
+      UniverseService.calcInitialMetaStates(universe);
+
+      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
+
+      // Act
+      printCells(universe, part, 0, "initial");
+      for (int cnt = 0; cnt < 8; cnt++) {
+         runTestNextMeta2(universe, part, cnt);
+         //runNextUSDM(universe); printCellsMinimal(universe, cnt);
+      }
+
+      // Assert
+      assertEquals(4, universe.partList.get(0).hyperCell.cellPos);
+      assertEquals(0, universe.partList.get(0).levelPos);
+      assertEquals(metaPos(level1Engine, LEFTa_u0_p1, NULL_u0_u0), universe.partList.get(0).hyperCell.metaStatePos);
+   }
+
+   @Test
    void GIVEN_lev1spinMove_state_LEFT_p1_run_THEN_state_is_calculated() {
       // Arrange
       final int universeSize = 6;
