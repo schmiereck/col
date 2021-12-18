@@ -66,13 +66,14 @@ public class UniverseService {
                final NextPart nextPart = FieldEngineService.calcNextPart(universe.fieldEngine, aPart, bPart);
 
                if (Objects.nonNull(nextPart)) {
-                  final Part newPart = new Part(aPart.event, aPart,
-                                                nextPart.newPartLevelPos,
-                                                calcCellPos(universe, aPart.hyperCell.cellPos + nextPart.newPartOffsetCellPos),
-                                                nextPart.newPartMetaStatePos);
+                  if (nextPart.newPartMetaStatePos != -1) {
+                     final Part newPart = new Part(aPart.event, aPart,
+                             nextPart.newPartLevelPos,
+                             calcCellPos(universe, aPart.hyperCell.cellPos + nextPart.newPartOffsetCellPos),
+                             nextPart.newPartMetaStatePos);
 
-                  universe.partList.add(newPart);
-
+                     universe.partList.add(newPart);
+                  }
                   if (nextPart.nextPartMetaStatePos != -1) {
                      aPart.levelPos = nextPart.nextPartLevelPos;
                      aPart.hyperCell.cellPos = calcCellPos(universe, aPart.hyperCell.cellPos + nextPart.nextPartOffsetCellPos);

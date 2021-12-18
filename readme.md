@@ -539,16 +539,82 @@ Level 3 & 2:    min-diff: 3+2-1
       //      -   -   L
       //          -   -   -
 
-Reflection:
+Level 0:          1   1
+Level 1:        2 1   3    6
+Level 2:      3 2 1   6   12
+Level 3:    6 3 2 1  12   24
+Level 3: 12 6 3 2 1  24   28
+
+Level 0:          1   1
+Level 1:        2 1   3    
+Level 2:      4 2 1   7   
+Level 3:    8 4 2 1  15   
+Level 3: 16 8 4 2 1  31   
+
+A Reflection: verry good, but a lot of Parts
                          (S)
-                  8   4   2 
-  =>
-                  8   2   1 
-                  1   2     
-  =>
-                      8   2   1 
-              1   2
-  =>
-              1   2   8
-              1   2
+              3R  2   1         6
+  => Part
+              4R  2             6
+                      1L        2/2
+  => State
+                  4R  2         12
+                  1L            4/2
+  => Part
+                  4R            4
+                      2L        4/2
+                  1L            4/4
+  => State
+                      1R        3
+                  1L            2
+              1L                1
+  => Part
+                      1L        
+                  1L            
+              1L            
+B Reflection: ok, but stange
+                         (S)
+                  3R  2   1         6
+  => Part
+                  3R                3
+                  1   2L            3
+  => State
+                      3R            3
+              1   2L                3
+  => Part
+                      3L            3
+              1   2L                1,5
+              -----------
+              1   2   3
+C Reflection: bit bad ?
+                         (S)
+                  3R  2   1          
+  => Part
+                  6R                 
+                  3R  2   1          
+                  1   2L             
+  => State
+                      1R
+                      3R  2   1 
+              1   2L    
+  => Part
+                      3L                3L   3 + 6/2 + 3/2  warum 3L???
+              1   2   3L        1   2   3L = 6
+              1   2L            1   2      = 3
+              -----------
+              1   2   4,5?      2   4   6
+                                1   2   3
+D Reflection: bad!
+                         (S)
+                  3R  2   1
+  => Part
+                  3R  2   1
+                  1   2L
+  => State
+                      8R  2   1 
+              1   2L
+  => Part
+              1   2   8L
+              1   2L
+
 ```

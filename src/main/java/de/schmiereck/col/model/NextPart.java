@@ -20,13 +20,13 @@ public class NextPart {
       this.newPartOffsetCellPos = newPartOffsetCellPos;
    }
 
-   public NextPart(final int newPartLevelPos, final int newPartMetaStatePos, final int newPartOffsetCellPos) {
-      this.nextPartLevelPos = -1;
-      this.nextPartMetaStatePos = -1;
-      this.nextPartOffsetCellPos = 0;
+   public NextPart(final int nextPartLevelPos, final int nextPartMetaStatePos, final int nextPartOffsetCellPos) {
+      this.nextPartLevelPos = nextPartLevelPos;
+      this.nextPartMetaStatePos = nextPartMetaStatePos;
+      this.nextPartOffsetCellPos = nextPartOffsetCellPos;
 
-      this.newPartLevelPos = newPartLevelPos;
-      this.newPartMetaStatePos = newPartMetaStatePos;
-      this.newPartOffsetCellPos = newPartOffsetCellPos;
+      this.newPartLevelPos = -1;
+      this.newPartMetaStatePos = -1;
+      this.newPartOffsetCellPos = 0;
    }
 }
