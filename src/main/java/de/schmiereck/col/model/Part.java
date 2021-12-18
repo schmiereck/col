@@ -6,22 +6,22 @@ package de.schmiereck.col.model;
 public class Part {
    public Event event;
    public Part parentPart;
-   public int levelPos;
+   public int enginePos;
    public final HyperCell hyperCell;
 
    public Part(final Event event, final Part parentPart,
-               final int levelPos) {
+               final int enginePos) {
       this.event = event;
       this.parentPart = parentPart;
-      this.levelPos = levelPos;
+      this.enginePos = enginePos;
       this.hyperCell = new HyperCell();
    }
 
    public Part(final Event event, final Part parentPart,
-               final int levelPos, final int cellPos, final int metaStatePos) {
+               final int enginePos, final int cellPos, final int metaStatePos) {
       this.event = event;
       this.parentPart = parentPart;
-      this.levelPos = levelPos;
+      this.enginePos = enginePos;
       this.hyperCell = new HyperCell(cellPos, metaStatePos);
    }
 }

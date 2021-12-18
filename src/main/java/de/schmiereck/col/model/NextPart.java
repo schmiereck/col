@@ -1,31 +1,54 @@
 package de.schmiereck.col.model;
 
 public class NextPart {
-   public final int nextPartLevelPos;
+   public enum Command {
+      CmdNext,
+      CmdNextNew,
+      CmdCombineToParent
+   }
+
+   public final Command command;
+   public final int nextPartEnginePos;
    public final int nextPartMetaStatePos;
    public final int nextPartOffsetCellPos;
 
-   public final int newPartLevelPos;
+   public final int newPartEnginePos;
    public final int newPartMetaStatePos;
    public final int newPartOffsetCellPos;
 
-   public NextPart(final int nextPartLevelPos, final int nextPartMetaStatePos, final int nextPartOffsetCellPos,
-                   final int newPartLevelPos, final int newPartMetaStatePos, final int newPartOffsetCellPos) {
-      this.nextPartLevelPos = nextPartLevelPos;
+   public NextPart(final int nextPartEnginePos, final int nextPartMetaStatePos, final int nextPartOffsetCellPos,
+                   final int newPartEnginePos, final int newPartMetaStatePos, final int newPartOffsetCellPos) {
+      this.command = Command.CmdNextNew;
+
+      this.nextPartEnginePos = nextPartEnginePos;
       this.nextPartMetaStatePos = nextPartMetaStatePos;
       this.nextPartOffsetCellPos = nextPartOffsetCellPos;
 
-      this.newPartLevelPos = newPartLevelPos;
+      this.newPartEnginePos = newPartEnginePos;
       this.newPartMetaStatePos = newPartMetaStatePos;
       this.newPartOffsetCellPos = newPartOffsetCellPos;
    }
 
-   public NextPart(final int nextPartLevelPos, final int nextPartMetaStatePos, final int nextPartOffsetCellPos) {
-      this.nextPartLevelPos = nextPartLevelPos;
+   public NextPart(final int nextPartEnginePos, final int nextPartMetaStatePos, final int nextPartOffsetCellPos) {
+      this.command = Command.CmdNext;
+
+      this.nextPartEnginePos = nextPartEnginePos;
       this.nextPartMetaStatePos = nextPartMetaStatePos;
       this.nextPartOffsetCellPos = nextPartOffsetCellPos;
 
-      this.newPartLevelPos = -1;
+      this.newPartEnginePos = -1;
+      this.newPartMetaStatePos = -1;
+      this.newPartOffsetCellPos = 0;
+   }
+
+   public NextPart(final Command command, final int nextPartEnginePos, final int nextPartMetaStatePos, final int nextPartOffsetCellPos) {
+      this.command = command;
+
+      this.nextPartEnginePos = nextPartEnginePos;
+      this.nextPartMetaStatePos = nextPartMetaStatePos;
+      this.nextPartOffsetCellPos = nextPartOffsetCellPos;
+
+      this.newPartEnginePos = -1;
       this.newPartMetaStatePos = -1;
       this.newPartOffsetCellPos = 0;
    }

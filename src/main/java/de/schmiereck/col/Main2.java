@@ -73,7 +73,6 @@ public class Main2 {
             setMetaStatePos(universe, cellPos + 2, 1, 5);   // l1mov 5:1,0
          }
       final Part part = setMetaStatePos(universe, 2, 1, 5);   // l1mov 5:1,0
-      UniverseService.calcInitialMetaStates(universe);
 
       //----------------------------------------------------------------------------------------------------------------
       for (int cnt = 0; cnt < 6*2*8; cnt++) {

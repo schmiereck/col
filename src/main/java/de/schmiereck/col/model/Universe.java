@@ -38,8 +38,8 @@ public class Universe {
 
       final int levelCount = fieldEngine.engineArr.length;
 
-      for (int levelPos = 0; levelPos < levelCount; levelPos++) {
-         final Engine engine = fieldEngine.engineArr[levelPos];
+      for (int enginePos = 0; enginePos < levelCount; enginePos++) {
+         final Engine engine = fieldEngine.engineArr[enginePos];
 
          final int metaStateSize = calcMetaStateSize(engine);
       }

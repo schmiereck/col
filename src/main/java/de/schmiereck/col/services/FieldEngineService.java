@@ -1,7 +1,5 @@
 package de.schmiereck.col.services;
 
-import static de.schmiereck.col.services.UniverseUtils.readEngine;
-
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.FieldEngine;
 import de.schmiereck.col.model.NextPart;
@@ -10,8 +8,8 @@ import de.schmiereck.col.model.Part;
 public class FieldEngineService {
 
    public static int calcNextPart1Pos(final FieldEngine fieldEngine, final Part aPart, final Part bPart) {
-      final Engine aEngine = fieldEngine.engineArr[aPart.levelPos];
-      final Engine bEngine = fieldEngine.engineArr[bPart.levelPos];
+      final Engine aEngine = fieldEngine.engineArr[aPart.enginePos];
+      final Engine bEngine = fieldEngine.engineArr[bPart.enginePos];
       final int diff = bPart.hyperCell.cellPos - aPart.hyperCell.cellPos;
       final int absDiff = Math.abs(diff);
       final int minDiff = aEngine.cellSize + bEngine.cellSize;
@@ -20,8 +18,8 @@ public class FieldEngineService {
 
       if (absDiff < minDiff) {
          nextPartPos =
-                 aPart.levelPos + fieldEngine.maxLevelPos *
-                 bPart.levelPos + fieldEngine.maxLevelPos *
+                 aPart.enginePos + fieldEngine.maxEnginePos *
+                 bPart.enginePos + fieldEngine.maxEnginePos *
                  absDiff + fieldEngine.maxDiff *
                  aPart.hyperCell.metaStatePos + fieldEngine.maxMetaStatePos *
                  bPart.hyperCell.metaStatePos;
@@ -37,15 +35,15 @@ public class FieldEngineService {
    }
 
    public static NextPart calcNextPart(final FieldEngine fieldEngine, final Part aPart, final Part bPart) {
-      final Engine aEngine = fieldEngine.engineArr[aPart.levelPos];
-      final Engine bEngine = fieldEngine.engineArr[aPart.levelPos];
+      final Engine aEngine = fieldEngine.engineArr[aPart.enginePos];
+      final Engine bEngine = fieldEngine.engineArr[aPart.enginePos];
       final int diff = bPart.hyperCell.cellPos - aPart.hyperCell.cellPos;
       final int absDiff = Math.abs(diff);
       final int minDiff = aEngine.cellSize + bEngine.cellSize;
 
       final NextPart nextPart;
       if (absDiff < minDiff) {
-         nextPart = fieldEngine.nextPartArr[aPart.levelPos][bPart.levelPos][absDiff][aPart.hyperCell.metaStatePos][bPart.hyperCell.metaStatePos];
+         nextPart = fieldEngine.nextPartArr[aPart.enginePos][bPart.enginePos][absDiff][aPart.hyperCell.metaStatePos][bPart.hyperCell.metaStatePos];
       } else {
          nextPart = null;
       }

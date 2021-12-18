@@ -24,12 +24,11 @@ public class UniverseUtils {
       }
    }
    public static void printCells(final Universe universe, final Part part, final int cnt, final String msg) {
-      final Engine[] engineArr = universe.fieldEngine.engineArr;
-      final int levelPos = part.levelPos;
+      final int enginePos = part.enginePos;
       {
-         final Engine engine = readEngine(universe, levelPos);
+         final Engine engine = readEngine(universe, enginePos);
          for (int levelShift = engine.cellSize - 1; levelShift >= 0; levelShift--) {
-            printCellLine(universe, engine, part, cnt, levelPos, levelShift);
+            printCellLine(universe, engine, part, cnt, enginePos, levelShift);
          }
          System.out.print("  ------- ");
          System.out.print(" ---------- ".repeat(universe.universeSize + (engine.cellSize + (universe.fieldEngine.maxCellSize - engine.cellSize) - 1)));
@@ -38,10 +37,10 @@ public class UniverseUtils {
       }
    }
 
-   private static void printCellLine(final Universe universe, final Engine engine, final Part part, final int cnt, final int levelPos, final int levelShift) {
+   private static void printCellLine(final Universe universe, final Engine engine, final Part part, final int cnt, final int enginePos, final int levelShift) {
       final int metaPos = (engine.cellSize - 1) - levelShift;
       final int xPos = levelShift;
-      System.out.printf("%4d/%1d/%1d:%s ", cnt, levelPos, levelShift, " ".repeat((metaPos + (universe.fieldEngine.maxCellSize - engine.cellSize)) * (1+4+1+2+1+1+1+1)));
+      System.out.printf("%4d/%1d/%1d:%s ", cnt, enginePos, levelShift, " ".repeat((metaPos + (universe.fieldEngine.maxCellSize - engine.cellSize)) * (1+4+1+2+1+1+1+1)));
       for (int cellPos = 0; cellPos < universe.universeSize; cellPos += engine.cellSize) {
          final int printCellPos = calcCellPos(universe, cellPos);
          final int cellMetaStatePos;
@@ -83,44 +82,17 @@ public class UniverseUtils {
       }
       System.out.print(" ");
    }
-/*
-   public static void printCellsMinimal(final Universe universe, final Part part, final int cnt) {
-      final Engine[] engineArr = universe.engineArr;
 
-      System.out.printf("%4d: ", cnt);
-
-      for (int cellPos = 0; cellPos < universe.universeSize; cellPos++) {
-         int outValue = 0;
-         for (int levelPos = 0; levelPos < engineArr.length; levelPos++) {
-            final Engine engine = readEngine(universe, levelPos);
-            final Level level = readLevel(part, levelPos);
-            final Cell cell = readCell(level, cellPos);
-
-            final State state = engine.inputStateArr[cell.statePos];
-            for (int statePos = 0; statePos < state.inputStateArr.length; statePos++) {
-               final State inputState = state.inputStateArr[statePos];
-               final int value = convertToValue(inputState);
-               outValue += value * (engineArr.length - levelPos);
-            }
-         }
-         if (cellPos > 0) {
-            System.out.print("|");
-         }
-         System.out.printf("%2d", outValue);
-      }
-      System.out.println();
-   }
-*/
-   static Engine readEngine(final Universe universe, final int levelPos) {
-      return universe.fieldEngine.engineArr[levelPos];
+   static Engine readEngine(final Universe universe, final int enginePos) {
+      return universe.fieldEngine.engineArr[enginePos];
    }
 
-   public static Part setMetaStatePos(final Universe universe, final int cellPos, final int levelPos, final int metaStatePos) {
-      return setMetaStatePos(universe, null, null, cellPos, levelPos, metaStatePos);
+   public static Part setMetaStatePos(final Universe universe, final int cellPos, final int enginePos, final int metaStatePos) {
+      return setMetaStatePos(universe, null, null, cellPos, enginePos, metaStatePos);
    }
 
-   public static Part setMetaStatePos(final Universe universe, final Event event, final Part parentPart, final int cellPos, final int levelPos, final int metaStatePos) {
-      final Part part = new Part(event, parentPart, levelPos, cellPos, metaStatePos);
+   public static Part setMetaStatePos(final Universe universe, final Event event, final Part parentPart, final int cellPos, final int enginePos, final int metaStatePos) {
+      final Part part = new Part(event, parentPart, enginePos, cellPos, metaStatePos);
       universe.partList.add(part);
       return part;
    }

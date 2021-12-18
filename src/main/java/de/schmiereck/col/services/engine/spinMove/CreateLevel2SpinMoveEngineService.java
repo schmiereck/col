@@ -12,20 +12,20 @@ import de.schmiereck.col.model.State;
 public class CreateLevel2SpinMoveEngineService {
 
    // null:
-   final static int NULL_u0_u0_u0 = NULL_pos;
+   public final static int NULL_u0_u0_u0 = NULL_pos;
    // a:
    // stay:
-   final static int STAYa_p1_u0_u0 = 1;
-   final static int STAYa_u0_p1_u0 = 2;
-   final static int STAYa_u0_u0_p1 = 3;
+   public final static int STAYa_p1_u0_u0 = 1;
+   public final static int STAYa_u0_p1_u0 = 2;
+   public final static int STAYa_u0_u0_p1 = 3;
    // left:
-   final static int LEFTa_p1_u0_u0 = 4;
-   final static int LEFTa_u0_p1_u0 = 5;
-   final static int LEFTa_u0_u0_p1 = 6;
+   public final static int LEFTa_p1_u0_u0 = 4;
+   public final static int LEFTa_u0_p1_u0 = 5;
+   public final static int LEFTa_u0_u0_p1 = 6;
    // right:
-   final static int RIGHTa_p1_u0_u0 = 7;
-   final static int RIGHTa_u0_p1_u0 = 8;
-   final static int RIGHTa_u0_u0_p1 = 9;
+   public final static int RIGHTa_p1_u0_u0 = 7;
+   public final static int RIGHTa_u0_p1_u0 = 8;
+   public final static int RIGHTa_u0_u0_p1 = 9;
    
    public static Engine createLevel2SpinMoveEngine() {
       //----------------------------------------------------------------------------------------------------------------

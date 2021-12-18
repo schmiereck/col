@@ -36,10 +36,6 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
 
       final Part part = setMetaStatePos(universe, 2,  0, metaPos(level1Engine, STAYa_p1_u0, NULL_u0_u0));
 
-      UniverseService.calcInitialMetaStates(universe);
-
-      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
-
       // Act
       printCells(universe, part, 0, "initial");
       for (int cnt = 0; cnt <= 2; cnt++) {
@@ -49,7 +45,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
 
       // Assert
       assertEquals(2, universe.partList.get(0).hyperCell.cellPos);
-      assertEquals(0, universe.partList.get(0).levelPos);
+      assertEquals(0, universe.partList.get(0).enginePos);
       assertEquals(metaPos(level1Engine, NULL_u0_u0, STAYa_u0_p1), universe.partList.get(0).hyperCell.metaStatePos);
    }
 
@@ -68,10 +64,6 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
 
       final Part part = setMetaStatePos(universe, 2,  0, metaPos(level1Engine, STAYa_u0_p1, NULL_u0_u0));
 
-      UniverseService.calcInitialMetaStates(universe);
-
-      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
-
       // Act
       printCells(universe, part, 0, "initial");
       for (int cnt = 0; cnt <= 2; cnt++) {
@@ -81,7 +73,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
 
       // Assert
       assertEquals(4, universe.partList.get(0).hyperCell.cellPos);
-      assertEquals(0, universe.partList.get(0).levelPos);
+      assertEquals(0, universe.partList.get(0).enginePos);
       assertEquals(metaPos(level1Engine, NULL_u0_u0, STAYa_p1_u0), universe.partList.get(0).hyperCell.metaStatePos);
    }
 
@@ -100,10 +92,6 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
 
       final Part part = setMetaStatePos(universe, 0,  0, metaPos(level1Engine, LEFTa_u0_p1, NULL_u0_u0));
 
-      UniverseService.calcInitialMetaStates(universe);
-
-      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
-
       // Act
       printCells(universe, part, 0, "initial");
       for (int cnt = 0; cnt < 8; cnt++) {
@@ -113,7 +101,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
 
       // Assert
       assertEquals(4, universe.partList.get(0).hyperCell.cellPos);
-      assertEquals(0, universe.partList.get(0).levelPos);
+      assertEquals(0, universe.partList.get(0).enginePos);
       assertEquals(metaPos(level1Engine, LEFTa_u0_p1, NULL_u0_u0), universe.partList.get(0).hyperCell.metaStatePos);
    }
 
@@ -132,10 +120,6 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
 
       final Part part = setMetaStatePos(universe, 0,  0, metaPos(level1Engine, NULL_u0_u0, LEFTa_u0_p1));
 
-      UniverseService.calcInitialMetaStates(universe);
-
-      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
-
       // Act
       printCells(universe, part, 0, "initial");
       for (int cnt = 0; cnt < 8; cnt++) {
@@ -145,7 +129,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
 
       // Assert
       assertEquals(4, universe.partList.get(0).hyperCell.cellPos);
-      assertEquals(0, universe.partList.get(0).levelPos);
+      assertEquals(0, universe.partList.get(0).enginePos);
       assertEquals(metaPos(level1Engine, NULL_u0_u0, LEFTa_u0_p1), universe.partList.get(0).hyperCell.metaStatePos);
    }
 
@@ -164,10 +148,6 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
 
       final Part part = setMetaStatePos(universe, 0, 0, metaPos(level1Engine, NULL_u0_u0, RIGHTa_u0_p1));
 
-      UniverseService.calcInitialMetaStates(universe);
-
-      UniverseService.CONFIG_use_levelUpOutputMetaStatePos = true;
-
       // Act
       printCells(universe, part, 0, "initial");
       for (int cnt = 0; cnt < 8; cnt++) {
@@ -177,7 +157,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
 
       // Assert
       assertEquals(2, universe.partList.get(0).hyperCell.cellPos);
-      assertEquals(0, universe.partList.get(0).levelPos);
+      assertEquals(0, universe.partList.get(0).enginePos);
       assertEquals(metaPos(level1Engine, NULL_u0_u0, RIGHTa_u0_p1), universe.partList.get(0).hyperCell.metaStatePos);
    }
 }

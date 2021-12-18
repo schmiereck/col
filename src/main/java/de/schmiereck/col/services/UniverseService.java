@@ -13,9 +13,7 @@ import de.schmiereck.col.model.NextPart;
 import de.schmiereck.col.model.Part;
 import de.schmiereck.col.model.Universe;
 
-import java.util.Arrays;
 import java.util.Objects;
-import java.util.Optional;
 
 public class UniverseService {
 
@@ -51,12 +49,12 @@ public class UniverseService {
       //for (final Part aPart : universe.partList) {
       for (int aPartPos = 0; aPartPos < universe.partList.size(); aPartPos++) {
          final Part aPart = universe.partList.get(aPartPos);
-         //final Engine aEngine = readEngine(universe, aPart.levelPos);
+         //final Engine aEngine = readEngine(universe, aPart.enginePos);
 
          //for (final Part bPart : universe.partList) {
          for (int bPartPos = aPartPos + 1; bPartPos < universe.partList.size(); bPartPos++) {
             final Part bPart = universe.partList.get(bPartPos);
-            //final Engine bEngine = readEngine(universe, bPart.levelPos);
+            //final Engine bEngine = readEngine(universe, bPart.enginePos);
 
             //final int diff = bPart.hyperCell.cellPos - aPart.hyperCell.cellPos;
             //final int absDiff = Math.abs(diff);
@@ -66,18 +64,31 @@ public class UniverseService {
                final NextPart nextPart = FieldEngineService.calcNextPart(universe.fieldEngine, aPart, bPart);
 
                if (Objects.nonNull(nextPart)) {
-                  if (nextPart.newPartMetaStatePos != -1) {
-                     final Part newPart = new Part(aPart.event, aPart,
-                             nextPart.newPartLevelPos,
-                             calcCellPos(universe, aPart.hyperCell.cellPos + nextPart.newPartOffsetCellPos),
-                             nextPart.newPartMetaStatePos);
+                  switch (nextPart.command) {
+                     case CmdCombineToParent -> {
+                        if (aPart == bPart.parentPart) {
+                           aPart.enginePos = nextPart.nextPartEnginePos;
+                           aPart.hyperCell.cellPos = calcCellPos(universe, aPart.hyperCell.cellPos + nextPart.nextPartOffsetCellPos);
+                           aPart.hyperCell.metaStatePos = nextPart.nextPartMetaStatePos;
 
-                     universe.partList.add(newPart);
-                  }
-                  if (nextPart.nextPartMetaStatePos != -1) {
-                     aPart.levelPos = nextPart.nextPartLevelPos;
-                     aPart.hyperCell.cellPos = calcCellPos(universe, aPart.hyperCell.cellPos + nextPart.nextPartOffsetCellPos);
-                     aPart.hyperCell.metaStatePos = nextPart.nextPartMetaStatePos;
+                           bPart.hyperCell.metaStatePos = NULL_pos;
+                        }
+                     }
+                     default -> {
+                        if (nextPart.newPartMetaStatePos != -1) {
+                           final Part newPart = new Part(aPart.event, aPart,
+                                   nextPart.newPartEnginePos,
+                                   calcCellPos(universe, aPart.hyperCell.cellPos + nextPart.newPartOffsetCellPos),
+                                   nextPart.newPartMetaStatePos);
+
+                           universe.partList.add(newPart);
+                        }
+                        if (nextPart.nextPartMetaStatePos != -1) {
+                           aPart.enginePos = nextPart.nextPartEnginePos;
+                           aPart.hyperCell.cellPos = calcCellPos(universe, aPart.hyperCell.cellPos + nextPart.nextPartOffsetCellPos);
+                           aPart.hyperCell.metaStatePos = nextPart.nextPartMetaStatePos;
+                        }
+                     }
                   }
                }
             //}
@@ -94,7 +105,7 @@ public class UniverseService {
    }
 
    public static void calcNextStatePosByMetaStatePos2(final Universe universe, final Part part) {
-      final Engine engine = readEngine(universe, part.levelPos);
+      final Engine engine = readEngine(universe, part.enginePos);
 
       if (Objects.nonNull(engine.metaStateArr)) {
          final HyperCell hyperCell = part.hyperCell;
@@ -109,122 +120,5 @@ public class UniverseService {
          hyperCell.metaStatePos = nextSourceMetaStatePos;
          hyperCell.cellPos = targetCellPos;
       }
-   }
-
-   public static boolean CONFIG_use_levelUpOutputMetaStatePos = false;
-
-   /*
-      public static void runLevelUp(final Universe universe) {
-         final Engine[] engineArr = universe.engineArr;
-         for (final Part part : universe.partList) {
-            for (int sourceLevelPos = engineArr.length - 2; sourceLevelPos >= 0; sourceLevelPos--) {
-               final int targetLevelPos = sourceLevelPos + 1;
-               final Engine sourceEngine = readEngine(universe, sourceLevelPos);
-               final Level sourceLevel = readLevel(part, sourceLevelPos);
-               final Engine targetEngine = readEngine(universe, targetLevelPos);
-               final Level targetLevel = readLevel(part, targetLevelPos);
-
-               for (int cellPos = 0; cellPos < universe.universeSize; cellPos++) {
-                  if (CONFIG_use_levelUpOutputMetaStatePos && Objects.nonNull(sourceEngine.metaStateArr) && Objects.nonNull(targetEngine.metaStateArr)) {
-                     //schauen, ob in der source cell eine levelUpOutputMetaStatePos für den target meta -state(momentan nur 0)
-                     //eingetragen ist,
-                     //wenn ja, diesen im target setzen
-                     //und source auf meta state 0 setzen
-                     final LevelCell targetLevelCell = readLevelCell(targetLevel, cellPos);
-                     final Cell targetCell = targetLevelCell.metaCellArr[0];
-                     final int targetMetaStatePos = targetCell.metaStatePos;
-
-                     // Target ist ein NULL-Meta-State (momentan wird nur der als Ziel unterstützt)?
-                     if (targetMetaStatePos == 0) {
-                        final LevelCell sourceLevelCell = readLevelCell(sourceLevel, cellPos);
-                        final Cell sourceCell = sourceLevelCell.metaCellArr[0];
-                        final int sourceMetaStatePos = sourceCell.metaStatePos;
-
-                        final MetaState sourceMetaState = sourceEngine.metaStateArr[sourceMetaStatePos];
-
-                        final MetaState targetMetaState = targetEngine.metaStateArr[targetMetaStatePos];
-
-                        final int levelUpOutputMetaStatePos = sourceMetaState.levelUpOutputMetaStatePosArr[targetMetaStatePos];
-
-                        if (levelUpOutputMetaStatePos != -1) {
-                           writeNewMetaStatePos(sourceEngine, sourceLevelCell, 0);
-                           writeNewMetaStatePos(targetEngine, targetLevelCell, levelUpOutputMetaStatePos);
-                        }
-                     }
-                  } else {
-                     throw new RuntimeException("NotImplemented");
-                  }
-               }
-            }
-         }
-      }
-   */
-   private static void writeNewMetaStatePos(final Engine targetEngine, final LevelCell targetLevelCell, final int newMetaStatePos) {
-      final MetaState targetMetaState = targetEngine.metaStateArr[newMetaStatePos];
-      targetLevelCell.metaCellArr[0].metaStatePos = newMetaStatePos;
-
-      for (int pos = 0; pos < targetMetaState.inputMetaStatePosArr.length; pos++) {
-         final int targetInputMetaStatePos = targetMetaState.inputMetaStatePosArr[pos];
-         targetLevelCell.metaCellArr[pos].statePos = targetInputMetaStatePos;
-      }
-   }
-
-   public static boolean CONFIG_use_levelDown_flag = false;
-
-   /*
-      public static void runLevelDown(final Universe universe) {
-         final Engine[] engineArr = universe.engineArr;
-         for (int sourceLevelPos = 1; sourceLevelPos < engineArr.length; sourceLevelPos++) {
-            final int targetLevelPos = sourceLevelPos - 1;
-            final Engine sourceEngine = readEngine(universe, sourceLevelPos);
-            final Level sourceLevel = readLevel(universe, sourceLevelPos);
-            final Engine targetEngine = readEngine(universe, targetLevelPos);
-            final Level targetLevel = readLevel(universe, targetLevelPos);
-
-            for (int cellPos = 0; cellPos < universe.universeSize; cellPos++) {
-               if (CONFIG_use_levelDown_flag) { // && Objects.nonNull(sourceCell.event)) {
-                  final LevelCell sourceLevelCell = readLevelCell(sourceLevel, cellPos);
-                  final Cell sourceCell = readCell(sourceLevelCell);
-                  final MetaState sourceCellMetaState = readMetaState(sourceEngine, sourceCell);
-                  if (sourceCellMetaState.levelDown) {
-                     //move state down to next level
-                     final LevelCell targetLevelCell = readLevelCell(targetLevel, cellPos + (sourceEngine.cellSize - targetEngine.cellSize));
-                     final int targetMetaStatePos = readMetaStatePos(targetLevelCell);
-                     final MetaState sourceMetaState = sourceEngine.metaStateArr[sourceCell.metaStatePos];
-                     final int levelDownOutputMetaStatePos = sourceMetaState.levelDownOutputMetaStatePosArr[targetMetaStatePos];
-                     if (levelDownOutputMetaStatePos == -1) {
-                        final MetaState targetMetaState = targetEngine.metaStateArr[targetMetaStatePos];
-                        throw new RuntimeException(String.format("For Meta-State no levelDownOutputMetaStatePos defined: source(%d:%s), target(%d:%s).",
-                                sourceEngine.cellSize, convertToDebugString(sourceMetaState),
-                                targetEngine.cellSize, convertToDebugString(targetMetaState)));
-                     }
-                     writeNewMetaStatePos(targetEngine, targetLevelCell, levelDownOutputMetaStatePos);
-                     sourceCell.event.levelDownFlag = true;
-                  }
-               } else {
-                  throw new RuntimeException("NotImplemented");
-               }
-            }
-         }
-      }
-   */
-   public static void calcInitialMetaStates(final Universe universe) {
-      /*
-      final Engine[] engineArr = universe.engineArr;
-      for (int levelPos = 0; levelPos < engineArr.length; levelPos++) {
-         final Engine engine = readEngine(universe, levelPos);
-         final Level level = readLevel(universe, levelPos);
-
-         if (Objects.nonNull(engine.metaStateArr)) {
-            for (int cellPos = 0; cellPos < universe.universeSize; cellPos++) {
-               final LevelCell levelCell = readLevelCell(level, cellPos);
-               //final Cell sourceCell = readCell(universe, cellPos, levelPos);
-               final int metaStatePos = searchMetaStatePos(engine, levelCell);
-               levelCell.metaCellArr[0].metaStatePos = metaStatePos;
-            }
-         }
-      }
-
-       */
    }
 }
