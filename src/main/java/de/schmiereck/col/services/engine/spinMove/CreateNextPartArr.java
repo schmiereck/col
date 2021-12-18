@@ -19,27 +19,27 @@ import de.schmiereck.col.model.Universe;
 
 public class CreateNextPartArr {
    /**
-    A Reflection: verry good, but a lot of Parts
-    (S)
-    3R  2   1         6
-    => Part
-    4R  2             6
-    1L        2/2
-    => State
-    4R  2         12
-    1L            4/2
-    => Part
-    4R            4
-    2L        4/2
-    1L            4/4
-    => State
-    1R        3
-    1L            2
-    1L                1
-    => Part
-    1L
-    1L
-    1L
+    * A Reflection: verry good, but a lot of Parts
+    *                          (S)
+    *               3R  2   1         6
+    *   => Part
+    *               4R  2             6
+    *                       1L        2/2
+    *   => State
+    *                   4R  2         12
+    *                   1L            4/2
+    *   => Part
+    *                   4R            4
+    *                       2L        4/2
+    *                   1L            4/4
+    *   => State
+    *                       1R        3
+    *                   1L            2
+    *               1L                1
+    *   => Part
+    *                       1L
+    *                   1L
+    *               1L
     */
    public static void createNextPartArrA(final Universe universe) {
       final Engine l0E = universe.fieldEngine.engineArr[0];
@@ -114,6 +114,22 @@ public class CreateNextPartArr {
               = new NextPart(0, metaPos(l0E, LEFTa_p1), +0);
    }
 
+   /**
+    * B Reflection: ok, but stange
+    *                          (S)
+    *                   3R  2   1         6
+    *   => Part
+    *                   3R                3
+    *                   1   2L            3
+    *   => State
+    *                       3R            3
+    *               1   2L                3
+    *   => Part
+    *                       3L            3
+    *               1   2L                1,5
+    *               -----------
+    *               1   2   3
+    */
    public static void createNextPartArrX(final Universe universe) {
       final Engine l0E = universe.fieldEngine.engineArr[0];
       final Engine l1E = universe.fieldEngine.engineArr[1];
