@@ -171,6 +171,43 @@ public class CreateNextPartArr {
                  = new NextPart(CmdCombineToParent,
                                 new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1), +0),
                                 new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0), -1));
+
+         //              0A  1B  2A  3B  4A
+         //              L                      b
+         //    x             -   L              a
+         //    x                 -   -
+         // =>
+         //    x -   -   -
+         //    x     -   -   -
+         //    x         -   -   L              a
+
+         universe.fieldEngine.nextPartArr
+                 [l1EnginePos] // aPart.enginePos
+                 [l0EnginePos] // bPart.enginePos
+                 [calcRel2ArrPos(-2)] // absDiff
+                 [metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1)] // aPart metaStatePos
+                 [metaPos(l0E, LEFTa_p1)] // bPart metaStatePos
+                 = new NextPart(CmdCombineToParent,
+                                new NextPart.NextPartArgument(l2EnginePos, metaPos(l2E, LEFTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0), -2));
+
+
+         //              0A  1B  2A  3B  4A
+         //                  L                  b
+         //    x             -   -
+         //    x                 -   L          a
+         // =>
+         //    x             -   -   L
+         //    x                 -   -   -      a
+         //    x                     -   -   -
+
+         universe.fieldEngine.nextPartArr
+                 [l1EnginePos] // aPart.enginePos
+                 [l0EnginePos] // bPart.enginePos
+                 [calcRel2ArrPos(-1)] // absDiff
+                 [metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0)] // aPart metaStatePos
+                 [metaPos(l0E, LEFTa_p1)] // bPart metaStatePos
+                 = new NextPart(CmdCombineToParent,
+                                new NextPart.NextPartArgument(l2EnginePos, metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, LEFTa_u0_u0_p1), +1));
       }
       //----------------------------------------------------------------------------------------------------------------
    }
