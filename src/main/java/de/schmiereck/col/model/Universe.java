@@ -32,6 +32,8 @@ public class Universe {
    public final int universeSize;
    public final List<Part> partList = new LinkedList<>();
 
+   public boolean use_levelUp = true;
+
    public Universe(final FieldEngine fieldEngine, final int levelSize) {
       this.fieldEngine = fieldEngine;
       this.universeSize = levelSize;

@@ -1,5 +1,7 @@
 package de.schmiereck.col.model;
 
+import static de.schmiereck.col.services.FieldEngineService.calcRel2ArrPos;
+
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -15,17 +17,23 @@ public class FieldEngine {
    public final int maxMetaStatePos;
    public final int maxDiff;
    public final int maxCellSize;
-   public final NextPart[] nextPart1Arr;
+   /**
+    * maxEnginePos aPart
+    * maxEnginePos bPart
+    * maxDiff
+    * maxMetaStatePos aPart
+    * maxMetaStatePos bPart
+    */
    public final NextPart[][][][][] nextPartArr;
 
    public FieldEngine(final Engine[] engineArr) {
       this.engineArr = engineArr;
       this.maxEnginePos = this.engineArr.length;
-      final Optional<Engine> optionalEngine = Arrays.stream(this.engineArr).max((engine1, engine2) -> engine1.metaStateArr.length - engine2.metaStateArr.length);
-      this.maxMetaStatePos = optionalEngine.get().metaStateArr.length;
-      this.maxDiff = this.engineArr[this.engineArr.length - 1].cellSize * 2;
-      this.maxCellSize = Arrays.stream(this.engineArr).max((engine1, engine2) -> engine1.cellSize - engine2.cellSize).get().cellSize;
-      this.nextPart1Arr = new NextPart[maxEnginePos * maxEnginePos * maxDiff * maxMetaStatePos * maxMetaStatePos];
-      this.nextPartArr = new NextPart[maxEnginePos][maxEnginePos][maxDiff][maxMetaStatePos][maxMetaStatePos];
+      final Engine maxMetaStateEngine = Arrays.stream(this.engineArr).max((engine1, engine2) -> engine1.metaStateArr.length - engine2.metaStateArr.length).orElseThrow();
+      this.maxMetaStatePos = maxMetaStateEngine.metaStateArr.length;
+      final Engine maxCellSizeEngine = Arrays.stream(this.engineArr).max((engine1, engine2) -> engine1.cellSize - engine2.cellSize).orElseThrow();
+      this.maxCellSize = maxCellSizeEngine.cellSize;
+      this.maxDiff = (this.maxCellSize * 2) - 1;
+      this.nextPartArr = new NextPart[this.maxEnginePos][this.maxEnginePos][calcRel2ArrPos(this.maxDiff)][this.maxMetaStatePos][this.maxMetaStatePos];
    }
 }

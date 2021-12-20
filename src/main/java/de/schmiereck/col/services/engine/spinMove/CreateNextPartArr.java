@@ -5,6 +5,7 @@ import static de.schmiereck.col.model.FieldEngine.l1EnginePos;
 import static de.schmiereck.col.model.FieldEngine.l1StayEnginePos;
 import static de.schmiereck.col.model.FieldEngine.l2EnginePos;
 import static de.schmiereck.col.model.NextPart.Command.CmdCombineToParent;
+import static de.schmiereck.col.services.FieldEngineService.calcRel2ArrPos;
 import static de.schmiereck.col.services.engine.CreateEngineService.metaPos;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.LEFTa_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.RIGHTa_p1;
@@ -67,9 +68,9 @@ public class CreateNextPartArr {
       //    x         R   -                  a
       //                      L              c
       universe.fieldEngine.nextPartArr
-              [2] // aPart.enginePos
+              [l2EnginePos] // aPart.enginePos
               [l1StayEnginePos] // bPart.enginePos
-              [2] // absDiff
+              [calcRel2ArrPos(2)] // absDiff
               [metaPos(l2E, RIGHTa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0)] // aPart metaStatePos
               [metaPos(l1SE, SSTAY_u0_p1, NULL_u0_u0)] // bPart metaStatePos
               = new NextPart(l1EnginePos, metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0), +0,
@@ -84,9 +85,9 @@ public class CreateNextPartArr {
       //    x             R                  a
       //    x                 L              c
       universe.fieldEngine.nextPartArr
-              [1] // aPart.enginePos
+              [l1EnginePos] // aPart.enginePos
               [l1StayEnginePos] // bPart.enginePos
-              [2] // absDiff
+              [calcRel2ArrPos(2)] // absDiff
               [metaPos(l1E, NULL_u0_u0, RIGHTa_p1_u0)] // aPart metaStatePos
               [metaPos(l1SE, NULL_u0_u0, SSTAY_p1_u0)] // bPart metaStatePos
               = new NextPart(l0EnginePos, metaPos(l0E, RIGHTa_p1), -1,
@@ -99,9 +100,9 @@ public class CreateNextPartArr {
       // =>
       //    x                 L              c
       universe.fieldEngine.nextPartArr
-              [0] // aPart.enginePos
+              [l0EnginePos] // aPart.enginePos
               [l1StayEnginePos] // bPart.enginePos
-              [2] // absDiff
+              [calcRel2ArrPos(2)] // absDiff
               [metaPos(l0E, RIGHTa_p1)] // aPart metaStatePos
               [metaPos(l1SE, NULL_u0_u0, SSTAY_p1_u0)] // bPart metaStatePos
               = new NextPart(l0EnginePos, metaPos(l0E, LEFTa_p1), +0);
@@ -113,22 +114,64 @@ public class CreateNextPartArr {
       // =>
       //    x                 L              c
       universe.fieldEngine.nextPartArr
-              [0] // aPart.enginePos
+              [l0EnginePos] // aPart.enginePos
               [l1StayEnginePos] // bPart.enginePos
-              [0] // absDiff
+              [calcRel2ArrPos(0)] // absDiff
               [metaPos(l0E, RIGHTa_p1)] // aPart metaStatePos
               [metaPos(l1SE, SSTAY_u0_p1, NULL_u0_u0)] // bPart metaStatePos
               = new NextPart(l0EnginePos, metaPos(l0E, LEFTa_p1), +0);
       //----------------------------------------------------------------------------------------------------------------
       // combine (level up):
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      universe.fieldEngine.nextPartArr
-              [l0EnginePos] // aPart.enginePos
-              [l0EnginePos] // bPart.enginePos
-              [1] // absDiff
-              [metaPos(l0E, LEFTa_p1)] // aPart metaStatePos
-              [metaPos(l0E, LEFTa_p1)] // bPart metaStatePos
-              = new NextPart(CmdCombineToParent, l1EnginePos, metaPos(l1E, LEFTa_p1_u0, NULL_u0_u0), +0);
+      if (universe.use_levelUp) {
+         //              0A  1B  2A  3B  4A
+         //                  L                  b
+         //    x         L                      a
+         // =>
+         //    x     -   -
+         //    x         L   -                  a
+
+         //              0A  1B  2A  3B  4A
+         //                      L              b
+         //    x             L                  a
+         // =>
+         //    x             L   -              a
+         //    x                 -   -
+
+         universe.fieldEngine.nextPartArr
+                 [l0EnginePos] // aPart.enginePos
+                 [l0EnginePos] // bPart.enginePos
+                 [calcRel2ArrPos(1)] // absDiff
+                 [metaPos(l0E, LEFTa_p1)] // aPart metaStatePos
+                 [metaPos(l0E, LEFTa_p1)] // bPart metaStatePos
+                 = new NextPart(CmdCombineToParent,
+                                new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, LEFTa_p1_u0, NULL_u0_u0), +0),
+                                new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, NULL_u0_u0, LEFTa_p1_u0), +1));
+
+         //              0A  1B  2A  3B  4A
+         //              L                      b
+         //    x             L                  a
+         // =>
+         //    x     -   -
+         //    x         -   L                  a
+
+         //              0A  1B  2A  3B  4A
+         //                  L                  b
+         //    x                 L              a
+         // =>
+         //    x             -   L              a
+         //    x                 -   -
+
+         universe.fieldEngine.nextPartArr
+                 [l0EnginePos] // aPart.enginePos
+                 [l0EnginePos] // bPart.enginePos
+                 [calcRel2ArrPos(-1)] // absDiff
+                 [metaPos(l0E, LEFTa_p1)] // aPart metaStatePos
+                 [metaPos(l0E, LEFTa_p1)] // bPart metaStatePos
+                 = new NextPart(CmdCombineToParent,
+                                new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1), +0),
+                                new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0), -1));
+      }
       //----------------------------------------------------------------------------------------------------------------
    }
 
@@ -165,9 +208,9 @@ public class CreateNextPartArr {
       //              -   -
       //                  -   L              c
       universe.fieldEngine.nextPartArr
-              [2] // aPart.enginePos
+              [l2EnginePos] // aPart.enginePos
               [l1StayEnginePos] // bPart.enginePos
-              [2] // absDiff
+              [calcRel2ArrPos(2)] // absDiff
               [metaPos(l2E, RIGHTa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0)] // aPart metaStatePos
               [metaPos(l1SE, SSTAY_p1_u0, SNULL_u0_u0)] // bPart metaStatePos
               = new NextPart(0, metaPos(l0E, RIGHTa_p1), +0,
@@ -184,9 +227,9 @@ public class CreateNextPartArr {
       //      -   -   L
       //          -   -   -
       universe.fieldEngine.nextPartArr
-              [2] // aPart.enginePos
+              [l2EnginePos] // aPart.enginePos
               [l1StayEnginePos] // bPart.enginePos
-              [1] // absDiff
+              [calcRel2ArrPos(1)] // absDiff
               [metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_p1_u0_u0)] // aPart metaStatePos
               [metaPos(l1SE, NULL_u0_u0, SSTAY_u0_p1)] // bPart metaStatePos
               = new NextPart(2, metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0), 0,

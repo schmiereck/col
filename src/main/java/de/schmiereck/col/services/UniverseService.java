@@ -7,7 +7,6 @@ import static de.schmiereck.col.services.UniverseUtils.readEngine;
 
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.HyperCell;
-import de.schmiereck.col.model.LevelCell;
 import de.schmiereck.col.model.MetaState;
 import de.schmiereck.col.model.NextPart;
 import de.schmiereck.col.model.Part;
@@ -64,29 +63,31 @@ public class UniverseService {
                final NextPart nextPart = FieldEngineService.calcNextPart(universe.fieldEngine, aPart, bPart);
 
                if (Objects.nonNull(nextPart)) {
+                  final int relCellPos = aPart.hyperCell.cellPos % nextPart.nextPartArgumentArr.length;
+                  final NextPart.NextPartArgument nextPartArgument = nextPart.nextPartArgumentArr[relCellPos];
                   switch (nextPart.command) {
                      case CmdCombineToParent -> {
                         if (aPart == bPart.parentPart) {
-                           aPart.enginePos = nextPart.nextPartEnginePos;
-                           aPart.hyperCell.cellPos = calcCellPos(universe, aPart.hyperCell.cellPos + nextPart.nextPartOffsetCellPos);
-                           aPart.hyperCell.metaStatePos = nextPart.nextPartMetaStatePos;
+                           aPart.enginePos = nextPartArgument.nextPartEnginePos;
+                           aPart.hyperCell.cellPos = calcCellPos(universe, aPart.hyperCell.cellPos + nextPartArgument.nextPartOffsetCellPos);
+                           aPart.hyperCell.metaStatePos = nextPartArgument.nextPartMetaStatePos;
 
                            bPart.hyperCell.metaStatePos = NULL_pos;
                         }
                      }
                      default -> {
-                        if (nextPart.newPartMetaStatePos != -1) {
+                        if (nextPartArgument.newPartMetaStatePos != -1) {
                            final Part newPart = new Part(aPart.event, aPart,
-                                   nextPart.newPartEnginePos,
-                                   calcCellPos(universe, aPart.hyperCell.cellPos + nextPart.newPartOffsetCellPos),
-                                   nextPart.newPartMetaStatePos);
+                                   nextPartArgument.newPartEnginePos,
+                                   calcCellPos(universe, aPart.hyperCell.cellPos + nextPartArgument.newPartOffsetCellPos),
+                                   nextPartArgument.newPartMetaStatePos);
 
                            universe.partList.add(newPart);
                         }
-                        if (nextPart.nextPartMetaStatePos != -1) {
-                           aPart.enginePos = nextPart.nextPartEnginePos;
-                           aPart.hyperCell.cellPos = calcCellPos(universe, aPart.hyperCell.cellPos + nextPart.nextPartOffsetCellPos);
-                           aPart.hyperCell.metaStatePos = nextPart.nextPartMetaStatePos;
+                        if (nextPartArgument.nextPartMetaStatePos != -1) {
+                           aPart.enginePos = nextPartArgument.nextPartEnginePos;
+                           aPart.hyperCell.cellPos = calcCellPos(universe, aPart.hyperCell.cellPos + nextPartArgument.nextPartOffsetCellPos);
+                           aPart.hyperCell.metaStatePos = nextPartArgument.nextPartMetaStatePos;
                         }
                      }
                   }
