@@ -106,6 +106,22 @@ public class CreateNextPartArr {
                      new NextPart(l1EnginePos, metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0), +0,
                                   l0EnginePos, metaPos(l0E, LEFTa_p1), +2));
 
+      //              3   4   5   6   4
+      //              -   -
+      //                  -   S          b
+      //    x -   -   -
+      //    x     R   -   -
+      //    x         -   -   -              a
+      // =>
+      //    x -   -                          a
+      //    x     R   -
+      //                  L                  c
+      setNextPart(fieldEngine, l2EnginePos, l1StayEnginePos, 1,
+              metaPos(l2E, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0),
+              stayMetaPosArgArr,
+              new NextPart(l1EnginePos, metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0), -1,
+                           l0EnginePos, metaPos(l0E, LEFTa_p1), +1));
+
       //              0   1   2   3   4
       //                  -   -
       //                      -   S          b
@@ -119,6 +135,18 @@ public class CreateNextPartArr {
               stayMetaPosArgArr,
                new NextPart(l0EnginePos, metaPos(l0E, RIGHTa_p1), -1,
               0, metaPos(l0E, LEFTa_p1), +0));
+
+      //              2   3   4   5   0   1
+      //                  -   -
+      //                      -   S          b
+      //              2   3   4   5   0   1
+      //                          S   -
+      //                              -   -  b
+      //    x             R   -              a
+      //    x                 -   -
+      // =>
+      //    x             R                  a
+      //    x                 L              c
 
       //              0   1   2   3   4
       //                  -   -
@@ -150,7 +178,7 @@ public class CreateNextPartArr {
               new MetaPosArg(metaPos(l1SE, NULL_u0_u0, SSTAY_p1_u0), 2)
       };
       //----------------------------------------------------------------------------------------------------------------
-      // 2right reflection 1stay:
+      // 2left reflection 1stay:
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       //              0   1   2   3   4
       //          -   -
@@ -167,6 +195,22 @@ public class CreateNextPartArr {
               stayMetaPosArgArr,
               new NextPart(l1EnginePos, metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1), +1,
                            l0EnginePos, metaPos(l0E, RIGHTa_p1), -1));
+
+      //              3   4   5   6   7
+      //              -   -
+      //                  -   S              b
+      //    x             -   -   -
+      //    x                 -   -   -
+      //    x                     -   -   L  a
+      // =>
+      //    x                         -   L      a
+      //    x                             -   -
+      //                          R          c
+      setNextPart(fieldEngine, l2EnginePos, l1StayEnginePos, -2,
+              metaPos(l2E, LEFTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0),
+              stayMetaPosArgArr,
+              new NextPart(l1EnginePos, metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1), +2,
+                           l0EnginePos, metaPos(l0E, RIGHTa_p1), +0));
 
       //              0   1   2   3   4
       //          -   -

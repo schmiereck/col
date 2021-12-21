@@ -1,8 +1,19 @@
 package de.schmiereck.col;
 
+import static de.schmiereck.col.model.FieldEngine.l0EnginePos;
+import static de.schmiereck.col.model.FieldEngine.l1EnginePos;
+import static de.schmiereck.col.model.FieldEngine.l1StayEnginePos;
+import static de.schmiereck.col.model.FieldEngine.l2EnginePos;
 import static de.schmiereck.col.services.UniverseService.runCalcNextMetaState2;
+import static de.schmiereck.col.services.UniverseService.runCalcNextPart;
 import static de.schmiereck.col.services.UniverseUtils.printCells;
 import static de.schmiereck.col.services.UniverseUtils.setMetaStatePos;
+import static de.schmiereck.col.services.engine.CreateEngineService.metaPos;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.LEFTa_u0_u0_p1;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.NULL_u0_u0_u0;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.RIGHTa_p1_u0_u0;
+import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SNULL_u0_u0;
+import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SSTAY_u0_p1;
 
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.FieldEngine;
@@ -11,80 +22,44 @@ import de.schmiereck.col.model.Universe;
 import de.schmiereck.col.services.UniverseService;
 import de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService;
 import de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService;
+import de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService;
+import de.schmiereck.col.services.engine.spinMove.CreateNextPartArr;
+import de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService;
 
 public class Main2 {
 
-   public static int universeSize = 12*2;
+   public static int universeSize = 1*2*3;
 
    public static void main(String[] args) {
       //----------------------------------------------------------------------------------------------------------------
-      // Engine Level 0:
       final Engine level0Engine = CreateLevel0SpinMoveEngineService.createLevel0SpinMoveEngine();
-
-      // Engine Level 1 (static):
-      //final Engine level1staticEngine = CreateEngineService.createLevel1staticEngine();
-
-      // Engine Level 1 (dynamic):
-      //final Engine level1dynamicEngine = CreateEngineService.createLevel1dynamicEngine();
-
-      // Engine Level 1 (move):
-      final Engine level1moveEngine = CreateLevel1SpinMoveEngineService.createLevel1SpinMoveEngine();
-
-      // Engine Level 2 (static):
-      //final Engine level2staticEngine = CreateEngineService.createLevel2staticEngine();
-
-      // Engine Level 2 (dynamic):
-      //final Engine level2dynamicEngine = CreateEngineService.createLevel2dynamicEngine();
-
-      // Engine Level 3 (static):
-      //final Engine level3staticEngine = CreateEngineService.createLevel3staticEngine();
+      final Engine level1Engine = CreateLevel1SpinMoveEngineService.createLevel1SpinMoveEngine();
+      final Engine level2Engine = CreateLevel2SpinMoveEngineService.createLevel2SpinMoveEngine();
+      final Engine level1StayEngine = CreateLevel1StayEngineService.createLevel1StayEngine();
 
       //----------------------------------------------------------------------------------------------------------------
-      final Engine[] engine2Arr = new Engine[2];
-      engine2Arr[0] = level0Engine;
-      engine2Arr[1] = level1moveEngine;
-/*
-      final Engine[] engine3Arr = new Engine[3];
-      engine3Arr[0] = level0Engine;
-      engine3Arr[1] = level1dynamicEngine;
-      engine3Arr[2] = level2dynamicEngine;
-*/
-      final Engine[] engineArr = engine2Arr;    // !!!! TEST !!!!
+      final Engine[] engineArr = new Engine[4];
+      engineArr[l0EnginePos] = level0Engine;
+      engineArr[l1EnginePos] = level1Engine;
+      engineArr[l2EnginePos] = level2Engine;
+      engineArr[l1StayEnginePos] = level1StayEngine;
+
       final FieldEngine fieldEngine = new FieldEngine(engineArr);
       final Universe universe = new Universe(fieldEngine, universeSize);
 
-/*
-      for (int metaCellPos = 0; metaCellPos < 3; metaCellPos++) {
-         for (int cellPos = 0; cellPos < universeSize/1; cellPos += 6) {
-            setStatePos(universe, cellPos + 0, 2, metaCellPos, 10);   // l2dyn 10: 1, 0, 1
-            setStatePos(universe, cellPos + 3, 2, metaCellPos, 2);   // l2dyn  2: 0, 1, 0
-         }
-      }
+      final Part aPart = setMetaStatePos(universe, 0,  l2EnginePos, metaPos(level2Engine, RIGHTa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0));
+      final Part bPart = setMetaStatePos(universe, 4,  l1StayEnginePos, metaPos(level1StayEngine, SSTAY_u0_p1, SNULL_u0_u0));
 
-      setStatePos(universe, 6, 2, 0,  17);   // l2dyn 17: 1, 1, 1
-      setStatePos(universe, 7, 2, 0,  17);   // l2dyn 17: 1, 1, 1
-*/
-      /*
-      //setStatePos(universe, 2, 2, 0,  3);   // l2dyn 3: 1, 0, 0
-      setStatePos(universe, 12, 2, 0,  1);   // l2dyn 1: 0, 0, 1
-      */
-         for (int cellPos = 0; cellPos < universeSize/1; cellPos += 4) {
-            setMetaStatePos(universe, cellPos + 0, 1, 3);   // l1mov 3:0,1
-            setMetaStatePos(universe, cellPos + 2, 1, 5);   // l1mov 5:1,0
-         }
-      final Part part = setMetaStatePos(universe, 2, 1, 5);   // l1mov 5:1,0
+      universe.use_levelUp = true;
+
+      CreateNextPartArr.createNextPartArrA(universe);
 
       //----------------------------------------------------------------------------------------------------------------
-      for (int cnt = 0; cnt < 6*2*8; cnt++) {
-         //runTest1(universe, cnt);
-         //runTest2(universe, cnt);
-
+      printCells(universe, 0, "initial");
+      for (int cnt = 0; cnt <= 8; cnt++) {
          //printCellsMinimal(universe, part, cnt);
 
-         //runTest3(universe, cnt, false);
-         //runTest4(universe, cnt, false);
-         //runTest5(universe, cnt, false);
-         runTestNextM(universe, part, cnt, false);
+         runTestNextPM(universe, cnt, true);
       }
    }
 
@@ -103,5 +78,16 @@ public class Main2 {
 
       //if (doPrint) printCells(universe, cnt);
       //runCalcNextState(universe);
+   }
+
+   /**
+    * Run Next Part+Meta
+    */
+   private static void runTestNextPM(final Universe universe, final int cnt, final boolean doPrint) {
+      runCalcNextPart(universe);
+      if (doPrint) printCells(universe, cnt, "runCalcNextPart");
+
+      runCalcNextMetaState2(universe);
+      if (doPrint) printCells(universe, cnt, "runCalcNextMetaState2");
    }
 }

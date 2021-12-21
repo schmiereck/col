@@ -156,6 +156,49 @@ public class Test_UniverseService_WHEN_runPartMeta_is_called_with_left2stay {
    }
 
    @Test
+   void GIVEN_pos6_2LEFT_to_pos4_1STAY01_run_THEN_state_reflected() {
+      // Arrange
+      //              3   4   5   6   7
+      //              -   -
+      //                  -   S              b
+      //    x             -   -   -
+      //    x                 -   -   -
+      //    x                     -   -   L  a
+      // =>
+      //    x                         -   L      a
+      //    x                             -   -
+      //                          R          c
+      final Part aPart = setMetaStatePos(universe, 0,  l2EnginePos, metaPos(level2Engine, LEFTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0));
+      final Part bPart = setMetaStatePos(universe, 4,  l1StayEnginePos, metaPos(level1StayEngine, SSTAY_u0_p1, SNULL_u0_u0));
+
+      universe.use_levelUp = false;
+
+      CreateNextPartArr.createNextPartArrA(universe);
+
+      // Act 0
+      printCells(universe, aPart, 0, "initial aPart");
+      printCells(universe, bPart, 0, "initial bPart");
+
+      runCalcNextPart(universe);
+      printCells(universe, 0, "runCalcNextPart");
+
+      // Assert 0
+      assertEquals(3, universe.partList.size());
+
+      assertEquals(2, universe.partList.get(0).hyperCell.cellPos);
+      assertEquals(l1EnginePos, universe.partList.get(0).enginePos);
+      assertEquals(metaPos(level1Engine, NULL_u0_u0, LEFTa_u0_p1), universe.partList.get(0).hyperCell.metaStatePos);
+
+      assertEquals(4, universe.partList.get(1).hyperCell.cellPos);
+      assertEquals(l1StayEnginePos, universe.partList.get(1).enginePos);
+      assertEquals(metaPos(level1StayEngine, SSTAY_u0_p1, SNULL_u0_u0), universe.partList.get(1).hyperCell.metaStatePos);
+
+      assertEquals(0, universe.partList.get(2).hyperCell.cellPos);
+      assertEquals(l0EnginePos, universe.partList.get(2).enginePos);
+      assertEquals(metaPos(level0Engine, RIGHTa_p1), universe.partList.get(2).hyperCell.metaStatePos);
+   }
+
+   @Test
    void GIVEN_lev1spinMove_state_pos0_2x_0RIGHT_ab_run_THEN_state_combined() {
       // Arrange
       final Part aPart = setMetaStatePos(universe, 1, l0EnginePos, metaPos(level0Engine, RIGHTa_p1));

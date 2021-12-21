@@ -60,7 +60,7 @@ public class UniverseService {
             //final int minDiff = aEngine.cellSize + bEngine.cellSize;
 
             //if (absDiff < minDiff) {
-               final NextPart nextPart = FieldEngineService.calcNextPart(universe.fieldEngine, aPart, bPart);
+               final NextPart nextPart = FieldEngineService.calcNextPart(universe, aPart, bPart);
 
                if (Objects.nonNull(nextPart)) {
                   final int relCellPos = aPart.hyperCell.cellPos % nextPart.nextPartArgumentArr.length;
