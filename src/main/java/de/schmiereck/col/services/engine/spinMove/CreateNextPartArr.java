@@ -13,6 +13,7 @@ import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEng
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.LEFTa_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.NULL_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHTa_p1_u0;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHTa_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.LEFTa_u0_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.NULL_u0_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.RIGHTa_p1_u0_u0;
@@ -51,8 +52,10 @@ public class CreateNextPartArr {
     */
    public static void createNextPartArrA(final Universe universe) {
       createNextPart2rightReflection1stay(universe.fieldEngine);
+      createNextPart2leftReflection1stay(universe.fieldEngine);
       if (universe.use_levelUp) {
          createNextPartLevelUpLeft(universe.fieldEngine);
+         createNextPartLevelUpRight(universe.fieldEngine);
       }
       //----------------------------------------------------------------------------------------------------------------
    }
@@ -128,6 +131,67 @@ public class CreateNextPartArr {
                new NextPart(l0EnginePos, metaPos(l0E, LEFTa_p1), +0));
    }
 
+
+   private static void createNextPart2leftReflection1stay(final FieldEngine fieldEngine) {
+      final Engine l0E = fieldEngine.engineArr[l0EnginePos];
+      final Engine l1E = fieldEngine.engineArr[l1EnginePos];
+      final Engine l2E = fieldEngine.engineArr[l2EnginePos];
+      final Engine l1SE = fieldEngine.engineArr[l1StayEnginePos];
+
+      //              0   1   2   3   4
+      //                  -   -
+      //                      -   S          b
+      //              0   1   2   3   4
+      //                          S   -      b
+      //                              -   -
+      final MetaPosArg[] stayMetaPosArgArr = {
+              new MetaPosArg(metaPos(l1SE, SSTAY_u0_p1, NULL_u0_u0), 0),
+              new MetaPosArg(metaPos(l1SE, NULL_u0_u0, SSTAY_p1_u0), 2)
+      };
+      //----------------------------------------------------------------------------------------------------------------
+      // 2right reflection 1stay:
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      //              0   1   2   3   4
+      //          -   -
+      //              -   S                  b
+      //    x             -   -   -
+      //    x                 -   -   L      a
+      //    x                     -   -   -
+      // =>
+      //    x                     -   L      a
+      //    x                         -   -
+      //                      R              c
+      setNextPart(fieldEngine, l2EnginePos, l1StayEnginePos, -3,
+              metaPos(l2E, NULL_u0_u0_u0, LEFTa_u0_u0_p1, NULL_u0_u0_u0),
+              stayMetaPosArgArr,
+              new NextPart(l1EnginePos, metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1), +1,
+                           l0EnginePos, metaPos(l0E, RIGHTa_p1), -1));
+
+      //              0   1   2   3   4
+      //          -   -
+      //              -   S                  b
+      //    x             -   -              a
+      //    x                 -   L
+      // =>
+      //    x                     L          a
+      //    x                 R              c
+      setNextPart(fieldEngine, l1EnginePos, l1StayEnginePos, -2,
+              metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0),
+              stayMetaPosArgArr,
+              new NextPart(l0EnginePos, metaPos(l0E, LEFTa_p1), +1,
+                      0, metaPos(l0E, RIGHTa_p1), +0));
+
+      //              0   1   2   3   4
+      //          -   -
+      //              -   S                  b
+      //    x                 L              a
+      // =>
+      //    x                 R              c
+      setNextPart(fieldEngine, l0EnginePos, l1StayEnginePos, -2,
+              metaPos(l0E, LEFTa_p1),
+              stayMetaPosArgArr,
+              new NextPart(l0EnginePos, metaPos(l0E, RIGHTa_p1), +0));
+   }
 
    private static void createNextPartLevelUpLeft(final FieldEngine fieldEngine) {
       final Engine l0E = fieldEngine.engineArr[l0EnginePos];
@@ -206,6 +270,85 @@ public class CreateNextPartArr {
               metaPos(l0E, LEFTa_p1),
                new NextPart(CmdCombineToParent,
                   new NextPart.NextPartArgument(l2EnginePos, metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, LEFTa_u0_u0_p1), +1)));
+   }
+
+
+   private static void createNextPartLevelUpRight(final FieldEngine fieldEngine) {
+      final Engine l0E = fieldEngine.engineArr[l0EnginePos];
+      final Engine l1E = fieldEngine.engineArr[l1EnginePos];
+      final Engine l2E = fieldEngine.engineArr[l2EnginePos];
+      final Engine l1SE = fieldEngine.engineArr[l1StayEnginePos];
+
+      //----------------------------------------------------------------------------------------------------------------
+      // combine (level up) left:
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      //              0A  1B  2A  3B  4A
+      //          R                  b
+      //    x         R              a
+      // =>
+      //    x     -   R              a
+      //    x         -   -
+      //              0A  1B  2A  3B  4A
+      //              R                      b
+      //    x             R                  a
+      // =>
+      //    x     -   -
+      //    x         -   R                  a
+      setNextPart(fieldEngine, l0EnginePos, l0EnginePos, -1,
+              metaPos(l0E, RIGHTa_p1),
+              metaPos(l0E, RIGHTa_p1),
+              new NextPart(CmdCombineToParent,
+                      new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, NULL_u0_u0, RIGHTa_u0_p1), +0),
+                      new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, RIGHTa_u0_p1, NULL_u0_u0), -1)));
+
+      //              0A  1B  2A  3B  4A
+      //                  R                  b
+      //    x         R                      a
+      // =>
+      //    x     -   -
+      //    x         R   -                  a
+
+      //              0A  1B  2A  3B  4A
+      //                      R              b
+      //    x             R                  a
+      // =>
+      //    x             R   -              a
+      //    x                 -   -
+      setNextPart(fieldEngine, l0EnginePos, l0EnginePos, -1,
+              metaPos(l0E, RIGHTa_p1),
+              metaPos(l0E, RIGHTa_p1),
+              new NextPart(CmdCombineToParent,
+                      new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0), +0),
+                      new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, NULL_u0_u0, RIGHTa_p1_u0), +1)));
+
+      //              0A  1B  2A  3B  4A
+      //              L                      b
+      //    x             -   L              a
+      //    x                 -   -
+      // =>
+      //    x -   -   -
+      //    x     -   -   -
+      //    x         -   -   L              a
+      setNextPart(fieldEngine, l1EnginePos, l0EnginePos, -2,
+              metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1),
+              metaPos(l0E, LEFTa_p1),
+              new NextPart(CmdCombineToParent,
+                      new NextPart.NextPartArgument(l2EnginePos, metaPos(l2E, LEFTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0), -2)));
+
+
+      //              0A  1B  2A  3B  4A
+      //                  L                  b
+      //    x             -   -
+      //    x                 -   L          a
+      // =>
+      //    x             -   -   L
+      //    x                 -   -   -      a
+      //    x                     -   -   -
+      setNextPart(fieldEngine, l1EnginePos, l0EnginePos, -1,
+              metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0),
+              metaPos(l0E, LEFTa_p1),
+              new NextPart(CmdCombineToParent,
+                      new NextPart.NextPartArgument(l2EnginePos, metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, LEFTa_u0_u0_p1), +1)));
    }
 
    /**
