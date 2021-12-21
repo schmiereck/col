@@ -221,7 +221,7 @@ public class Test_UniverseService_WHEN_runPartMeta_is_called_with_right2stay {
    }
 
    @Test
-   void GIVEN_lev1spinMove_state_pos0_2x_0LEFT_run_THEN_state_combined() {
+   void GIVEN_lev1spinMove_state_pos0_2x_0LEFT_ab_run_THEN_state_combined() {
       // Arrange
       final Part aPart = setMetaStatePos(universe, 0, l0EnginePos, metaPos(level0Engine, LEFTa_p1));
       final Part bPart = setMetaStatePos(universe, 1, l0EnginePos, metaPos(level0Engine, LEFTa_p1));
@@ -243,7 +243,7 @@ public class Test_UniverseService_WHEN_runPartMeta_is_called_with_right2stay {
    }
 
    @Test
-   void GIVEN_lev1spinMove_state_pos1_2x_0LEFT_run_THEN_state_combined() {
+   void GIVEN_lev1spinMove_state_pos1_2x_0LEFT_ab_run_THEN_state_combined() {
       // Arrange
       final Part aPart = setMetaStatePos(universe, 1, l0EnginePos, metaPos(level0Engine, LEFTa_p1));
       final Part bPart = setMetaStatePos(universe, 2, l0EnginePos, metaPos(level0Engine, LEFTa_p1));
@@ -265,7 +265,7 @@ public class Test_UniverseService_WHEN_runPartMeta_is_called_with_right2stay {
    }
 
    @Test
-   void GIVEN_lev1spinMove_state_pos2_2x_0LEFT_run_THEN_state_combined() {
+   void GIVEN_lev1spinMove_state_pos2_2x_0LEFT_ab_run_THEN_state_combined() {
       // Arrange
       final Part aPart = setMetaStatePos(universe, 2, l0EnginePos, metaPos(level0Engine, LEFTa_p1));
       final Part bPart = setMetaStatePos(universe, 3, l0EnginePos, metaPos(level0Engine, LEFTa_p1));
@@ -336,9 +336,7 @@ public class Test_UniverseService_WHEN_runPartMeta_is_called_with_right2stay {
    void GIVEN_state_pos2_2LEFT_pos0_1LEFT_ba_run_THEN_state_combined() {
       // Arrange
       final Part aPart = setMetaStatePos(universe, 2, l1EnginePos, metaPos(level1Engine, NULL_u0_u0, LEFTa_u0_p1));
-      //universe.partList.add(aPart);
       final Part bPart = setMetaStatePos(universe, 0, l0EnginePos, metaPos(level0Engine, LEFTa_p1));
-      //universe.partList.add(bPart);
       bPart.parentPart = aPart;
 
       CreateNextPartArr.createNextPartArrA(universe);

@@ -17,6 +17,7 @@ import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEng
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.LEFTa_u0_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.NULL_u0_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.RIGHTa_p1_u0_u0;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.RIGHTa_u0_u0_p1;
 import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SNULL_u0_u0;
 import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SSTAY_p1_u0;
 import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SSTAY_u0_p1;
@@ -314,7 +315,7 @@ public class CreateNextPartArr {
       // =>
       //    x             R   -              a
       //    x                 -   -
-      setNextPart(fieldEngine, l0EnginePos, l0EnginePos, -1,
+      setNextPart(fieldEngine, l0EnginePos, l0EnginePos, +1,
               metaPos(l0E, RIGHTa_p1),
               metaPos(l0E, RIGHTa_p1),
               new NextPart(CmdCombineToParent,
@@ -322,33 +323,32 @@ public class CreateNextPartArr {
                       new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, NULL_u0_u0, RIGHTa_p1_u0), +1)));
 
       //              0A  1B  2A  3B  4A
-      //              L                      b
-      //    x             -   L              a
+      //              -           R          b
+      //    x             R   -              a
       //    x                 -   -
       // =>
-      //    x -   -   -
-      //    x     -   -   -
-      //    x         -   -   L              a
-      setNextPart(fieldEngine, l1EnginePos, l0EnginePos, -2,
-              metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1),
-              metaPos(l0E, LEFTa_p1),
-              new NextPart(CmdCombineToParent,
-                      new NextPart.NextPartArgument(l2EnginePos, metaPos(l2E, LEFTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0), -2)));
-
-
-      //              0A  1B  2A  3B  4A
-      //                  L                  b
-      //    x             -   -
-      //    x                 -   L          a
-      // =>
-      //    x             -   -   L
+      //    x             R   -   -
       //    x                 -   -   -      a
       //    x                     -   -   -
-      setNextPart(fieldEngine, l1EnginePos, l0EnginePos, -1,
-              metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0),
-              metaPos(l0E, LEFTa_p1),
+      setNextPart(fieldEngine, l1EnginePos, l0EnginePos, +1,
+              metaPos(l1E, NULL_u0_u0, RIGHTa_p1_u0),
+              metaPos(l0E, RIGHTa_p1),
               new NextPart(CmdCombineToParent,
-                      new NextPart.NextPartArgument(l2EnginePos, metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, LEFTa_u0_u0_p1), +1)));
+                      new NextPart.NextPartArgument(l2EnginePos, metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_p1_u0_u0), +1)));
+
+      //              0A  1B  2A  3B  4A
+      //                              R      b
+      //    x             -   -
+      //    x                 R   -          a
+      // =>
+      //    x             -   -   -
+      //    x                 R   -   -      a
+      //    x                     -   -   -
+      setNextPart(fieldEngine, l1EnginePos, l0EnginePos, +2,
+              metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0),
+              metaPos(l0E, RIGHTa_p1),
+              new NextPart(CmdCombineToParent,
+                      new NextPart.NextPartArgument(l2EnginePos, metaPos(l2E, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0), +1)));
    }
 
    /**
