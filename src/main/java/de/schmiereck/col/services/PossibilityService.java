@@ -1,16 +1,34 @@
 package de.schmiereck.col.services;
 
-import de.schmiereck.col.model.Possibility;
+import de.schmiereck.col.model.Probability;
 
 public class PossibilityService {
 
-   public static void calcNext(final Possibility possibility) {
-      for (int pos = 0; pos < possibility.posibilitySize; pos++) {
-         possibility.posibilityCntArr[pos] += possibility.posibilityArr[pos];
+   public static void calcInit(final Probability probability) {
+      while (probability.lastPossibility == -1) {
+         calcNext(probability);
+      }
+   }
 
-         if (possibility.posibilityCntArr[pos] >= possibility.maxPossibility) {
-            possibility.posibilityCntArr[pos] = 0;
-            possibility.lastPossibility = pos;
+   public static void calcNext(final Probability probability) {
+
+      for (int pos = 0; pos < probability.posibilitySize; pos++) {
+         probability.posibilityCntArr[pos] += probability.posibilityArr[pos];
+      }
+
+      boolean found = false;
+      int startPos = probability.lastPossibility;
+
+      for (int pos = 0; pos < probability.posibilitySize; pos++) {
+         startPos++;
+         if (startPos >= probability.posibilitySize) {
+            startPos = 0;
+         }
+         if (probability.posibilityCntArr[startPos] >= probability.maxPossibility) {
+            probability.posibilityCntArr[startPos] -= probability.maxPossibility;
+            probability.lastPossibility = startPos;
+            found = true;
+            break;
          }
       }
    }
