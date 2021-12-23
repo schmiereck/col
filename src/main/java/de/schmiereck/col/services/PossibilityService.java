@@ -11,12 +11,10 @@ public class PossibilityService {
    }
 
    public static void calcNext(final Probability probability) {
-
       for (int pos = 0; pos < probability.posibilitySize; pos++) {
          probability.posibilityCntArr[pos] += probability.posibilityArr[pos];
       }
 
-      boolean found = false;
       int startPos = probability.lastPossibility;
 
       for (int pos = 0; pos < probability.posibilitySize; pos++) {
@@ -27,7 +25,6 @@ public class PossibilityService {
          if (probability.posibilityCntArr[startPos] >= probability.maxPossibility) {
             probability.posibilityCntArr[startPos] -= probability.maxPossibility;
             probability.lastPossibility = startPos;
-            found = true;
             break;
          }
       }

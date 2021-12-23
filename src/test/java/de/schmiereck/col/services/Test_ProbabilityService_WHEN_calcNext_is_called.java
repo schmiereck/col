@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 public class Test_ProbabilityService_WHEN_calcNext_is_called {
 
    @Test
-   void GIVEN_size2_max3_poss_1_2_THEN_x() {
+   void GIVEN_size2_max3_prob_1_2_THEN_x() {
       // Arrange
       final Probability probability = new Probability(3, 2);
 
@@ -45,7 +45,7 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
    }
 
    @Test
-   void GIVEN_size2_max3_poss_2_1_THEN_x() {
+   void GIVEN_size2_max3_prob_2_1_THEN_x() {
       // Arrange
       final Probability probability = new Probability(3, 2);
 
@@ -77,7 +77,7 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
    }
 
    @Test
-   void GIVEN_size2_max8_poss_2_6_THEN_x() {
+   void GIVEN_size2_max8_prob_2_6_THEN_x() {
       // Arrange
       final Probability probability = new Probability(8, 2);
 
@@ -108,7 +108,7 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
    }
 
    @Test
-   void GIVEN_size3_max10_poss_3_3_4_THEN_x() {
+   void GIVEN_size3_max10_prob_3_3_4_THEN_x() {
       // Arrange
       final Probability probability = new Probability(10, 3);
 
@@ -140,5 +140,53 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
          assertEquals(posibilityCnt2Arr[1][pos], probability.posibilityCntArr[1], String.format("posibilityCntArr[1] - pos:%d", pos));
          assertEquals(posibilityCnt2Arr[2][pos], probability.posibilityCntArr[2], String.format("posibilityCntArr[2] - pos:%d", pos));
       }
+   }
+
+   @Test
+   void GIVEN_size2_max100_prob_99_1_THEN_x() {
+      // Arrange
+      final Probability probability = new Probability(100, 2);
+
+      //                            100     = 100%
+      probability.posibilityArr[0] = 99; // =  99% = 99/100
+      probability.posibilityArr[1] = 1;  // =   1% = 1/100
+
+      PossibilityService.calcInit(probability);
+
+      for (int pos = 0; pos <= 96; pos++) {
+         // Act
+         PossibilityService.calcNext(probability);
+         // Assert
+         assertEquals(0, probability.lastPossibility, String.format("lastPossibility - pos:%d", pos));
+      }
+
+      // Act
+      PossibilityService.calcNext(probability);
+      // Assert
+      assertEquals(1, probability.lastPossibility, String.format("lastPossibility - pos:%d", 97));
+
+      for (int pos = 98; pos <= 196; pos++) {
+         // Act
+         PossibilityService.calcNext(probability);
+         // Assert
+         assertEquals(0, probability.lastPossibility, String.format("lastPossibility - pos:%d", pos));
+      }
+
+      // Act
+      PossibilityService.calcNext(probability);
+      // Assert
+      assertEquals(1, probability.lastPossibility, String.format("lastPossibility - pos:%d", 197));
+
+      for (int pos = 198; pos <= 296; pos++) {
+         // Act
+         PossibilityService.calcNext(probability);
+         // Assert
+         assertEquals(0, probability.lastPossibility, String.format("lastPossibility - pos:%d", pos));
+      }
+
+      // Act
+      PossibilityService.calcNext(probability);
+      // Assert
+      assertEquals(1, probability.lastPossibility, String.format("lastPossibility - pos:%d", 297));
    }
 }
