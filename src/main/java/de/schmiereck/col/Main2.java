@@ -56,7 +56,7 @@ public class Main2 {
 
       //----------------------------------------------------------------------------------------------------------------
       printCells(universe, 0, "initial");
-      for (int cnt = 0; cnt <= 8; cnt++) {
+      for (int cnt = 0; cnt <= 10; cnt++) {
          //printCellsMinimal(universe, part, cnt);
 
          runTestNextPM(universe, cnt, true);
