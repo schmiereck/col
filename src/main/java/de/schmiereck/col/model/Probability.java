@@ -1,19 +1,19 @@
 package de.schmiereck.col.model;
 
 public class Probability {
-   public final int maxPossibility;
-   public final int posibilitySize;
-   public final int[] posibilityArr;
-   public final int[] posibilityCntArr;
-   public final int[] lastPosibilityCntArr;
-   public int lastPossibilityPos;
+   public final int maxProbability;
+   public final int probabilitySize;
+   public final int[] probabilityArr;
+   public final int[] probabilityCntArr;
+   public final int[] lastProbabilityCntArr;
+   public int lastProbabilityPos;
 
-   public Probability(final int maxPossibility, final int posibilitySize) {
-      this.maxPossibility = maxPossibility;
-      this.posibilitySize = posibilitySize;
-      this.posibilityArr = new int[posibilitySize];
-      this.posibilityCntArr = new int[posibilitySize];
-      this.lastPosibilityCntArr = new int[posibilitySize];
-      this.lastPossibilityPos = -1;
+   public Probability(final int maxProbability, final int probabilitySize) {
+      this.maxProbability = maxProbability;
+      this.probabilitySize = probabilitySize;
+      this.probabilityArr = new int[probabilitySize];
+      this.probabilityCntArr = new int[probabilitySize];
+      this.lastProbabilityCntArr = new int[probabilitySize];
+      this.lastProbabilityPos = -1;
    }
 }
