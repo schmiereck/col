@@ -34,7 +34,7 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
       };
       for (int pos = 0; pos < lastPossibilityArr.length; pos++) {
          // Assert
-         assertEquals(lastPossibilityArr[pos], probability.lastPossibility, String.format("lastPossibility - pos:%d", pos));
+         assertEquals(lastPossibilityArr[pos], probability.lastPossibilityPos, String.format("lastPossibility - pos:%d", pos));
 
          assertEquals(posibilityCnt2Arr[0][pos], probability.posibilityCntArr[0], String.format("posibilityCntArr[0] - pos:%d", pos));
          assertEquals(posibilityCnt2Arr[1][pos], probability.posibilityCntArr[1], String.format("posibilityCntArr[1] - pos:%d", pos));
@@ -66,7 +66,7 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
       };
       for (int pos = 0; pos < lastPossibilityArr.length; pos++) {
          // Assert
-         assertEquals(lastPossibilityArr[pos], probability.lastPossibility, String.format("lastPossibility - pos:%d", pos));
+         assertEquals(lastPossibilityArr[pos], probability.lastPossibilityPos, String.format("lastPossibility - pos:%d", pos));
 
          assertEquals(posibilityCnt2Arr[0][pos], probability.posibilityCntArr[0], String.format("posibilityCntArr[0] - pos:%d", pos));
          assertEquals(posibilityCnt2Arr[1][pos], probability.posibilityCntArr[1], String.format("posibilityCntArr[1] - pos:%d", pos));
@@ -100,10 +100,41 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
          PossibilityService.calcNext(probability);
 
          // Assert
-         assertEquals(lastPossibilityArr[pos], probability.lastPossibility, String.format("lastPossibility - pos:%d", pos));
+         assertEquals(lastPossibilityArr[pos], probability.lastPossibilityPos, String.format("lastPossibility - pos:%d", pos));
 
          assertEquals(posibilityCnt2Arr[0][pos], probability.posibilityCntArr[0], String.format("posibilityCntArr[0] - pos:%d", pos));
          assertEquals(posibilityCnt2Arr[1][pos], probability.posibilityCntArr[1], String.format("posibilityCntArr[1] - pos:%d", pos));
+      }
+   }
+
+   @Test
+   void GIVEN_size2_max100_prob_10_90_THEN_x() {
+      // Arrange
+      final Probability probability = new Probability(100, 2);
+
+      //                            100     = 100%
+      probability.posibilityArr[0] = 10; // =  10% = 10/100
+      probability.posibilityArr[1] = 90; // =  90% = 90/100
+
+      PossibilityService.calcInit(probability);
+
+      final int[] lastPossibilityArr = {
+              1,  1,  1,  1,  1,  1,  1,  0,  1,  1,  1,  1,  1,  1,  1,  1,  1,  0,  1,  1,  1,  1,  1
+      };
+      //      0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22
+      final int[][] posibilityCnt2Arr = {
+           { 20, 30, 40, 50, 60, 70, 80, 90,  0, 10, 20, 30, 40, 50, 60, 70, 80, 90,  0, 10, 20, 30, 40, 50 },
+           { 80, 70, 60, 50, 40, 30, 20, 10,100, 90, 80, 70, 60, 50, 40, 30, 20, 10,100, 90, 80, 70, 60, 50 },
+      };
+      for (int pos = 0; pos < lastPossibilityArr.length; pos++) {
+         // Act
+         PossibilityService.calcNext(probability);
+
+         // Assert
+         assertEquals(lastPossibilityArr[pos], probability.lastPossibilityPos, String.format("lastPossibility - pos:%d", pos));
+
+         assertEquals(posibilityCnt2Arr[0][pos], probability.lastPosibilityCntArr[0], String.format("posibilityCntArr[0] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[1][pos], probability.lastPosibilityCntArr[1], String.format("posibilityCntArr[1] - pos:%d", pos));
       }
    }
 
@@ -134,7 +165,7 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
          PossibilityService.calcNext(probability);
 
          // Assert
-         assertEquals(lastPossibilityArr[pos], probability.lastPossibility, String.format("lastPossibility - pos:%d", pos));
+         assertEquals(lastPossibilityArr[pos], probability.lastPossibilityPos, String.format("lastPossibility - pos:%d", pos));
 
          assertEquals(posibilityCnt2Arr[0][pos], probability.posibilityCntArr[0], String.format("posibilityCntArr[0] - pos:%d", pos));
          assertEquals(posibilityCnt2Arr[1][pos], probability.posibilityCntArr[1], String.format("posibilityCntArr[1] - pos:%d", pos));
@@ -157,36 +188,36 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
          // Act
          PossibilityService.calcNext(probability);
          // Assert
-         assertEquals(0, probability.lastPossibility, String.format("lastPossibility - pos:%d", pos));
+         assertEquals(0, probability.lastPossibilityPos, String.format("lastPossibility - pos:%d", pos));
       }
 
       // Act
       PossibilityService.calcNext(probability);
       // Assert
-      assertEquals(1, probability.lastPossibility, String.format("lastPossibility - pos:%d", 97));
+      assertEquals(1, probability.lastPossibilityPos, String.format("lastPossibility - pos:%d", 97));
 
       for (int pos = 98; pos <= 196; pos++) {
          // Act
          PossibilityService.calcNext(probability);
          // Assert
-         assertEquals(0, probability.lastPossibility, String.format("lastPossibility - pos:%d", pos));
+         assertEquals(0, probability.lastPossibilityPos, String.format("lastPossibility - pos:%d", pos));
       }
 
       // Act
       PossibilityService.calcNext(probability);
       // Assert
-      assertEquals(1, probability.lastPossibility, String.format("lastPossibility - pos:%d", 197));
+      assertEquals(1, probability.lastPossibilityPos, String.format("lastPossibility - pos:%d", 197));
 
       for (int pos = 198; pos <= 296; pos++) {
          // Act
          PossibilityService.calcNext(probability);
          // Assert
-         assertEquals(0, probability.lastPossibility, String.format("lastPossibility - pos:%d", pos));
+         assertEquals(0, probability.lastPossibilityPos, String.format("lastPossibility - pos:%d", pos));
       }
 
       // Act
       PossibilityService.calcNext(probability);
       // Assert
-      assertEquals(1, probability.lastPossibility, String.format("lastPossibility - pos:%d", 297));
+      assertEquals(1, probability.lastPossibilityPos, String.format("lastPossibility - pos:%d", 297));
    }
 }

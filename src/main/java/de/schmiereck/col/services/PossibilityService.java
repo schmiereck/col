@@ -5,17 +5,18 @@ import de.schmiereck.col.model.Probability;
 public class PossibilityService {
 
    public static void calcInit(final Probability probability) {
-      while (probability.lastPossibility == -1) {
+      while (probability.lastPossibilityPos == -1) {
          calcNext(probability);
       }
    }
 
    public static void calcNext(final Probability probability) {
       for (int pos = 0; pos < probability.posibilitySize; pos++) {
+         probability.lastPosibilityCntArr[pos] = probability.posibilityCntArr[pos];
          probability.posibilityCntArr[pos] += probability.posibilityArr[pos];
       }
 
-      int startPos = probability.lastPossibility;
+      int startPos = probability.lastPossibilityPos;
 
       for (int pos = 0; pos < probability.posibilitySize; pos++) {
          startPos++;
@@ -24,7 +25,7 @@ public class PossibilityService {
          }
          if (probability.posibilityCntArr[startPos] >= probability.maxPossibility) {
             probability.posibilityCntArr[startPos] -= probability.maxPossibility;
-            probability.lastPossibility = startPos;
+            probability.lastPossibilityPos = startPos;
             break;
          }
       }
