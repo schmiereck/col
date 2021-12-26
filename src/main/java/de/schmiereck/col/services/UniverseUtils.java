@@ -48,7 +48,8 @@ public class UniverseUtils {
          final State state;
 
          if (printCellPos == part.hyperCell.cellPos) {
-            cellMetaStatePos = part.hyperCell.metaStatePos;
+            //PROB: cellMetaStatePos = part.hyperCell.metaStatePos;
+            cellMetaStatePos = part.hyperCell.metaStatePosArr[part.hyperCell.dirProbability.lastProbabilityPos];
             final MetaState metaState = engine.metaStateArr[cellMetaStatePos];
             final int inputMetaStatePos = metaState.inputMetaStatePosArr[levelShift];
             cellStatePos = inputMetaStatePos;
@@ -87,21 +88,25 @@ public class UniverseUtils {
       return universe.fieldEngine.engineArr[enginePos];
    }
 
-   public static Part setMetaStatePos(final Universe universe, final int cellPos, final int enginePos, final int metaStatePos) {
-      return setMetaStatePos(universe, null, null, cellPos, enginePos, metaStatePos);
+   public static Part setMetaStatePos(final Universe universe, final int cellPos, final int enginePos,
+                                      final int[] metaStatePosArr, final int[] probabilityArr) {
+      return setMetaStatePos(universe, null, null, cellPos, enginePos, metaStatePosArr, probabilityArr);
    }
 
-   public static Part setMetaStatePos(final Universe universe, final Event event, final Part parentPart, final int cellPos, final int enginePos, final int metaStatePos) {
-      final Part part = new Part(event, parentPart, enginePos, cellPos, metaStatePos);
+   public static Part setMetaStatePos(final Universe universe,
+                                      final Event event, final Part parentPart,
+                                      final int cellPos, final int enginePos,
+                                      final int[] metaStatePosArr, final int[] probabilityArr) {
+      final Part part = new Part(event, parentPart, enginePos, cellPos, metaStatePosArr, probabilityArr);
       universe.partList.add(part);
       return part;
    }
-
+/*
    public static void setMetaStatePos(final Part part, final int cellPos, final int metaStatePos) {
       part.hyperCell.cellPos = cellPos;
       part.hyperCell.metaStatePos = metaStatePos;
    }
-
+*/
    public static Cell readCell(final LevelCell levelCell) {
       return readCell(levelCell, 0);
    }

@@ -70,24 +70,28 @@ public class UniverseService {
                         if (aPart == bPart.parentPart) {
                            aPart.enginePos = nextPartArgument.nextPartEnginePos;
                            aPart.hyperCell.cellPos = calcCellPos(universe, aPart.hyperCell.cellPos + nextPartArgument.nextPartOffsetCellPos);
-                           aPart.hyperCell.metaStatePos = nextPartArgument.nextPartMetaStatePos;
+                           //PROB: aPart.hyperCell.metaStatePos = nextPartArgument.nextPartMetaStatePos;
+                           aPart.hyperCell.metaStatePosArr[aPart.hyperCell.dirProbability.lastProbabilityPos] = nextPartArgument.nextPartMetaStatePos;
 
-                           bPart.hyperCell.metaStatePos = NULL_pos;
+                           //PROB: bPart.hyperCell.metaStatePos = NULL_pos;
+                           bPart.hyperCell.metaStatePosArr[bPart.hyperCell.dirProbability.lastProbabilityPos] = NULL_pos;
                         }
                      }
                      default -> {
-                        if (nextPartArgument.newPartMetaStatePos != -1) {
+                        //PROB: if (nextPartArgument.newPartMetaStatePos != -1) {
+                        if (Objects.nonNull(nextPartArgument.newPartMetaStatePosArr)) {
                            final Part newPart = new Part(aPart.event, aPart,
                                    nextPartArgument.newPartEnginePos,
                                    calcCellPos(universe, aPart.hyperCell.cellPos + nextPartArgument.newPartOffsetCellPos),
-                                   nextPartArgument.newPartMetaStatePos);
+                                   nextPartArgument.newPartMetaStatePosArr, nextPartArgument.probabilityArr);
 
                            universe.partList.add(newPart);
                         }
                         if (nextPartArgument.nextPartMetaStatePos != -1) {
                            aPart.enginePos = nextPartArgument.nextPartEnginePos;
                            aPart.hyperCell.cellPos = calcCellPos(universe, aPart.hyperCell.cellPos + nextPartArgument.nextPartOffsetCellPos);
-                           aPart.hyperCell.metaStatePos = nextPartArgument.nextPartMetaStatePos;
+                           //PROB: aPart.hyperCell.metaStatePos = nextPartArgument.nextPartMetaStatePos;
+                           aPart.hyperCell.metaStatePosArr[aPart.hyperCell.dirProbability.lastProbabilityPos] = nextPartArgument.nextPartMetaStatePos;
                         }
                      }
                   }
@@ -95,7 +99,8 @@ public class UniverseService {
             //}
          }
       }
-      universe.partList.removeIf(part -> part.hyperCell.metaStatePos == NULL_pos);
+      //PROB: universe.partList.removeIf(part -> part.hyperCell.metaStatePos == NULL_pos);
+      universe.partList.removeIf(part -> part.hyperCell.metaStatePosArr[part.hyperCell.dirProbability.lastProbabilityPos] == NULL_pos);
    }
 
    public static void runCalcNextMetaState2(final Universe universe) {
@@ -111,14 +116,17 @@ public class UniverseService {
       if (Objects.nonNull(engine.metaStateArr)) {
          final HyperCell hyperCell = part.hyperCell;
 
-         final MetaState sourceMetaState = engine.metaStateArr[hyperCell.metaStatePos];
+         //PROB: final MetaState sourceMetaState = engine.metaStateArr[hyperCell.metaStatePos];
+         final int metaStatePos = hyperCell.metaStatePosArr[hyperCell.dirProbability.lastProbabilityPos];
+         final MetaState sourceMetaState = engine.metaStateArr[metaStatePos];
          final int nextSourceMetaStatePos = sourceMetaState.outputMetaStatePos;
          if (nextSourceMetaStatePos == -1)
             throw new RuntimeException(String.format("Level-Cell-Size %d: For Meta-State %s no output state found.", engine.cellSize, convertToDebugString(sourceMetaState)));
 
          final int targetCellPos = calcCellPos(universe, hyperCell.cellPos + sourceMetaState.cellPosOffset);
 
-         hyperCell.metaStatePos = nextSourceMetaStatePos;
+         //PROB: hyperCell.metaStatePos = nextSourceMetaStatePos;
+         hyperCell.metaStatePosArr[hyperCell.dirProbability.lastProbabilityPos] = nextSourceMetaStatePos;
          hyperCell.cellPos = targetCellPos;
       }
    }

@@ -12,7 +12,7 @@ public class MetaState {
       this.outputMetaStatePos = outputMetaStatePos;
       this.inputMetaStatePosArr = inputMetaStatePosArr;
       this.metaStateInputStatePos = -1;
-       this.levelDown = false;
+      this.levelDown = false;
       this.cellPosOffset = 0;
    }
 }

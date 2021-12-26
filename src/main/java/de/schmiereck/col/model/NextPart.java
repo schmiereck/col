@@ -16,17 +16,21 @@ public class NextPart {
       public final int nextPartOffsetCellPos;
 
       public final int newPartEnginePos;
-      public final int newPartMetaStatePos;
+      //PROB: public final int newPartMetaStatePos;
+      public final int[] newPartMetaStatePosArr;
+      public final int[] probabilityArr;
       public final int newPartOffsetCellPos;
 
       public NextPartArgument(final int nextPartEnginePos, final int nextPartMetaStatePos, final int nextPartOffsetCellPos,
-                              final int newPartEnginePos, final int newPartMetaStatePos, final int newPartOffsetCellPos) {
+                              final int newPartEnginePos, final int[] newPartMetaStatePosArr, final int[] probabilityArr, final int newPartOffsetCellPos) {
          this.nextPartEnginePos = nextPartEnginePos;
          this.nextPartMetaStatePos = nextPartMetaStatePos;
          this.nextPartOffsetCellPos = nextPartOffsetCellPos;
 
          this.newPartEnginePos = newPartEnginePos;
-         this.newPartMetaStatePos = newPartMetaStatePos;
+         //PROB: this.newPartMetaStatePos = newPartMetaStatePos;
+         this.newPartMetaStatePosArr = newPartMetaStatePosArr;
+         this.probabilityArr = probabilityArr;
          this.newPartOffsetCellPos = newPartOffsetCellPos;
       }
 
@@ -36,7 +40,9 @@ public class NextPart {
          this.nextPartOffsetCellPos = nextPartOffsetCellPos;
 
          this.newPartEnginePos = -1;
-         this.newPartMetaStatePos = -1;
+         //PROB: this.newPartMetaStatePos = -1;
+         this.newPartMetaStatePosArr = null;//new int[] { -1, -1, -1 };
+         this.probabilityArr = null;//new int[] { 0, 0, 0 };
          this.newPartOffsetCellPos = 0;
       }
    }
@@ -48,13 +54,13 @@ public class NextPart {
    }
 
    public NextPart(final int nextPartEnginePos, final int nextPartMetaStatePos, final int nextPartOffsetCellPos,
-                   final int newPartEnginePos, final int newPartMetaStatePos, final int newPartOffsetCellPos) {
+                   final int newPartEnginePos, final int[] newPartMetaStatePosArr, final int[] probabilityArr, final int newPartOffsetCellPos) {
       this.command = Command.CmdNextNew;
       this.nextPartArgumentArr = new NextPartArgument[1];
 
       final NextPartArgument nextPartArgument =
               new NextPartArgument(nextPartEnginePos, nextPartMetaStatePos, nextPartOffsetCellPos,
-                                newPartEnginePos, newPartMetaStatePos, newPartOffsetCellPos);
+                                   newPartEnginePos, newPartMetaStatePosArr, probabilityArr, newPartOffsetCellPos);
 
       this.nextPartArgumentArr[0] = nextPartArgument;
    }
