@@ -15,11 +15,10 @@ import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.FieldEngine;
 import de.schmiereck.col.model.Part;
 import de.schmiereck.col.model.Universe;
-import de.schmiereck.col.services.UniverseService;
 
 import org.junit.jupiter.api.Test;
 
-public class Test_UniverseService_WHEN_run_is_called_with_lev1SpinMove {
+public class Test_UniverseService_WHEN_runNextMeta_is_called_with_lev1 {
 
    @Test
    void GIVEN_lev1spinMove_state_STAY_p1_u0_run_THEN_state_is_calculated() {

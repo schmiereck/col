@@ -41,4 +41,11 @@ public class RunTestUtils {
       runCalcNextMetaState2(universe);
       printCells(universe, part, cnt, "runCalcNextMetaState");
    }
+
+   public static void runTestNextMetaPart(final Universe universe, final int cnt) {
+      runCalcNextMetaState2(universe);
+      printCells(universe, cnt, "runCalcNextMetaState");
+      runCalcNextPart(universe);
+      printCells(universe, cnt, "runCalcNextPart");
+   }
 }

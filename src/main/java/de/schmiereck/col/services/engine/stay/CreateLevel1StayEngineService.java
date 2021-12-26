@@ -29,9 +29,9 @@ public class CreateLevel1StayEngineService {
       e.setState(SNULL_u0_u0, new State(2, nulState, nulState), SNULL_u0_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // stay:
-      // 1    0   1   =>   1    0   1
+      // x    0   1   =>   x    0   1
       e.setState(SSTAY_u0_p1, new State(2, nulState, posState), SSTAY_u0_p1);
-      // 2    1   0   =>   2    1   0
+      // x    1   0   =>   x    1   0
       e.setState(SSTAY_p1_u0, new State(2, posState, nulState), SSTAY_p1_u0);
       //----------------------------------------------------------------------------------------------------------------
       initMetaStateArr(e);
@@ -40,35 +40,35 @@ public class CreateLevel1StayEngineService {
       // outputMetaState:
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // null:
-      //    0        0   0       =>   0        0   0
-      //    0            0   0   =>   0            0   0
-      writeMetaState(e, SNULL_u0_u0, SNULL_u0_u0, SNULL_u0_u0, SNULL_u0_u0);
+      //    x        0   0       =>   x        0   0
+      //    x            0   0   =>   x            0   0
+      writeMetaState(e, SNULL_u0_u0, SNULL_u0_u0,   SNULL_u0_u0, SNULL_u0_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // stay:
-      //    1        0   1       =>   1        0   0
-      //    0            0   0   =>   0            1   0
-      writeMetaState(e, SNULL_u0_u0, SSTAY_u0_p1, SSTAY_p1_u0, SNULL_u0_u0);
-      //    0        0   0       =>   0        0   0  (1)  .
-      //    1            0   1   =>   1            0   0   .   .
-      writeMetaState(e, SSTAY_u0_p1, SNULL_u0_u0, SNULL_u0_u0, SSTAY_p1_u0, +2);
-      //    2        1   0       =>   2.   .   1   0       2:stay -> 2:stay
-      //    0            0   0   =>   0    .  (1)  0   0
-      writeMetaState(e, SNULL_u0_u0, SSTAY_p1_u0, SSTAY_u0_p1, SNULL_u0_u0, -2);
-      //    0        0   0       =>   0        0   1
-      //    2            1   0   =>   2            0   0   2:stay -> 2:stay
-      writeMetaState(e, SSTAY_p1_u0, SNULL_u0_u0, SNULL_u0_u0, SSTAY_u0_p1);
-      //    1        0   1       =>   1        0   1
-      //    1            0   1   =>   1            0   1
-      writeMetaState(e, SSTAY_u0_p1, SSTAY_u0_p1, SSTAY_u0_p1, SSTAY_u0_p1);
-      //    2        1   0       =>   2        1   0       2:stay -> 2:stay
-      //    1            0   1   =>   1            0   1
-      writeMetaState(e, SSTAY_u0_p1, SSTAY_p1_u0, SSTAY_u0_p1, SSTAY_p1_u0);
-      //    1        0   1       =>   1        0   1
-      //    2            1   0   =>   2            1   0   2:stay -> 2:stay
-      writeMetaState(e, SSTAY_p1_u0, SSTAY_u0_p1, SSTAY_p1_u0, SSTAY_u0_p1);
-      //    3        1   0       =>   3        1   0
-      //    4            1   0   =>   4            1   0
-      writeMetaState(e, SSTAY_p1_u0, SSTAY_p1_u0, SSTAY_p1_u0, SSTAY_p1_u0);
+      //    x        0   1       =>   x        0   0
+      //    x            0   0   =>   x            1   0
+      writeMetaState(e, SNULL_u0_u0, SSTAY_u0_p1,   SSTAY_p1_u0, SNULL_u0_u0);
+      //    x        0   0       =>   x        0   0  (1)  .
+      //    x            0   1   =>   x            0   0   .   .
+      writeMetaState(e, SSTAY_u0_p1, SNULL_u0_u0,   SNULL_u0_u0, SSTAY_p1_u0, +2);
+      //    x        1   0       =>   x.   .   0   0       2:stay -> 2:stay
+      //    x            0   0   =>   x    .  (1)  0   0
+      writeMetaState(e, SNULL_u0_u0, SSTAY_p1_u0,   SSTAY_u0_p1, SNULL_u0_u0, -2);
+      //    x        0   0       =>   x        0   1
+      //    x            1   0   =>   x            0   0   2:stay -> 2:stay
+      writeMetaState(e, SSTAY_p1_u0, SNULL_u0_u0,   SNULL_u0_u0, SSTAY_u0_p1);
+      //    x        0   1       =>   x        0   1
+      //    x            0   1   =>   x            0   1
+      writeMetaState(e, SSTAY_u0_p1, SSTAY_u0_p1,   SSTAY_u0_p1, SSTAY_u0_p1);
+      //    x        1   0       =>   x        1   0       2:stay -> 2:stay
+      //    x            0   1   =>   x            0   1
+      writeMetaState(e, SSTAY_u0_p1, SSTAY_p1_u0,   SSTAY_u0_p1, SSTAY_p1_u0);
+      //    x        0   1       =>   x        0   1
+      //    x            1   0   =>   x            1   0   2:stay -> 2:stay
+      writeMetaState(e, SSTAY_p1_u0, SSTAY_u0_p1,   SSTAY_p1_u0, SSTAY_u0_p1);
+      //    x        1   0       =>   x        1   0
+      //    x            1   0   =>   x            1   0
+      writeMetaState(e, SSTAY_p1_u0, SSTAY_p1_u0,   SSTAY_p1_u0, SSTAY_p1_u0);
       //----------------------------------------------------------------------------------------------------------------
       return e;
    }

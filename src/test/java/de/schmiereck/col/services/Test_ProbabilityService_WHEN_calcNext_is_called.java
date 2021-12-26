@@ -14,6 +14,37 @@ import org.junit.jupiter.api.Test;
 public class Test_ProbabilityService_WHEN_calcNext_is_called {
 
    @Test
+   void GIVEN_size2_max3_prob_0_3_THEN_x() {
+      // Arrange
+      final Probability probability = new Probability(3, 2);
+
+      //                              3     = 100%
+      probability.probabilityArr[0] = 0; // =   0% = 0/3
+      probability.probabilityArr[1] = 3; // = 100% = 3/3
+
+      ProbabilityService.calcInit(probability);
+
+      final int[] lastPossibilityArr = {
+              1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1
+      };
+      //      0   1   2   3   4   5   6   7   8   9   10  11  12
+      final int[][] posibilityCnt2Arr = {
+           {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 },
+           {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 },
+      };
+      for (int pos = 0; pos < lastPossibilityArr.length; pos++) {
+         // Assert
+         assertEquals(lastPossibilityArr[pos], probability.lastProbabilityPos, String.format("lastPossibility - pos:%d", pos));
+
+         assertEquals(posibilityCnt2Arr[0][pos], probability.lastProbabilityCntArr[0], String.format("posibilityCntArr[0] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[1][pos], probability.lastProbabilityCntArr[1], String.format("posibilityCntArr[1] - pos:%d", pos));
+
+         // Act
+         ProbabilityService.calcNext(probability);
+      }
+   }
+
+   @Test
    void GIVEN_size2_max3_prob_1_2_THEN_x() {
       // Arrange
       final Probability probability = new Probability(3, 2);
@@ -49,7 +80,7 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
       // Arrange
       final Probability probability = new Probability(3, 2);
 
-      //                             3     = 100%
+      //                              3     = 100%
       probability.probabilityArr[0] = 2; // =  66% = 2/3
       probability.probabilityArr[1] = 1; // =  33% = 1/3
 
@@ -81,7 +112,7 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
       // Arrange
       final Probability probability = new Probability(8, 2);
 
-      //                             8     = 100%
+      //                              8     = 100%
       probability.probabilityArr[0] = 2; // =  25% = 1/4
       probability.probabilityArr[1] = 6; // =  75% = 3/4
 
@@ -104,6 +135,40 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
 
          assertEquals(posibilityCnt2Arr[0][pos], probability.probabilityCntArr[0], String.format("posibilityCntArr[0] - pos:%d", pos));
          assertEquals(posibilityCnt2Arr[1][pos], probability.probabilityCntArr[1], String.format("posibilityCntArr[1] - pos:%d", pos));
+      }
+   }
+
+   @Test
+   void GIVEN_size3_max8_prob_2_0_6_THEN_x() {
+      // Arrange
+      final Probability probability = new Probability(8, 3);
+
+      //                              8     = 100%
+      probability.probabilityArr[0] = 2; // =  25% = 1/4
+      probability.probabilityArr[1] = 0; // =   0% = 0/4
+      probability.probabilityArr[2] = 6; // =  75% = 3/4
+
+      ProbabilityService.calcInit(probability);
+
+      final int[] lastPossibilityArr = {
+              2,  0,  2,  2,  2,  0,  2,  2,  2,  0,  2,  2,  2
+      };
+      //      0   1   2   3   4   5   6   7   8   9  10  11  12
+      final int[][] posibilityCnt2Arr = {
+           {  6,  0,  2,  4,  6,  0,  2,  4,  6,  0,  2,  4,  6 },
+           {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 },
+           {  2,  8,  6,  4,  2,  8,  6,  4,  2,  8,  6,  4,  2 },
+      };
+      for (int pos = 0; pos < lastPossibilityArr.length; pos++) {
+         // Act
+         ProbabilityService.calcNext(probability);
+
+         // Assert
+         assertEquals(lastPossibilityArr[pos], probability.lastProbabilityPos, String.format("lastPossibility - pos:%d", pos));
+
+         assertEquals(posibilityCnt2Arr[0][pos], probability.probabilityCntArr[0], String.format("posibilityCntArr[0] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[1][pos], probability.probabilityCntArr[1], String.format("posibilityCntArr[1] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[2][pos], probability.probabilityCntArr[2], String.format("posibilityCntArr[2] - pos:%d", pos));
       }
    }
 

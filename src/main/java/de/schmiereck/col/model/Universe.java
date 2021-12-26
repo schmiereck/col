@@ -37,13 +37,5 @@ public class Universe {
    public Universe(final FieldEngine fieldEngine, final int levelSize) {
       this.fieldEngine = fieldEngine;
       this.universeSize = levelSize;
-
-      final int levelCount = fieldEngine.engineArr.length;
-
-      for (int enginePos = 0; enginePos < levelCount; enginePos++) {
-         final Engine engine = fieldEngine.engineArr[enginePos];
-
-         final int metaStateSize = calcMetaStateSize(engine);
-      }
    }
 }

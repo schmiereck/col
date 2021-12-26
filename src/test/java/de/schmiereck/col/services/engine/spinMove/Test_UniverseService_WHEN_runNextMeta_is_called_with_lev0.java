@@ -15,14 +15,13 @@ import de.schmiereck.col.model.Event;
 import de.schmiereck.col.model.FieldEngine;
 import de.schmiereck.col.model.Part;
 import de.schmiereck.col.model.Universe;
-import de.schmiereck.col.services.UniverseService;
 
 import org.junit.jupiter.api.Test;
 
-public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
+public class Test_UniverseService_WHEN_runNextMeta_is_called_with_lev0 {
 
    @Test
-   void GIVEN_lev0move_state_STAY_p1_run_THEN_state_is_calculated() {
+   void GIVEN_state_STAY_p1_run_THEN_state_is_calculated() {
       // Arrange
       final int universeSize = 6;
 
@@ -55,7 +54,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
    }
 
    @Test
-   void GIVEN_lev0move_state_LEFT_p1_run_THEN_state_is_calculated() {
+   void GIVEN_state_LEFT_p1_run_THEN_state_is_calculated() {
       // Arrange
       final int universeSize = 6;
 
@@ -87,7 +86,7 @@ public class Test_UniverseService_WHEN_run_is_called_with_lev0SpinMove {
    }
 
    @Test
-   void GIVEN_lev0move_state_RIGHT_p1_run_THEN_state_is_calculated() {
+   void GIVEN_state_RIGHT_p1_run_THEN_state_is_calculated() {
       // Arrange
       final int universeSize = 6;
 
