@@ -24,4 +24,12 @@ public class Part {
       this.enginePos = enginePos;
       this.hyperCell = new HyperCell(cellPos, metaStatePosArr, probabilityArr);
    }
+
+   public Part(final Event event, final Part parentPart,
+               final int enginePos, final int cellPos, final int metaStatePos) {
+      this.event = event;
+      this.parentPart = parentPart;
+      this.enginePos = enginePos;
+      this.hyperCell = new HyperCell(cellPos, metaStatePos);
+   }
 }

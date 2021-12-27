@@ -12,6 +12,8 @@ import de.schmiereck.col.model.Part;
 import de.schmiereck.col.model.State;
 import de.schmiereck.col.model.Universe;
 
+import java.util.Objects;
+
 public class UniverseUtils {
 
    public static void printCells(final Universe universe, final Part part, final int cnt) {
@@ -48,8 +50,11 @@ public class UniverseUtils {
          final State state;
 
          if (printCellPos == part.hyperCell.cellPos) {
-            //PROB: cellMetaStatePos = part.hyperCell.metaStatePos;
-            cellMetaStatePos = part.hyperCell.metaStatePosArr[part.hyperCell.dirProbability.lastProbabilityPos];
+            if (Objects.nonNull(part.hyperCell.dirMetaStatePosArr)) {
+               cellMetaStatePos = part.hyperCell.dirMetaStatePosArr[part.hyperCell.dirProbability.lastProbabilityPos];
+            } else {
+               cellMetaStatePos = part.hyperCell.metaStatePos;
+            }
             final MetaState metaState = engine.metaStateArr[cellMetaStatePos];
             final int inputMetaStatePos = metaState.inputMetaStatePosArr[levelShift];
             cellStatePos = inputMetaStatePos;
@@ -89,6 +94,11 @@ public class UniverseUtils {
    }
 
    public static Part setMetaStatePos(final Universe universe, final int cellPos, final int enginePos,
+                                      final int metaStatePos) {
+      return setMetaStatePos(universe, null, null, cellPos, enginePos, metaStatePos);
+   }
+
+   public static Part setMetaStatePos(final Universe universe, final int cellPos, final int enginePos,
                                       final int[] metaStatePosArr, final int[] probabilityArr) {
       return setMetaStatePos(universe, null, null, cellPos, enginePos, metaStatePosArr, probabilityArr);
    }
@@ -98,6 +108,15 @@ public class UniverseUtils {
                                       final int cellPos, final int enginePos,
                                       final int[] metaStatePosArr, final int[] probabilityArr) {
       final Part part = new Part(event, parentPart, enginePos, cellPos, metaStatePosArr, probabilityArr);
+      universe.partList.add(part);
+      return part;
+   }
+
+   public static Part setMetaStatePos(final Universe universe,
+                                      final Event event, final Part parentPart,
+                                      final int cellPos, final int enginePos,
+                                      final int metaStatePos) {
+      final Part part = new Part(event, parentPart, enginePos, cellPos, metaStatePos);
       universe.partList.add(part);
       return part;
    }

@@ -2,6 +2,8 @@ package de.schmiereck.col.model;
 
 import static de.schmiereck.col.model.State.NULL_pos;
 
+import de.schmiereck.col.services.ProbabilityService;
+
 public class HyperCell {
    public static final int Max_Probability = 10;
    public static final int DirProbStay = 0;
@@ -10,8 +12,8 @@ public class HyperCell {
    public static final int DirProbSize = 3;
 
    public int cellPos;
-   //PROB: public int metaStatePos;
-   public int[] metaStatePosArr;
+   public int metaStatePos;
+   public int[] dirMetaStatePosArr;
    /**
     * 0:left 1:stay: 2:right
     */
@@ -19,22 +21,33 @@ public class HyperCell {
 
    public HyperCell() {
       this.cellPos = -1;
-      this.metaStatePosArr = new int[DirProbSize];
-      this.metaStatePosArr[DirProbStay] = NULL_pos;
-      this.metaStatePosArr[DirProbLeft] = NULL_pos;
-      this.metaStatePosArr[DirProbRight] = NULL_pos;
+      this.metaStatePos = -1;
+      this.dirMetaStatePosArr = new int[DirProbSize];
+      this.dirMetaStatePosArr[DirProbStay] = NULL_pos;
+      this.dirMetaStatePosArr[DirProbLeft] = NULL_pos;
+      this.dirMetaStatePosArr[DirProbRight] = NULL_pos;
       this.dirProbability = new Probability(Max_Probability, DirProbSize);
+      ProbabilityService.calcInit(this.dirProbability);
    }
 
-   public HyperCell(final int cellPos, final int[] metaStatePosArr, final int[] probabilityArr) {
+   public HyperCell(final int cellPos, final int metaStatePos) {
       this.cellPos = cellPos;
-      this.metaStatePosArr = new int[DirProbSize];
-      this.metaStatePosArr[DirProbStay] = metaStatePosArr[DirProbStay];
-      this.metaStatePosArr[DirProbLeft] = metaStatePosArr[DirProbLeft];
-      this.metaStatePosArr[DirProbRight] = metaStatePosArr[DirProbRight];
+      this.metaStatePos = metaStatePos;
+      this.dirMetaStatePosArr = null;
+      this.dirProbability = null;
+   }
+
+   public HyperCell(final int cellPos, final int[] dirMetaStatePosArr, final int[] probabilityArr) {
+      this.cellPos = cellPos;
+      this.metaStatePos = -1;
+      this.dirMetaStatePosArr = new int[DirProbSize];
+      this.dirMetaStatePosArr[DirProbStay] = dirMetaStatePosArr[DirProbStay];
+      this.dirMetaStatePosArr[DirProbLeft] = dirMetaStatePosArr[DirProbLeft];
+      this.dirMetaStatePosArr[DirProbRight] = dirMetaStatePosArr[DirProbRight];
       this.dirProbability = new Probability(Max_Probability, DirProbSize);
       this.dirProbability.probabilityArr[DirProbStay] = probabilityArr[DirProbStay];
       this.dirProbability.probabilityArr[DirProbLeft] = probabilityArr[DirProbLeft];
       this.dirProbability.probabilityArr[DirProbRight] = probabilityArr[DirProbRight];
+      ProbabilityService.calcInit(this.dirProbability);
    }
 }
