@@ -4,6 +4,7 @@ import static de.schmiereck.col.services.UniverseService.runCalcNextMetaState2;
 import static de.schmiereck.col.services.UniverseService.runCalcNextPart;
 import static de.schmiereck.col.services.UniverseUtils.printCells;
 
+import de.schmiereck.col.model.HyperCell;
 import de.schmiereck.col.model.Part;
 import de.schmiereck.col.model.Universe;
 
@@ -47,5 +48,10 @@ public class RunTestUtils {
       printCells(universe, cnt, "runCalcNextMetaState");
       runCalcNextPart(universe);
       printCells(universe, cnt, "runCalcNextPart");
+   }
+
+   public static int calcDirMetaStatePos(final Universe universe, final int partPos) {
+      final HyperCell hyperCell = universe.partList.get(partPos).hyperCell;
+      return hyperCell.dirMetaStatePosArr[hyperCell.dirProbability.lastProbabilityPos];
    }
 }

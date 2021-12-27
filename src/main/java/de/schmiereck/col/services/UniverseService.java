@@ -141,22 +141,27 @@ public class UniverseService {
          if (Objects.nonNull(hyperCell.dirMetaStatePosArr)) {
             final int metaStatePos = hyperCell.dirMetaStatePosArr[hyperCell.dirProbability.lastProbabilityPos];
             sourceMetaState = engine.metaStateArr[metaStatePos];
-         } else {
-            sourceMetaState = engine.metaStateArr[hyperCell.metaStatePos];
-         }
-         final int nextSourceMetaStatePos = sourceMetaState.outputMetaStatePos;
-         if (nextSourceMetaStatePos == -1)
-            throw new RuntimeException(String.format("Level-Cell-Size %d: For Meta-State %s no output state found.", engine.cellSize, convertToDebugString(sourceMetaState)));
 
-         final int targetCellPos = calcCellPos(universe, hyperCell.cellPos + sourceMetaState.cellPosOffset);
-
-         if (Objects.nonNull(hyperCell.dirMetaStatePosArr)) {
-            hyperCell.dirMetaStatePosArr[hyperCell.dirProbability.lastProbabilityPos] = nextSourceMetaStatePos;
+            for (int dirMetaStatePosPos = 0; dirMetaStatePosPos < hyperCell.dirMetaStatePosArr.length; dirMetaStatePosPos++) {
+               final int dirMetaStatePos = hyperCell.dirMetaStatePosArr[dirMetaStatePosPos];
+               final MetaState dirSourceMetaState = engine.metaStateArr[dirMetaStatePos];
+               final int nextDirSourceMetaStatePos = dirSourceMetaState.outputMetaStatePos;
+               if (nextDirSourceMetaStatePos == -1)
+                  throw new RuntimeException(String.format("Level-Cell-Size %d: For Meta-State %s no output state found.", engine.cellSize, convertToDebugString(sourceMetaState)));
+               hyperCell.dirMetaStatePosArr[dirMetaStatePosPos] = nextDirSourceMetaStatePos;
+            }
 
             ProbabilityService.calcNext(hyperCell.dirProbability);
          } else {
+            sourceMetaState = engine.metaStateArr[hyperCell.metaStatePos];
+            final int nextSourceMetaStatePos = sourceMetaState.outputMetaStatePos;
+            if (nextSourceMetaStatePos == -1)
+               throw new RuntimeException(String.format("Level-Cell-Size %d: For Meta-State %s no output state found.", engine.cellSize, convertToDebugString(sourceMetaState)));
             hyperCell.metaStatePos = nextSourceMetaStatePos;
          }
+
+         final int targetCellPos = calcCellPos(universe, hyperCell.cellPos + sourceMetaState.cellPosOffset);
+
          hyperCell.cellPos = targetCellPos;
       }
    }

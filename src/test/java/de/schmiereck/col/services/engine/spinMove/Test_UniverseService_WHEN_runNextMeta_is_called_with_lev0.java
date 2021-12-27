@@ -1,6 +1,7 @@
 package de.schmiereck.col.services.engine.spinMove;
 
 import static de.schmiereck.col.model.HyperCell.Max_Probability;
+import static de.schmiereck.col.services.RunTestUtils.calcDirMetaStatePos;
 import static de.schmiereck.col.services.RunTestUtils.runTestNextMeta2;
 import static de.schmiereck.col.services.UniverseUtils.printCells;
 import static de.schmiereck.col.services.UniverseUtils.setMetaStatePos;
@@ -40,7 +41,9 @@ public class Test_UniverseService_WHEN_runNextMeta_is_called_with_lev0 {
       final Event event = new Event(null);
       //setStatePos(universe, 2, STAY_p1);
       //setStatePos(universe, 2, STAYa_p1, event);
-      final Part part = setMetaStatePos(universe, 2, 0, metaPos(level0Engine, STAYa_p1, NULL_u0));
+      final Part part = setMetaStatePos(universe, 2, 0, //metaPos(level0Engine, STAYa_p1, NULL_u0));
+              new int[] { metaPos(level0Engine, STAYa_p1, NULL_u0), metaPos(level0Engine, LEFTa_p1, NULL_u0), metaPos(level0Engine, RIGHTa_p1, NULL_u0) },
+              new int[] { Max_Probability, 0, 0 });
 
       // Act
       printCells(universe, part, 0, "initial");
@@ -52,7 +55,8 @@ public class Test_UniverseService_WHEN_runNextMeta_is_called_with_lev0 {
       // Assert
       assertEquals(2, universe.partList.get(0).hyperCell.cellPos);
       assertEquals(0, universe.partList.get(0).enginePos);
-      assertEquals(metaPos(level0Engine, STAYa_p1, NULL_u0), universe.partList.get(0).hyperCell.metaStatePos);
+      //assertEquals(metaPos(level0Engine, STAYa_p1, NULL_u0), universe.partList.get(0).hyperCell.metaStatePos);
+      assertEquals(metaPos(level0Engine, STAYa_p1, NULL_u0), calcDirMetaStatePos(universe, 0));
    }
 
    @Test
@@ -88,11 +92,6 @@ public class Test_UniverseService_WHEN_runNextMeta_is_called_with_lev0 {
       assertEquals(2, universe.partList.get(0).hyperCell.cellPos);
       assertEquals(0, universe.partList.get(0).enginePos);
       assertEquals(metaPos(level0Engine, STAYa_p1, NULL_u0), calcDirMetaStatePos(universe, 0));
-   }
-
-   public static int calcDirMetaStatePos(final Universe universe, final int partPos) {
-      final HyperCell hyperCell = universe.partList.get(partPos).hyperCell;
-      return hyperCell.dirMetaStatePosArr[hyperCell.dirProbability.lastProbabilityPos];
    }
 
    @Test
