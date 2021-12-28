@@ -6,6 +6,8 @@ import de.schmiereck.col.model.NextPart;
 import de.schmiereck.col.model.Part;
 import de.schmiereck.col.model.Universe;
 
+import java.util.Objects;
+
 public class FieldEngineService {
 
    public static int calcNextPart1Pos(final Universe universe, final Part aPart, final Part bPart) {
@@ -43,7 +45,16 @@ public class FieldEngineService {
 
       final NextPart nextPart;
       if (absDiff < minDiff) {
-         nextPart = fieldEngine.nextPartArr[aPart.enginePos][bPart.enginePos][calcRel2ArrPos(diff)][aPart.hyperCell.metaStatePos][bPart.hyperCell.metaStatePos];
+         final int aPartMetaStatePos;
+         final int bPartMetaStatePos;
+         if (Objects.nonNull(aPart.hyperCell.dirMetaStatePosArr)) {
+            aPartMetaStatePos = aPart.hyperCell.dirMetaStatePosArr[aPart.hyperCell.dirProbability.lastProbabilityPos];
+            bPartMetaStatePos = bPart.hyperCell.dirMetaStatePosArr[bPart.hyperCell.dirProbability.lastProbabilityPos];
+         } else {
+            aPartMetaStatePos = aPart.hyperCell.metaStatePos;
+            bPartMetaStatePos = bPart.hyperCell.metaStatePos;
+         }
+         nextPart = fieldEngine.nextPartArr[aPart.enginePos][bPart.enginePos][calcRel2ArrPos(diff)][aPartMetaStatePos][bPartMetaStatePos];
       } else {
          nextPart = null;
       }

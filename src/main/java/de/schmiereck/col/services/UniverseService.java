@@ -1,6 +1,11 @@
 package de.schmiereck.col.services;
 
+import static de.schmiereck.col.model.HyperCell.DirProbLeft;
+import static de.schmiereck.col.model.HyperCell.DirProbRight;
+import static de.schmiereck.col.model.HyperCell.DirProbStay;
 import static de.schmiereck.col.model.State.NULL_pos;
+import static de.schmiereck.col.services.ProbabilityService.calcLast;
+import static de.schmiereck.col.services.ProbabilityService.calcNext;
 import static de.schmiereck.col.services.StateUtils.convertToDebugString;
 import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
 import static de.schmiereck.col.services.UniverseUtils.readEngine;
@@ -10,6 +15,7 @@ import de.schmiereck.col.model.HyperCell;
 import de.schmiereck.col.model.MetaState;
 import de.schmiereck.col.model.NextPart;
 import de.schmiereck.col.model.Part;
+import de.schmiereck.col.model.Probability;
 import de.schmiereck.col.model.Universe;
 
 import java.util.Objects;
@@ -100,13 +106,25 @@ public class UniverseService {
                               universe.partList.add(newPart);
                            }
                         }
-                        if (nextPartArgument.nextPartMetaStatePos != -1) {
+                        if (Objects.nonNull(nextPartArgument.probabilityMatrix)) {
                            aPart.enginePos = nextPartArgument.nextPartEnginePos;
                            aPart.hyperCell.cellPos = calcCellPos(universe, aPart.hyperCell.cellPos + nextPartArgument.nextPartOffsetCellPos);
-                           if (Objects.nonNull(aPart.hyperCell.dirMetaStatePosArr)) {
-                              aPart.hyperCell.dirMetaStatePosArr[aPart.hyperCell.dirProbability.lastProbabilityPos] = nextPartArgument.nextPartMetaStatePos;
-                           } else {
-                              aPart.hyperCell.metaStatePos = nextPartArgument.nextPartMetaStatePos;
+                           calcReflection(aPart.hyperCell.dirProbability, nextPartArgument.probabilityMatrix);
+
+                           //if (Objects.nonNull(aPart.hyperCell.dirMetaStatePosArr)) {
+                           //   aPart.hyperCell.dirMetaStatePosArr[aPart.hyperCell.dirProbability.lastProbabilityPos] = nextPartArgument.nextPartMetaStatePos;
+                           //} else {
+                           //   aPart.hyperCell.metaStatePos = nextPartArgument.nextPartMetaStatePos;
+                           //}
+                        } else {
+                           if (nextPartArgument.nextPartMetaStatePos != -1) {
+                              aPart.enginePos = nextPartArgument.nextPartEnginePos;
+                              aPart.hyperCell.cellPos = calcCellPos(universe, aPart.hyperCell.cellPos + nextPartArgument.nextPartOffsetCellPos);
+                              if (Objects.nonNull(aPart.hyperCell.dirMetaStatePosArr)) {
+                                 aPart.hyperCell.dirMetaStatePosArr[aPart.hyperCell.dirProbability.lastProbabilityPos] = nextPartArgument.nextPartMetaStatePos;
+                              } else {
+                                 aPart.hyperCell.metaStatePos = nextPartArgument.nextPartMetaStatePos;
+                              }
                            }
                         }
                      }
@@ -122,6 +140,27 @@ public class UniverseService {
                return part.hyperCell.metaStatePos == NULL_pos;
             }
          });
+   }
+
+   private static void calcReflection(final Probability dirProbability, final int[][] probabilityMatrix) {
+      final int s = dirProbability.probabilityArr[DirProbStay];
+      final int l = dirProbability.probabilityArr[DirProbLeft];
+      final int r = dirProbability.probabilityArr[DirProbRight];
+      // s = s*sm11 + l*lm12 + r*rm13
+      dirProbability.probabilityArr[DirProbStay]  = s*probabilityMatrix[0][0] + l*probabilityMatrix[0][1] + r*probabilityMatrix[0][2];
+      // r = s*sm21 + l*lm22 + r*rm23
+      dirProbability.probabilityArr[DirProbLeft]  = s*probabilityMatrix[1][0] + l*probabilityMatrix[1][1] + r*probabilityMatrix[1][2];
+      // l = s*sm31 + l*lm32 + r*rm33
+      dirProbability.probabilityArr[DirProbRight] = s*probabilityMatrix[2][0] + l*probabilityMatrix[2][1] + r*probabilityMatrix[2][2];
+
+      final int sc = dirProbability.probabilityCntArr[DirProbStay];
+      final int lc = dirProbability.probabilityCntArr[DirProbLeft];
+      final int rc = dirProbability.probabilityCntArr[DirProbRight];
+      dirProbability.probabilityCntArr[DirProbStay]  = sc*probabilityMatrix[0][0] + lc*probabilityMatrix[0][1] + rc*probabilityMatrix[0][2];
+      dirProbability.probabilityCntArr[DirProbLeft]  = sc*probabilityMatrix[1][0] + lc*probabilityMatrix[1][1] + rc*probabilityMatrix[1][2];
+      dirProbability.probabilityCntArr[DirProbRight] = sc*probabilityMatrix[2][0] + lc*probabilityMatrix[2][1] + rc*probabilityMatrix[2][2];
+
+      calcNext(dirProbability);
    }
 
    public static void runCalcNextMetaState2(final Universe universe) {
@@ -151,7 +190,7 @@ public class UniverseService {
                hyperCell.dirMetaStatePosArr[dirMetaStatePosPos] = nextDirSourceMetaStatePos;
             }
 
-            ProbabilityService.calcNext(hyperCell.dirProbability);
+            calcNext(hyperCell.dirProbability);
          } else {
             sourceMetaState = engine.metaStateArr[hyperCell.metaStatePos];
             final int nextSourceMetaStatePos = sourceMetaState.outputMetaStatePos;

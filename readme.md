@@ -618,3 +618,24 @@ D Reflection: bad!
               1   2L
 
 ```
+
+# Spiegelung
+ ( s, l, r )
+
+   0, 0, 5
+=> 0, 5, 0
+
+ ( sm11 lm12 rm13 )
+ ( sm21 lm22 rm23 )
+ ( sm31 lm32 rm33 )
+s = s*sm11 + l*lm12 + r*rm13
+l = s*sm21 + l*lm22 + r*rm23
+r = s*sm31 + l*lm32 + r*rm33
+
+ ( 0  0  0)
+ ( 0  0  1)
+ ( 0  1  0)
+
+
+   0, 1, 5
+=> 0, 5, 1

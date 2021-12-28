@@ -6,6 +6,7 @@ import static de.schmiereck.col.model.FieldEngine.l1EnginePos;
 import static de.schmiereck.col.model.FieldEngine.l1StayEnginePos;
 import static de.schmiereck.col.model.FieldEngine.l2EnginePos;
 import static de.schmiereck.col.model.NextPart.Command.CmdCombineToParent;
+import static de.schmiereck.col.model.NextPart.LR_REFLECTION_MATRIX;
 import static de.schmiereck.col.services.FieldEngineService.calcRel2ArrPos;
 import static de.schmiereck.col.services.engine.CreateEngineService.metaPos;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.LEFTa_p1;
@@ -158,7 +159,8 @@ public class CreateNextPartArr {
       setNextPart(fieldEngine, l0EnginePos, l0StayEnginePos, 1,
               metaPos(l0E, RIGHTa_p1, NULL_u0),
               stayMetaPosArgArr,
-              new NextPart(l0EnginePos, metaPos(l0E, LEFTa_p1, NULL_u0), +0));
+              new NextPart(l0EnginePos, //metaPos(l0E, LEFTa_p1, NULL_u0),
+                      LR_REFLECTION_MATRIX, +0));
 
       //              3   4   5   6   4
       //              -   -

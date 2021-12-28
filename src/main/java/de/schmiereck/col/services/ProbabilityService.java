@@ -16,6 +16,10 @@ public class ProbabilityService {
          probability.probabilityCntArr[pos] += probability.probabilityArr[pos];
       }
 
+      calcLast(probability);
+   }
+
+   public static void calcLast(final Probability probability) {
       int startPos = probability.lastProbabilityPos;
 
       for (int pos = 0; pos < probability.probabilitySize; pos++) {
