@@ -31,7 +31,7 @@ import de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class Test_UniverseService_WHEN_runNextPart_is_called_with_left2stay {
+public class Test_UniverseService_WHEN_runNextPart_is_called_with_lev2_left2stay {
 
    private Engine level0Engine;
    private Engine level1Engine;
@@ -63,7 +63,7 @@ public class Test_UniverseService_WHEN_runNextPart_is_called_with_left2stay {
    }
 
    @Test
-   void GIVEN_pos6_2LEFT_to_pos4_1STAY01_run_THEN_state_reflected() {
+   void GIVEN_pos6_2LEFT001_to_pos4_1STAY01_run_THEN_state_reflected() {
       // Arrange
       //              3   4   5   6   7
       //              -   -
@@ -194,7 +194,7 @@ public class Test_UniverseService_WHEN_runNextPart_is_called_with_left2stay {
    }
 
    @Test
-   void GIVEN_state_pos2_2RIGHT_pos3_1RIGHT_ba_run_THEN_state_combined() {
+   void GIVEN_state_pos2_1RIGHT_pos3_0RIGHT_ba_run_THEN_state_combined() {
       // Arrange
       //              0A  1B  2A  3B  4A
       //              -           R          b
@@ -224,7 +224,7 @@ public class Test_UniverseService_WHEN_runNextPart_is_called_with_left2stay {
    }
 
    @Test
-   void GIVEN_state_pos2_2RIGHT_pos4_1RIGHT_ba_run_THEN_state_combined() {
+   void GIVEN_state_pos2_1RIGHT_pos4_0RIGHT_ba_run_THEN_state_combined() {
       // Arrange
       //              0A  1B  2A  3B  4A
       //                              R      b

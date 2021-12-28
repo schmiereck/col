@@ -4,7 +4,6 @@ import static de.schmiereck.col.model.HyperCell.DirProbLeft;
 import static de.schmiereck.col.model.HyperCell.DirProbRight;
 import static de.schmiereck.col.model.HyperCell.DirProbStay;
 import static de.schmiereck.col.model.State.NULL_pos;
-import static de.schmiereck.col.services.ProbabilityService.calcLast;
 import static de.schmiereck.col.services.ProbabilityService.calcNext;
 import static de.schmiereck.col.services.StateUtils.convertToDebugString;
 import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
@@ -89,27 +88,46 @@ public class UniverseService {
                         }
                      }
                      default -> {
-                        if (Objects.nonNull(nextPartArgument.newPartMetaStatePosArr)) {
+                        if (Objects.nonNull(nextPartArgument.newPartProbabilityMatrix)) {
                            final Part newPart = new Part(aPart.event, aPart,
                                    nextPartArgument.newPartEnginePos,
                                    calcCellPos(universe, aPart.hyperCell.cellPos + nextPartArgument.newPartOffsetCellPos),
-                                   nextPartArgument.newPartMetaStatePosArr, nextPartArgument.probabilityArr);
+                                   nextPartArgument.newPartMetaStatePosArr, aPart.hyperCell.dirProbability.probabilityArr);
+
+                           calcReflection(newPart.hyperCell.dirProbability, nextPartArgument.newPartProbabilityMatrix);
 
                            universe.partList.add(newPart);
                         } else {
-                           if (nextPartArgument.newPartMetaStatePos != -1) {
+                           if (Objects.nonNull(nextPartArgument.newPartMetaStatePosArr)) {
                               final Part newPart = new Part(aPart.event, aPart,
                                       nextPartArgument.newPartEnginePos,
                                       calcCellPos(universe, aPart.hyperCell.cellPos + nextPartArgument.newPartOffsetCellPos),
-                                      nextPartArgument.newPartMetaStatePos);
+                                      nextPartArgument.newPartMetaStatePosArr, nextPartArgument.probabilityArr);
 
                               universe.partList.add(newPart);
+                           } else {
+                              if (nextPartArgument.newPartMetaStatePos != -1) {
+                                 final Part newPart = new Part(aPart.event, aPart,
+                                         nextPartArgument.newPartEnginePos,
+                                         calcCellPos(universe, aPart.hyperCell.cellPos + nextPartArgument.newPartOffsetCellPos),
+                                         nextPartArgument.newPartMetaStatePos);
+
+                                 universe.partList.add(newPart);
+                              }
                            }
                         }
-                        if (Objects.nonNull(nextPartArgument.probabilityMatrix)) {
+                        if (Objects.nonNull(nextPartArgument.nextPartProbabilityMatrix)) {
+                           if ((aPart.enginePos != nextPartArgument.nextPartEnginePos) && Objects.isNull(nextPartArgument.nextPartMetaStatePosArr)) {
+                              throw new RuntimeException("aPart.enginePos != nextPartArgument.nextPartEnginePos - We need \"nextPartArgument.nextPartMetaStatePosArr\".");
+                           }
                            aPart.enginePos = nextPartArgument.nextPartEnginePos;
                            aPart.hyperCell.cellPos = calcCellPos(universe, aPart.hyperCell.cellPos + nextPartArgument.nextPartOffsetCellPos);
-                           calcReflection(aPart.hyperCell.dirProbability, nextPartArgument.probabilityMatrix);
+                           if (Objects.nonNull(nextPartArgument.nextPartMetaStatePosArr)) {
+                              aPart.hyperCell.dirMetaStatePosArr[DirProbStay] = nextPartArgument.nextPartMetaStatePosArr[DirProbStay];
+                              aPart.hyperCell.dirMetaStatePosArr[DirProbLeft] = nextPartArgument.nextPartMetaStatePosArr[DirProbLeft];
+                              aPart.hyperCell.dirMetaStatePosArr[DirProbRight] = nextPartArgument.nextPartMetaStatePosArr[DirProbRight];
+                           }
+                           calcReflection(aPart.hyperCell.dirProbability, nextPartArgument.nextPartProbabilityMatrix);
 
                            //if (Objects.nonNull(aPart.hyperCell.dirMetaStatePosArr)) {
                            //   aPart.hyperCell.dirMetaStatePosArr[aPart.hyperCell.dirProbability.lastProbabilityPos] = nextPartArgument.nextPartMetaStatePos;

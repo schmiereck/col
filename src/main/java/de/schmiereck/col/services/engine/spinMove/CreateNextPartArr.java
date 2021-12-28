@@ -6,17 +6,20 @@ import static de.schmiereck.col.model.FieldEngine.l1EnginePos;
 import static de.schmiereck.col.model.FieldEngine.l1StayEnginePos;
 import static de.schmiereck.col.model.FieldEngine.l2EnginePos;
 import static de.schmiereck.col.model.NextPart.Command.CmdCombineToParent;
+import static de.schmiereck.col.model.NextPart.LR_CONTINUE_MATRIX;
 import static de.schmiereck.col.model.NextPart.LR_REFLECTION_MATRIX;
 import static de.schmiereck.col.services.FieldEngineService.calcRel2ArrPos;
 import static de.schmiereck.col.services.engine.CreateEngineService.metaPos;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.LEFTa_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.NULL_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.RIGHTa_p1;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.STAYa_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.LEFTa_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.LEFTa_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.NULL_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHTa_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHTa_u0_p1;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.STAYa_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.LEFTa_u0_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.NULL_u0_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.RIGHTa_p1_u0_u0;
@@ -58,8 +61,18 @@ public class CreateNextPartArr {
     *               1L
     */
    public static void createNextPartArrA(final Universe universe) {
-      createNextPart0leftReflection0stay(universe.fieldEngine);
-      createNextPart0rightReflection0stay(universe.fieldEngine);
+      if (Objects.nonNull(universe.fieldEngine.engineArr[l0EnginePos])) {
+         createNextPart0leftReflection0stay(universe.fieldEngine);
+         createNextPart0rightReflection0stay(universe.fieldEngine);
+         if (Objects.nonNull(universe.fieldEngine.engineArr[l1EnginePos])) {
+            createNextPart0leftReflection1stay(universe.fieldEngine);
+            createNextPart0rightReflection1stay(universe.fieldEngine);
+         }
+      }
+      if (Objects.nonNull(universe.fieldEngine.engineArr[l1EnginePos])) {
+         createNextPart1rightReflection1stay(universe.fieldEngine);
+         createNextPart1leftReflection1stay(universe.fieldEngine);
+      }
       if (Objects.nonNull(universe.fieldEngine.engineArr[l1EnginePos]) && Objects.nonNull(universe.fieldEngine.engineArr[l2EnginePos])) {
          createNextPart2rightReflection1stay(universe.fieldEngine);
          createNextPart2leftReflection1stay(universe.fieldEngine);
@@ -125,7 +138,9 @@ public class CreateNextPartArr {
       setNextPart(fieldEngine, l0EnginePos, l0StayEnginePos, -1,
               metaPos(l0E, LEFTa_p1, NULL_u0),
               stayMetaPosArgArr,
-              new NextPart(l0EnginePos, metaPos(l0E, RIGHTa_p1, NULL_u0), +0));
+              new NextPart(l0EnginePos, //metaPos(l0E, RIGHTa_p1, NULL_u0), +0));
+                      LR_REFLECTION_MATRIX, +0));
+      //----------------------------------------------------------------------------------------------------------------
    }
 
    private static void createNextPart0rightReflection0stay(final FieldEngine fieldEngine) {
@@ -174,6 +189,137 @@ public class CreateNextPartArr {
       //        metaPos(l0E, NULL_u0, RIGHTa_p1),
       //        stayMetaPosArgArr,
       //        new NextPart(l0EnginePos, metaPos(l0E, NULL_u0, LEFTa_p1), +0));
+      //----------------------------------------------------------------------------------------------------------------
+   }
+
+   private static void createNextPart0rightReflection1stay(final FieldEngine fieldEngine) {
+      final Engine l0E = fieldEngine.engineArr[l0EnginePos];
+      final Engine l1E = fieldEngine.engineArr[l1EnginePos];
+      final Engine l2E = fieldEngine.engineArr[l2EnginePos];
+      final Engine l1SE = fieldEngine.engineArr[l1StayEnginePos];
+
+      //              0   1   2   3   4
+      //                  -   -
+      //                      -   S          b
+      //              0   1   2   3   4
+      //                          S   -      b
+      //                              -   -
+      final MetaPosArg[] stayMetaPosArgArr = {
+              new MetaPosArg(metaPos(l1SE, SSTAY_u0_p1, NULL_u0_u0), 0),
+              new MetaPosArg(metaPos(l1SE, NULL_u0_u0, SSTAY_p1_u0), 2)
+      };
+      //----------------------------------------------------------------------------------------------------------------
+      // 0right reflection 1stay:
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      //              2   3   4   5   0   1
+      //                  -   -
+      //                      -   S          b
+      //              2   3   4   5   0   1
+      //                          S   -
+      //                              -   -  b
+      //    x             R   -              a
+      //    x                 -   -
+      // =>
+      //    x             R                  a
+      //    x                 L              c
+
+      //              0   1   2   3   4
+      //                  -   -
+      //                      -   S          b
+      //    x                 R              a
+      // =>
+      //    x                 L              c
+      setNextPart(fieldEngine, l0EnginePos, l1StayEnginePos, 0,
+              metaPos(l0E, RIGHTa_p1),
+              stayMetaPosArgArr,
+              new NextPart(l0EnginePos, metaPos(l0E, LEFTa_p1), +0));
+      //----------------------------------------------------------------------------------------------------------------
+   }
+
+   private static void createNextPart1leftReflection1stay(final FieldEngine fieldEngine) {
+      final Engine l0E = fieldEngine.engineArr[l0EnginePos];
+      final Engine l1E = fieldEngine.engineArr[l1EnginePos];
+      final Engine l2E = fieldEngine.engineArr[l2EnginePos];
+      final Engine l1SE = fieldEngine.engineArr[l1StayEnginePos];
+
+      //              0   1   2   3   4
+      //                  -   -
+      //                      -   S          b
+      //              0   1   2   3   4
+      //                          S   -      b
+      //                              -   -
+      final MetaPosArg[] stayMetaPosArgArr = {
+              new MetaPosArg(metaPos(l1SE, SSTAY_u0_p1, NULL_u0_u0), 0),
+              new MetaPosArg(metaPos(l1SE, NULL_u0_u0, SSTAY_p1_u0), 2)
+      };
+      //----------------------------------------------------------------------------------------------------------------
+      // 1left reflection 1stay:
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      //              0   1   2   3   4
+      //          -   -
+      //              -   S                  b
+      //    x             -   -              a
+      //    x                 -   L
+      // =>
+      //    x                     L          a
+      //    x                 R              c
+      setNextPart(fieldEngine, l1EnginePos, l1StayEnginePos, -2,
+              metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0),
+              stayMetaPosArgArr,
+              new NextPart(l0EnginePos, new int[] { metaPos(l0E, STAYa_p1), metaPos(l0E, LEFTa_p1), metaPos(l0E, RIGHTa_p1) }, LR_CONTINUE_MATRIX /*metaPos(l0E, LEFTa_p1)*/, +1,
+                           l0EnginePos, new int[] { metaPos(l0E, STAYa_p1), metaPos(l0E, LEFTa_p1), metaPos(l0E, RIGHTa_p1) }, LR_REFLECTION_MATRIX /*metaPos(l0E, RIGHTa_p1)*/, +0));
+      //----------------------------------------------------------------------------------------------------------------
+   }
+
+   private static void createNextPart1rightReflection1stay(final FieldEngine fieldEngine) {
+      final Engine l0E = fieldEngine.engineArr[l0EnginePos];
+      final Engine l1E = fieldEngine.engineArr[l1EnginePos];
+      final Engine l2E = fieldEngine.engineArr[l2EnginePos];
+      final Engine l1SE = fieldEngine.engineArr[l1StayEnginePos];
+
+      //              0   1   2   3   4
+      //                  -   -
+      //                      -   S          b
+      //              0   1   2   3   4
+      //                          S   -      b
+      //                              -   -
+      final MetaPosArg[] stayMetaPosArgArr = {
+              new MetaPosArg(metaPos(l1SE, SSTAY_u0_p1, NULL_u0_u0), 0),
+              new MetaPosArg(metaPos(l1SE, NULL_u0_u0, SSTAY_p1_u0), 2)
+      };
+      //----------------------------------------------------------------------------------------------------------------
+      // 1right reflection 1stay:
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      //              0   1   2   3   4
+      //                  -   -
+      //                      -   S          b
+      //    x         -   -
+      //    x             R   -              a
+      // =>
+      //    x         -
+      //    x             R                  a
+      //                      L              c
+      //TODO Wrong a pos?!
+      setNextPart(fieldEngine, l1EnginePos, l1StayEnginePos, 2,
+              metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0),
+              stayMetaPosArgArr,
+              new NextPart(l0EnginePos, metaPos(l1E, RIGHTa_p1, NULL_u0), +0,
+                           l0EnginePos, metaPos(l0E, LEFTa_p1), +1));
+
+      //              0   1   2   3   4
+      //                  -   -
+      //                      -   S          b
+      //    x             R   -              a
+      //    x                 -   -
+      // =>
+      //    x             R                  a
+      //    x                 L              c
+      setNextPart(fieldEngine, l1EnginePos, l1StayEnginePos, 0,
+              metaPos(l1E, NULL_u0_u0, RIGHTa_p1_u0),
+              stayMetaPosArgArr,
+              new NextPart(l0EnginePos, metaPos(l0E, RIGHTa_p1), -1,
+                      0, metaPos(l0E, LEFTa_p1), +0));
+      //----------------------------------------------------------------------------------------------------------------
    }
 
    private static void createNextPart2rightReflection1stay(final FieldEngine fieldEngine) {
@@ -226,43 +372,40 @@ public class CreateNextPartArr {
               stayMetaPosArgArr,
               new NextPart(l1EnginePos, metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0), -1,
                            l0EnginePos, metaPos(l0E, LEFTa_p1), +1));
+      //----------------------------------------------------------------------------------------------------------------
+   }
+
+   private static void createNextPart0leftReflection1stay(final FieldEngine fieldEngine) {
+      final Engine l0E = fieldEngine.engineArr[l0EnginePos];
+      final Engine l1E = fieldEngine.engineArr[l1EnginePos];
+      final Engine l2E = fieldEngine.engineArr[l2EnginePos];
+      final Engine l1SE = fieldEngine.engineArr[l1StayEnginePos];
 
       //              0   1   2   3   4
       //                  -   -
       //                      -   S          b
-      //    x             R   -              a
-      //    x                 -   -
-      // =>
-      //    x             R                  a
-      //    x                 L              c
-      setNextPart(fieldEngine, l1EnginePos, l1StayEnginePos, 0,
-              metaPos(l1E, NULL_u0_u0, RIGHTa_p1_u0),
-              stayMetaPosArgArr,
-               new NextPart(l0EnginePos, metaPos(l0E, RIGHTa_p1), -1,
-              0, metaPos(l0E, LEFTa_p1), +0));
-
-      //              2   3   4   5   0   1
-      //                  -   -
-      //                      -   S          b
-      //              2   3   4   5   0   1
-      //                          S   -
-      //                              -   -  b
-      //    x             R   -              a
-      //    x                 -   -
-      // =>
-      //    x             R                  a
-      //    x                 L              c
+      //              0   1   2   3   4
+      //                          S   -      b
+      //                              -   -
+      final MetaPosArg[] stayMetaPosArgArr = {
+              new MetaPosArg(metaPos(l1SE, SSTAY_u0_p1, NULL_u0_u0), 0),
+              new MetaPosArg(metaPos(l1SE, NULL_u0_u0, SSTAY_p1_u0), 2)
+      };
+      //----------------------------------------------------------------------------------------------------------------
+      // 0left reflection 1stay:
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
       //              0   1   2   3   4
-      //                  -   -
-      //                      -   S          b
-      //    x                 R              a
+      //          -   -
+      //              -   S                  b
+      //    x                 L              a
       // =>
-      //    x                 L              c
-      setNextPart(fieldEngine, l0EnginePos, l1StayEnginePos, 0,
-              metaPos(l0E, RIGHTa_p1),
+      //    x                 R              c
+      setNextPart(fieldEngine, l0EnginePos, l1StayEnginePos, -2,
+              metaPos(l0E, LEFTa_p1),
               stayMetaPosArgArr,
-               new NextPart(l0EnginePos, metaPos(l0E, LEFTa_p1), +0));
+              new NextPart(l0EnginePos, metaPos(l0E, RIGHTa_p1), +0));
+      //----------------------------------------------------------------------------------------------------------------
    }
 
    private static void createNextPart2leftReflection1stay(final FieldEngine fieldEngine) {
@@ -315,31 +458,7 @@ public class CreateNextPartArr {
               stayMetaPosArgArr,
               new NextPart(l1EnginePos, metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1), +2,
                            l0EnginePos, metaPos(l0E, RIGHTa_p1), +0));
-
-      //              0   1   2   3   4
-      //          -   -
-      //              -   S                  b
-      //    x             -   -              a
-      //    x                 -   L
-      // =>
-      //    x                     L          a
-      //    x                 R              c
-      setNextPart(fieldEngine, l1EnginePos, l1StayEnginePos, -2,
-              metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0),
-              stayMetaPosArgArr,
-              new NextPart(l0EnginePos, metaPos(l0E, LEFTa_p1), +1,
-                      0, metaPos(l0E, RIGHTa_p1), +0));
-
-      //              0   1   2   3   4
-      //          -   -
-      //              -   S                  b
-      //    x                 L              a
-      // =>
-      //    x                 R              c
-      setNextPart(fieldEngine, l0EnginePos, l1StayEnginePos, -2,
-              metaPos(l0E, LEFTa_p1),
-              stayMetaPosArgArr,
-              new NextPart(l0EnginePos, metaPos(l0E, RIGHTa_p1), +0));
+      //----------------------------------------------------------------------------------------------------------------
    }
 
    private static void createNextPartLevelUpLeft(final FieldEngine fieldEngine) {
@@ -419,8 +538,8 @@ public class CreateNextPartArr {
               metaPos(l0E, LEFTa_p1),
                new NextPart(CmdCombineToParent,
                   new NextPart.NextPartArgument(l2EnginePos, metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, LEFTa_u0_u0_p1), +1)));
+      //----------------------------------------------------------------------------------------------------------------
    }
-
 
    private static void createNextPartLevelUpRight(final FieldEngine fieldEngine) {
       final Engine l0E = fieldEngine.engineArr[l0EnginePos];
@@ -497,6 +616,7 @@ public class CreateNextPartArr {
               metaPos(l0E, RIGHTa_p1),
               new NextPart(CmdCombineToParent,
                       new NextPart.NextPartArgument(l2EnginePos, metaPos(l2E, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0), +1)));
+      //----------------------------------------------------------------------------------------------------------------
    }
 
    /**
@@ -558,6 +678,7 @@ public class CreateNextPartArr {
               [metaPos(l1SE, NULL_u0_u0, SSTAY_u0_p1)] // bPart metaStatePos
               = new NextPart(2, metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0), 0,
               2, metaPos(l2E, NULL_u0_u0_u0, LEFTa_u0_u0_p1, NULL_u0_u0_u0), -3);
+      //----------------------------------------------------------------------------------------------------------------
    }
 
    private static void setNextPart(final FieldEngine fieldEngine,

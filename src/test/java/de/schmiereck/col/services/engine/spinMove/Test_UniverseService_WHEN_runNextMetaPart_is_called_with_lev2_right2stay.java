@@ -31,7 +31,7 @@ import de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class Test_UniverseService_WHEN_runNextMetaPart_is_called_with_right2stay {
+public class Test_UniverseService_WHEN_runNextMetaPart_is_called_with_lev2_right2stay {
 
    private Engine level0Engine;
    private Engine level1Engine;
