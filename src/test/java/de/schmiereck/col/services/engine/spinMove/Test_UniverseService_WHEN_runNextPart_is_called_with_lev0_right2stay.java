@@ -6,7 +6,6 @@ import static de.schmiereck.col.model.FieldEngine.l0StayEnginePos;
 import static de.schmiereck.col.model.HyperCell.Max_Probability;
 import static de.schmiereck.col.services.RunTestUtils.calcDirMetaStatePos;
 import static de.schmiereck.col.services.RunTestUtils.runTestNextMetaPart;
-import static de.schmiereck.col.services.UniverseService.runCalcNextPart;
 import static de.schmiereck.col.services.UniverseUtils.printCells;
 import static de.schmiereck.col.services.UniverseUtils.setMetaStatePos;
 import static de.schmiereck.col.services.engine.CreateEngineService.metaPos;
@@ -62,7 +61,7 @@ public class Test_UniverseService_WHEN_runNextPart_is_called_with_lev0_right2sta
 
       universe.use_levelUp = false;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe,0, "initial");

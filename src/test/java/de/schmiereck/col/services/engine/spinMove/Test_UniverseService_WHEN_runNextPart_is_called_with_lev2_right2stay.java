@@ -87,7 +87,7 @@ public class Test_UniverseService_WHEN_runNextPart_is_called_with_lev2_right2sta
 
       universe.use_levelUp = false;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe, aPart, 0, "initial aPart");
@@ -134,7 +134,7 @@ public class Test_UniverseService_WHEN_runNextPart_is_called_with_lev2_right2sta
 
       universe.use_levelUp = false;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe, aPart, 0, "initial aPart");
@@ -166,7 +166,7 @@ public class Test_UniverseService_WHEN_runNextPart_is_called_with_lev2_right2sta
       final Part aPart = setMetaStatePos(universe, 0,  l2EnginePos, metaPos(level2Engine, RIGHTa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0));
       final Part bPart = setMetaStatePos(universe, 2,  l1StayEnginePos, metaPos(level1StayEngine, SSTAY_p1_u0, SNULL_u0_u0));
 
-      CreateNextPartArr.createNextPartArrX(universe);
+      NextPartCreateService.createNextPartArrX(universe);
 
       // Act 0
       printCells(universe, aPart, 0, "initial aPart");
@@ -229,7 +229,7 @@ public class Test_UniverseService_WHEN_runNextPart_is_called_with_lev2_right2sta
       final Part bPart = setMetaStatePos(universe, 1, l0EnginePos, metaPos(level0Engine, LEFTa_p1));
       bPart.parentPart = aPart;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe,0, "initial");
@@ -251,7 +251,7 @@ public class Test_UniverseService_WHEN_runNextPart_is_called_with_lev2_right2sta
       final Part bPart = setMetaStatePos(universe, 2, l0EnginePos, metaPos(level0Engine, LEFTa_p1));
       bPart.parentPart = aPart;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe,0, "initial");
@@ -273,7 +273,7 @@ public class Test_UniverseService_WHEN_runNextPart_is_called_with_lev2_right2sta
       final Part bPart = setMetaStatePos(universe, 3, l0EnginePos, metaPos(level0Engine, LEFTa_p1));
       bPart.parentPart = aPart;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe,0, "initial");
@@ -295,7 +295,7 @@ public class Test_UniverseService_WHEN_runNextPart_is_called_with_lev2_right2sta
       final Part bPart = setMetaStatePos(universe, -1, l0EnginePos, metaPos(level0Engine, LEFTa_p1));
       bPart.parentPart = aPart;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe,0, "initial");
@@ -319,7 +319,7 @@ public class Test_UniverseService_WHEN_runNextPart_is_called_with_lev2_right2sta
       //universe.partList.add(bPart);
       bPart.parentPart = aPart;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe,0, "initial");
@@ -341,7 +341,7 @@ public class Test_UniverseService_WHEN_runNextPart_is_called_with_lev2_right2sta
       final Part bPart = setMetaStatePos(universe, 0, l0EnginePos, metaPos(level0Engine, LEFTa_p1));
       bPart.parentPart = aPart;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe,0, "initial");
@@ -363,7 +363,7 @@ public class Test_UniverseService_WHEN_runNextPart_is_called_with_lev2_right2sta
       final Part bPart = setMetaStatePos(universe, 1, l0EnginePos, metaPos(level0Engine, LEFTa_p1));
       bPart.parentPart = aPart;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe,0, "initial");

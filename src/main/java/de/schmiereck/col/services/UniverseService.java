@@ -72,13 +72,24 @@ public class UniverseService {
                   final NextPart.NextPartArgument nextPartArgument = nextPart.nextPartArgumentArr[relCellPos];
                   switch (nextPart.command) {
                      case CmdCombineToParent -> {
-                        if (aPart == bPart.parentPart) {
+                        if (aPart == bPart.parentPart) { // TODO && (aPart.hyperCell.dirProbability == bPart.hyperCell.dirProbability)
+                           if ((aPart.enginePos != nextPartArgument.nextPartEnginePos) && Objects.isNull(nextPartArgument.nextPartMetaStatePosArr)) {
+                              throw new RuntimeException("aPart.enginePos != nextPartArgument.nextPartEnginePos - We need \"nextPartArgument.nextPartMetaStatePosArr\".");
+                           }
                            aPart.enginePos = nextPartArgument.nextPartEnginePos;
                            aPart.hyperCell.cellPos = calcCellPos(universe, aPart.hyperCell.cellPos + nextPartArgument.nextPartOffsetCellPos);
-                           if (Objects.nonNull(aPart.hyperCell.dirMetaStatePosArr)) {
-                              aPart.hyperCell.dirMetaStatePosArr[aPart.hyperCell.dirProbability.lastProbabilityPos] = nextPartArgument.nextPartMetaStatePos;
+                           if (Objects.nonNull(nextPartArgument.nextPartMetaStatePosArr)) {
+                              aPart.hyperCell.dirMetaStatePosArr[DirProbStay] = nextPartArgument.nextPartMetaStatePosArr[DirProbStay];
+                              aPart.hyperCell.dirMetaStatePosArr[DirProbLeft] = nextPartArgument.nextPartMetaStatePosArr[DirProbLeft];
+                              aPart.hyperCell.dirMetaStatePosArr[DirProbRight] = nextPartArgument.nextPartMetaStatePosArr[DirProbRight];
+
+                              calcReflection(aPart.hyperCell.dirProbability, nextPartArgument.nextPartProbabilityMatrix);
                            } else {
-                              aPart.hyperCell.metaStatePos = nextPartArgument.nextPartMetaStatePos;
+                              if (Objects.nonNull(aPart.hyperCell.dirMetaStatePosArr)) {
+                                 aPart.hyperCell.dirMetaStatePosArr[aPart.hyperCell.dirProbability.lastProbabilityPos] = nextPartArgument.nextPartMetaStatePos;
+                              } else {
+                                 aPart.hyperCell.metaStatePos = nextPartArgument.nextPartMetaStatePos;
+                              }
                            }
                            if (Objects.nonNull(bPart.hyperCell.dirMetaStatePosArr)) {
                               bPart.hyperCell.dirMetaStatePosArr[bPart.hyperCell.dirProbability.lastProbabilityPos] = NULL_pos;

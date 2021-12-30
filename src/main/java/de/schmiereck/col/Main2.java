@@ -9,7 +9,6 @@ import static de.schmiereck.col.services.UniverseService.runCalcNextPart;
 import static de.schmiereck.col.services.UniverseUtils.printCells;
 import static de.schmiereck.col.services.UniverseUtils.setMetaStatePos;
 import static de.schmiereck.col.services.engine.CreateEngineService.metaPos;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.LEFTa_u0_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.NULL_u0_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.RIGHTa_p1_u0_u0;
 import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SNULL_u0_u0;
@@ -19,11 +18,10 @@ import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.FieldEngine;
 import de.schmiereck.col.model.Part;
 import de.schmiereck.col.model.Universe;
-import de.schmiereck.col.services.UniverseService;
 import de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService;
 import de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService;
 import de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService;
-import de.schmiereck.col.services.engine.spinMove.CreateNextPartArr;
+import de.schmiereck.col.services.engine.spinMove.NextPartCreateService;
 import de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService;
 
 public class Main2 {
@@ -52,7 +50,7 @@ public class Main2 {
 
       universe.use_levelUp = true;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       //----------------------------------------------------------------------------------------------------------------
       printCells(universe, 0, "initial");

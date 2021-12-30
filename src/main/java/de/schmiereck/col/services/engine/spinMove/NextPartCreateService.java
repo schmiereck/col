@@ -19,10 +19,15 @@ import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEng
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.NULL_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHTa_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHTa_u0_p1;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.STAYa_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.STAYa_u0_p1;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.LEFTa_p1_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.LEFTa_u0_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.NULL_u0_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.RIGHTa_p1_u0_u0;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.RIGHTa_u0_u0_p1;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.STAYa_p1_u0_u0;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.STAYa_u0_u0_p1;
 import static de.schmiereck.col.services.engine.stay.CreateLevel0StayEngineService.SNULL_u0;
 import static de.schmiereck.col.services.engine.stay.CreateLevel0StayEngineService.SSTAY_p1;
 import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SNULL_u0_u0;
@@ -36,7 +41,7 @@ import de.schmiereck.col.model.Universe;
 
 import java.util.Objects;
 
-public class CreateNextPartArr {
+public class NextPartCreateService {
    /**
     * A Reflection: very good, but a lot of Parts
     *                          (S)
@@ -64,6 +69,7 @@ public class CreateNextPartArr {
       if (Objects.nonNull(universe.fieldEngine.engineArr[l0EnginePos])) {
          createNextPart0leftReflection0stay(universe.fieldEngine);
          createNextPart0rightReflection0stay(universe.fieldEngine);
+
          if (Objects.nonNull(universe.fieldEngine.engineArr[l1EnginePos])) {
             createNextPart0leftReflection1stay(universe.fieldEngine);
             createNextPart0rightReflection1stay(universe.fieldEngine);
@@ -72,10 +78,11 @@ public class CreateNextPartArr {
       if (Objects.nonNull(universe.fieldEngine.engineArr[l1EnginePos])) {
          createNextPart1rightReflection1stay(universe.fieldEngine);
          createNextPart1leftReflection1stay(universe.fieldEngine);
-      }
-      if (Objects.nonNull(universe.fieldEngine.engineArr[l1EnginePos]) && Objects.nonNull(universe.fieldEngine.engineArr[l2EnginePos])) {
-         createNextPart2rightReflection1stay(universe.fieldEngine);
-         createNextPart2leftReflection1stay(universe.fieldEngine);
+
+         if (Objects.nonNull(universe.fieldEngine.engineArr[l2EnginePos])) {
+            createNextPart2rightReflection1stay(universe.fieldEngine);
+            createNextPart2leftReflection1stay(universe.fieldEngine);
+         }
       }
       if (universe.use_levelUp) {
          createNextPartLevelUpLeft(universe.fieldEngine);
@@ -266,8 +273,8 @@ public class CreateNextPartArr {
       setNextPart(fieldEngine, l1EnginePos, l1StayEnginePos, -2,
               metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0),
               stayMetaPosArgArr,
-              new NextPart(l0EnginePos, new int[] { metaPos(l0E, STAYa_p1), metaPos(l0E, LEFTa_p1), metaPos(l0E, RIGHTa_p1) }, LR_CONTINUE_MATRIX /*metaPos(l0E, LEFTa_p1)*/, +1,
-                           l0EnginePos, new int[] { metaPos(l0E, STAYa_p1), metaPos(l0E, LEFTa_p1), metaPos(l0E, RIGHTa_p1) }, LR_REFLECTION_MATRIX /*metaPos(l0E, RIGHTa_p1)*/, +0));
+              new NextPart(l0EnginePos, getL0S1NextPartMetaStatePosArr(l0E), LR_CONTINUE_MATRIX /*metaPos(l0E, LEFTa_p1)*/, +1,
+                           l0EnginePos, getL0S1NextPartMetaStatePosArr(l0E), LR_REFLECTION_MATRIX /*metaPos(l0E, RIGHTa_p1)*/, +0));
       //----------------------------------------------------------------------------------------------------------------
    }
 
@@ -318,7 +325,7 @@ public class CreateNextPartArr {
               metaPos(l1E, NULL_u0_u0, RIGHTa_p1_u0),
               stayMetaPosArgArr,
               new NextPart(l0EnginePos, metaPos(l0E, RIGHTa_p1), -1,
-                      0, metaPos(l0E, LEFTa_p1), +0));
+                           l0EnginePos, metaPos(l0E, LEFTa_p1), +0));
       //----------------------------------------------------------------------------------------------------------------
    }
 
@@ -354,8 +361,10 @@ public class CreateNextPartArr {
       setNextPart(fieldEngine, l2EnginePos, l1StayEnginePos, 2,
                   metaPos(l2E, RIGHTa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0),
                   stayMetaPosArgArr,
-                     new NextPart(l1EnginePos, metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0), +0,
-                                  l0EnginePos, metaPos(l0E, LEFTa_p1), +2));
+                     new NextPart(l1EnginePos, getL1S10S00NextPartMetaStatePosArr(l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0)*/, +0,
+                                  l0EnginePos, getL0S1NextPartMetaStatePosArr(l0E), LR_REFLECTION_MATRIX /*metaPos(l0E, LEFTa_p1)*/, +2));
+                     //new NextPart(l1EnginePos, metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0), +0,
+                     //             l0EnginePos, metaPos(l0E, LEFTa_p1), +2));
 
       //              3   4   5   6   4
       //              -   -
@@ -370,8 +379,10 @@ public class CreateNextPartArr {
       setNextPart(fieldEngine, l2EnginePos, l1StayEnginePos, 1,
               metaPos(l2E, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0),
               stayMetaPosArgArr,
-              new NextPart(l1EnginePos, metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0), -1,
-                           l0EnginePos, metaPos(l0E, LEFTa_p1), +1));
+              new NextPart(l1EnginePos, getL1S10S00NextPartMetaStatePosArr(l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0)*/, -1,
+                           l0EnginePos, getL0S1NextPartMetaStatePosArr(l0E), LR_REFLECTION_MATRIX /*metaPos(l0E, LEFTa_p1)*/, +1));
+              //new NextPart(l1EnginePos, metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0), -1,
+              //             l0EnginePos, metaPos(l0E, LEFTa_p1), +1));
       //----------------------------------------------------------------------------------------------------------------
    }
 
@@ -440,10 +451,12 @@ public class CreateNextPartArr {
       setNextPart(fieldEngine, l2EnginePos, l1StayEnginePos, -3,
               metaPos(l2E, NULL_u0_u0_u0, LEFTa_u0_u0_p1, NULL_u0_u0_u0),
               stayMetaPosArgArr,
-              new NextPart(l1EnginePos, metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1), +1,
-                           l0EnginePos, metaPos(l0E, RIGHTa_p1), -1));
+              new NextPart(l1EnginePos, getL1S00S01NextPartMetaStatePosArr(l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1)*/, +1,
+                           l0EnginePos, getL0S1NextPartMetaStatePosArr(l0E), LR_REFLECTION_MATRIX /*metaPos(l0E, RIGHTa_p1)*/, -1));
+              //new NextPart(l1EnginePos, metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1), +1,
+              //             l0EnginePos, metaPos(l0E, RIGHTa_p1), -1));
 
-      //              3   4   5   6   7
+      //              3   4   5   0/6 1/7 2/8
       //              -   -
       //                  -   S              b
       //    x             -   -   -
@@ -456,8 +469,10 @@ public class CreateNextPartArr {
       setNextPart(fieldEngine, l2EnginePos, l1StayEnginePos, -2,
               metaPos(l2E, LEFTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0),
               stayMetaPosArgArr,
-              new NextPart(l1EnginePos, metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1), +2,
-                           l0EnginePos, metaPos(l0E, RIGHTa_p1), +0));
+              new NextPart(l1EnginePos, getL1S00S01NextPartMetaStatePosArr(l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1)*/, +2,
+                           l0EnginePos, getL0S1NextPartMetaStatePosArr(l0E), LR_REFLECTION_MATRIX /*metaPos(l0E, RIGHTa_p1)*/, +0));
+              //new NextPart(l1EnginePos, metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1), +1,
+              //             l0EnginePos, metaPos(l0E, RIGHTa_p1), +0));
       //----------------------------------------------------------------------------------------------------------------
    }
 
@@ -487,8 +502,8 @@ public class CreateNextPartArr {
               metaPos(l0E, LEFTa_p1),
               metaPos(l0E, LEFTa_p1),
                new NextPart(CmdCombineToParent,
-                  new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, LEFTa_p1_u0, NULL_u0_u0), +0),
-                  new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, NULL_u0_u0, LEFTa_p1_u0), +1)));
+                  new NextPart.NextPartArgument(l1EnginePos, getL1S10S00NextPartMetaStatePosArr(l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, LEFTa_p1_u0, NULL_u0_u0)*/, +0),
+                  new NextPart.NextPartArgument(l1EnginePos, getL1S00S10NextPartMetaStatePosArr(l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, NULL_u0_u0, LEFTa_p1_u0)*/, +1)));
 
       //              0A  1B  2A  3B  4A
       //              L                      b
@@ -507,8 +522,8 @@ public class CreateNextPartArr {
               metaPos(l0E, LEFTa_p1),
               metaPos(l0E, LEFTa_p1),
                new NextPart(CmdCombineToParent,
-                  new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1), +0),
-                  new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0), -1)));
+                  new NextPart.NextPartArgument(l1EnginePos, getL1S00S01NextPartMetaStatePosArr(l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1)*/, +0),
+                  new NextPart.NextPartArgument(l1EnginePos, getL1S01S00NextPartMetaStatePosArr(l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0)*/, -1)));
 
       //              0A  1B  2A  3B  4A
       //              L                      b
@@ -522,7 +537,7 @@ public class CreateNextPartArr {
               metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1),
               metaPos(l0E, LEFTa_p1),
                new NextPart(CmdCombineToParent,
-                  new NextPart.NextPartArgument(l2EnginePos, metaPos(l2E, LEFTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0), -2)));
+                  new NextPart.NextPartArgument(l2EnginePos, getL2S001S000S000NextPartMetaStatePosArr(l1E), LR_CONTINUE_MATRIX /*metaPos(l2E, LEFTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0)*/, -2)));
 
 
       //              0A  1B  2A  3B  4A
@@ -537,7 +552,7 @@ public class CreateNextPartArr {
               metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0),
               metaPos(l0E, LEFTa_p1),
                new NextPart(CmdCombineToParent,
-                  new NextPart.NextPartArgument(l2EnginePos, metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, LEFTa_u0_u0_p1), +1)));
+                  new NextPart.NextPartArgument(l2EnginePos, getL2S000S000S001NextPartMetaStatePosArr(l2E), LR_CONTINUE_MATRIX /*metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, LEFTa_u0_u0_p1)*/, +1)));
       //----------------------------------------------------------------------------------------------------------------
    }
 
@@ -566,8 +581,8 @@ public class CreateNextPartArr {
               metaPos(l0E, RIGHTa_p1),
               metaPos(l0E, RIGHTa_p1),
               new NextPart(CmdCombineToParent,
-                      new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, NULL_u0_u0, RIGHTa_u0_p1), +0),
-                      new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, RIGHTa_u0_p1, NULL_u0_u0), -1)));
+                      new NextPart.NextPartArgument(l1EnginePos, getL1S00S01NextPartMetaStatePosArr(l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, NULL_u0_u0, RIGHTa_u0_p1)*/, +0),
+                      new NextPart.NextPartArgument(l1EnginePos, getL1S01S00NextPartMetaStatePosArr(l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, RIGHTa_u0_p1, NULL_u0_u0)*/, -1)));
 
       //              0A  1B  2A  3B  4A
       //                  R                  b
@@ -586,8 +601,8 @@ public class CreateNextPartArr {
               metaPos(l0E, RIGHTa_p1),
               metaPos(l0E, RIGHTa_p1),
               new NextPart(CmdCombineToParent,
-                      new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0), +0),
-                      new NextPart.NextPartArgument(l1EnginePos, metaPos(l1E, NULL_u0_u0, RIGHTa_p1_u0), +1)));
+                      new NextPart.NextPartArgument(l1EnginePos, getL1S10S00NextPartMetaStatePosArr(l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0)*/, +0),
+                      new NextPart.NextPartArgument(l1EnginePos, getL1S00S10NextPartMetaStatePosArr(l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, NULL_u0_u0, RIGHTa_p1_u0)*/, +1)));
 
       //              0A  1B  2A  3B  4A
       //              -           R          b
@@ -601,7 +616,7 @@ public class CreateNextPartArr {
               metaPos(l1E, NULL_u0_u0, RIGHTa_p1_u0),
               metaPos(l0E, RIGHTa_p1),
               new NextPart(CmdCombineToParent,
-                      new NextPart.NextPartArgument(l2EnginePos, metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_p1_u0_u0), +1)));
+                      new NextPart.NextPartArgument(l2EnginePos, getL2S000S000S100NextPartMetaStatePosArr(l1E), LR_CONTINUE_MATRIX /*metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_p1_u0_u0)*/, +1)));
 
       //              0A  1B  2A  3B  4A
       //                              R      b
@@ -615,8 +630,44 @@ public class CreateNextPartArr {
               metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0),
               metaPos(l0E, RIGHTa_p1),
               new NextPart(CmdCombineToParent,
-                      new NextPart.NextPartArgument(l2EnginePos, metaPos(l2E, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0), +1)));
+                      new NextPart.NextPartArgument(l2EnginePos, getL2S000S100S000NextPartMetaStatePosArr(l1E), LR_CONTINUE_MATRIX /*metaPos(l2E, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0)*/, +1)));
       //----------------------------------------------------------------------------------------------------------------
+   }
+
+   private static int[] getL0S1NextPartMetaStatePosArr(final Engine l0E) {
+      return new int[]{metaPos(l0E, STAYa_p1), metaPos(l0E, LEFTa_p1), metaPos(l0E, RIGHTa_p1)};
+   }
+
+   private static int[] getL1S00S01NextPartMetaStatePosArr(final Engine l1E) {
+      return new int[]{metaPos(l1E, NULL_u0_u0, STAYa_u0_p1), metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1), metaPos(l1E, NULL_u0_u0, RIGHTa_u0_p1)};
+   }
+
+   private static int[] getL1S01S00NextPartMetaStatePosArr(final Engine l1E) {
+      return new int[]{metaPos(l1E, STAYa_u0_p1, NULL_u0_u0), metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0), metaPos(l1E, RIGHTa_u0_p1, NULL_u0_u0)};
+   }
+
+   private static int[] getL1S10S00NextPartMetaStatePosArr(final Engine l1E) {
+      return new int[]{metaPos(l1E, STAYa_u0_p1, NULL_u0_u0), metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0), metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0)};
+   }
+
+   private static int[] getL1S00S10NextPartMetaStatePosArr(final Engine l1E) {
+      return new int[]{metaPos(l1E, NULL_u0_u0, STAYa_p1_u0), metaPos(l1E, NULL_u0_u0, LEFTa_p1_u0), metaPos(l1E, NULL_u0_u0, RIGHTa_p1_u0)};
+   }
+
+   private static int[] getL2S001S000S000NextPartMetaStatePosArr(final Engine l2E) {
+      return new int[]{metaPos(l2E, STAYa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0), metaPos(l2E, LEFTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0), metaPos(l2E, RIGHTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0)};
+   }
+
+   private static int[] getL2S000S000S100NextPartMetaStatePosArr(final Engine l2E) {
+      return new int[]{metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, STAYa_p1_u0_u0), metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, LEFTa_p1_u0_u0), metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_p1_u0_u0)};
+   }
+
+   private static int[] getL2S000S000S001NextPartMetaStatePosArr(final Engine l2E) {
+      return new int[]{metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, STAYa_u0_u0_p1), metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, LEFTa_u0_u0_p1), metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_u0_u0_p1)};
+   }
+
+   private static int[] getL2S000S100S000NextPartMetaStatePosArr(final Engine l2E) {
+      return new int[]{metaPos(l2E, NULL_u0_u0_u0, STAYa_p1_u0_u0, NULL_u0_u0_u0), metaPos(l2E, NULL_u0_u0_u0, LEFTa_p1_u0_u0, NULL_u0_u0_u0), metaPos(l2E, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0)};
    }
 
    /**

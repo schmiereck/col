@@ -82,7 +82,7 @@ public class Test_UniverseService_WHEN_runNextMetaPart_is_called_with_lev2_right
 
       universe.use_levelUp = false;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe, aPart, 0, "initial aPart");

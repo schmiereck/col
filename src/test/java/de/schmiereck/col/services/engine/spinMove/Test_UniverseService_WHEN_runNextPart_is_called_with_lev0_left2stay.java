@@ -54,14 +54,14 @@ public class Test_UniverseService_WHEN_runNextPart_is_called_with_lev0_left2stay
       // Arrange
       final Part aPart = setMetaStatePos(universe, 4, l0EnginePos, //metaPos(level0Engine, RIGHTa_p1, NULL_u0));
               new int[] { metaPos(level0Engine, STAYa_p1, NULL_u0), metaPos(level0Engine, LEFTa_p1, NULL_u0), metaPos(level0Engine, RIGHTa_p1, NULL_u0) },
-              new int[] { 0, Max_Probability, 0 });
+              new int[] { 0, 0, Max_Probability });
       final Part bPart = setMetaStatePos(universe, 2,  l0StayEnginePos, //metaPos(level0StayEngine, SSTAY_p1, SNULL_u0));
               new int[] { metaPos(level0StayEngine, SSTAY_p1, SNULL_u0), metaPos(level0StayEngine, SSTAY_p1, SNULL_u0), metaPos(level0StayEngine, SSTAY_p1, SNULL_u0) },
               new int[] { Max_Probability, 0, 0 });
 
       universe.use_levelUp = false;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe,0, "initial");

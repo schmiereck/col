@@ -14,11 +14,16 @@ import static de.schmiereck.col.services.engine.CreateEngineService.metaPos;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.LEFTa_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.NULL_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.RIGHTa_p1;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.STAYa_p1;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.LEFTa_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.LEFTa_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.NULL_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHTa_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHTa_u0_p1;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.STAYa_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.STAYa_u0_p1;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.LEFTa_p1_u0_u0;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.LEFTa_u0_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.NULL_u0_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.RIGHTa_p1_u0_u0;
 import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SNULL_u0_u0;
@@ -86,14 +91,14 @@ public class Test_UniverseService_WHEN_runNextPart_is_called_with_lev1_left2stay
 
       universe.use_levelUp = false;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe,0, "initial");
       runCalcNextPart(universe);
       printCells(universe, 0, "runCalcNextPart");
 
-      // Assert 0
+      // TODO Assert 0
       assertEquals(3, universe.partList.size());
 
       assertEquals(3, universe.partList.get(0).hyperCell.cellPos);
@@ -110,95 +115,111 @@ public class Test_UniverseService_WHEN_runNextPart_is_called_with_lev1_left2stay
    }
 
    @Test
-   void GIVEN_state_pos0_2x_0RIGHT_ab_run_THEN_state_combined() {
+   void GIVEN_state_pos0_2x_0LEFT_ab_run_THEN_state_combined() {
       // Arrange
-      final Part aPart = setMetaStatePos(universe, 1, l0EnginePos, metaPos(level0Engine, RIGHTa_p1));
-      final Part bPart = setMetaStatePos(universe, 0, l0EnginePos, metaPos(level0Engine, RIGHTa_p1));
+      final Part aPart = setMetaStatePos(universe, 1, l0EnginePos, //metaPos(level0Engine, LEFTa_p1));
+              new int[] { metaPos(level0Engine, STAYa_p1, NULL_u0), metaPos(level0Engine, LEFTa_p1, NULL_u0), metaPos(level0Engine, RIGHTa_p1, NULL_u0) },
+              new int[] { 0, Max_Probability, 0 });
+      final Part bPart = setMetaStatePos(universe, 0, l0EnginePos, //metaPos(level0Engine, LEFTa_p1));
+              new int[] { metaPos(level0Engine, STAYa_p1, NULL_u0), metaPos(level0Engine, LEFTa_p1, NULL_u0), metaPos(level0Engine, RIGHTa_p1, NULL_u0) },
+              new int[] { 0, Max_Probability, 0 });
       bPart.parentPart = aPart;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe,0, "initial");
       runCalcNextPart(universe);
       printCells(universe, 1, "runCalcNextPart");
 
-      // Assert 0
+      // TODO Assert 0
       assertEquals(1, universe.partList.size());
 
       assertEquals(0, universe.partList.get(0).hyperCell.cellPos);
       assertEquals(l1EnginePos, universe.partList.get(0).enginePos);
-      assertEquals(metaPos(level1Engine, RIGHTa_u0_p1, NULL_u0_u0), universe.partList.get(0).hyperCell.metaStatePos);
+      assertEquals(metaPos(level1Engine, RIGHTa_u0_p1, NULL_u0_u0), calcDirMetaStatePos(universe, 0));
    }
 
    @Test
-   void GIVEN_state_pos1_2x_0RIGHT_ab_run_THEN_state_combined() {
+   void GIVEN_state_pos1_2x_0LEFT_ab_run_THEN_state_combined() {
       // Arrange
-      final Part aPart = setMetaStatePos(universe, 2, l0EnginePos, metaPos(level0Engine, RIGHTa_p1));
-      final Part bPart = setMetaStatePos(universe, 1, l0EnginePos, metaPos(level0Engine, RIGHTa_p1));
+      final Part aPart = setMetaStatePos(universe, 2, l0EnginePos, //metaPos(level0Engine, LEFTa_p1));
+              new int[] { metaPos(level0Engine, STAYa_p1, NULL_u0), metaPos(level0Engine, LEFTa_p1, NULL_u0), metaPos(level0Engine, RIGHTa_p1, NULL_u0) },
+              new int[] { 0, Max_Probability, 0 });
+      final Part bPart = setMetaStatePos(universe, 1, l0EnginePos, //metaPos(level0Engine, LEFTa_p1));
+              new int[] { metaPos(level0Engine, STAYa_p1, NULL_u0), metaPos(level0Engine, LEFTa_p1, NULL_u0), metaPos(level0Engine, RIGHTa_p1, NULL_u0) },
+              new int[] { 0, Max_Probability, 0 });
       bPart.parentPart = aPart;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe,0, "initial");
       runCalcNextPart(universe);
       printCells(universe, 1, "runCalcNextPart");
 
-      // Assert 0
+      // TODO Assert 0
       assertEquals(1, universe.partList.size());
 
       assertEquals(2, universe.partList.get(0).hyperCell.cellPos);
       assertEquals(l1EnginePos, universe.partList.get(0).enginePos);
-      assertEquals(metaPos(level1Engine, NULL_u0_u0, RIGHTa_u0_p1), universe.partList.get(0).hyperCell.metaStatePos);
+      assertEquals(metaPos(level1Engine, NULL_u0_u0, LEFTa_u0_p1), calcDirMetaStatePos(universe, 0));
    }
 
    @Test
-   void GIVEN_state_pos0_2x_0RIGHT_ba_run_THEN_state_combined() {
+   void GIVEN_state_pos0_2x_0LEFT_ba_run_THEN_state_combined() {
       // Arrange
-      final Part aPart = setMetaStatePos(universe, 0, l0EnginePos, metaPos(level0Engine, RIGHTa_p1));
-      final Part bPart = setMetaStatePos(universe, 1, l0EnginePos, metaPos(level0Engine, RIGHTa_p1));
+      final Part aPart = setMetaStatePos(universe, 0, l0EnginePos, //metaPos(level0Engine, LEFTa_p1));
+              new int[] { metaPos(level0Engine, STAYa_p1, NULL_u0), metaPos(level0Engine, LEFTa_p1, NULL_u0), metaPos(level0Engine, RIGHTa_p1, NULL_u0) },
+              new int[] { 0, Max_Probability, 0 });
+      final Part bPart = setMetaStatePos(universe, 1, l0EnginePos, //metaPos(level0Engine, LEFTa_p1));
+              new int[] { metaPos(level0Engine, STAYa_p1, NULL_u0), metaPos(level0Engine, LEFTa_p1, NULL_u0), metaPos(level0Engine, RIGHTa_p1, NULL_u0) },
+              new int[] { 0, Max_Probability, 0 });
       bPart.parentPart = aPart;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe,0, "initial");
       runCalcNextPart(universe);
       printCells(universe, 1, "runCalcNextPart");
 
-      // Assert 0
+      // TODO Assert 0
       assertEquals(1, universe.partList.size());
 
       assertEquals(0, universe.partList.get(0).hyperCell.cellPos);
       assertEquals(l1EnginePos, universe.partList.get(0).enginePos);
-      assertEquals(metaPos(level1Engine, RIGHTa_p1_u0, NULL_u0_u0), universe.partList.get(0).hyperCell.metaStatePos);
+      assertEquals(metaPos(level1Engine, LEFTa_p1_u0, NULL_u0_u0), calcDirMetaStatePos(universe, 0));
    }
 
    @Test
-   void GIVEN_state_pos1_2x_0RIGHT_ba_run_THEN_state_combined() {
+   void GIVEN_state_pos1_2x_0LEFT_ba_run_THEN_state_combined() {
       // Arrange
-      final Part aPart = setMetaStatePos(universe, 1, l0EnginePos, metaPos(level0Engine, RIGHTa_p1));
-      final Part bPart = setMetaStatePos(universe, 2, l0EnginePos, metaPos(level0Engine, RIGHTa_p1));
+      final Part aPart = setMetaStatePos(universe, 1, l0EnginePos, //metaPos(level0Engine, LEFTa_p1));
+              new int[] { metaPos(level0Engine, STAYa_p1, NULL_u0), metaPos(level0Engine, LEFTa_p1, NULL_u0), metaPos(level0Engine, RIGHTa_p1, NULL_u0) },
+              new int[] { 0, Max_Probability, 0 });
+      final Part bPart = setMetaStatePos(universe, 2, l0EnginePos, //metaPos(level0Engine, LEFTa_p1));
+              new int[] { metaPos(level0Engine, STAYa_p1, NULL_u0), metaPos(level0Engine, LEFTa_p1, NULL_u0), metaPos(level0Engine, RIGHTa_p1, NULL_u0) },
+              new int[] { 0, Max_Probability, 0 });
       bPart.parentPart = aPart;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe,0, "initial");
       runCalcNextPart(universe);
       printCells(universe, 1, "runCalcNextPart");
 
-      // Assert 0
+      // TODO Assert 0
       assertEquals(1, universe.partList.size());
 
       assertEquals(2, universe.partList.get(0).hyperCell.cellPos);
       assertEquals(l1EnginePos, universe.partList.get(0).enginePos);
-      assertEquals(metaPos(level1Engine, NULL_u0_u0, RIGHTa_p1_u0), universe.partList.get(0).hyperCell.metaStatePos);
+      assertEquals(metaPos(level1Engine, NULL_u0_u0, LEFTa_p1_u0), calcDirMetaStatePos(universe, 0));
    }
 
    @Test
-   void GIVEN_state_pos2_1RIGHT_pos3_0RIGHT_ba_run_THEN_state_combined() {
+   void GIVEN_state_pos2_1LEFT_pos3_0LEFT_ba_run_THEN_state_combined() {
       // Arrange
       //              0A  1B  2A  3B  4A
       //              -           R          b
@@ -208,52 +229,60 @@ public class Test_UniverseService_WHEN_runNextPart_is_called_with_lev1_left2stay
       //    x             R   -   -
       //    x                 -   -   -      a
       //    x                     -   -   -
-      final Part aPart = setMetaStatePos(universe, 2, l1EnginePos, metaPos(level1Engine, NULL_u0_u0, RIGHTa_p1_u0));
-      final Part bPart = setMetaStatePos(universe, 3, l0EnginePos, metaPos(level0Engine, RIGHTa_p1));
+      final Part aPart = setMetaStatePos(universe, 2, l1EnginePos, //metaPos(level1Engine, NULL_u0_u0, LEFTa_p1_u0));
+              new int[] { metaPos(level1Engine, NULL_u0_u0, STAYa_p1_u0), metaPos(level1Engine, NULL_u0_u0, LEFTa_p1_u0), metaPos(level1Engine, NULL_u0_u0, RIGHTa_p1_u0) },
+              new int[] { 0, Max_Probability, 0 });
+      final Part bPart = setMetaStatePos(universe, 3, l0EnginePos, //metaPos(level0Engine, LEFTa_p1));
+              new int[] { metaPos(level0Engine, STAYa_p1, NULL_u0), metaPos(level0Engine, LEFTa_p1, NULL_u0), metaPos(level0Engine, RIGHTa_p1, NULL_u0) },
+              new int[] { 0, Max_Probability, 0 });
       bPart.parentPart = aPart;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe,0, "initial");
       runCalcNextPart(universe);
       printCells(universe, 1, "runCalcNextPart");
 
-      // Assert 0
+      // TODO Assert 0
       assertEquals(1, universe.partList.size());
 
       assertEquals(3, universe.partList.get(0).hyperCell.cellPos);
       assertEquals(l2EnginePos, universe.partList.get(0).enginePos);
-      assertEquals(metaPos(level2Engine, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_p1_u0_u0), universe.partList.get(0).hyperCell.metaStatePos);
+      assertEquals(metaPos(level2Engine, NULL_u0_u0_u0, NULL_u0_u0_u0, LEFTa_p1_u0_u0), calcDirMetaStatePos(universe, 0));
    }
 
    @Test
-   void GIVEN_state_pos2_qRIGHT_pos4_0RIGHT_ba_run_THEN_state_combined() {
+   void GIVEN_state_pos2_qLEFT_pos4_0LEFT_ba_run_THEN_state_combined() {
       // Arrange
       //              0A  1B  2A  3B  4A
-      //                              R      b
+      //                  L                  b
       //    x             -   -
-      //    x                 R   -          a
+      //    x                 -   L          a
       // =>
-      //    x             -   -   -
-      //    x                 R   -   -      a
+      //    x             -   -   L
+      //    x                 -   -   -      a
       //    x                     -   -   -
-      final Part aPart = setMetaStatePos(universe, 2, l1EnginePos, metaPos(level1Engine, RIGHTa_p1_u0, NULL_u0_u0));
-      final Part bPart = setMetaStatePos(universe, 4, l0EnginePos, metaPos(level0Engine, RIGHTa_p1));
+      final Part aPart = setMetaStatePos(universe, 2, l1EnginePos, //metaPos(level1Engine, LEFTa_p1_u0, NULL_u0_u0));
+              new int[] { metaPos(level1Engine, STAYa_u0_p1, NULL_u0_u0), metaPos(level1Engine, LEFTa_u0_p1, NULL_u0_u0), metaPos(level1Engine, RIGHTa_u0_p1, NULL_u0_u0) },
+              new int[] { 0, Max_Probability, 0 });
+      final Part bPart = setMetaStatePos(universe, 1, l0EnginePos, //metaPos(level0Engine, LEFTa_p1));
+              new int[] { metaPos(level0Engine, STAYa_p1, NULL_u0), metaPos(level0Engine, LEFTa_p1, NULL_u0), metaPos(level0Engine, RIGHTa_p1, NULL_u0) },
+              new int[] { 0, Max_Probability, 0 });
       bPart.parentPart = aPart;
 
-      CreateNextPartArr.createNextPartArrA(universe);
+      NextPartCreateService.createNextPartArrA(universe);
 
       // Act 0
       printCells(universe,0, "initial");
       runCalcNextPart(universe);
       printCells(universe, 1, "runCalcNextPart");
 
-      // Assert 0
+      // TODO Assert 0
       assertEquals(1, universe.partList.size());
 
       assertEquals(3, universe.partList.get(0).hyperCell.cellPos);
       assertEquals(l2EnginePos, universe.partList.get(0).enginePos);
-      assertEquals(metaPos(level2Engine, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0), universe.partList.get(0).hyperCell.metaStatePos);
+      assertEquals(metaPos(level2Engine, NULL_u0_u0_u0, NULL_u0_u0_u0, LEFTa_u0_u0_p1), calcDirMetaStatePos(universe, 0));
    }
 }
