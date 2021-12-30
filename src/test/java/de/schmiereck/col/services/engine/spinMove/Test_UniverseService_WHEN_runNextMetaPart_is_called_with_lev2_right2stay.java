@@ -6,6 +6,8 @@ import static de.schmiereck.col.model.FieldEngine.l0StayEnginePos;
 import static de.schmiereck.col.model.FieldEngine.l1EnginePos;
 import static de.schmiereck.col.model.FieldEngine.l1StayEnginePos;
 import static de.schmiereck.col.model.FieldEngine.l2EnginePos;
+import static de.schmiereck.col.model.HyperCell.Max_Probability;
+import static de.schmiereck.col.services.RunTestUtils.calcDirMetaStatePos;
 import static de.schmiereck.col.services.RunTestUtils.runTestNextMetaPart;
 import static de.schmiereck.col.services.UniverseUtils.printCells;
 import static de.schmiereck.col.services.UniverseUtils.setMetaStatePos;
@@ -14,8 +16,10 @@ import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEng
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.RIGHTa_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.NULL_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHTa_p1_u0;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.LEFTa_p1_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.NULL_u0_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.RIGHTa_p1_u0_u0;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.STAYa_p1_u0_u0;
 import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SNULL_u0_u0;
 import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SSTAY_p1_u0;
 import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SSTAY_u0_p1;
@@ -77,8 +81,12 @@ public class Test_UniverseService_WHEN_runNextMetaPart_is_called_with_lev2_right
       //    x     -   -
       //    x         R   -                  a
       //                      L              c
-      final Part aPart = setMetaStatePos(universe, 0,  l2EnginePos, metaPos(level2Engine, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0));
-      final Part bPart = setMetaStatePos(universe, 4,  l1StayEnginePos, metaPos(level1StayEngine, SNULL_u0_u0, SSTAY_p1_u0));
+      final Part aPart = setMetaStatePos(universe, 0,  l2EnginePos, //metaPos(level2Engine, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0));
+              new int[] { metaPos(level2Engine, NULL_u0_u0_u0, STAYa_p1_u0_u0, NULL_u0_u0_u0), metaPos(level2Engine, NULL_u0_u0_u0, LEFTa_p1_u0_u0, NULL_u0_u0_u0), metaPos(level2Engine, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0) },
+              new int[] { 0, 0, Max_Probability });
+      final Part bPart = setMetaStatePos(universe, 4,  l1StayEnginePos, //metaPos(level1StayEngine, SNULL_u0_u0, SSTAY_p1_u0));
+              new int[] { metaPos(level1StayEngine, SNULL_u0_u0, SSTAY_p1_u0), metaPos(level1StayEngine, SNULL_u0_u0, SSTAY_p1_u0), metaPos(level1StayEngine, SNULL_u0_u0, SSTAY_p1_u0) },
+              new int[] { Max_Probability, 0, 0 });
 
       universe.use_levelUp = false;
 
@@ -95,15 +103,15 @@ public class Test_UniverseService_WHEN_runNextMetaPart_is_called_with_lev2_right
 
       assertEquals(0, universe.partList.get(0).hyperCell.cellPos);
       assertEquals(l1EnginePos, universe.partList.get(0).enginePos);
-      assertEquals(metaPos(level1Engine, RIGHTa_p1_u0, NULL_u0_u0), universe.partList.get(0).hyperCell.metaStatePos);
+      assertEquals(metaPos(level1Engine, RIGHTa_p1_u0, NULL_u0_u0), calcDirMetaStatePos(universe, 0));
 
       assertEquals(2, universe.partList.get(1).hyperCell.cellPos);
       assertEquals(l1StayEnginePos, universe.partList.get(1).enginePos);
-      assertEquals(metaPos(level1StayEngine, SSTAY_u0_p1, SNULL_u0_u0), universe.partList.get(1).hyperCell.metaStatePos);
+      assertEquals(metaPos(level1StayEngine, SSTAY_u0_p1, SNULL_u0_u0), calcDirMetaStatePos(universe, 1));
 
       assertEquals(2, universe.partList.get(2).hyperCell.cellPos);
       assertEquals(l0EnginePos, universe.partList.get(2).enginePos);
-      assertEquals(metaPos(level0Engine, LEFTa_p1), universe.partList.get(2).hyperCell.metaStatePos);
+      assertEquals(metaPos(level0Engine, LEFTa_p1), calcDirMetaStatePos(universe, 2));
 
       // Act 1
       runTestNextMetaPart(universe, 1);
@@ -113,19 +121,19 @@ public class Test_UniverseService_WHEN_runNextMetaPart_is_called_with_lev2_right
 
       assertEquals(1, universe.partList.get(0).hyperCell.cellPos);
       assertEquals(l0EnginePos, universe.partList.get(0).enginePos);
-      assertEquals(metaPos(level0Engine, RIGHTa_p1), universe.partList.get(0).hyperCell.metaStatePos);
+      assertEquals(metaPos(level0Engine, RIGHTa_p1), calcDirMetaStatePos(universe, 0));
 
       assertEquals(4, universe.partList.get(1).hyperCell.cellPos);
       assertEquals(l1StayEnginePos, universe.partList.get(1).enginePos);
-      assertEquals(metaPos(level1StayEngine, SNULL_u0_u0, SSTAY_p1_u0), universe.partList.get(1).hyperCell.metaStatePos);
+      assertEquals(metaPos(level1StayEngine, SNULL_u0_u0, SSTAY_p1_u0), calcDirMetaStatePos(universe, 1));
 
       assertEquals(1, universe.partList.get(2).hyperCell.cellPos);
       assertEquals(l0EnginePos, universe.partList.get(2).enginePos);
-      assertEquals(metaPos(level1Engine, LEFTa_p1), universe.partList.get(2).hyperCell.metaStatePos);
+      assertEquals(metaPos(level1Engine, LEFTa_p1), calcDirMetaStatePos(universe, 2));
 
       assertEquals(2, universe.partList.get(3).hyperCell.cellPos);
       assertEquals(l0EnginePos, universe.partList.get(3).enginePos);
-      assertEquals(metaPos(level1Engine, LEFTa_p1), universe.partList.get(3).hyperCell.metaStatePos);
+      assertEquals(metaPos(level1Engine, LEFTa_p1), calcDirMetaStatePos(universe, 3));
 
       // Act 2
       runTestNextMetaPart(universe, 2);
@@ -135,18 +143,18 @@ public class Test_UniverseService_WHEN_runNextMetaPart_is_called_with_lev2_right
 
       assertEquals(2, universe.partList.get(0).hyperCell.cellPos);
       assertEquals(l0EnginePos, universe.partList.get(0).enginePos);
-      assertEquals(metaPos(level0Engine, LEFTa_p1), universe.partList.get(0).hyperCell.metaStatePos);
+      assertEquals(metaPos(level0Engine, LEFTa_p1), calcDirMetaStatePos(universe, 0));
 
       assertEquals(2, universe.partList.get(1).hyperCell.cellPos);
       assertEquals(l1StayEnginePos, universe.partList.get(1).enginePos);
-      assertEquals(metaPos(level1StayEngine, SSTAY_u0_p1, SNULL_u0_u0), universe.partList.get(1).hyperCell.metaStatePos);
+      assertEquals(metaPos(level1StayEngine, SSTAY_u0_p1, SNULL_u0_u0), calcDirMetaStatePos(universe, 1));
 
       assertEquals(0, universe.partList.get(2).hyperCell.cellPos);
       assertEquals(l0EnginePos, universe.partList.get(2).enginePos);
-      assertEquals(metaPos(level1Engine, LEFTa_p1), universe.partList.get(2).hyperCell.metaStatePos);
+      assertEquals(metaPos(level1Engine, LEFTa_p1), calcDirMetaStatePos(universe, 2));
 
       assertEquals(1, universe.partList.get(3).hyperCell.cellPos);
       assertEquals(l0EnginePos, universe.partList.get(3).enginePos);
-      assertEquals(metaPos(level1Engine, LEFTa_p1), universe.partList.get(3).hyperCell.metaStatePos);
+      assertEquals(metaPos(level1Engine, LEFTa_p1), calcDirMetaStatePos(universe, 3));
    }
 }
