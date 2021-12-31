@@ -72,7 +72,7 @@ public class UniverseService {
                   final NextPart.NextPartArgument nextPartArgument = nextPart.nextPartArgumentArr[relCellPos];
                   switch (nextPart.command) {
                      case CmdCombineToParent -> {
-                        if (aPart == bPart.parentPart) { // TODO && (aPart.hyperCell.dirProbability == bPart.hyperCell.dirProbability)
+                        if ((aPart == bPart.parentPart) && (probIsEqual(aPart.hyperCell.dirProbability, bPart.hyperCell.dirProbability))) {
                            if ((aPart.enginePos != nextPartArgument.nextPartEnginePos) && Objects.isNull(nextPartArgument.nextPartMetaStatePosArr)) {
                               throw new RuntimeException("aPart.enginePos != nextPartArgument.nextPartEnginePos - We need \"nextPartArgument.nextPartMetaStatePosArr\".");
                            }
@@ -169,6 +169,12 @@ public class UniverseService {
                return part.hyperCell.metaStatePos == NULL_pos;
             }
          });
+   }
+
+   private static boolean probIsEqual(final Probability dirProbability, final Probability dirProbability1) {
+      return (dirProbability.probabilityArr[DirProbStay] == dirProbability1.probabilityArr[DirProbStay]) &&
+             (dirProbability.probabilityArr[DirProbLeft] == dirProbability1.probabilityArr[DirProbLeft]) &&
+             (dirProbability.probabilityArr[DirProbRight] == dirProbability1.probabilityArr[DirProbRight]);
    }
 
    private static void calcReflection(final Probability dirProbability, final int[][] probabilityMatrix) {

@@ -15,17 +15,17 @@ import de.schmiereck.col.model.State;
 public class CreateLevel1SpinMoveEngineService {
 
    // null:
-   final static int NULL_u0_u0 = NULL_pos;
+   public final static int NULL_u0_u0 = NULL_pos;
    // a:
    // stay:
-   final static int STAYa_p1_u0 = 1;
-   final static int STAYa_u0_p1 = 2;
+   public final static int STAYa_p1_u0 = 1;
+   public final static int STAYa_u0_p1 = 2;
    // left:
-   final static int LEFTa_p1_u0 = 3;
-   final static int LEFTa_u0_p1 = 4;
+   public final static int LEFTa_p1_u0 = 3;
+   public final static int LEFTa_u0_p1 = 4;
    // right:
-   final static int RIGHTa_p1_u0 = 5;
-   final static int RIGHTa_u0_p1 = 6;
+   public final static int RIGHTa_p1_u0 = 5;
+   public final static int RIGHTa_u0_p1 = 6;
    // Wirldcards:
    final static int[] ALL_xX_xX =  { NULL_u0_u0,
            STAYa_u0_p1,  STAYa_p1_u0,
