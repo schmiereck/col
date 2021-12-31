@@ -1,6 +1,8 @@
 package de.schmiereck.col.services.engine.spinMove;
 
 import static de.schmiereck.col.model.FieldEngine.MaxEngineSize;
+import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S000_S001_S000_Pos;
+import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S000_S100_S000_Pos;
 import static de.schmiereck.col.model.FieldEngine.l0EnginePos;
 import static de.schmiereck.col.model.FieldEngine.l0StayEnginePos;
 import static de.schmiereck.col.model.FieldEngine.l1EnginePos;
@@ -20,6 +22,7 @@ import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEng
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.NULL_u0_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.RIGHTa_p1_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.STAYa_p1_u0_u0;
+import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.calcNextPartMetaStatePosArr;
 import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SNULL_u0_u0;
 import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SSTAY_p1_u0;
 import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SSTAY_u0_p1;
@@ -82,10 +85,12 @@ public class Test_UniverseService_WHEN_runNextMetaPart_is_called_with_lev2_right
       //    x         R   -                  a
       //                      L              c
       final Part aPart = setMetaStatePos(universe, 0,  l2EnginePos, //metaPos(level2Engine, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0));
-              new int[] { metaPos(level2Engine, NULL_u0_u0_u0, STAYa_p1_u0_u0, NULL_u0_u0_u0), metaPos(level2Engine, NULL_u0_u0_u0, LEFTa_p1_u0_u0, NULL_u0_u0_u0), metaPos(level2Engine, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0) },
+              //new int[] { metaPos(level2Engine, NULL_u0_u0_u0, STAYa_p1_u0_u0, NULL_u0_u0_u0), metaPos(level2Engine, NULL_u0_u0_u0, LEFTa_p1_u0_u0, NULL_u0_u0_u0), metaPos(level2Engine, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0) },
+              calcNextPartMetaStatePosArr(fieldEngine, l2EnginePos, NPMS_L2_S000_S100_S000_Pos),
               new int[] { 0, 0, Max_Probability });
       final Part bPart = setMetaStatePos(universe, 4,  l1StayEnginePos, //metaPos(level1StayEngine, SNULL_u0_u0, SSTAY_p1_u0));
-              new int[] { metaPos(level1StayEngine, SNULL_u0_u0, SSTAY_p1_u0), metaPos(level1StayEngine, SNULL_u0_u0, SSTAY_p1_u0), metaPos(level1StayEngine, SNULL_u0_u0, SSTAY_p1_u0) },
+              //new int[] { metaPos(level1StayEngine, SNULL_u0_u0, SSTAY_p1_u0), metaPos(level1StayEngine, SNULL_u0_u0, SSTAY_p1_u0), metaPos(level1StayEngine, SNULL_u0_u0, SSTAY_p1_u0) },
+              calcNextPartMetaStatePosArr(fieldEngine, l1StayEnginePos, NPMS_L1S_S00_S10_Pos),
               new int[] { Max_Probability, 0, 0 });
 
       universe.use_levelUp = false;

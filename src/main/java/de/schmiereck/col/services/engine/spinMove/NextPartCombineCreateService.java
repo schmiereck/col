@@ -1,5 +1,13 @@
 package de.schmiereck.col.services.engine.spinMove;
 
+import static de.schmiereck.col.model.FieldEngine.NPMS_L1_S00_S01_Pos;
+import static de.schmiereck.col.model.FieldEngine.NPMS_L1_S00_S10_Pos;
+import static de.schmiereck.col.model.FieldEngine.NPMS_L1_S01_S00_Pos;
+import static de.schmiereck.col.model.FieldEngine.NPMS_L1_S10_S00_Pos;
+import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S000_S000_S001_Pos;
+import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S000_S000_S100_Pos;
+import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S000_S100_S000_Pos;
+import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S001_S000_S000_Pos;
 import static de.schmiereck.col.model.FieldEngine.l0EnginePos;
 import static de.schmiereck.col.model.FieldEngine.l1EnginePos;
 import static de.schmiereck.col.model.FieldEngine.l1StayEnginePos;
@@ -20,6 +28,7 @@ import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.c
 import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.calcL2S000S000S100NextPartMetaStatePosArr;
 import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.calcL2S000S100S000NextPartMetaStatePosArr;
 import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.calcL2S001S000S000NextPartMetaStatePosArr;
+import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.calcNextPartMetaStatePosArr;
 import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.setNextPart;
 
 import de.schmiereck.col.model.Engine;
@@ -54,8 +63,8 @@ public class NextPartCombineCreateService {
               metaPos(l0E, LEFTa_p1),
               metaPos(l0E, LEFTa_p1),
               new NextPart(CmdCombineToParent,
-                      new NextPart.NextPartArgument(l1EnginePos, calcL1S10S00NextPartMetaStatePosArr(fieldEngine, l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, LEFTa_p1_u0, NULL_u0_u0)*/, +0),
-                      new NextPart.NextPartArgument(l1EnginePos, calcL1S00S10NextPartMetaStatePosArr(fieldEngine, l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, NULL_u0_u0, LEFTa_p1_u0)*/, +1)));
+                      new NextPart.NextPartArgument(l1EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l1EnginePos, NPMS_L1_S10_S00_Pos), LR_CONTINUE_MATRIX /*metaPos(l1E, LEFTa_p1_u0, NULL_u0_u0)*/, +0),
+                      new NextPart.NextPartArgument(l1EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l1EnginePos, NPMS_L1_S00_S10_Pos), LR_CONTINUE_MATRIX /*metaPos(l1E, NULL_u0_u0, LEFTa_p1_u0)*/, +1)));
 
       //              0A  1B  2A  3B  4A
       //              L                      b
@@ -74,8 +83,8 @@ public class NextPartCombineCreateService {
               metaPos(l0E, LEFTa_p1),
               metaPos(l0E, LEFTa_p1),
               new NextPart(CmdCombineToParent,
-                      new NextPart.NextPartArgument(l1EnginePos, calcL1S00S01NextPartMetaStatePosArr(fieldEngine, l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1)*/, +0),
-                      new NextPart.NextPartArgument(l1EnginePos, calcL1S01S00NextPartMetaStatePosArr(fieldEngine, l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0)*/, -1)));
+                      new NextPart.NextPartArgument(l1EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l1EnginePos, NPMS_L1_S00_S01_Pos), LR_CONTINUE_MATRIX /*metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1)*/, +0),
+                      new NextPart.NextPartArgument(l1EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l1EnginePos, NPMS_L1_S01_S00_Pos), LR_CONTINUE_MATRIX /*metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0)*/, -1)));
 
       //              0A  1B  2A  3B  4A
       //              L                      b
@@ -89,7 +98,7 @@ public class NextPartCombineCreateService {
               metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1),
               metaPos(l0E, LEFTa_p1),
               new NextPart(CmdCombineToParent,
-                      new NextPart.NextPartArgument(l2EnginePos, calcL2S001S000S000NextPartMetaStatePosArr(fieldEngine, l2E), LR_CONTINUE_MATRIX /*metaPos(l2E, LEFTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0)*/, -2)));
+                      new NextPart.NextPartArgument(l2EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l2EnginePos, NPMS_L2_S001_S000_S000_Pos), LR_CONTINUE_MATRIX /*metaPos(l2E, LEFTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0)*/, -2)));
 
 
       //              0A  1B  2A  3B  4A
@@ -104,7 +113,7 @@ public class NextPartCombineCreateService {
               metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0),
               metaPos(l0E, LEFTa_p1),
               new NextPart(CmdCombineToParent,
-                      new NextPart.NextPartArgument(l2EnginePos, calcL2S000S000S001NextPartMetaStatePosArr(fieldEngine, l2E), LR_CONTINUE_MATRIX /*metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, LEFTa_u0_u0_p1)*/, +1)));
+                      new NextPart.NextPartArgument(l2EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l2EnginePos, NPMS_L2_S000_S000_S001_Pos), LR_CONTINUE_MATRIX /*metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, LEFTa_u0_u0_p1)*/, +1)));
       //----------------------------------------------------------------------------------------------------------------
    }
 
@@ -133,8 +142,8 @@ public class NextPartCombineCreateService {
               metaPos(l0E, RIGHTa_p1),
               metaPos(l0E, RIGHTa_p1),
               new NextPart(CmdCombineToParent,
-                      new NextPart.NextPartArgument(l1EnginePos, calcL1S00S01NextPartMetaStatePosArr(fieldEngine, l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, NULL_u0_u0, RIGHTa_u0_p1)*/, +0),
-                      new NextPart.NextPartArgument(l1EnginePos, calcL1S01S00NextPartMetaStatePosArr(fieldEngine, l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, RIGHTa_u0_p1, NULL_u0_u0)*/, -1)));
+                      new NextPart.NextPartArgument(l1EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l1EnginePos, NPMS_L1_S00_S01_Pos), LR_CONTINUE_MATRIX /*metaPos(l1E, NULL_u0_u0, RIGHTa_u0_p1)*/, +0),
+                      new NextPart.NextPartArgument(l1EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l1EnginePos, NPMS_L1_S01_S00_Pos), LR_CONTINUE_MATRIX /*metaPos(l1E, RIGHTa_u0_p1, NULL_u0_u0)*/, -1)));
 
       //              0A  1B  2A  3B  4A
       //                  R                  b
@@ -153,8 +162,8 @@ public class NextPartCombineCreateService {
               metaPos(l0E, RIGHTa_p1),
               metaPos(l0E, RIGHTa_p1),
               new NextPart(CmdCombineToParent,
-                      new NextPart.NextPartArgument(l1EnginePos, calcL1S10S00NextPartMetaStatePosArr(fieldEngine, l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0)*/, +0),
-                      new NextPart.NextPartArgument(l1EnginePos, calcL1S00S10NextPartMetaStatePosArr(fieldEngine, l1E), LR_CONTINUE_MATRIX /*metaPos(l1E, NULL_u0_u0, RIGHTa_p1_u0)*/, +1)));
+                      new NextPart.NextPartArgument(l1EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l1EnginePos, NPMS_L1_S10_S00_Pos), LR_CONTINUE_MATRIX /*metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0)*/, +0),
+                      new NextPart.NextPartArgument(l1EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l1EnginePos, NPMS_L1_S00_S10_Pos), LR_CONTINUE_MATRIX /*metaPos(l1E, NULL_u0_u0, RIGHTa_p1_u0)*/, +1)));
 
       //              0A  1B  2A  3B  4A
       //              -           R          b
@@ -168,7 +177,7 @@ public class NextPartCombineCreateService {
               metaPos(l1E, NULL_u0_u0, RIGHTa_p1_u0),
               metaPos(l0E, RIGHTa_p1),
               new NextPart(CmdCombineToParent,
-                      new NextPart.NextPartArgument(l2EnginePos, calcL2S000S000S100NextPartMetaStatePosArr(fieldEngine, l2E), LR_CONTINUE_MATRIX /*metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_p1_u0_u0)*/, +1)));
+                      new NextPart.NextPartArgument(l2EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l2EnginePos, NPMS_L2_S000_S000_S100_Pos), LR_CONTINUE_MATRIX /*metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_p1_u0_u0)*/, +1)));
 
       //              0A  1B  2A  3B  4A
       //                              R      b
@@ -182,7 +191,7 @@ public class NextPartCombineCreateService {
               metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0),
               metaPos(l0E, RIGHTa_p1),
               new NextPart(CmdCombineToParent,
-                      new NextPart.NextPartArgument(l2EnginePos, calcL2S000S100S000NextPartMetaStatePosArr(fieldEngine, l2E), LR_CONTINUE_MATRIX /*metaPos(l2E, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0)*/, +1)));
+                      new NextPart.NextPartArgument(l2EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l2EnginePos, NPMS_L2_S000_S100_S000_Pos), LR_CONTINUE_MATRIX /*metaPos(l2E, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0)*/, +1)));
       //----------------------------------------------------------------------------------------------------------------
    }
 }

@@ -4,6 +4,7 @@ import static de.schmiereck.col.services.EngineService.calcMetaStateSize;
 import static de.schmiereck.col.services.FieldEngineService.calcRel2ArrPos;
 import static de.schmiereck.col.services.engine.CreateEngineService.metaPos;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.LEFTa_p1;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.NULL_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.RIGHTa_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.STAYa_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.LEFTa_p1_u0;
@@ -14,11 +15,14 @@ import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEng
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.STAYa_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.STAYa_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.LEFTa_p1_u0_u0;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.LEFTa_u0_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.LEFTa_u0_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.NULL_u0_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.RIGHTa_p1_u0_u0;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.RIGHTa_u0_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.RIGHTa_u0_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.STAYa_p1_u0_u0;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.STAYa_u0_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.STAYa_u0_u0_p1;
 
 import java.util.Arrays;
@@ -56,6 +60,9 @@ public class FieldEngine {
    public static final int NPMS_L2_S000_S000_S100_Pos = 1;
    public static final int NPMS_L2_S000_S000_S001_Pos = 2;
    public static final int NPMS_L2_S000_S100_S000_Pos = 3;
+   public static final int NPMS_L2_S000_S001_S000_Pos = 4;
+   public static final int NPMS_L2_S100_S000_S000_Pos = 5;
+   public static final int NPMS_L2_S010_S000_S000_Pos = 6;
 
    public final int[][] nextPartMetaStatePosArr[];
 
@@ -76,7 +83,7 @@ public class FieldEngine {
 
       this.nextPartMetaStatePosArr = new int[MaxEngineSize][this.maxCellSize * this.maxCellSize][];
 
-      this.nextPartMetaStatePosArr[l0EnginePos][NPMS_L0_S1_Pos] = new int[]{metaPos(l0E, STAYa_p1), metaPos(l0E, LEFTa_p1), metaPos(l0E, RIGHTa_p1)};
+      this.nextPartMetaStatePosArr[l0EnginePos][NPMS_L0_S1_Pos] = new int[]{metaPos(l0E, STAYa_p1, NULL_u0), metaPos(l0E, LEFTa_p1, NULL_u0), metaPos(l0E, RIGHTa_p1, NULL_u0)};
       this.nextPartMetaStatePosArr[l1EnginePos][NPMS_L1_S00_S01_Pos] = new int[]{metaPos(l1E, NULL_u0_u0, STAYa_u0_p1), metaPos(l1E, NULL_u0_u0, LEFTa_u0_p1), metaPos(l1E, NULL_u0_u0, RIGHTa_u0_p1)};
       this.nextPartMetaStatePosArr[l1EnginePos][NPMS_L1_S01_S00_Pos] = new int[]{metaPos(l1E, STAYa_u0_p1, NULL_u0_u0), metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0), metaPos(l1E, RIGHTa_u0_p1, NULL_u0_u0)};
       this.nextPartMetaStatePosArr[l1EnginePos][NPMS_L1_S10_S00_Pos] = new int[]{metaPos(l1E, STAYa_p1_u0, NULL_u0_u0), metaPos(l1E, LEFTa_p1_u0, NULL_u0_u0), metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0)};
@@ -97,5 +104,17 @@ public class FieldEngine {
               metaPos(l2E, NULL_u0_u0_u0, STAYa_p1_u0_u0, NULL_u0_u0_u0),
               metaPos(l2E, NULL_u0_u0_u0, LEFTa_p1_u0_u0, NULL_u0_u0_u0),
               metaPos(l2E, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0)};
+      this.nextPartMetaStatePosArr[l2EnginePos][NPMS_L2_S000_S001_S000_Pos] = new int[]{
+              metaPos(l2E, NULL_u0_u0_u0, STAYa_u0_u0_p1, NULL_u0_u0_u0),
+              metaPos(l2E, NULL_u0_u0_u0, LEFTa_u0_u0_p1, NULL_u0_u0_u0),
+              metaPos(l2E, NULL_u0_u0_u0, RIGHTa_u0_u0_p1, NULL_u0_u0_u0)};
+      this.nextPartMetaStatePosArr[l2EnginePos][NPMS_L2_S100_S000_S000_Pos] = new int[]{
+              metaPos(l2E, STAYa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0),
+              metaPos(l2E, LEFTa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0),
+              metaPos(l2E, RIGHTa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0)};
+      this.nextPartMetaStatePosArr[l2EnginePos][NPMS_L2_S010_S000_S000_Pos] = new int[]{
+              metaPos(l2E, STAYa_u0_p1_u0, NULL_u0_u0_u0, NULL_u0_u0_u0),
+              metaPos(l2E, LEFTa_u0_p1_u0, NULL_u0_u0_u0, NULL_u0_u0_u0),
+              metaPos(l2E, RIGHTa_u0_p1_u0, NULL_u0_u0_u0, NULL_u0_u0_u0)};
    }
 }
