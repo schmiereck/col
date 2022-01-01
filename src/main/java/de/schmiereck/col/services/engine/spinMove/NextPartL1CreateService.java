@@ -52,8 +52,8 @@ public class NextPartL1CreateService {
       setNextPart(fieldEngine, l1EnginePos, l1StayEnginePos, -2,
               metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0),
               stayMetaPosArgArr,
-              new NextPart(l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_CONTINUE_MATRIX /*metaPos(l0E, LEFTa_p1)*/, +1,
-                      l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_REFLECTION_MATRIX /*metaPos(l0E, RIGHTa_p1)*/, +0));
+              new NextPart(l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_CONTINUE_MATRIX, +1,
+                      l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_REFLECTION_MATRIX, +0));
       //----------------------------------------------------------------------------------------------------------------
    }
 
@@ -89,8 +89,8 @@ public class NextPartL1CreateService {
       setNextPart(fieldEngine, l1EnginePos, l1StayEnginePos, 2,
               metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0),
               stayMetaPosArgArr,
-              new NextPart(l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_CONTINUE_MATRIX /*metaPos(l1E, RIGHTa_p1, NULL_u0)*/, +0,
-                      l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_REFLECTION_MATRIX /*metaPos(l0E, LEFTa_p1)*/, +1));
+              new NextPart(l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_CONTINUE_MATRIX, +0,
+                      l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_REFLECTION_MATRIX, +1));
 
       //              0   1   2   3   4
       //                  -   -
@@ -103,8 +103,8 @@ public class NextPartL1CreateService {
       setNextPart(fieldEngine, l1EnginePos, l1StayEnginePos, 0,
               metaPos(l1E, NULL_u0_u0, RIGHTa_p1_u0),
               stayMetaPosArgArr,
-              new NextPart(l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_CONTINUE_MATRIX /*metaPos(l0E, RIGHTa_p1)*/, -1,
-                      l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_REFLECTION_MATRIX /*metaPos(l0E, LEFTa_p1)*/, +0));
+              new NextPart(l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_CONTINUE_MATRIX, -1,
+                      l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_REFLECTION_MATRIX, +0));
       //----------------------------------------------------------------------------------------------------------------
    }
 }

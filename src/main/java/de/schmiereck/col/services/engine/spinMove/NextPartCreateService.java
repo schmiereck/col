@@ -165,68 +165,6 @@ public class NextPartCreateService {
       return calcNextPartMetaStatePosArr(fieldEngine, l2EnginePos, NPMS_L2_S000_S100_S000_Pos);
    }
 
-   /**
-    * B Reflection: ok, but stange
-    *                          (S)
-    *                   3R  2   1         6
-    *   => Part
-    *                   3R                3
-    *                   1   2L            3
-    *   => State
-    *                       3R            3
-    *               1   2L                3
-    *   => Part
-    *                       3L            3
-    *               1   2L                1,5
-    *               -----------
-    *               1   2   3
-    */
-   public static void createNextPartArrX(final Universe universe) {
-      final Engine l0E = universe.fieldEngine.engineArr[l0EnginePos];
-      final Engine l1E = universe.fieldEngine.engineArr[l1EnginePos];
-      final Engine l2E = universe.fieldEngine.engineArr[l2EnginePos];
-      final Engine l1SE = universe.fieldEngine.engineArr[l1StayEnginePos];
-
-      //                  0   1   2   3
-      //                      -   -
-      //                          S   -      b
-      //    x     -   -   -
-      //    x         -   -   -
-      //    x             R   -   -          a
-      // =>
-      //    x             R                  a
-      //              -   -
-      //                  -   L              c
-      universe.fieldEngine.nextPartArr
-              [l2EnginePos] // aPart.enginePos
-              [l1StayEnginePos] // bPart.enginePos
-              [calcRel2ArrPos(2)] // absDiff
-              [metaPos(l2E, RIGHTa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0)] // aPart metaStatePos
-              [metaPos(l1SE, SSTAY_p1_u0, SNULL_u0_u0)] // bPart metaStatePos
-              = new NextPart(0, metaPos(l0E, RIGHTa_p1), +0,
-                1, metaPos(l1E, LEFTa_u0_p1, NULL_u0_u0), +0);
-
-      //          0   1   2   3
-      //              -   S
-      //                  -   -
-      //              R   -   -
-      //                  -   -   -
-      //                      -   -   -
-      // =>
-      //  -   -   -
-      //      -   -   L
-      //          -   -   -
-      universe.fieldEngine.nextPartArr
-              [l2EnginePos] // aPart.enginePos
-              [l1StayEnginePos] // bPart.enginePos
-              [calcRel2ArrPos(1)] // absDiff
-              [metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, RIGHTa_p1_u0_u0)] // aPart metaStatePos
-              [metaPos(l1SE, NULL_u0_u0, SSTAY_u0_p1)] // bPart metaStatePos
-              = new NextPart(2, metaPos(l2E, NULL_u0_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0), 0,
-              2, metaPos(l2E, NULL_u0_u0_u0, LEFTa_u0_u0_p1, NULL_u0_u0_u0), -3);
-      //----------------------------------------------------------------------------------------------------------------
-   }
-
    static void setNextPart(final FieldEngine fieldEngine,
                                    final int aPartEnginePos, final int bPartEnginePos,
                                    final int absDiff,

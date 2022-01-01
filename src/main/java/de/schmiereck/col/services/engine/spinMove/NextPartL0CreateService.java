@@ -67,8 +67,7 @@ public class NextPartL0CreateService {
       setNextPart(fieldEngine, l0EnginePos, l0StayEnginePos, -1,
               metaPos(l0E, LEFTa_p1, NULL_u0),
               stayMetaPosArgArr,
-              new NextPart(l0EnginePos, //metaPos(l0E, RIGHTa_p1, NULL_u0), +0));
-                      LR_REFLECTION_MATRIX, +0));
+              new NextPart(l0EnginePos, LR_REFLECTION_MATRIX, +0));
       //----------------------------------------------------------------------------------------------------------------
    }
 
@@ -103,8 +102,7 @@ public class NextPartL0CreateService {
       setNextPart(fieldEngine, l0EnginePos, l0StayEnginePos, 1,
               metaPos(l0E, RIGHTa_p1, NULL_u0),
               stayMetaPosArgArr,
-              new NextPart(l0EnginePos, //metaPos(l0E, LEFTa_p1, NULL_u0),
-                      LR_REFLECTION_MATRIX, +0));
+              new NextPart(l0EnginePos, LR_REFLECTION_MATRIX, +0));
 
       //              3   4   5   6   4
       //              -   -
@@ -150,7 +148,7 @@ public class NextPartL0CreateService {
       setNextPart(fieldEngine, l0EnginePos, l1StayEnginePos, -2,
               metaPos(l0E, LEFTa_p1),
               stayMetaPosArgArr,
-              new NextPart(l0EnginePos, LR_REFLECTION_MATRIX /*metaPos(l0E, RIGHTa_p1)*/, +0));
+              new NextPart(l0EnginePos, LR_REFLECTION_MATRIX, +0));
       //----------------------------------------------------------------------------------------------------------------
    }
 
@@ -194,7 +192,7 @@ public class NextPartL0CreateService {
       setNextPart(fieldEngine, l0EnginePos, l1StayEnginePos, 0,
               metaPos(l0E, RIGHTa_p1),
               stayMetaPosArgArr,
-              new NextPart(l0EnginePos, LR_REFLECTION_MATRIX /*metaPos(l0E, LEFTa_p1)*/, +0));
+              new NextPart(l0EnginePos, LR_REFLECTION_MATRIX, +0));
       //----------------------------------------------------------------------------------------------------------------
    }
 }

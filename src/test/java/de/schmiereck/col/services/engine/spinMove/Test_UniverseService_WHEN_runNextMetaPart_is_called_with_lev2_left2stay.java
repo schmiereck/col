@@ -1,5 +1,6 @@
 package de.schmiereck.col.services.engine.spinMove;
 
+import static de.schmiereck.col.model.FieldEngine.NPMS_L1S_S01_S00_Pos;
 import static de.schmiereck.col.model.FieldEngine.NPMS_L1_S01_S00_Pos;
 import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S000_S001_S000_Pos;
 import static de.schmiereck.col.model.FieldEngine.l0EnginePos;

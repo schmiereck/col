@@ -24,6 +24,9 @@ import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEng
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.STAYa_p1_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.STAYa_u0_p1_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.STAYa_u0_u0_p1;
+import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SNULL_u0_u0;
+import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SSTAY_p1_u0;
+import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SSTAY_u0_p1;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -52,17 +55,23 @@ public class FieldEngine {
    public final NextPart[][][][][] nextPartArr;
 
    public static final int NPMS_L0_S1_Pos = 0;
-   public static final int NPMS_L1_S00_S01_Pos = 0;
+   public static final int NPMS_L1_S10_S00_Pos = 0;
    public static final int NPMS_L1_S01_S00_Pos = 1;
-   public static final int NPMS_L1_S10_S00_Pos = 2;
-   public static final int NPMS_L1_S00_S10_Pos = 3;
-   public static final int NPMS_L2_S001_S000_S000_Pos = 0;
-   public static final int NPMS_L2_S000_S000_S100_Pos = 1;
-   public static final int NPMS_L2_S000_S000_S001_Pos = 2;
+   public static final int NPMS_L1_S00_S10_Pos = 2;
+   public static final int NPMS_L1_S00_S01_Pos = 3;
+   public static final int NPMS_L2_S100_S000_S000_Pos = 0;
+   public static final int NPMS_L2_S010_S000_S000_Pos = 1;
+   public static final int NPMS_L2_S001_S000_S000_Pos = 2;
    public static final int NPMS_L2_S000_S100_S000_Pos = 3;
-   public static final int NPMS_L2_S000_S001_S000_Pos = 4;
-   public static final int NPMS_L2_S100_S000_S000_Pos = 5;
-   public static final int NPMS_L2_S010_S000_S000_Pos = 6;
+   public static final int NPMS_L2_S000_S010_S000_Pos = 4;
+   public static final int NPMS_L2_S000_S001_S000_Pos = 5;
+   public static final int NPMS_L2_S000_S000_S100_Pos = 6;
+   public static final int NPMS_L2_S000_S000_S010_Pos = 7;
+   public static final int NPMS_L2_S000_S000_S001_Pos = 8;
+   public static final int NPMS_L1S_S10_S00_Pos = 0;
+   public static final int NPMS_L1S_S01_S00_Pos = 1;
+   public static final int NPMS_L1S_S00_S10_Pos = 2;
+   public static final int NPMS_L1S_S00_S01_Pos = 3;
 
    public final int[][] nextPartMetaStatePosArr[];
 
@@ -116,5 +125,7 @@ public class FieldEngine {
               metaPos(l2E, STAYa_u0_p1_u0, NULL_u0_u0_u0, NULL_u0_u0_u0),
               metaPos(l2E, LEFTa_u0_p1_u0, NULL_u0_u0_u0, NULL_u0_u0_u0),
               metaPos(l2E, RIGHTa_u0_p1_u0, NULL_u0_u0_u0, NULL_u0_u0_u0)};
+      this.nextPartMetaStatePosArr[l1StayEnginePos][NPMS_L1S_S00_S10_Pos] = new int[]{metaPos(l1SE, SNULL_u0_u0, SSTAY_p1_u0), metaPos(l1SE, SNULL_u0_u0, SSTAY_p1_u0), metaPos(l1SE, SNULL_u0_u0, SSTAY_p1_u0)};
+      this.nextPartMetaStatePosArr[l1StayEnginePos][NPMS_L1S_S01_S00_Pos] = new int[]{metaPos(l1SE, SSTAY_u0_p1, SNULL_u0_u0), metaPos(l1SE, SSTAY_u0_p1, SNULL_u0_u0), metaPos(l1SE, SSTAY_u0_p1, SNULL_u0_u0)};
    }
 }
