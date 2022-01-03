@@ -78,7 +78,7 @@ public class NextPart {
       }
 
       public NextPartArgument(final int nextPartEnginePos, final int[][] nextPartProbabilityMatrix, final int nextPartOffsetCellPos) {
-         this.nextPartEnginePos = nextPartEnginePos;
+         this.nextPartEnginePos = nextPartEnginePos; // Not really necessary (?)...
          this.nextPartMetaStatePos = -1;
          this.nextPartMetaStatePosArr = null;
          this.nextPartProbabilityMatrix = nextPartProbabilityMatrix;

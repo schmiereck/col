@@ -20,14 +20,6 @@ import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEng
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.LEFTa_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.NULL_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHTa_p1_u0;
-import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.calcL1S00S01NextPartMetaStatePosArr;
-import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.calcL1S00S10NextPartMetaStatePosArr;
-import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.calcL1S01S00NextPartMetaStatePosArr;
-import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.calcL1S10S00NextPartMetaStatePosArr;
-import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.calcL2S000S000S001NextPartMetaStatePosArr;
-import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.calcL2S000S000S100NextPartMetaStatePosArr;
-import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.calcL2S000S100S000NextPartMetaStatePosArr;
-import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.calcL2S001S000S000NextPartMetaStatePosArr;
 import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.calcNextPartMetaStatePosArr;
 import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.setNextPart;
 

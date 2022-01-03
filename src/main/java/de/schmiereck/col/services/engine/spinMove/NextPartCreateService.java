@@ -11,35 +11,16 @@ import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S000_S100_S000_Pos;
 import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S001_S000_S000_Pos;
 import static de.schmiereck.col.model.FieldEngine.l0EnginePos;
 import static de.schmiereck.col.model.FieldEngine.l1EnginePos;
-import static de.schmiereck.col.model.FieldEngine.l1StayEnginePos;
 import static de.schmiereck.col.model.FieldEngine.l2EnginePos;
 import static de.schmiereck.col.services.FieldEngineService.calcRel2ArrPos;
-import static de.schmiereck.col.services.engine.CreateEngineService.metaPos;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService.RIGHTa_p1;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.LEFTa_u0_p1;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.NULL_u0_u0;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.RIGHTa_u0_p1;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.STAYa_u0_p1;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.LEFTa_p1_u0_u0;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.LEFTa_u0_u0_p1;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.NULL_u0_u0_u0;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.RIGHTa_p1_u0_u0;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.RIGHTa_u0_u0_p1;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.STAYa_p1_u0_u0;
-import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.STAYa_u0_u0_p1;
 import static de.schmiereck.col.services.engine.spinMove.NextPartCombineCreateService.createNextPartLevelUpLeft;
 import static de.schmiereck.col.services.engine.spinMove.NextPartCombineCreateService.createNextPartLevelUpRight;
 import static de.schmiereck.col.services.engine.spinMove.NextPartL0CreateService.createNextPart0leftReflection0stay;
-import static de.schmiereck.col.services.engine.spinMove.NextPartL0CreateService.createNextPart0leftReflection1stay;
 import static de.schmiereck.col.services.engine.spinMove.NextPartL0CreateService.createNextPart0rightReflection0stay;
 import static de.schmiereck.col.services.engine.spinMove.NextPartL0CreateService.createNextPart0rightReflection1stay;
-import static de.schmiereck.col.services.engine.spinMove.NextPartL1CreateService.createNextPart1leftReflection1stay;
 import static de.schmiereck.col.services.engine.spinMove.NextPartL1CreateService.createNextPart1rightReflection1stay;
-import static de.schmiereck.col.services.engine.spinMove.NextPartL2CreateService.createNextPart2leftReflection1stay;
 import static de.schmiereck.col.services.engine.spinMove.NextPartL2CreateService.createNextPart2rightReflection1stay;
-import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SNULL_u0_u0;
-import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SSTAY_p1_u0;
-import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SSTAY_u0_p1;
+import static de.schmiereck.col.services.engine.spinMove.NextPartLeftLxL1StayCreateService.createNextPartLeftReflection1stay;
 
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.FieldEngine;
@@ -73,22 +54,24 @@ public class NextPartCreateService {
     *               1L
     */
    public static void createNextPartArrA(final Universe universe) {
+      createNextPartLeftReflection1stay(universe.fieldEngine);
+
       if (Objects.nonNull(universe.fieldEngine.engineArr[l0EnginePos])) {
          createNextPart0leftReflection0stay(universe.fieldEngine);
          createNextPart0rightReflection0stay(universe.fieldEngine);
 
          if (Objects.nonNull(universe.fieldEngine.engineArr[l1EnginePos])) {
-            createNextPart0leftReflection1stay(universe.fieldEngine);
+            //createNextPart0leftReflection1stay(universe.fieldEngine);
             createNextPart0rightReflection1stay(universe.fieldEngine);
          }
       }
       if (Objects.nonNull(universe.fieldEngine.engineArr[l1EnginePos])) {
          createNextPart1rightReflection1stay(universe.fieldEngine);
-         createNextPart1leftReflection1stay(universe.fieldEngine);
+         //createNextPart1leftReflection1stay(universe.fieldEngine);
 
          if (Objects.nonNull(universe.fieldEngine.engineArr[l2EnginePos])) {
             createNextPart2rightReflection1stay(universe.fieldEngine);
-            createNextPart2leftReflection1stay(universe.fieldEngine);
+            //createNextPart2leftReflection1stay(universe.fieldEngine);
          }
       }
       if (universe.use_levelUp) {
@@ -166,11 +149,11 @@ public class NextPartCreateService {
    }
 
    static void setNextPart(final FieldEngine fieldEngine,
-                                   final int aPartEnginePos, final int bPartEnginePos,
-                                   final int absDiff,
-                                   final int aPartMetaStatePos,
-                                   final MetaPosArg[] bPartMetaPosArgArr,
-                                   final NextPart nextPart) {
+                           final int aPartEnginePos,
+                           final int aPartMetaStatePos,
+                           final int bPartEnginePos,
+                           final MetaPosArg[] bPartMetaPosArgArr, final int absDiff,
+                           final NextPart nextPart) {
       for (final MetaPosArg bPartMetaPosArg : bPartMetaPosArgArr) {
          setNextPart(fieldEngine,
                      aPartEnginePos, bPartEnginePos,

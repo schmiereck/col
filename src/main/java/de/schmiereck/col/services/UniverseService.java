@@ -99,6 +99,7 @@ public class UniverseService {
                         }
                      }
                      default -> {
+                        // New-Part:
                         if (Objects.nonNull(nextPartArgument.newPartProbabilityMatrix)) {
                            final Part newPart = new Part(aPart.event, aPart,
                                    nextPartArgument.newPartEnginePos,
@@ -127,6 +128,7 @@ public class UniverseService {
                               }
                            }
                         }
+                        // Next-Part:
                         if (Objects.nonNull(nextPartArgument.nextPartProbabilityMatrix)) {
                            if ((aPart.enginePos != nextPartArgument.nextPartEnginePos) && Objects.isNull(nextPartArgument.nextPartMetaStatePosArr)) {
                               throw new RuntimeException("aPart.enginePos != nextPartArgument.nextPartEnginePos - We need \"nextPartArgument.nextPartMetaStatePosArr\".");
