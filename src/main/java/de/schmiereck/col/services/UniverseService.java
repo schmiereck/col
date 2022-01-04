@@ -221,6 +221,8 @@ public class UniverseService {
             for (int dirMetaStatePosPos = 0; dirMetaStatePosPos < hyperCell.dirMetaStatePosArr.length; dirMetaStatePosPos++) {
                final int dirMetaStatePos = hyperCell.dirMetaStatePosArr[dirMetaStatePosPos];
                final MetaState dirSourceMetaState = engine.metaStateList.get(dirMetaStatePos);
+               if (Objects.isNull(dirSourceMetaState))
+                  throw new RuntimeException(String.format("Level-Cell-Size %d: For Meta-State %s no Meta-State for direction %d found.", engine.cellSize, convertToDebugString(sourceMetaState), dirMetaStatePosPos));
                final int nextDirSourceMetaStatePos = dirSourceMetaState.outputMetaStatePos;
                if (nextDirSourceMetaStatePos == -1)
                   throw new RuntimeException(String.format("Level-Cell-Size %d: For Meta-State %s no output state found.", engine.cellSize, convertToDebugString(sourceMetaState)));
