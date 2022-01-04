@@ -8,12 +8,12 @@ import static de.schmiereck.col.model.FieldEngine.l1StayEnginePos;
 import static de.schmiereck.col.model.FieldEngine.l2EnginePos;
 import static de.schmiereck.col.model.NextPart.LR_CONTINUE_MATRIX;
 import static de.schmiereck.col.model.NextPart.LR_REFLECTION_MATRIX;
+import static de.schmiereck.col.services.FieldEngineService.setNextPart;
 import static de.schmiereck.col.services.engine.CreateEngineService.metaPos;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService.NULL_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.NULL_u0_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService.RIGHTa_p1_u0_u0;
 import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.calcNextPartMetaStatePosArr;
-import static de.schmiereck.col.services.engine.spinMove.NextPartCreateService.setNextPart;
 import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SSTAY_p1_u0;
 import static de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService.SSTAY_u0_p1;
 

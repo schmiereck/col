@@ -2,9 +2,12 @@ package de.schmiereck.col.services;
 
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.FieldEngine;
+import de.schmiereck.col.model.FieldEngineANode;
+import de.schmiereck.col.model.FieldEngineBNode;
 import de.schmiereck.col.model.NextPart;
 import de.schmiereck.col.model.Part;
 import de.schmiereck.col.model.Universe;
+import de.schmiereck.col.services.engine.spinMove.NextPartCreateService;
 
 import java.util.Objects;
 
@@ -23,10 +26,10 @@ public class FieldEngineService {
       if (absDiff < minDiff) {
          nextPartPos =
                  aPart.enginePos + fieldEngine.maxEnginePos *
-                 bPart.enginePos + fieldEngine.maxEnginePos *
-                 absDiff + fieldEngine.maxDiff *
-                 aPart.hyperCell.metaStatePos + fieldEngine.maxMetaStatePos *
-                 bPart.hyperCell.metaStatePos;
+                         bPart.enginePos + fieldEngine.maxEnginePos *
+                         absDiff + fieldEngine.maxDiff *
+                         aPart.hyperCell.metaStatePos + fieldEngine.maxMetaStatePos *
+                         bPart.hyperCell.metaStatePos;
       } else {
          nextPartPos = -1;
       }
@@ -54,11 +57,74 @@ public class FieldEngineService {
             aPartMetaStatePos = aPart.hyperCell.metaStatePos;
             bPartMetaStatePos = bPart.hyperCell.metaStatePos;
          }
-         nextPart = fieldEngine.nextPartArr[aPart.enginePos][bPart.enginePos][calcRel2ArrPos(diff)][aPartMetaStatePos][bPartMetaStatePos];
+         //nextPart = fieldEngine.nextPartArr[aPart.enginePos][bPart.enginePos][calcRel2ArrPos(diff)][aPartMetaStatePos][bPartMetaStatePos];
+         final FieldEngineANode fieldEngineANode = fieldEngine.nextPartANodeArr[aPart.enginePos][bPart.enginePos][calcRel2ArrPos(diff)];
+         if (Objects.nonNull(fieldEngineANode)) {
+            final FieldEngineBNode fieldEngineBNode = fieldEngineANode.bNodeArr[aPartMetaStatePos];
+            if (Objects.nonNull(fieldEngineBNode)) {
+               nextPart = fieldEngineBNode.nextPartArr[bPartMetaStatePos];
+            } else {
+               nextPart = null;
+            }
+         } else {
+            nextPart = null;
+         }
       } else {
          nextPart = null;
       }
       return nextPart;
+   }
+
+   public static void setNextPart(final FieldEngine fieldEngine,
+                                  final int aPartEnginePos,
+                                  final int aPartMetaStatePos,
+                                  final int bPartEnginePos,
+                                  final NextPartCreateService.MetaPosArg[] bPartMetaPosArgArr, final int absDiff,
+                                  final NextPart nextPart) {
+      for (final NextPartCreateService.MetaPosArg bPartMetaPosArg : bPartMetaPosArgArr) {
+         setNextPart(fieldEngine,
+                     aPartEnginePos, bPartEnginePos,
+                     absDiff + bPartMetaPosArg.absDiffOff,
+                     aPartMetaStatePos,
+                     bPartMetaPosArg.metaPos,
+                     nextPart);
+      }
+   }
+
+   public static void setNextPart(final FieldEngine fieldEngine,
+                                  final int aPartEnginePos, final int bPartEnginePos,
+                                  final int absDiff,
+                                  final int aPartMetaStatePos,
+                                  final int bPartMetaStatePos,
+                                  final NextPart nextPart) {
+      final FieldEngineANode fieldEngineANode;
+      final FieldEngineBNode fieldEngineBNode;
+
+      final int diffPos = calcRel2ArrPos(absDiff);
+      final FieldEngineANode searchedFieldEngineANode = fieldEngine.nextPartANodeArr[aPartEnginePos][bPartEnginePos][diffPos];
+      if (Objects.nonNull(searchedFieldEngineANode)) {
+         fieldEngineANode = searchedFieldEngineANode;
+      } else {
+         fieldEngineANode = new FieldEngineANode(fieldEngine.engineArr[aPartEnginePos].metaStateList.size());
+         fieldEngine.nextPartANodeArr[aPartEnginePos][bPartEnginePos][diffPos] = fieldEngineANode;
+      }
+
+      final FieldEngineBNode searchedFieldEngineBNode = fieldEngineANode.bNodeArr[aPartMetaStatePos];
+      if (Objects.nonNull(searchedFieldEngineBNode)) {
+         fieldEngineBNode = searchedFieldEngineBNode;
+      } else {
+         fieldEngineBNode = new FieldEngineBNode(fieldEngine.engineArr[bPartEnginePos].metaStateList.size());
+         fieldEngineANode.bNodeArr[aPartMetaStatePos] = fieldEngineBNode;
+      }
+
+      //fieldEngine.nextPartArr
+      //        [aPartEnginePos] // aPart.enginePos
+      //        [bPartEnginePos] // bPart.enginePos
+      //        [calcRel2ArrPos(absDiff)] // absDiff
+      //        [aPartMetaStatePos] // aPart metaStatePos
+      //        [bPartMetaStatePos] // bPart metaStatePos
+      //        = nextPart;
+      fieldEngineBNode.nextPartArr[bPartMetaStatePos] = nextPart;
    }
 
    private static int calcWrapedDiff(final Universe universe, final Part aPart, final Part bPart) {

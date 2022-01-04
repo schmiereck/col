@@ -7,8 +7,11 @@ import static de.schmiereck.col.services.StateUtils.convertToDebugString;
 
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.MetaState;
+import de.schmiereck.col.model.MetaStateList;
 import de.schmiereck.col.model.State;
 import de.schmiereck.larray.LarrayInt;
+
+import java.util.Objects;
 
 /**
  * Wordings:
@@ -36,8 +39,24 @@ public class CreateEngineService {
                                      final int input0MetaStatePos, final int input1MetaStatePos,
                                      final int output0MetaStatePos, final int output1MetaStatePos,
                                      final int cellPosOffset) {
-      final MetaState metaState = engine.metaStateArr[metaPos(engine, input0MetaStatePos, input1MetaStatePos)];
-      metaState.outputMetaStatePos = metaPos(engine, output0MetaStatePos, output1MetaStatePos);
+      final int inputMetaPos = metaPos(engine, input0MetaStatePos, input1MetaStatePos);
+      final int outputMetaPos = metaPos(engine, output0MetaStatePos, output1MetaStatePos);
+      writeMetaState(engine, inputMetaPos, new int[] { input0MetaStatePos, input1MetaStatePos }, outputMetaPos, cellPosOffset);
+   }
+
+   private static void writeMetaState(final Engine engine,
+                                      final int inputMetaPos, final int[] inputMetaStatePosArr,
+                                      final int outputMetaPos,
+                                      final int cellPosOffset) {
+      final MetaState metaState;
+      final MetaState existingMetaState = engine.metaStateList.get(inputMetaPos);
+      if (Objects.isNull(existingMetaState)) {
+         metaState = new MetaState(outputMetaPos, inputMetaStatePosArr);
+         engine.metaStateList.set(inputMetaPos, metaState);
+      } else {
+         metaState = existingMetaState;
+         metaState.outputMetaStatePos = outputMetaPos;
+      }
       metaState.cellPosOffset = cellPosOffset;
    }
 
@@ -46,24 +65,42 @@ public class CreateEngineService {
                                      final int output0MetaStatePos, final int output1MetaStatePos, final int output2MetaStatePos) {
       writeMetaState(engine,
                      input0MetaStatePos, input1MetaStatePos, input2MetaStatePos,
-                     output0MetaStatePos, output1MetaStatePos, output2MetaStatePos, false);
+                     output0MetaStatePos, output1MetaStatePos, output2MetaStatePos, 0);
+   }
+
+   public static void writeMetaState(final Engine engine,
+                                     final int input0MetaStatePos, final int input1MetaStatePos, final int input2MetaStatePos, final int input3MetaStatePos,
+                                     final int output0MetaStatePos, final int output1MetaStatePos, final int output2MetaStatePos, final int output3MetaStatePos) {
+      writeMetaState(engine,
+                     input0MetaStatePos, input1MetaStatePos, input2MetaStatePos, input3MetaStatePos,
+                     output0MetaStatePos, output1MetaStatePos, output2MetaStatePos, output3MetaStatePos, 0);
    }
 
    public static void writeMetaState(final Engine engine,
                                      final int input0MetaStatePos, final int input1MetaStatePos, final int input2MetaStatePos,
                                      final int output0MetaStatePos, final int output1MetaStatePos, final int output2MetaStatePos,
                                      final int cellPosOffset) {
-      final MetaState metaState = engine.metaStateArr[metaPos(engine, input0MetaStatePos, input1MetaStatePos, input2MetaStatePos)];
-      metaState.outputMetaStatePos = metaPos(engine, output0MetaStatePos, output1MetaStatePos, output2MetaStatePos);
-      metaState.cellPosOffset = cellPosOffset;
+      final int inputMetaPos = metaPos(engine, input0MetaStatePos, input1MetaStatePos, input2MetaStatePos);
+      final int outputMetaPos = metaPos(engine, output0MetaStatePos, output1MetaStatePos, output2MetaStatePos);
+      writeMetaState(engine, inputMetaPos, new int[] { input0MetaStatePos, input1MetaStatePos, input2MetaStatePos }, outputMetaPos, cellPosOffset);
    }
 
    public static void writeMetaState(final Engine engine,
-                                     final int input0MetaStatePos, final int input1MetaStatePos, final int input2MetaStatePos,
-                                     final int output0MetaStatePos, final int output1MetaStatePos, final int output2MetaStatePos, final boolean levelDown) {
-      final MetaState metaState = engine.metaStateArr[metaPos(engine, input0MetaStatePos, input1MetaStatePos, input2MetaStatePos)];
-      metaState.outputMetaStatePos = metaPos(engine, output0MetaStatePos, output1MetaStatePos, output2MetaStatePos);
-      metaState.levelDown = levelDown;
+                                     final int input0MetaStatePos, final int input1MetaStatePos, final int input2MetaStatePos, final int input3MetaStatePos,
+                                     final int output0MetaStatePos, final int output1MetaStatePos, final int output2MetaStatePos, final int output3MetaStatePos,
+                                     final int cellPosOffset) {
+      final int inputMetaPos = metaPos(engine, input0MetaStatePos, input1MetaStatePos, input2MetaStatePos, input3MetaStatePos);
+      final int outputMetaPos = metaPos(engine, output0MetaStatePos, output1MetaStatePos, output2MetaStatePos, output3MetaStatePos);
+      writeMetaState(engine, inputMetaPos, new int[] { input0MetaStatePos, input1MetaStatePos, input2MetaStatePos, input3MetaStatePos }, outputMetaPos, cellPosOffset);
+   }
+
+   public static void writeMetaState(final Engine engine,
+                                     final int[] inputMetaStatePosArr,
+                                     final int[] outputMetaStatePosArr,
+                                     final int cellPosOffset) {
+     final int inputMetaPos = metaPos(engine, inputMetaStatePosArr);
+      final int outputMetaPos = metaPos(engine, outputMetaStatePosArr);
+      writeMetaState(engine, inputMetaPos, inputMetaStatePosArr, outputMetaPos, cellPosOffset);
    }
 
    public static void writeMetaState(final Engine engine,
@@ -78,7 +115,7 @@ public class CreateEngineService {
                                      final int input0MetaStatePos, final int input1MetaStatePos, final int[] input2MetaStatePosArr,
                                      final int output0MetaStatePos, final int output1MetaStatePos, final boolean levelDown) {
       for (final int input2MetaStatePos: input2MetaStatePosArr) {
-         final MetaState metaState = engine.metaStateArr[metaPos(engine, input0MetaStatePos, input1MetaStatePos, input2MetaStatePos)];
+         final MetaState metaState = engine.metaStateList.get(metaPos(engine, input0MetaStatePos, input1MetaStatePos, input2MetaStatePos));
          metaState.outputMetaStatePos = metaPos(engine, output0MetaStatePos, output1MetaStatePos, input2MetaStatePos);
          metaState.levelDown = levelDown;
       }
@@ -89,7 +126,7 @@ public class CreateEngineService {
                                      final int output0MetaStatePos, final int output1MetaStatePos, final int[] output2MetaStatePosArr) {
       for (final int input2MetaStatePos: input2MetaStatePosArr) {
          for (final int output2MetaStatePos: output2MetaStatePosArr) {
-            engine.metaStateArr[metaPos(engine, input0MetaStatePos, input1MetaStatePos, input2MetaStatePos)].outputMetaStatePos = metaPos(engine, output0MetaStatePos, output1MetaStatePos, output2MetaStatePos);
+            engine.metaStateList.get(metaPos(engine, input0MetaStatePos, input1MetaStatePos, input2MetaStatePos)).outputMetaStatePos = metaPos(engine, output0MetaStatePos, output1MetaStatePos, output2MetaStatePos);
          }
       }
    }
@@ -110,14 +147,14 @@ public class CreateEngineService {
       return engine;
    }
 
-   public static void initMetaStateArr(final Engine engine) {
-      final int size = calcMetaStateSize(engine);
-      engine.metaStateArr = new MetaState[(int)Math.pow(engine.inputStateArr.length, size)];
-      engine.inputMetaStatePosToMetaStateArr = new MetaState[(int)Math.pow(engine.inputStateArr.length, size)];
+   public static void initMetaStateArr(final Engine engine, final boolean useHash) {
+      final int metaStateSize = calcMetaStateSize(engine);
+      engine.metaStateList = new MetaStateList(engine.inputStateArr.length, metaStateSize, useHash);
+      //engine.inputMetaStatePosToMetaStateArr = new MetaState[(int)Math.pow(engine.inputStateArr.length, size)];
 
       int inputMetaStatePos = NULL_pos;
-      final int[] inputMetaStatePosArr = new int[size];
-      initMetaStatePos(engine, inputMetaStatePos, inputMetaStatePosArr, size - 1);
+      final int[] inputMetaStatePosArr = new int[metaStateSize];
+      // TODO MS initMetaStatePos(engine, inputMetaStatePos, inputMetaStatePosArr, metaStateSize - 1);
    }
 
    private static void initMetaStatePos(final Engine engine, final int inputMetaStatePos, final int[] inputMetaStatePosArr, final int metaPos) {
@@ -132,9 +169,9 @@ public class CreateEngineService {
          } else {
             final int pos = inputMetaStatePos + l2Pos;
             final MetaState metaState = new MetaState(-1, inputMetaStatePosArr.clone());
-            engine.metaStateArr[pos] = metaState;
-            //final MetaState metaState = engine.metaStateArr[inputMetaStatePos + l2Pos];
-            engine.inputMetaStatePosToMetaStateArr[pos] = metaState;
+            engine.metaStateList.set(pos, metaState);
+            //final MetaState metaState = engine.metaStateList.get(inputMetaStatePos + l2Pos];
+            //engine.inputMetaStatePosToMetaStateArr[pos] = metaState;
          }
       }
       inputMetaStatePosArr[arrPos] = 0;
@@ -146,15 +183,15 @@ public class CreateEngineService {
    }
 
    public static void initInputMetaStates(final Engine engine) {
-      for (int msPos = 0; msPos < engine.metaStateArr.length; msPos++) {
-         final MetaState metaState = engine.metaStateArr[msPos];
+      for (int msPos = 0; msPos < engine.metaStateList.size(); msPos++) {
+         final MetaState metaState = engine.metaStateList.get(msPos);
          initInputMetaState(engine, metaState);
       }
    }
 
    private static void initOutputMetaStates(final Engine engine) {
-      for (int msPos = 0; msPos < engine.metaStateArr.length; msPos++) {
-         final MetaState metaState = engine.metaStateArr[msPos];
+      for (int msPos = 0; msPos < engine.metaStateList.size(); msPos++) {
+         final MetaState metaState = engine.metaStateList.get(msPos);
          initOutputMetaState(engine, metaState);
       }
    }
@@ -162,7 +199,7 @@ public class CreateEngineService {
    public static void initInputMetaState(final Engine engine, final MetaState searchedMetaState) {
       final State[] engineInputStateArr = engine.inputStateArr;
       final LarrayInt engineOutputStatePosArr = engine.outputStatePosArr;
-      final MetaState[] engineMetaStateArr = engine.metaStateArr;
+      //final MetaState[] engineMetaStateArr = engine.metaStateArr;
 
       // searchedMetaState:
       // 2  =>  9
@@ -198,8 +235,8 @@ public class CreateEngineService {
 
       //searchedMetaState.outputMetaStatePos = -1;
 
-      for (int msPos = 0; msPos < engineMetaStateArr.length; msPos++) {
-         final MetaState metaState = engineMetaStateArr[msPos];
+      for (int msPos = 0; msPos < engine.metaStateList.size(); msPos++) {
+         final MetaState metaState = engine.metaStateList.get(msPos);
          final boolean inputMetaStateFound = isInputMetaStateFound(engineInputStateArr, metaState, searchedMetaState, searchedMetaStateInputState);
          if (inputMetaStateFound) {
             //searchedMetaState.outputMetaStatePos = msPos;
@@ -217,8 +254,8 @@ public class CreateEngineService {
    }
 
    public static void initLevelUpOutputMetaStatePosArr(final Engine engine) {
-      for (int msPos = 0; msPos < engine.metaStateArr.length; msPos++) {
-         final MetaState metaState = engine.metaStateArr[msPos];
+      for (int msPos = 0; msPos < engine.metaStateList.size(); msPos++) {
+         final MetaState metaState = engine.metaStateList.get(msPos);
          initLevelUpOutputMetaStatePosArr(engine, metaState);
       }
    }
@@ -277,7 +314,7 @@ public class CreateEngineService {
    public static void initOutputMetaState(final Engine engine, final MetaState searchedMetaState) {
       final State[] engineInputStateArr = engine.inputStateArr;
       final LarrayInt engineOutputStatePosArr = engine.outputStatePosArr;
-      final MetaState[] engineMetaStateArr = engine.metaStateArr;
+      //final MetaState[] engineMetaStateArr = engine.metaStateArr;
 
       // searchedMetaState:
       //       2  =>  9
@@ -312,8 +349,8 @@ public class CreateEngineService {
 
       //searchedMetaState.outputMetaStatePos = -1;
 
-      for (int msPos = 0; msPos < engineMetaStateArr.length; msPos++) {
-         final MetaState metaState = engineMetaStateArr[msPos];
+      for (int msPos = 0; msPos < engine.metaStateList.size(); msPos++) {
+         final MetaState metaState = engine.metaStateList.get(msPos);
 
          final boolean inputMetaStateFound = isInputMetaStateFound(engineInputStateArr, metaState, searchedMetaState, searchedMetaStateOutputState);
          if (inputMetaStateFound) {
@@ -386,15 +423,15 @@ public class CreateEngineService {
    private static boolean checkMetaStateExistForMetaStateInputState(final Engine engine, final int searchedMetaStateInputStatePos) {
       final State[] engineInputStateArr = engine.inputStateArr;
       final LarrayInt engineOutputStatePosArr = engine.outputStatePosArr;
-      final MetaState[] engineMetaStateArr = engine.metaStateArr;
+      //final MetaState[] engineMetaStateArr = engine.metaStateArr;
 
       final int searchedMetaStateOutputStatePos = engineOutputStatePosArr.get(searchedMetaStateInputStatePos);
       //final State searchedMetaStateOutputState = engineInputStateArr[searchedMetaStateOutputStatePos];
 
       boolean found = false;
 
-      for (int msPos = 0; msPos < engine.metaStateArr.length; msPos++) {
-         final MetaState metaState = engine.metaStateArr[msPos];
+      for (int msPos = 0; msPos < engine.metaStateList.size(); msPos++) {
+         final MetaState metaState = engine.metaStateList.get(msPos);
 
          if ((metaState.metaStateInputStatePos == searchedMetaStateInputStatePos))// &&
              //(metaState.metaStateOutputStatePos == searchedMetaStateOutputStatePos))
@@ -409,15 +446,15 @@ public class CreateEngineService {
    private static boolean checkMetaStateExistForMetaStateInputAndOutputState2(final Engine engine, final int searchedMetaStateInputStatePos) {
       final State[] engineInputStateArr = engine.inputStateArr;
       final LarrayInt engineOutputStatePosArr = engine.outputStatePosArr;
-      final MetaState[] engineMetaStateArr = engine.metaStateArr;
+      //final MetaState[] engineMetaStateArr = engine.metaStateArr;
 
       final int searchedMetaStateOutputStatePos = engineOutputStatePosArr.get(searchedMetaStateInputStatePos);
       //final State searchedMetaStateOutputState = engineInputStateArr[searchedMetaStateOutputStatePos];
 
       boolean found = false;
 
-      for (int msPos = 0; msPos < engine.metaStateArr.length; msPos++) {
-         final MetaState metaState = engine.metaStateArr[msPos];
+      for (int msPos = 0; msPos < engine.metaStateList.size(); msPos++) {
+         final MetaState metaState = engine.metaStateList.get(msPos);
 
          if ((metaState.metaStateInputStatePos == searchedMetaStateInputStatePos) &&
              (metaState.outputMetaStatePos == searchedMetaStateOutputStatePos))

@@ -34,7 +34,7 @@ public class CreateLevel1StayEngineService {
       // x    1   0   =>   x    1   0
       e.setState(SSTAY_p1_u0, new State(2, posState, nulState), SSTAY_p1_u0);
       //----------------------------------------------------------------------------------------------------------------
-      initMetaStateArr(e);
+      initMetaStateArr(e, false);
 
       //----------------------------------------------------------------------------------------------------------------
       // outputMetaState:

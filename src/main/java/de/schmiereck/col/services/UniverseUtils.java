@@ -55,7 +55,7 @@ public class UniverseUtils {
             } else {
                cellMetaStatePos = part.hyperCell.metaStatePos;
             }
-            final MetaState metaState = engine.metaStateArr[cellMetaStatePos];
+            final MetaState metaState = engine.metaStateList.get(cellMetaStatePos);
             final int inputMetaStatePos = metaState.inputMetaStatePosArr[levelShift];
             cellStatePos = inputMetaStatePos;
             state = engine.inputStateArr[inputMetaStatePos];

@@ -7,6 +7,7 @@ import static de.schmiereck.col.model.FieldEngine.l0StayEnginePos;
 import static de.schmiereck.col.model.FieldEngine.l1EnginePos;
 import static de.schmiereck.col.model.FieldEngine.l1StayEnginePos;
 import static de.schmiereck.col.model.FieldEngine.l2EnginePos;
+import static de.schmiereck.col.model.FieldEngine.l3EnginePos;
 import static de.schmiereck.col.model.HyperCell.Max_Probability;
 import static de.schmiereck.col.services.RunTestUtils.calcDirMetaStatePos;
 import static de.schmiereck.col.services.RunTestUtils.runTestNextMeta2;
@@ -37,6 +38,7 @@ public class Test_UniverseService_WHEN_runNextMeta_is_called_with_lev0 {
    private Engine level0Engine;
    private Engine level1Engine;
    private Engine level2Engine;
+   private Engine level3Engine;
    private Engine level0StayEngine;
    private Engine level1StayEngine;
 
@@ -50,6 +52,7 @@ public class Test_UniverseService_WHEN_runNextMeta_is_called_with_lev0 {
       this.level0Engine = CreateLevel0SpinMoveEngineService.createLevel0SpinMoveEngine();
       this.level1Engine = CreateLevel1SpinMoveEngineService.createLevel1SpinMoveEngine();
       this.level2Engine = CreateLevel2SpinMoveEngineService.createLevel2SpinMoveEngine();
+      this.level3Engine = CreateLevel3SpinMoveEngineService.createLevel3SpinMoveEngine();
       this.level0StayEngine = CreateLevel0StayEngineService.createLevel0StayEngine();
       this.level1StayEngine = CreateLevel1StayEngineService.createLevel1StayEngine();
 
@@ -57,6 +60,7 @@ public class Test_UniverseService_WHEN_runNextMeta_is_called_with_lev0 {
       engineArr[l0EnginePos] = this.level0Engine;
       engineArr[l1EnginePos] = this.level1Engine;
       engineArr[l2EnginePos] = this.level2Engine;
+      engineArr[l3EnginePos] = this.level3Engine;
       engineArr[l0StayEnginePos] = this.level0StayEngine;
       engineArr[l1StayEnginePos] = this.level1StayEngine;
 

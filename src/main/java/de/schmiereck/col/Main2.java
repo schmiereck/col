@@ -4,6 +4,7 @@ import static de.schmiereck.col.model.FieldEngine.l0EnginePos;
 import static de.schmiereck.col.model.FieldEngine.l1EnginePos;
 import static de.schmiereck.col.model.FieldEngine.l1StayEnginePos;
 import static de.schmiereck.col.model.FieldEngine.l2EnginePos;
+import static de.schmiereck.col.model.FieldEngine.l3EnginePos;
 import static de.schmiereck.col.services.UniverseService.runCalcNextMetaState2;
 import static de.schmiereck.col.services.UniverseService.runCalcNextPart;
 import static de.schmiereck.col.services.UniverseUtils.printCells;
@@ -21,6 +22,7 @@ import de.schmiereck.col.model.Universe;
 import de.schmiereck.col.services.engine.spinMove.CreateLevel0SpinMoveEngineService;
 import de.schmiereck.col.services.engine.spinMove.CreateLevel1SpinMoveEngineService;
 import de.schmiereck.col.services.engine.spinMove.CreateLevel2SpinMoveEngineService;
+import de.schmiereck.col.services.engine.spinMove.CreateLevel3SpinMoveEngineService;
 import de.schmiereck.col.services.engine.spinMove.NextPartCreateService;
 import de.schmiereck.col.services.engine.stay.CreateLevel1StayEngineService;
 
@@ -33,6 +35,7 @@ public class Main2 {
       final Engine level0Engine = CreateLevel0SpinMoveEngineService.createLevel0SpinMoveEngine();
       final Engine level1Engine = CreateLevel1SpinMoveEngineService.createLevel1SpinMoveEngine();
       final Engine level2Engine = CreateLevel2SpinMoveEngineService.createLevel2SpinMoveEngine();
+      final Engine level3Engine = CreateLevel3SpinMoveEngineService.createLevel3SpinMoveEngine();
       final Engine level1StayEngine = CreateLevel1StayEngineService.createLevel1StayEngine();
 
       //----------------------------------------------------------------------------------------------------------------
@@ -40,6 +43,7 @@ public class Main2 {
       engineArr[l0EnginePos] = level0Engine;
       engineArr[l1EnginePos] = level1Engine;
       engineArr[l2EnginePos] = level2Engine;
+      engineArr[l3EnginePos] = level3Engine;
       engineArr[l1StayEnginePos] = level1StayEngine;
 
       final FieldEngine fieldEngine = new FieldEngine(engineArr);

@@ -81,9 +81,9 @@ public class NextPartCreateService {
       //----------------------------------------------------------------------------------------------------------------
    }
 
-   static class MetaPosArg {
-      final int metaPos;
-      final int absDiffOff;
+   public static class MetaPosArg {
+      public final int metaPos;
+      public final int absDiffOff;
 
       MetaPosArg(final int metaPos, final int absDiffOff) {
          this.metaPos = metaPos;
@@ -146,36 +146,5 @@ public class NextPartCreateService {
       //                 metaPos(l2E, NULL_u0_u0_u0, LEFTa_p1_u0_u0, NULL_u0_u0_u0),
       //                 metaPos(l2E, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0)};
       return calcNextPartMetaStatePosArr(fieldEngine, l2EnginePos, NPMS_L2_S000_S100_S000_Pos);
-   }
-
-   static void setNextPart(final FieldEngine fieldEngine,
-                           final int aPartEnginePos,
-                           final int aPartMetaStatePos,
-                           final int bPartEnginePos,
-                           final MetaPosArg[] bPartMetaPosArgArr, final int absDiff,
-                           final NextPart nextPart) {
-      for (final MetaPosArg bPartMetaPosArg : bPartMetaPosArgArr) {
-         setNextPart(fieldEngine,
-                     aPartEnginePos, bPartEnginePos,
-                    absDiff + bPartMetaPosArg.absDiffOff,
-                     aPartMetaStatePos,
-                     bPartMetaPosArg.metaPos,
-                     nextPart);
-      }
-   }
-
-   static void setNextPart(final FieldEngine fieldEngine,
-                                   final int aPartEnginePos, final int bPartEnginePos,
-                                   final int absDiff,
-                                   final int aPartMetaStatePos,
-                                   final int bPartMetaStatePos,
-                                   final NextPart nextPart) {
-      fieldEngine.nextPartArr
-              [aPartEnginePos] // aPart.enginePos
-              [bPartEnginePos] // bPart.enginePos
-              [calcRel2ArrPos(absDiff)] // absDiff
-              [aPartMetaStatePos] // aPart metaStatePos
-              [bPartMetaStatePos] // bPart metaStatePos
-              = nextPart;
    }
 }

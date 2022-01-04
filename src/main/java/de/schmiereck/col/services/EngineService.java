@@ -6,17 +6,18 @@ import de.schmiereck.col.model.Cell;
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.LevelCell;
 import de.schmiereck.col.model.MetaState;
+import de.schmiereck.col.model.MetaStateList;
 import de.schmiereck.col.model.State;
 
 public class EngineService {
 
-   private static int searchMetaStatePos(final MetaState[] engineMetaStateArr, final MetaState searchedMetaState) {
-      return searchMetaStatePos(engineMetaStateArr, searchedMetaState.inputMetaStatePosArr);
+   private static int searchMetaStatePos(final MetaStateList engineMetaStateList, final MetaState searchedMetaState) {
+      return searchMetaStatePos(engineMetaStateList, searchedMetaState.inputMetaStatePosArr);
    }
 
-   private static int searchMetaStatePos(final MetaState[] engineMetaStateArr, final int searchedInputMetaStatePosArr[]) {
-      for (int msPos = 0; msPos < engineMetaStateArr.length; msPos++) {
-         final MetaState metaState = engineMetaStateArr[msPos];
+   private static int searchMetaStatePos(final MetaStateList engineMetaStateList, final int searchedInputMetaStatePosArr[]) {
+      for (int msPos = 0; msPos < engineMetaStateList.size(); msPos++) {
+         final MetaState metaState = engineMetaStateList.get(msPos);
          boolean found = true;
          for (int statePos = 0; statePos < metaState.inputMetaStatePosArr.length; statePos++) {
             if (metaState.inputMetaStatePosArr[statePos] != searchedInputMetaStatePosArr[statePos]) {
@@ -40,7 +41,7 @@ public class EngineService {
 
          inputMetaStatePosArr[pos] = cell.statePos;
       }
-      return searchMetaStatePos(engine.metaStateArr, inputMetaStatePosArr);
+      return searchMetaStatePos(engine.metaStateList, inputMetaStatePosArr);
    }
 
    public static int calcMetaStateSize(final Engine engine) {
@@ -124,6 +125,6 @@ public class EngineService {
    }
 
    public static MetaState readMetaState(final Engine engine, final Cell cell) {
-      return engine.metaStateArr[cell.metaStatePos];
+      return engine.metaStateList.get(cell.metaStatePos);
    }
 }

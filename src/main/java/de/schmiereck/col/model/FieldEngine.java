@@ -36,9 +36,10 @@ public class FieldEngine {
    public static final int l0EnginePos = 0;
    public static final int l1EnginePos = 1;
    public static final int l2EnginePos = 2;
-   public static final int l0StayEnginePos = 3;
-   public static final int l1StayEnginePos = 4;
-   public static final int MaxEngineSize = 5;
+   public static final int l3EnginePos = 3;
+   public static final int l0StayEnginePos = 4;
+   public static final int l1StayEnginePos = 5;
+   public static final int MaxEngineSize = 6;
 
    public final Engine[] engineArr;
    public final int maxEnginePos;
@@ -49,11 +50,15 @@ public class FieldEngine {
     * maxEnginePos aPart
     * maxEnginePos bPart
     * maxDiff
-    * maxMetaStatePos aPart
-    * maxMetaStatePos bPart
+    * maxMetaStatePos aPart -> FieldEngineANode
+    * maxMetaStatePos bPart -> FieldEngineBNode
     */
-   public final NextPart[][][][][] nextPartArr;
+   //public final NextPart[][][][][] nextPartArr;
+   public final FieldEngineANode[][][] nextPartANodeArr;
 
+   /**
+    * NPMSP: Next-Part-Meta-State-Pos.
+    */
    public static final int NPMS_L0_S1_Pos = 0;
    public static final int NPMS_L1_S10_S00_Pos = 0;
    public static final int NPMS_L1_S01_S00_Pos = 1;
@@ -78,16 +83,18 @@ public class FieldEngine {
    public FieldEngine(final Engine[] engineArr) {
       this.engineArr = engineArr;
       this.maxEnginePos = this.engineArr.length;
-      final Engine maxMetaStateEngine = Arrays.stream(this.engineArr).filter(engine1 -> Objects.nonNull(engine1)).max((engine1, engine2) -> engine1.metaStateArr.length - engine2.metaStateArr.length).orElseThrow();
-      this.maxMetaStatePos = maxMetaStateEngine.metaStateArr.length;
+      final Engine maxMetaStateEngine = Arrays.stream(this.engineArr).filter(engine1 -> Objects.nonNull(engine1)).max((engine1, engine2) -> engine1.metaStateList.size() - engine2.metaStateList.size()).orElseThrow();
+      this.maxMetaStatePos = maxMetaStateEngine.metaStateList.size();
       final Engine maxCellSizeEngine = Arrays.stream(this.engineArr).filter(engine1 -> Objects.nonNull(engine1)).max((engine1, engine2) -> engine1.cellSize - engine2.cellSize).orElseThrow();
       this.maxCellSize = maxCellSizeEngine.cellSize;
       this.maxDiff = (calcMetaStateSize(maxCellSizeEngine) * 2) - 1;
-      this.nextPartArr = new NextPart[this.maxEnginePos][this.maxEnginePos][calcRel2ArrPos(this.maxDiff)][this.maxMetaStatePos][this.maxMetaStatePos];
+      //this.nextPartArr = new NextPart[this.maxEnginePos][this.maxEnginePos][calcRel2ArrPos(this.maxDiff)][this.maxMetaStatePos][this.maxMetaStatePos];
+      this.nextPartANodeArr = new FieldEngineANode[this.maxEnginePos][this.maxEnginePos][calcRel2ArrPos(this.maxDiff)];
 
       final Engine l0E = this.engineArr[l0EnginePos];
       final Engine l1E = this.engineArr[l1EnginePos];
       final Engine l2E = this.engineArr[l2EnginePos];
+      final Engine l3E = this.engineArr[l3EnginePos];
       final Engine l1SE = this.engineArr[l1StayEnginePos];
 
       this.nextPartMetaStatePosArr = new int[MaxEngineSize][this.maxCellSize * this.maxCellSize][];

@@ -6,7 +6,8 @@ public class Engine {
    public final int cellSize;
    public State[] inputStateArr;
    public LarrayInt outputStatePosArr;
-   public MetaState metaStateArr[];
+   //public MetaState metaStateArr[];
+   public MetaStateList metaStateList;
    /**
     * new: Arr[pow(Engine.inputStateArr.length, cellSize)]
     * get/set:  a = new int[X][Y][Z] = new int[X * Y * Z]
@@ -18,7 +19,7 @@ public class Engine {
     * 10
     * 11
     */
-   public MetaState[] inputMetaStatePosToMetaStateArr;
+   //public MetaState[] inputMetaStatePosToMetaStateArr;
 
    public Engine(final int cellSize) {
       this(cellSize, (int)Math.pow(3, cellSize));

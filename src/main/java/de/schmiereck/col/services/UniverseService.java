@@ -210,17 +210,17 @@ public class UniverseService {
    public static void calcNextStatePosByMetaStatePos2(final Universe universe, final Part part) {
       final Engine engine = readEngine(universe, part.enginePos);
 
-      if (Objects.nonNull(engine.metaStateArr)) {
+      if (Objects.nonNull(engine.metaStateList)) {
          final HyperCell hyperCell = part.hyperCell;
 
          final MetaState sourceMetaState;
          if (Objects.nonNull(hyperCell.dirMetaStatePosArr)) {
             final int metaStatePos = hyperCell.dirMetaStatePosArr[hyperCell.dirProbability.lastProbabilityPos];
-            sourceMetaState = engine.metaStateArr[metaStatePos];
+            sourceMetaState = engine.metaStateList.get(metaStatePos);
 
             for (int dirMetaStatePosPos = 0; dirMetaStatePosPos < hyperCell.dirMetaStatePosArr.length; dirMetaStatePosPos++) {
                final int dirMetaStatePos = hyperCell.dirMetaStatePosArr[dirMetaStatePosPos];
-               final MetaState dirSourceMetaState = engine.metaStateArr[dirMetaStatePos];
+               final MetaState dirSourceMetaState = engine.metaStateList.get(dirMetaStatePos);
                final int nextDirSourceMetaStatePos = dirSourceMetaState.outputMetaStatePos;
                if (nextDirSourceMetaStatePos == -1)
                   throw new RuntimeException(String.format("Level-Cell-Size %d: For Meta-State %s no output state found.", engine.cellSize, convertToDebugString(sourceMetaState)));
@@ -229,7 +229,7 @@ public class UniverseService {
 
             calcNext(hyperCell.dirProbability);
          } else {
-            sourceMetaState = engine.metaStateArr[hyperCell.metaStatePos];
+            sourceMetaState = engine.metaStateList.get(hyperCell.metaStatePos);
             final int nextSourceMetaStatePos = sourceMetaState.outputMetaStatePos;
             if (nextSourceMetaStatePos == -1)
                throw new RuntimeException(String.format("Level-Cell-Size %d: For Meta-State %s no output state found.", engine.cellSize, convertToDebugString(sourceMetaState)));

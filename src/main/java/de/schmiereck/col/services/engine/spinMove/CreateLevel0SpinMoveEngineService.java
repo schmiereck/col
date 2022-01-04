@@ -61,7 +61,7 @@ public class CreateLevel0SpinMoveEngineService {
       // x       -1   =>   x       -1
       level0Engine.setState(RIGHTa_n1, new State(1, negState), RIGHTa_n1);
       //----------------------------------------------------------------------------------------------------------------
-      initMetaStateArr(level0Engine);
+      initMetaStateArr(level0Engine, false);
       //initOutputMetaStatePos(level1dynamicEngine);
 
       final Engine e = level0Engine;
