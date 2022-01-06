@@ -5,6 +5,9 @@ import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
 import static de.schmiereck.col.services.engine.CreateEngineService.initMetaStateArr;
 import static de.schmiereck.col.services.engine.CreateEngineService.writeMetaState;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevelService.calcLeftMetaStatePosArr;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevelService.calcRightMetaStatePosArr;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevelService.calcStayMetaStatePosArr;
 
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.State;
@@ -74,6 +77,8 @@ public class CreateLevel2SpinMoveEngineService {
       writeMetaState(e, NULL_u0_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0,   NULL_u0_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // stay:
+      final int[] stayMetaStatePosArr = { STAYa_p1_u0_u0, STAYa_u0_p1_u0, STAYa_u0_u0_p1 };
+      calcStayMetaStatePosArr(e, stayMetaStatePosArr);
       //    x    0   0   0           =>   x    0   0   0
       //    x        0   0   0       =>   x        0   1   0
       //    x            1   0   0   =>   x            0   0   0
@@ -112,6 +117,8 @@ public class CreateLevel2SpinMoveEngineService {
       writeMetaState(e, NULL_u0_u0_u0, NULL_u0_u0_u0, STAYa_u0_u0_p1,   STAYa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // left:
+      final int[] leftMetaStatePosArr = { LEFTa_p1_u0_u0, LEFTa_u0_p1_u0, LEFTa_u0_u0_p1 };
+      calcLeftMetaStatePosArr(e, leftMetaStatePosArr);
       //    x    0   0   0           =>   x    0   0   0
       //    x        0   0   0       =>   x        1   0   0
       //    x            1   0   0   =>   x            0   0   0
@@ -152,6 +159,8 @@ public class CreateLevel2SpinMoveEngineService {
       writeMetaState(e, NULL_u0_u0_u0, NULL_u0_u0_u0, LEFTa_u0_u0_p1,   LEFTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0, -3);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // right:
+      final int[] rightMetaStatePosArr = { RIGHTa_p1_u0_u0, RIGHTa_u0_p1_u0, RIGHTa_u0_u0_p1 };
+      calcRightMetaStatePosArr(e, rightMetaStatePosArr);
       //    x    0   0   0           =>   x    0   0   0  (1)  .   .
       //    x        0   0   0       =>   x        0   0   0   .   .   .
       //    x            1   0   0   =>   x            0   0   0   .   .   .

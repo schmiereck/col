@@ -3,8 +3,12 @@ package de.schmiereck.col.services.engine.spinMove;
 import static de.schmiereck.col.model.State.NULL_pos;
 import static de.schmiereck.col.model.State.nulState;
 import static de.schmiereck.col.model.State.posState;
+import static de.schmiereck.col.services.engine.CreateEngineService.USE_check;
 import static de.schmiereck.col.services.engine.CreateEngineService.initMetaStateArr;
 import static de.schmiereck.col.services.engine.CreateEngineService.writeMetaState;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevelService.calcLeftMetaStatePosArr;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevelService.calcRightMetaStatePosArr;
+import static de.schmiereck.col.services.engine.spinMove.CreateLevelService.calcStayMetaStatePosArr;
 
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.State;
@@ -71,39 +75,8 @@ public class CreateLevel3SpinMoveEngineService {
       writeMetaState(e, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0,   NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // stay:
-      final int[] metaStatePosArr = { STAYa_p1_u0_u0_u0, STAYa_u0_p1_u0_u0, STAYa_u0_u0_p1_u0, STAYa_u0_u0_u0_p1 };
-      for (int metaPos = 0; metaPos < e.cellSize; metaPos++) {
-         final boolean lastMeta = (metaPos + 1) > e.cellSize;
-
-         for (int inPos = 0; inPos < metaStatePosArr.length; inPos++) {
-            final int inMSPos = metaStatePosArr[inPos];
-            final int outPos = (inPos + 1) % (metaStatePosArr.length);
-            final int outMSPos = metaStatePosArr[outPos];
-            final boolean outWrap = (outPos < inPos);
-            final int offset;
-            final int out2Pos;
-            if (lastMeta == false) {
-               offset = (outWrap) ? metaStatePosArr.length : 0;
-               out2Pos = (outPos == 0) ? outPos + 1 : outPos;
-            } else {
-               offset = (outWrap) ? 0: -metaStatePosArr.length;
-               out2Pos = outPos;
-            }
-
-            final int[] inMetaStateArr = new int[e.cellSize];
-            Arrays.fill(inMetaStateArr, NULL_u0_u0_u0_u0);
-            final int[] outMetaStateArr = new int[e.cellSize];
-            Arrays.fill(outMetaStateArr, NULL_u0_u0_u0_u0);
-
-            inMetaStateArr[inPos] = inMSPos;
-            outMetaStateArr[out2Pos] = outMSPos;
-
-            writeMetaState(e,
-                           inMetaStateArr,
-                           outMetaStateArr,
-                           offset);
-         }
-      }
+      final int[] stayMetaStatePosArr = { STAYa_p1_u0_u0_u0, STAYa_u0_p1_u0_u0, STAYa_u0_u0_p1_u0, STAYa_u0_u0_u0_p1 };
+      calcStayMetaStatePosArr(e, stayMetaStatePosArr);
       //    x    0   0   0   0               =>   x    0   0   0   0
       //    x        0   0   0   0           =>   x        0   0   0   0
       //    x            0   0   0   0       =>   x            0   1   0   0
@@ -144,7 +117,7 @@ public class CreateLevel3SpinMoveEngineService {
       //    x        0   0   0   0           =>   x        0   0   0   0  (1)  .   .   .
       //    x            0   0   0   1       =>   x            0   0   0   0   .   .   .   .
       //    x                0   0   0   0   =>   x                0   0   0   0   .   .   .   .
-      writeMetaState(e, NULL_u0_u0_u0_u0, STAYa_u0_u0_u0_p1, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0,   NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, STAYa_p1_u0_u0_u0, +4);
+      writeMetaState(e, NULL_u0_u0_u0_u0, STAYa_u0_u0_u0_p1, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0,   NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, STAYa_p1_u0_u0_u0, NULL_u0_u0_u0_u0, +4);
 
       //    x    0   0   0   0               =>   x    0   1   0   0
       //    x        1   0   0   0           =>   x        0   0   0   0
@@ -186,8 +159,10 @@ public class CreateLevel3SpinMoveEngineService {
       //    x        0   0   0   0           =>   x        .   .   .   .   0   0   0   0
       //    x            0   0   0   0       =>   x            .   .   .   .   0   0   0   0
       //    x                0   0   0   0   =>   x                .   .   .   .   1   0   0   0
-      writeMetaState(e, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, STAYa_u0_u0_p1_u0,   STAYa_p1_u0_u0_u0, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0);
+      writeMetaState(e, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, STAYa_u0_u0_u0_p1,   STAYa_p1_u0_u0_u0, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      final int[] leftMetaStatePosArr = { LEFTa_p1_u0_u0_u0, LEFTa_u0_p1_u0_u0, LEFTa_u0_u0_p1_u0, LEFTa_u0_u0_u0_p1 };
+      calcLeftMetaStatePosArr(e, leftMetaStatePosArr);
       /*
       // left:
       //    x    0   0   0           =>   x    0   0   0
@@ -228,8 +203,12 @@ public class CreateLevel3SpinMoveEngineService {
       //    x        0   0   0       =>   x        .   .   .   0   0   0
       //    x            0   0   0   =>   x            .   .  (1)  0   0   0
       writeMetaState(e, NULL_u0_u0_u0, NULL_u0_u0_u0, LEFTa_u0_u0_p1,   LEFTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0, -3);
+      */
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // right:
+      final int[] rightMetaStatePosArr = { RIGHTa_p1_u0_u0_u0, RIGHTa_u0_p1_u0_u0, RIGHTa_u0_u0_p1_u0, RIGHTa_u0_u0_u0_p1 };
+      calcRightMetaStatePosArr(e, rightMetaStatePosArr);
+      /*
       //    x    0   0   0           =>   x    0   0   0  (1)  .   .
       //    x        0   0   0       =>   x        0   0   0   .   .   .
       //    x            1   0   0   =>   x            0   0   0   .   .   .

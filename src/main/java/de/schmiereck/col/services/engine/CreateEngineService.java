@@ -44,6 +44,8 @@ public class CreateEngineService {
       writeMetaState(engine, inputMetaPos, new int[] { input0MetaStatePos, input1MetaStatePos }, outputMetaPos, cellPosOffset);
    }
 
+   public static boolean USE_check = false;
+
    private static void writeMetaState(final Engine engine,
                                       final int inputMetaPos, final int[] inputMetaStatePosArr,
                                       final int outputMetaPos,
@@ -55,6 +57,8 @@ public class CreateEngineService {
          engine.metaStateList.set(inputMetaPos, metaState);
       } else {
          metaState = existingMetaState;
+         if (USE_check && (metaState.outputMetaStatePos != outputMetaPos)) throw new RuntimeException(String.format("outputMetaPos check: calculated %d but set %d", metaState.outputMetaStatePos, outputMetaPos));
+         if (USE_check && (metaState.cellPosOffset != cellPosOffset)) throw new RuntimeException(String.format("cellPosOffset check: calculated %d but set %d", metaState.cellPosOffset, cellPosOffset));
          metaState.outputMetaStatePos = outputMetaPos;
       }
       metaState.cellPosOffset = cellPosOffset;
