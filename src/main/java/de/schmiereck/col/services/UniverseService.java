@@ -53,7 +53,7 @@ public class UniverseService {
       //for (final Part aPart : universe.partList) {
       for (int aPartPos = 0; aPartPos < universe.partList.size(); aPartPos++) {
          final Part aPart = universe.partList.get(aPartPos);
-         //final Engine aEngine = readEngine(universe, aPart.enginePos);
+         final Engine aEngine = readEngine(universe, aPart.enginePos);
 
          //for (final Part bPart : universe.partList) {
          for (int bPartPos = aPartPos + 1; bPartPos < universe.partList.size(); bPartPos++) {
@@ -68,7 +68,7 @@ public class UniverseService {
                final NextPart nextPart = FieldEngineService.calcNextPart(universe, aPart, bPart);
 
                if (Objects.nonNull(nextPart)) {
-                  final int relCellPos = aPart.hyperCell.cellPos % nextPart.nextPartArgumentArr.length;
+                  final int relCellPos = (aPart.hyperCell.cellPos / aEngine.cellSize) % nextPart.nextPartArgumentArr.length;
                   final NextPart.NextPartArgument nextPartArgument = nextPart.nextPartArgumentArr[relCellPos];
                   switch (nextPart.command) {
                      case CmdCombineToParent -> {

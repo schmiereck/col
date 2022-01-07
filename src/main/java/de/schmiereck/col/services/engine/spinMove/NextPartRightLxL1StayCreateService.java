@@ -3,6 +3,7 @@ package de.schmiereck.col.services.engine.spinMove;
 import static de.schmiereck.col.model.FieldEngine.NPMS_L0_S1_Pos;
 import static de.schmiereck.col.model.FieldEngine.NPMS_L1_S00_S01_Pos;
 import static de.schmiereck.col.model.FieldEngine.NPMS_L1_S10_S00_Pos;
+import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S000_S000_S100_Pos;
 import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S000_S100_S000_Pos;
 import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S001_S000_S000_Pos;
 import static de.schmiereck.col.model.FieldEngine.l0EnginePos;
@@ -201,9 +202,9 @@ public class NextPartRightLxL1StayCreateService {
       //                                      L              c-L0
       //setNP(fieldEngine, l3EP, mp_L3_N0000_N0000_N0000_R1000, l1SEP, l1SMPArr, +0,      l2EP, NPMS_L2_S000_S100_S000_Pos, -1,      l0EP, NPMS_L0_S1_Pos, +0);
       setNP(fieldEngine, l3EP, mp_L3_N0000_N0000_N0000_R1000, l1SEP, l1SMPArr, +0,      l2EP, NPMS_L2_S000_S100_S000_Pos, -2,      l0EP, NPMS_L0_S1_Pos, +0,
-                                                                                        l2EP, NPMS_L2_S000_S100_S000_Pos, -1,      l0EP, NPMS_L0_S1_Pos, +0);
+                                                                                        l2EP, NPMS_L2_S000_S000_S100_Pos, -1,      l0EP, NPMS_L0_S1_Pos, +0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      // 3right reflection 1stay (Stay-Pos 2):
+      // 3right reflection 1stay (R-Pos:0, Stay-Pos:2):
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       //      L1      L1      L1      L1      L1      L1      L1      L1      L1
       //                      L2          L2          L2          L2          L2
