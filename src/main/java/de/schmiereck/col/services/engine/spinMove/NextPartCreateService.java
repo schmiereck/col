@@ -17,10 +17,8 @@ import static de.schmiereck.col.services.engine.spinMove.NextPartCombineCreateSe
 import static de.schmiereck.col.services.engine.spinMove.NextPartCombineCreateService.createNextPartLevelUpRight;
 import static de.schmiereck.col.services.engine.spinMove.NextPartL0CreateService.createNextPart0leftReflection0stay;
 import static de.schmiereck.col.services.engine.spinMove.NextPartL0CreateService.createNextPart0rightReflection0stay;
-import static de.schmiereck.col.services.engine.spinMove.NextPartL0CreateService.createNextPart0rightReflection1stay;
-import static de.schmiereck.col.services.engine.spinMove.NextPartL1CreateService.createNextPart1rightReflection1stay;
-import static de.schmiereck.col.services.engine.spinMove.NextPartL2CreateService.createNextPart2rightReflection1stay;
 import static de.schmiereck.col.services.engine.spinMove.NextPartLeftLxL1StayCreateService.createNextPartLeftReflection1stay;
+import static de.schmiereck.col.services.engine.spinMove.NextPartRightLxL1StayCreateService.createNextPartRightReflection1stay;
 
 import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.FieldEngine;
@@ -55,6 +53,7 @@ public class NextPartCreateService {
     */
    public static void createNextPartArrA(final Universe universe) {
       createNextPartLeftReflection1stay(universe.fieldEngine);
+      createNextPartRightReflection1stay(universe.fieldEngine);
 
       if (Objects.nonNull(universe.fieldEngine.engineArr[l0EnginePos])) {
          createNextPart0leftReflection0stay(universe.fieldEngine);
@@ -62,15 +61,15 @@ public class NextPartCreateService {
 
          if (Objects.nonNull(universe.fieldEngine.engineArr[l1EnginePos])) {
             //createNextPart0leftReflection1stay(universe.fieldEngine);
-            createNextPart0rightReflection1stay(universe.fieldEngine);
+            //createNextPart0rightReflection1stay(universe.fieldEngine);
          }
       }
       if (Objects.nonNull(universe.fieldEngine.engineArr[l1EnginePos])) {
-         createNextPart1rightReflection1stay(universe.fieldEngine);
+         //createNextPart1rightReflection1stay(universe.fieldEngine);
          //createNextPart1leftReflection1stay(universe.fieldEngine);
 
          if (Objects.nonNull(universe.fieldEngine.engineArr[l2EnginePos])) {
-            createNextPart2rightReflection1stay(universe.fieldEngine);
+            //createNextPart2rightReflection1stay(universe.fieldEngine);
             //createNextPart2leftReflection1stay(universe.fieldEngine);
          }
       }

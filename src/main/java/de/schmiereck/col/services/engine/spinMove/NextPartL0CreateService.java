@@ -107,7 +107,7 @@ public class NextPartL0CreateService {
       //----------------------------------------------------------------------------------------------------------------
    }
 
-   static void createNextPart0rightReflection1stay(final FieldEngine fieldEngine) {
+   static void createNextPart0rightReflection1stay_remove(final FieldEngine fieldEngine) {
       final Engine l0E = fieldEngine.engineArr[l0EnginePos];
       final Engine l1E = fieldEngine.engineArr[l1EnginePos];
       final Engine l2E = fieldEngine.engineArr[l2EnginePos];
@@ -119,7 +119,7 @@ public class NextPartL0CreateService {
       //              0   1   2   3   4
       //                          S   -      b
       //                              -   -
-      final NextPartCreateService.MetaPosArg[] stayMetaPosArgArr = {
+      final NextPartCreateService.MetaPosArg[] l1StayMetaPosArgArr = {
               new NextPartCreateService.MetaPosArg(metaPos(l1SE, SSTAY_u0_p1, NULL_u0_u0), 0),
               new NextPartCreateService.MetaPosArg(metaPos(l1SE, NULL_u0_u0, SSTAY_p1_u0), 2)
       };
@@ -144,7 +144,7 @@ public class NextPartL0CreateService {
       //    x                 R              a
       // =>
       //    x                 L              c
-      setNextPart(fieldEngine, l0EnginePos, metaPos(l0E, RIGHTa_p1), l1StayEnginePos, stayMetaPosArgArr, 0,
+      setNextPart(fieldEngine, l0EnginePos, metaPos(l0E, RIGHTa_p1), l1StayEnginePos, l1StayMetaPosArgArr, 0,
                   new NextPart(l0EnginePos, LR_REFLECTION_MATRIX, +0));
       //----------------------------------------------------------------------------------------------------------------
    }

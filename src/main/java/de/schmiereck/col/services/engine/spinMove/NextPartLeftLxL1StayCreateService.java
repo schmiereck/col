@@ -8,6 +8,9 @@ import static de.schmiereck.col.model.FieldEngine.l1EnginePos;
 import static de.schmiereck.col.model.FieldEngine.l1StayEnginePos;
 import static de.schmiereck.col.model.FieldEngine.l2EnginePos;
 import static de.schmiereck.col.model.FieldEngine.l3EnginePos;
+import static de.schmiereck.col.model.NextPart.Command.CmdCombineToParent;
+import static de.schmiereck.col.model.NextPart.Command.CmdNext;
+import static de.schmiereck.col.model.NextPart.Command.CmdNextNew;
 import static de.schmiereck.col.model.NextPart.LR_CONTINUE_MATRIX;
 import static de.schmiereck.col.model.NextPart.LR_REFLECTION_MATRIX;
 import static de.schmiereck.col.services.FieldEngineService.setNextPart;
@@ -106,7 +109,7 @@ public class NextPartLeftLxL1StayCreateService {
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       //              L1      L1      L1      L1
       //              L2          L2          L2
-      //              L3              L3          L3
+      //              L3              L3              L3
       //              0   1   2   3   4   5
       //          -   -
       //              -   S                  b
@@ -158,5 +161,22 @@ public class NextPartLeftLxL1StayCreateService {
       setNextPart(fieldEngine, aPartEnginePos, aPartMetaStatePos, bPartEnginePos, bPartMetaPosArgArr, absDiff,
                   new NextPart(nextPartEnginePos, calcNextPartMetaStatePosArr(fieldEngine, nextPartEnginePos, nextPartMetaStatePos), LR_CONTINUE_MATRIX, nextPartOffsetCellPos,
                                newPartEnginePos, calcNextPartMetaStatePosArr(fieldEngine, newPartEnginePos, newPartMetaStatePos), LR_REFLECTION_MATRIX, newPartOffsetCellPos));
+   }
+
+   public static void setNP(final FieldEngine fieldEngine,
+                            final int aPartEnginePos, final int aPartMetaStatePos,
+                            final int bPartEnginePos, final NextPartCreateService.MetaPosArg[] bPartMetaPosArgArr,
+                            final int absDiff,
+                            final int nextPart0EnginePos, final int nextPart0MetaStatePos, final int nextPart0OffsetCellPos,
+                            final int newPart0EnginePos, final int newPart0MetaStatePos, final int newPart0OffsetCellPos,
+                            final int nextPart1EnginePos, final int nextPart1MetaStatePos, final int nextPart1OffsetCellPos,
+                            final int newPart1EnginePos, final int newPart1MetaStatePos, final int newPart1OffsetCellPos) {
+      setNextPart(fieldEngine, aPartEnginePos, aPartMetaStatePos, bPartEnginePos, bPartMetaPosArgArr, absDiff,
+                  new NextPart(CmdNextNew,
+                               new NextPart.NextPartArgument(nextPart0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, nextPart0EnginePos, nextPart0MetaStatePos), LR_CONTINUE_MATRIX, nextPart0OffsetCellPos,
+                                                             newPart0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, newPart0EnginePos, newPart0MetaStatePos), LR_REFLECTION_MATRIX, newPart0OffsetCellPos),
+                               new NextPart.NextPartArgument(nextPart1EnginePos, calcNextPartMetaStatePosArr(fieldEngine, nextPart1EnginePos, nextPart1MetaStatePos), LR_CONTINUE_MATRIX, nextPart1OffsetCellPos,
+                                                             newPart1EnginePos, calcNextPartMetaStatePosArr(fieldEngine, newPart1EnginePos, newPart1MetaStatePos), LR_REFLECTION_MATRIX, newPart1OffsetCellPos)
+                               ));
    }
 }

@@ -23,7 +23,7 @@ import de.schmiereck.col.model.NextPart;
 
 public class NextPartL2CreateService {
 
-   static void createNextPart2rightReflection1stay(final FieldEngine fieldEngine) {
+   static void createNextPart2rightReflection1stay_remove(final FieldEngine fieldEngine) {
       final Engine l0E = fieldEngine.engineArr[l0EnginePos];
       final Engine l1E = fieldEngine.engineArr[l1EnginePos];
       final Engine l2E = fieldEngine.engineArr[l2EnginePos];
@@ -35,7 +35,7 @@ public class NextPartL2CreateService {
       //              0   1   2   3   4
       //                          S   -      b
       //                              -   -
-      final NextPartCreateService.MetaPosArg[] stayMetaPosArgArr = {
+      final NextPartCreateService.MetaPosArg[] l1StayMetaPosArgArr = {
               new NextPartCreateService.MetaPosArg(metaPos(l1SE, SSTAY_u0_p1, NULL_u0_u0), 0),
               new NextPartCreateService.MetaPosArg(metaPos(l1SE, NULL_u0_u0, SSTAY_p1_u0), 2)
       };
@@ -52,11 +52,9 @@ public class NextPartL2CreateService {
       //    x     -   -
       //    x         R   -                  a
       //                      L              c
-      setNextPart(fieldEngine, l2EnginePos, metaPos(l2E, RIGHTa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0), l1StayEnginePos, stayMetaPosArgArr, 2,
+      setNextPart(fieldEngine, l2EnginePos, metaPos(l2E, RIGHTa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0), l1StayEnginePos, l1StayMetaPosArgArr, 2,
               new NextPart(l1EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l1EnginePos, NPMS_L1_S10_S00_Pos), LR_CONTINUE_MATRIX, +0,
                       l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_REFLECTION_MATRIX, +2));
-      //new NextPart(l1EnginePos, metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0), +0,
-      //             l0EnginePos, metaPos(l0E, LEFTa_p1), +2));
 
       //              3   4   5   6   4
       //              -   -
@@ -68,11 +66,9 @@ public class NextPartL2CreateService {
       //    x -   -                          a
       //    x     R   -
       //                  L                  c
-      setNextPart(fieldEngine, l2EnginePos, metaPos(l2E, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0), l1StayEnginePos, stayMetaPosArgArr, 1,
+      setNextPart(fieldEngine, l2EnginePos, metaPos(l2E, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0), l1StayEnginePos, l1StayMetaPosArgArr, 1,
               new NextPart(l1EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l1EnginePos, NPMS_L1_S10_S00_Pos), LR_CONTINUE_MATRIX, -1,
                       l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_REFLECTION_MATRIX, +1));
-      //new NextPart(l1EnginePos, metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0), -1,
-      //             l0EnginePos, metaPos(l0E, LEFTa_p1), +1));
       //----------------------------------------------------------------------------------------------------------------
    }
 }
