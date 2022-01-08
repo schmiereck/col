@@ -6,6 +6,7 @@ import static de.schmiereck.col.model.FieldEngine.NPMS_L1_S10_S00_Pos;
 import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S000_S000_S100_Pos;
 import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S000_S100_S000_Pos;
 import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S001_S000_S000_Pos;
+import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S100_S000_S000_Pos;
 import static de.schmiereck.col.model.FieldEngine.l0EnginePos;
 import static de.schmiereck.col.model.FieldEngine.l1EnginePos;
 import static de.schmiereck.col.model.FieldEngine.l1StayEnginePos;
@@ -74,8 +75,10 @@ public class NextPartRightLxL1StayCreateService {
       final int mp_L2_N000_R100_N000 = metaPos(l2E, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0);
       final int mp_L2_R100_N000_N000 = metaPos(l2E, RIGHTa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0);
       final int mp_L3_N0000_N0000_R0001_N0000 = metaPos(l3E, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, RIGHTa_u0_u0_u0_p1, NULL_u0_u0_u0_u0);
-      final int mp_L3_N0000_N0000_N0000_R1000 = metaPos(l3E, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, RIGHTa_p1_u0_u0_u0);
+      final int mp_L3_R1000_N0000_N0000_N0000 = metaPos(l3E, RIGHTa_p1_u0_u0_u0, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0);
       final int mp_L3_N0000_R1000_N0000_N0000 = metaPos(l3E, NULL_u0_u0_u0_u0, RIGHTa_p1_u0_u0_u0, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0);
+      final int mp_L3_N0000_N0000_R1000_N0000 = metaPos(l3E, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, RIGHTa_p1_u0_u0_u0, NULL_u0_u0_u0_u0);
+      final int mp_L3_N0000_N0000_N0000_R1000 = metaPos(l3E, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, RIGHTa_p1_u0_u0_u0);
       //----------------------------------------------------------------------------------------------------------------
       // 0right reflection 1stay:
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -103,20 +106,20 @@ public class NextPartRightLxL1StayCreateService {
       //----------------------------------------------------------------------------------------------------------------
       // 1right reflection 1stay:
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      //              0   1   2   3   4
-      //                  -   -
-      //                      -   S          b
+      //                  0   1   2   3   4
+      //                      -   -
+      //                          -   S          b
       //    x         -   -
       //    x             R   -              a
       // =>
       //    x         -
       //    x             R                  a
       //                      L              c
-      //TODO Wrong a pos?!
+      // Wrong b pos?!
       //setNextPart(fieldEngine, l1EnginePos, metaPos(l1E, RIGHTa_p1_u0, NULL_u0_u0), l1StayEnginePos, l1StayMetaPosArgArr, 2,
       //            new NextPart(l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_CONTINUE_MATRIX, +0,
       //                         l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_REFLECTION_MATRIX, +1));
-      setNP(fieldEngine, l1EP, mp_L1_R10_N00, l1SEP, l1SMPArr, +2,             l0EP, NPMS_L0_S1_Pos, +0,           l0EP, NPMS_L0_S1_Pos, +1);
+      //setNP(fieldEngine, l1EP, mp_L1_R10_N00, l1SEP, l1SMPArr, +2,             l0EP, NPMS_L0_S1_Pos, +0,           l0EP, NPMS_L0_S1_Pos, +1);
 
       //              0   1   2   3   4
       //                  -   -
@@ -131,34 +134,41 @@ public class NextPartRightLxL1StayCreateService {
       //                         l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_REFLECTION_MATRIX, +0));
       setNP(fieldEngine, l1EP, mp_L1_N00_R10, l1SEP, l1SMPArr, +0,             l0EP, NPMS_L0_S1_Pos, -1,           l0EP, NPMS_L0_S1_Pos, +0);
       //----------------------------------------------------------------------------------------------------------------
-      // 2right reflection 1stay (Stay-Pos 0):
+      // 2right reflection 1stay (R-Pos:0, Stay-Pos:2):
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      //              0   1   2   3   4
+      //              L1      L1      L1      L1      L1      L1      L1
+      //              L2          L2          L2          L2          L2
+      //              L3              L3              L3              L3
+      //              0   1   2   3   4   5   6   7   8   9  10  11
       //                  -   -
-      //                      -   S          b
+      //                      -   S          b-L1
       //    x -   -   -
       //    x     -   -   -
-      //    x         R   -   -              a
-      // =>
+      //    x         R   -   -              a-L2
+      // =>    |
       //    x     -   -
-      //    x         R   -                  a
-      //                      L              c
+      //    x         R   -                  a-L1
+      //                      L              c-L0
       //setNextPart(fieldEngine, l2EnginePos, metaPos(l2E, RIGHTa_p1_u0_u0, NULL_u0_u0_u0, NULL_u0_u0_u0), l1StayEnginePos, l1StayMetaPosArgArr, 2,
       //            new NextPart(l1EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l1EnginePos, NPMS_L1_S10_S00_Pos), LR_CONTINUE_MATRIX, +0,
       //                         l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_REFLECTION_MATRIX, +2));
       setNP(fieldEngine, l2EP, mp_L2_R100_N000_N000, l1SEP, l1SMPArr, +2,      l1EP, NPMS_L1_S10_S00_Pos, +0,      l0EP, NPMS_L0_S1_Pos, +2);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      // 2right reflection 1stay (Stay-Pos 0):
-      //              3   4   5   6   4
-      //              -   -
-      //                  -   S          b
-      //    x -   -   -
-      //    x     R   -   -
-      //    x         -   -   -              a
-      // =>
-      //    x -   -                          a
-      //    x     R   -
-      //                  L                  c
+      // 2right reflection 1stay (R-Pos:3, Stay-Pos:4):
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      //              L1      L1      L1      L1      L1      L1      L1
+      //              L2          L2          L2          L2          L2
+      //              L3              L3              L3              L3
+      //              0   1   2   3   4   5   6   7   8   9  10  11
+      //                          -   -
+      //                              -   S              b-L1
+      //    x             -   -   -
+      //    x                 R   -   -                  a-L2
+      //    x                     -   -   -
+      // =>    |
+      //    x             -   -
+      //    x                 R   -                      a-L1
+      //                              L                  c-L0
       //setNextPart(fieldEngine, l2EnginePos, metaPos(l2E, NULL_u0_u0_u0, RIGHTa_p1_u0_u0, NULL_u0_u0_u0), l1StayEnginePos, l1StayMetaPosArgArr, 1,
       //            new NextPart(l1EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l1EnginePos, NPMS_L1_S10_S00_Pos), LR_CONTINUE_MATRIX, -1,
       //                         l0EnginePos, calcNextPartMetaStatePosArr(fieldEngine, l0EnginePos, NPMS_L0_S1_Pos), LR_REFLECTION_MATRIX, +1));
@@ -169,26 +179,45 @@ public class NextPartRightLxL1StayCreateService {
       //      L1      L1      L1      L1      L1      L1      L1      L1      L1
       //                      L2          L2          L2          L2          L2
       //                      L3              L3              L3              L3
-      //     -4  -3  -2  -1   0   1   2   3   4   5
+      //     -4  -3  -2  -1   0   1   2   3   4   5   6   7   8   9  10  11
       //                  -   -
       //                      -   S                   b
       //    x     R   -   -   -                       a
       //    x         -   -   -   -
       //    x             -   -   -   -
       //    x                 -   -   -   -
-      // =>
+      // =>    |
       //    x -   -   -
       //    x     R   -   -                           a
       //    x         -   -   -
       //                      L                       c
       //setNP(fieldEngine, l3EP, mp_L3_N0000_N0000_N0000_R1000, l1SEP, l1SMPArr, +0,      l2EP, NPMS_L2_S000_S100_S000_Pos, -2,      l0EP, NPMS_L0_S1_Pos, +0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // 3right reflection 1stay (R-Pos:0, Stay-Pos:2):
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      //      L1      L1      L1      L1      L1      L1      L1      L1      L1
+      //                      L2          L2          L2          L2          L2
+      //                      L3              L3              L3              L3
+      //     -4  -3  -2  -1   0   1   2   3   4   5   6   7   8   9  10  11
+      //                          -   -
+      //                              -   S           b
+      //    x     -   -   -   -                       a
+      //    x         -   -   -   -
+      //    x             R   -   -   -
+      //    x                 -   -   -   -
+      // =>    |
+      //    x         -   -   -
+      //    x             R   -   -                           a
+      //    x                 -   -   -
+      //                              L                       c
+      setNP(fieldEngine, l3EP, mp_L3_N0000_R1000_N0000_N0000, l1SEP, l1SMPArr, +2,      l2EP, NPMS_L2_S000_S100_S000_Pos, +0,      l0EP, NPMS_L0_S1_Pos, +2);
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // 3right reflection 1stay (R-Pos:4, Stay-Pos:4):
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       //      L1      L1      L1      L1      L1      L1      L1      L1      L1
       //                      L2          L2          L2          L2          L2
       //                      L3              L3              L3              L3
-      //      4  -3  -2  -1   0   1   2   3   4   5
+      //      4  -3  -2  -1   0   1   2   3   4   5   6   7   8   9  10  11
       //                                  -   -
       //                                      -   S           b-L1
       //    x                     R   -   -   -               a-L3
@@ -204,24 +233,43 @@ public class NextPartRightLxL1StayCreateService {
       setNP(fieldEngine, l3EP, mp_L3_N0000_N0000_N0000_R1000, l1SEP, l1SMPArr, +0,      l2EP, NPMS_L2_S000_S100_S000_Pos, -2,      l0EP, NPMS_L0_S1_Pos, +0,
                                                                                         l2EP, NPMS_L2_S000_S000_S100_Pos, -1,      l0EP, NPMS_L0_S1_Pos, +0);
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      // 3right reflection 1stay (R-Pos:0, Stay-Pos:2):
+      // 3right reflection 1stay (R-Pos:4, Stay-Pos:6):
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       //      L1      L1      L1      L1      L1      L1      L1      L1      L1
       //                      L2          L2          L2          L2          L2
       //                      L3              L3              L3              L3
-      //     -4  -3  -2  -1   0   1   2   3   4   5
-      //                          -   -
-      //                              -   S           b
-      //    x     -   -   -   -                       a
-      //    x         -   -   -   -
-      //    x             R   -   -   -
-      //    x                 -   -   -   -
-      // =>
-      //    x         -   -   -
-      //    x             R   -   -                           a
-      //    x                 -   -   -
-      //                              L                       c
-      setNP(fieldEngine, l3EP, mp_L3_N0000_R1000_N0000_N0000, l1SEP, l1SMPArr, +2,      l2EP, NPMS_L2_S000_S100_S000_Pos, +0,      l0EP, NPMS_L0_S1_Pos, +2);
+      //     -4  -3  -2  -1   0   1   2   3   4   5   6   7   8   9  10  11
+      //                                          -   -
+      //                                              -   S          b-L1
+      //    x                     -   -   -   -                      a-L3
+      //    x                         -   -   -   -
+      //    x                             R   -   -   -
+      //    x                                 -   -   -   -
+      // =>    |        |            |
+      //    x                     -   -   -
+      //    x                         -   -   -
+      //    x                             R   -   -                  a-L2
+      //                                              L              c-L0
+      setNP(fieldEngine, l3EP, mp_L3_N0000_R1000_N0000_N0000, l1SEP, l1SMPArr, +3,      l2EP, NPMS_L2_S100_S000_S000_Pos, -1,      l0EP, NPMS_L0_S1_Pos, +2);
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // 3right reflection 1stay (R-Pos:8, Stay-Pos:8) == (R-Pos:4, Stay-Pos:4):
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      //      L1      L1      L1      L1      L1      L1      L1      L1      L1
+      //                      L2          L2          L2          L2          L2
+      //                      L3              L3              L3              L3
+      //     -4  -3  -2  -1   0   1   2   3   4   5   6   7   8   9  10  11
+      //                                                 -   -
+      //                                                     -   S            b-L1
+      //    x                                     R   -   -   -               a-L3
+      //    x                                         -   -   -   -
+      //    x                                             -   -   -   -
+      //    x                                                 -   -   -   -
+      // =>    |        |            |                |
+      //    x                                 -   -   -                        a-L2
+      //    x                                     R   -   -
+      //    x                                         -   -   -
+      //                                                      L                c-L0
+      //setNP(fieldEngine, l3EP, mp_L3_N0000_N0000_N0000_R1000, l1SEP, l1SMPArr, +0,      l2EP, NPMS_L2_S000_S100_S000_Pos, -2,      l0EP, NPMS_L0_S1_Pos, +0);
       //----------------------------------------------------------------------------------------------------------------
    }
 }

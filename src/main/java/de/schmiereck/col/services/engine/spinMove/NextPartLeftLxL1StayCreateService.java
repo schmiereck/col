@@ -2,6 +2,8 @@ package de.schmiereck.col.services.engine.spinMove;
 
 import static de.schmiereck.col.model.FieldEngine.NPMS_L0_S1_Pos;
 import static de.schmiereck.col.model.FieldEngine.NPMS_L1_S00_S01_Pos;
+import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S000_S000_S001_Pos;
+import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S000_S001_S000_Pos;
 import static de.schmiereck.col.model.FieldEngine.NPMS_L2_S001_S000_S000_Pos;
 import static de.schmiereck.col.model.FieldEngine.l0EnginePos;
 import static de.schmiereck.col.model.FieldEngine.l1EnginePos;
@@ -62,6 +64,7 @@ public class NextPartLeftLxL1StayCreateService {
       final int mp_L2_L001_N000_N000 = metaPos(l2E, LEFTa_u0_u0_p1, NULL_u0_u0_u0, NULL_u0_u0_u0);
       final int mp_L2_N000_L001_N000 = metaPos(l2E, NULL_u0_u0_u0, LEFTa_u0_u0_p1, NULL_u0_u0_u0);
       final int mp_L3_N0000_N0000_L0001_N0000 = metaPos(l3E, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, LEFTa_u0_u0_u0_p1, NULL_u0_u0_u0_u0);
+      final int mp_L3_L0001_N0000_N0000_N0000 = metaPos(l3E, LEFTa_u0_u0_u0_p1, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0, NULL_u0_u0_u0_u0);
       //----------------------------------------------------------------------------------------------------------------
       // 0left reflection 1stay:
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -105,41 +108,82 @@ public class NextPartLeftLxL1StayCreateService {
       //                      R              c
       setNP(fieldEngine, l2EP, mp_L2_N000_L001_N000, l1SEP, l1SMPArr, -3,      l1EP, NPMS_L1_S00_S01_Pos, +1,      l0EP, NPMS_L0_S1_Pos, -1);
       //----------------------------------------------------------------------------------------------------------------
-      // 3left reflection 1stay (Stay-Pos 0):
-      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      //              L1      L1      L1      L1
-      //              L2          L2          L2
-      //              L3              L3              L3
-      //              0   1   2   3   4   5
-      //          -   -
-      //              -   S                  b
-      //    x             -   -   -   -
-      //    x                 -   -   -   L
-      //    x                     -   -   -   -
-      //    x                         -   -   -   -
-      // =>
-      //    x             -   -   -
-      //    x                 -   -   -      a
-      //    x                     -   -   L
-      //                      R              c
-      setNP(fieldEngine, l3EP, mp_L3_N0000_N0000_L0001_N0000, l1SEP, l1SMPArr, -4,      l2EP, NPMS_L2_S001_S000_S000_Pos, -1,      l0EP, NPMS_L0_S1_Pos, -2);
-      //----------------------------------------------------------------------------------------------------------------
       // 2left reflection 1stay (Stay-Pos 4):
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      //              L1      L1      L1      L1
-      //              L2          L2          L2
-      //              0   1   2   3   4   5
-      //                          3   4   5   0/6 1/7 2/8
-      //                          -   -
-      //                              -   S              b
-      //    x                         -   -   -
-      //    x                             -   -   -
-      //    x                                 -   -   L  a
+      //      L1      L1      L1      L1      L1      L1      L1      L1      L1
+      //                      L2          L2          L2          L2          L2
+      //                      L3              L3              L3              L3
+      //     -4  -3  -2  -1   0   1   2   3   4   5   6   7   8   9  10  11
+      //                                  3   4   5   0/6 1/7 2/8
+      //                                  -   -
+      //                                      -   S              b
+      //    x                                 -   -   -
+      //    x                                     -   -   -
+      //    x                                         -   -   L  a
       // =>
-      //    x                                     -   L      a
-      //    x                                         -   -
-      //                                      R          c
+      //    x                                             -   L      a
+      //    x                                                 -   -
+      //                                              R          c
       setNP(fieldEngine, l2EP, mp_L2_L001_N000_N000, l1SEP, l1SMPArr, -2,      l1EP, NPMS_L1_S00_S01_Pos, +2,      l0EP, NPMS_L0_S1_Pos, +0);
+      //----------------------------------------------------------------------------------------------------------------
+      // 3left reflection 1stay (L-Pos:4, Stay-Pos 0):
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      //      L1      L1      L1      L1      L1      L1      L1      L1      L1
+      //                      L2          L2          L2          L2          L2
+      //                      L3              L3              L3              L3
+      //     -4  -3  -2  -1   0   1   2   3   4   5   6   7   8   9  10  11
+      //                  -   -
+      //                      -   S                  b
+      //    x                     -   -   -   -
+      //    x                         -   -   -   L
+      //    x                             -   -   -   -
+      //    x                                 -   -   -   -
+      // =>
+      //    x                     -   -   -
+      //    x                         -   -   -      a
+      //    x                             -   -   L
+      //                              R              c
+      setNP(fieldEngine, l3EP, mp_L3_N0000_N0000_L0001_N0000, l1SEP, l1SMPArr, -4,      l2EP, NPMS_L2_S001_S000_S000_Pos, -1,      l0EP, NPMS_L0_S1_Pos, -2,
+                                                                                        l2EP, NPMS_L2_S000_S000_S001_Pos, +1,      l0EP, NPMS_L0_S1_Pos, -2);
+      //----------------------------------------------------------------------------------------------------------------
+      // 3left reflection 1stay (L-Pos:4, Stay-Pos 2):
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      //      L1      L1      L1      L1      L1      L1      L1      L1      L1
+      //                      L2          L2          L2          L2          L2
+      //                      L3              L3              L3              L3
+      //     -4  -3  -2  -1   0   1   2   3   4   5   6   7   8   9  10  11
+      //                          -   -
+      //                              -   S                           b-L1
+      //    x                     -   -   -   -
+      //    x                         -   -   -   -
+      //    x                             -   -   -   -
+      //    x                                 -   -   -   L           a-L3
+      // =>    |        |            |
+      //    x                                 -   -   -
+      //    x                                     -   -   L           a-L2
+      //    x                                         -   -   -
+      //                                      R                       c-L0
+      setNP(fieldEngine, l3EP, mp_L3_L0001_N0000_N0000_N0000, l1SEP, l1SMPArr, -2,      l2EP, NPMS_L2_S000_S001_S000_Pos, +2,      l0EP, NPMS_L0_S1_Pos, +0);
+      //----------------------------------------------------------------------------------------------------------------
+      // 3left reflection 1stay (L-Pos:8, Stay-Pos 4):
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      //      L1      L1      L1      L1      L1      L1      L1      L1      L1
+      //                      L2          L2          L2          L2          L2
+      //                      L3              L3              L3              L3
+      //     -4  -3  -2  -1   0   1   2   3   4   5   6   7   8   9  10  11
+      //                                  -   -
+      //                                      -   S                               b-L1
+      //    x                                     -   -   -   -
+      //    x                                         -   -   -   L               a-L3
+      //    x                                             -   -   -   -
+      //    x                                                 -   -   -   -
+      // =>    |        |            |
+      //    x                                             -   -   L               a-L2
+      //    x                                                 -   -   -
+      //    x                                                     -   -   -
+      //                                              R                           c-L0
+      // see (L-Pos:4, Stay-Pos 0)
+      //setNP(fieldEngine, l3EP, mp_L3_N0000_N0000_L0001_N0000, l1SEP, l1SMPArr, -4,      l2EP, NPMS_L2_S000_S000_S001_Pos, +1,      l0EP, NPMS_L0_S1_Pos, -2);
       //----------------------------------------------------------------------------------------------------------------
    }
 
