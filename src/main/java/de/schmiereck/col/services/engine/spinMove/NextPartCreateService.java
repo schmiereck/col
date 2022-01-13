@@ -90,7 +90,7 @@ public class NextPartCreateService {
       }
    }
 
-   static int[] calcNextPartMetaStatePosArr(final FieldEngine fieldEngine, final int enginePos, final int nextPartMetaStatePos) {
+   public static int[] calcNextPartMetaStatePosArr(final FieldEngine fieldEngine, final int enginePos, final int nextPartMetaStatePos) {
       return fieldEngine.nextPartMetaStatePosArr[enginePos][nextPartMetaStatePos];
    }
 

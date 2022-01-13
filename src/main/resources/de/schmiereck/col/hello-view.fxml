@@ -5,12 +5,22 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
+<VBox alignment="TOP_LEFT" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="de.schmiereck.col.HelloController">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
     </padding>
 
+    <HBox>
+        <Button text="Hello!" onAction="#onHelloButtonClick"/>
+        <Button text="Hello2!" onAction="#onHelloButtonClick"/>
+    </HBox>
     <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+    <BorderPane fx:id="welcomePane">
+        <Canvas fx:id="welcomeCanvas" height="100.0" width="100.0"/>
+    </BorderPane>
+
 </VBox>

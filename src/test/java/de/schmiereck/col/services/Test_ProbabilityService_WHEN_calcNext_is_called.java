@@ -27,7 +27,7 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
       final int[] lastPossibilityArr = {
               1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1
       };
-      //      0   1   2   3   4   5   6   7   8   9   10  11  12
+      //      0   1   2   3   4   5   6   7   8   9  10  11  12
       final int[][] posibilityCnt2Arr = {
            {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 },
            {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 },
@@ -36,8 +36,8 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
          // Assert
          assertEquals(lastPossibilityArr[pos], probability.lastProbabilityPos, String.format("lastPossibility - pos:%d", pos));
 
-         assertEquals(posibilityCnt2Arr[0][pos], probability.lastProbabilityCntArr[0], String.format("posibilityCntArr[0] - pos:%d", pos));
-         assertEquals(posibilityCnt2Arr[1][pos], probability.lastProbabilityCntArr[1], String.format("posibilityCntArr[1] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[0][pos], probability.lastProbabilityCntArr[0], String.format("probabilityCntArr[0] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[1][pos], probability.lastProbabilityCntArr[1], String.format("probabilityCntArr[1] - pos:%d", pos));
 
          // Act
          ProbabilityService.calcNext(probability);
@@ -58,7 +58,7 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
       final int[] lastPossibilityArr = {
               1,  0,  1,  1,  0,  1,  1,  0,  1,  1,  0
       };
-      //      0   1   2   3   4   5   6   7   8   9   10  11  12
+      //      0   1   2   3   4   5   6   7   8   9  10  11  12
       final int[][] posibilityCnt2Arr = {
            {  2,  0,  1,  2,  0,  1,  2,  0,  1,  2,  0 },
            {  1,  3,  2,  1,  3,  2,  1,  3,  2,  1,  3 },
@@ -67,8 +67,8 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
          // Assert
          assertEquals(lastPossibilityArr[pos], probability.lastProbabilityPos, String.format("lastPossibility - pos:%d", pos));
 
-         assertEquals(posibilityCnt2Arr[0][pos], probability.probabilityCntArr[0], String.format("posibilityCntArr[0] - pos:%d", pos));
-         assertEquals(posibilityCnt2Arr[1][pos], probability.probabilityCntArr[1], String.format("posibilityCntArr[1] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[0][pos], probability.probabilityCntArr[0], String.format("probabilityCntArr[0] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[1][pos], probability.probabilityCntArr[1], String.format("probabilityCntArr[1] - pos:%d", pos));
 
          // Act
          ProbabilityService.calcNext(probability);
@@ -99,8 +99,8 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
          // Assert
          assertEquals(lastPossibilityArr[pos], probability.lastProbabilityPos, String.format("lastPossibility - pos:%d", pos));
 
-         assertEquals(posibilityCnt2Arr[0][pos], probability.probabilityCntArr[0], String.format("posibilityCntArr[0] - pos:%d", pos));
-         assertEquals(posibilityCnt2Arr[1][pos], probability.probabilityCntArr[1], String.format("posibilityCntArr[1] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[0][pos], probability.probabilityCntArr[0], String.format("probabilityCntArr[0] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[1][pos], probability.probabilityCntArr[1], String.format("probabilityCntArr[1] - pos:%d", pos));
 
          // Act
          ProbabilityService.calcNext(probability);
@@ -133,8 +133,8 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
          // Assert
          assertEquals(lastPossibilityArr[pos], probability.lastProbabilityPos, String.format("lastPossibility - pos:%d", pos));
 
-         assertEquals(posibilityCnt2Arr[0][pos], probability.probabilityCntArr[0], String.format("posibilityCntArr[0] - pos:%d", pos));
-         assertEquals(posibilityCnt2Arr[1][pos], probability.probabilityCntArr[1], String.format("posibilityCntArr[1] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[0][pos], probability.probabilityCntArr[0], String.format("probabilityCntArr[0] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[1][pos], probability.probabilityCntArr[1], String.format("probabilityCntArr[1] - pos:%d", pos));
       }
    }
 
@@ -166,9 +166,9 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
          // Assert
          assertEquals(lastPossibilityArr[pos], probability.lastProbabilityPos, String.format("lastPossibility - pos:%d", pos));
 
-         assertEquals(posibilityCnt2Arr[0][pos], probability.probabilityCntArr[0], String.format("posibilityCntArr[0] - pos:%d", pos));
-         assertEquals(posibilityCnt2Arr[1][pos], probability.probabilityCntArr[1], String.format("posibilityCntArr[1] - pos:%d", pos));
-         assertEquals(posibilityCnt2Arr[2][pos], probability.probabilityCntArr[2], String.format("posibilityCntArr[2] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[0][pos], probability.probabilityCntArr[0], String.format("probabilityCntArr[0] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[1][pos], probability.probabilityCntArr[1], String.format("probabilityCntArr[1] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[2][pos], probability.probabilityCntArr[2], String.format("probabilityCntArr[2] - pos:%d", pos));
       }
    }
 
@@ -198,8 +198,8 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
          // Assert
          assertEquals(lastPossibilityArr[pos], probability.lastProbabilityPos, String.format("lastPossibility - pos:%d", pos));
 
-         assertEquals(posibilityCnt2Arr[0][pos], probability.lastProbabilityCntArr[0], String.format("posibilityCntArr[0] - pos:%d", pos));
-         assertEquals(posibilityCnt2Arr[1][pos], probability.lastProbabilityCntArr[1], String.format("posibilityCntArr[1] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[0][pos], probability.lastProbabilityCntArr[0], String.format("probabilityCntArr[0] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[1][pos], probability.lastProbabilityCntArr[1], String.format("probabilityCntArr[1] - pos:%d", pos));
       }
    }
 
@@ -208,7 +208,7 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
       // Arrange
       final Probability probability = new Probability(10, 3);
 
-      //                            10     = 100%
+      //                             10     = 100%
       probability.probabilityArr[0] = 3; // =  30% = 3/10
       probability.probabilityArr[1] = 3; // =  30% = 3/10
       probability.probabilityArr[2] = 4; // =  40% = 4/10
@@ -232,9 +232,9 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
          // Assert
          assertEquals(lastPossibilityArr[pos], probability.lastProbabilityPos, String.format("lastPossibility - pos:%d", pos));
 
-         assertEquals(posibilityCnt2Arr[0][pos], probability.probabilityCntArr[0], String.format("posibilityCntArr[0] - pos:%d", pos));
-         assertEquals(posibilityCnt2Arr[1][pos], probability.probabilityCntArr[1], String.format("posibilityCntArr[1] - pos:%d", pos));
-         assertEquals(posibilityCnt2Arr[2][pos], probability.probabilityCntArr[2], String.format("posibilityCntArr[2] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[0][pos], probability.probabilityCntArr[0], String.format("probabilityCntArr[0] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[1][pos], probability.probabilityCntArr[1], String.format("probabilityCntArr[1] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[2][pos], probability.probabilityCntArr[2], String.format("probabilityCntArr[2] - pos:%d", pos));
       }
    }
 
@@ -314,9 +314,93 @@ public class Test_ProbabilityService_WHEN_calcNext_is_called {
          // Assert
          assertEquals(lastPossibilityArr[pos], probability.lastProbabilityPos, String.format("lastPossibility - pos:%d", pos));
 
-         assertEquals(posibilityCnt2Arr[0][pos], probability.probabilityCntArr[0], String.format("posibilityCntArr[0] - pos:%d", pos));
-         assertEquals(posibilityCnt2Arr[1][pos], probability.probabilityCntArr[1], String.format("posibilityCntArr[1] - pos:%d", pos));
-         assertEquals(posibilityCnt2Arr[2][pos], probability.probabilityCntArr[2], String.format("posibilityCntArr[2] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[0][pos], probability.probabilityCntArr[0], String.format("probabilityCntArr[0] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[1][pos], probability.probabilityCntArr[1], String.format("probabilityCntArr[1] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[2][pos], probability.probabilityCntArr[2], String.format("probabilityCntArr[2] - pos:%d", pos));
+      }
+   }
+
+   @Test
+   void GIVEN_size3_max10_prob_5_2_3_THEN_x() {
+      // Arrange
+      final Probability probability = new Probability(10, 3);
+
+      //                             10     = 100%
+      probability.probabilityArr[0] = 5; // =  50% = 5/10
+      probability.probabilityArr[1] = 2; // =  20% = 2/10
+      probability.probabilityArr[2] = 3; // =  30% = 3/10
+
+      probability.probabilityCntArr[0] = 0;
+      probability.probabilityCntArr[1] = 0;
+      probability.probabilityCntArr[2] = 0;
+
+      ProbabilityService.calcInit(probability);
+
+      final int[] lastPossibilityArr = { // 0: 13x, 1: 4x,  2: 7x
+                 0,  0,  2,  0,  1,  2,  0,  0,  1,  2,  0,  0,  2,  0,  1,  2,  0,  0,  1,  2,  0,  0,  2,  0
+      };
+      //         0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23
+      final int[][] posibilityCnt2Arr = {
+              {  0,  5, 10,  5, 10, 15, 10,  5, 10, 15, 10,  5, 10,  5, 10, 15, 10,  5, 10, 15, 10,  5, 10,  5 },
+              {  4,  6,  8, 10,  2,  4,  6,  8,  0,  2,  4,  6,  8, 10,  2,  4,  6,  8,  0,  2,  4,  6,  8, 10 },
+              {  6,  9,  2,  5,  8,  1,  4,  7, 10,  3,  6,  9,  2,  5,  8,  1,  4,  7, 10,  3,  6,  9,  2,  5 },
+      };
+      for (int pos = 0; pos < lastPossibilityArr.length; pos++) {
+         // Assert
+         assertEquals(lastPossibilityArr[pos], probability.lastProbabilityPos, String.format("lastPossibility - pos:%d", pos));
+
+         assertEquals(posibilityCnt2Arr[0][pos], probability.probabilityCntArr[0], String.format("probabilityCntArr[0] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[1][pos], probability.probabilityCntArr[1], String.format("probabilityCntArr[1] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[2][pos], probability.probabilityCntArr[2], String.format("probabilityCntArr[2] - pos:%d", pos));
+
+         // Act
+         ProbabilityService.calcNext(probability);
+      }
+   }
+
+   @Test
+   void GIVEN_a_size3_max10_prob_5_0_5_AND_b_size3_max10_prob_3_3_4_THEN_x() {
+      // Arrange
+      // a  5  0  5  = 10
+      // b  3  3  4  = 10
+      // -----------
+      //    8  3  9  = 20
+      final Probability aProbability = new Probability(10, 3);
+
+      //                              10     = 100%
+      aProbability.probabilityArr[0] = 5; // =  50% = 5/10
+      aProbability.probabilityArr[1] = 0; // =   0% = 0/10
+      aProbability.probabilityArr[2] = 5; // =  50% = 5/10
+
+      final Probability bProbability = new Probability(10, 3);
+
+      //                              10     = 100%
+      bProbability.probabilityArr[0] = 3; // =  30% = 3/10
+      bProbability.probabilityArr[1] = 3; // =  30% = 3/10
+      bProbability.probabilityArr[2] = 4; // =  40% = 4/10
+
+      ProbabilityService.calcInit(aProbability);
+      ProbabilityService.calcInit(bProbability);
+
+      final int[] lastPossibilityArr = {
+              2,  0,  2,  0,  2,  0,  2,  0,  2,  0,  2,  0,  2
+      };
+      //      0   1   2   3   4   5   6   7   8   9  10  11  12
+      final int[][] posibilityCnt2Arr = {
+              {  5,  0,  5,  0,  5,  0,  5,  0,  5,  0,  5,  0,  5 },
+              {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 },
+              {  5, 10,  5, 10,  5, 10,  5, 10,  5, 10,  5, 10,  5 },
+      };
+      for (int pos = 0; pos < lastPossibilityArr.length; pos++) {
+         // Act
+         ProbabilityService.calcNext(aProbability);
+
+         // Assert
+         assertEquals(lastPossibilityArr[pos], aProbability.lastProbabilityPos, String.format("lastPossibility - pos:%d", pos));
+
+         assertEquals(posibilityCnt2Arr[0][pos], aProbability.probabilityCntArr[0], String.format("probabilityCntArr[0] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[1][pos], aProbability.probabilityCntArr[1], String.format("probabilityCntArr[1] - pos:%d", pos));
+         assertEquals(posibilityCnt2Arr[2][pos], aProbability.probabilityCntArr[2], String.format("probabilityCntArr[2] - pos:%d", pos));
       }
    }
 }

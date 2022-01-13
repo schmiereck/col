@@ -13,6 +13,7 @@ import de.schmiereck.col.model.Engine;
 import de.schmiereck.col.model.HyperCell;
 import de.schmiereck.col.model.MetaState;
 import de.schmiereck.col.model.NextPart;
+import de.schmiereck.col.model.PMatrix;
 import de.schmiereck.col.model.Part;
 import de.schmiereck.col.model.Probability;
 import de.schmiereck.col.model.Universe;
@@ -179,23 +180,23 @@ public class UniverseService {
              (dirProbability.probabilityArr[DirProbRight] == dirProbability1.probabilityArr[DirProbRight]);
    }
 
-   private static void calcReflection(final Probability dirProbability, final int[][] probabilityMatrix) {
+   private static void calcReflection(final Probability dirProbability, final PMatrix probabilityMatrix) {
       final int s = dirProbability.probabilityArr[DirProbStay];
       final int l = dirProbability.probabilityArr[DirProbLeft];
       final int r = dirProbability.probabilityArr[DirProbRight];
       // s = s*sm11 + l*lm12 + r*rm13
-      dirProbability.probabilityArr[DirProbStay]  = s*probabilityMatrix[0][0] + l*probabilityMatrix[0][1] + r*probabilityMatrix[0][2];
+      dirProbability.probabilityArr[DirProbStay]  = s*probabilityMatrix.m[0][0] + l*probabilityMatrix.m[0][1] + r*probabilityMatrix.m[0][2];
       // r = s*sm21 + l*lm22 + r*rm23
-      dirProbability.probabilityArr[DirProbLeft]  = s*probabilityMatrix[1][0] + l*probabilityMatrix[1][1] + r*probabilityMatrix[1][2];
+      dirProbability.probabilityArr[DirProbLeft]  = s*probabilityMatrix.m[1][0] + l*probabilityMatrix.m[1][1] + r*probabilityMatrix.m[1][2];
       // l = s*sm31 + l*lm32 + r*rm33
-      dirProbability.probabilityArr[DirProbRight] = s*probabilityMatrix[2][0] + l*probabilityMatrix[2][1] + r*probabilityMatrix[2][2];
+      dirProbability.probabilityArr[DirProbRight] = s*probabilityMatrix.m[2][0] + l*probabilityMatrix.m[2][1] + r*probabilityMatrix.m[2][2];
 
       final int sc = dirProbability.probabilityCntArr[DirProbStay];
       final int lc = dirProbability.probabilityCntArr[DirProbLeft];
       final int rc = dirProbability.probabilityCntArr[DirProbRight];
-      dirProbability.probabilityCntArr[DirProbStay]  = sc*probabilityMatrix[0][0] + lc*probabilityMatrix[0][1] + rc*probabilityMatrix[0][2];
-      dirProbability.probabilityCntArr[DirProbLeft]  = sc*probabilityMatrix[1][0] + lc*probabilityMatrix[1][1] + rc*probabilityMatrix[1][2];
-      dirProbability.probabilityCntArr[DirProbRight] = sc*probabilityMatrix[2][0] + lc*probabilityMatrix[2][1] + rc*probabilityMatrix[2][2];
+      dirProbability.probabilityCntArr[DirProbStay]  = sc*probabilityMatrix.m[0][0] + lc*probabilityMatrix.m[0][1] + rc*probabilityMatrix.m[0][2];
+      dirProbability.probabilityCntArr[DirProbLeft]  = sc*probabilityMatrix.m[1][0] + lc*probabilityMatrix.m[1][1] + rc*probabilityMatrix.m[1][2];
+      dirProbability.probabilityCntArr[DirProbRight] = sc*probabilityMatrix.m[2][0] + lc*probabilityMatrix.m[2][1] + rc*probabilityMatrix.m[2][2];
 
       calcNext(dirProbability);
    }
