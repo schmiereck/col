@@ -17,9 +17,6 @@ public class Test_ProbabilityService_WHEN_calcNext2_is_called {
       probability.probabilityArr[0] = 0; // =   0% = 0/3
       probability.probabilityArr[1] = 3; // = 100% = 3/3
 
-      probability.probabilityCntArr[0] = 0;
-      probability.probabilityCntArr[1] = 3;
-
       ProbabilityService.calcInit2(probability);
 
       final int[][] lastPossibilityArr = {
@@ -52,9 +49,6 @@ public class Test_ProbabilityService_WHEN_calcNext2_is_called {
       //                             3     = 100%
       probability.probabilityArr[0] = 1; // =  33% = 1/3
       probability.probabilityArr[1] = 2; // =  66% = 2/3
-
-      probability.probabilityCntArr[0] = 0; // =  33% = 1/3
-      probability.probabilityCntArr[1] = 2; // =  66% = 2/3
 
       ProbabilityService.calcInit2(probability);
 
@@ -89,9 +83,6 @@ public class Test_ProbabilityService_WHEN_calcNext2_is_called {
       probability.probabilityArr[0] = 2; // =  66% = 2/3
       probability.probabilityArr[1] = 1; // =  33% = 1/3
 
-      probability.probabilityCntArr[0] = 2; // =  66% = 2/3
-      probability.probabilityCntArr[1] = 0;
-
       ProbabilityService.calcInit2(probability);
 
       final int[][] lastPossibilityArr = {
@@ -124,9 +115,6 @@ public class Test_ProbabilityService_WHEN_calcNext2_is_called {
       //                              8     = 100%
       probability.probabilityArr[0] = 2; // =  25% = 1/4
       probability.probabilityArr[1] = 6; // =  75% = 3/4
-
-      probability.probabilityCntArr[0] = 0;
-      probability.probabilityCntArr[1] = 6;
 
       ProbabilityService.calcInit2(probability);
 
@@ -161,10 +149,6 @@ public class Test_ProbabilityService_WHEN_calcNext2_is_called {
       probability.probabilityArr[0] = 2; // =  25% = 1/4
       probability.probabilityArr[1] = 0; // =   0% = 0/4
       probability.probabilityArr[2] = 6; // =  75% = 3/4
-
-      probability.probabilityCntArr[0] = 0;
-      probability.probabilityCntArr[1] = 0;
-      probability.probabilityCntArr[2] = 6;
 
       ProbabilityService.calcInit2(probability);
 
@@ -203,9 +187,6 @@ public class Test_ProbabilityService_WHEN_calcNext2_is_called {
       probability.probabilityArr[0] = 10; // =  10% = 10/100
       probability.probabilityArr[1] = 90; // =  90% = 90/100
 
-      probability.probabilityCntArr[0] = 0;
-      probability.probabilityCntArr[1] = 90;
-
       ProbabilityService.calcInit2(probability);
 
       final int[][] lastPossibilityArr = {
@@ -243,10 +224,6 @@ public class Test_ProbabilityService_WHEN_calcNext2_is_called {
       probability.probabilityArr[1] = 3; // =  30% = 3/10
       probability.probabilityArr[2] = 4; // =  40% = 4/10
 
-      probability.probabilityCntArr[0] = 0;
-      probability.probabilityCntArr[1] = 0;
-      probability.probabilityCntArr[2] = 4;
-
       ProbabilityService.calcInit2(probability);
 
       final int[][] lastPossibilityArr = {
@@ -283,9 +260,6 @@ public class Test_ProbabilityService_WHEN_calcNext2_is_called {
       //                            100     = 100%
       probability.probabilityArr[0] = 99; // =  99% = 99/100
       probability.probabilityArr[1] = 1;  // =   1% = 1/100
-
-      probability.probabilityCntArr[0] = 99;
-      probability.probabilityCntArr[1] = 0;
 
       ProbabilityService.calcInit2(probability);
 
@@ -342,10 +316,6 @@ public class Test_ProbabilityService_WHEN_calcNext2_is_called {
       probability.probabilityArr[1] = 0; // =   0% = 0/10
       probability.probabilityArr[2] = 5; // =  50% = 5/10
 
-      probability.probabilityCntArr[0] = 5;
-      probability.probabilityCntArr[1] = 0;
-      probability.probabilityCntArr[2] = 0;
-
       ProbabilityService.calcInit2(probability);
 
       final int[][] lastPossibilityArr = {
@@ -384,10 +354,6 @@ public class Test_ProbabilityService_WHEN_calcNext2_is_called {
       probability.probabilityArr[0] = 5; // =  50% = 5/10
       probability.probabilityArr[1] = 2; // =  20% = 2/10
       probability.probabilityArr[2] = 3; // =  30% = 3/10
-
-      probability.probabilityCntArr[0] = 5;
-      probability.probabilityCntArr[1] = 0;
-      probability.probabilityCntArr[2] = 0;
 
       ProbabilityService.calcInit2(probability);
 

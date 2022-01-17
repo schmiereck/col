@@ -52,22 +52,30 @@ public class ProbabilityService {
    }
 
    public static void calcLast(final Probability probability) {
-      int startPos = probability.lastProbabilityPos;
+      int lastPos = probability.lastProbabilityPos;
+
+      if (lastPos >= 0) {
+         probability.lastProbabilityArr[lastPos] = 0;
+      }
 
       for (int pos = 0; pos < probability.probabilitySize; pos++) {
-         startPos++;
-         if (startPos >= probability.probabilitySize) {
-            startPos = 0;
+         lastPos++;
+         if (lastPos >= probability.probabilitySize) {
+            lastPos = 0;
          }
-         if (probability.probabilityCntArr[startPos] >= probability.maxProbability) {
-            probability.probabilityCntArr[startPos] -= probability.maxProbability;
-            probability.lastProbabilityPos = startPos;
+         if (probability.probabilityCntArr[lastPos] >= probability.maxProbability) {
+            probability.probabilityCntArr[lastPos] -= probability.maxProbability;
+            probability.lastProbabilityPos = lastPos;
+            probability.lastProbabilityArr[lastPos] = 1;
             break;
          }
       }
    }
 
    public static void calcInit2(final Probability probability) {
+      final int maxProbPos = calcMaxProbPos(probability);
+      probability.probabilityCntArr[maxProbPos] = probability.probabilityArr[maxProbPos];
+
       while (Arrays.stream(probability.lastProbabilityArr).sum() <= 0) {
          calcNext2(probability);
       }
@@ -147,5 +155,21 @@ public class ProbabilityService {
       dirProbability.lastProbabilityArr[DirProbStay]  = sl*probabilityMatrix.m[0][0] + ll*probabilityMatrix.m[0][1] + rl*probabilityMatrix.m[0][2];
       dirProbability.lastProbabilityArr[DirProbLeft]  = sl*probabilityMatrix.m[1][0] + ll*probabilityMatrix.m[1][1] + rl*probabilityMatrix.m[1][2];
       dirProbability.lastProbabilityArr[DirProbRight] = sl*probabilityMatrix.m[2][0] + ll*probabilityMatrix.m[2][1] + rl*probabilityMatrix.m[2][2];
+   }
+
+   public static void calcOperation(final Probability inProb, final Probability outProb, final PMatrix probabilityMatrix) {
+      calcOperation(inProb.probabilityArr, outProb.probabilityArr, probabilityMatrix);
+      calcOperation(inProb.probabilityCntArr, outProb.probabilityCntArr, probabilityMatrix);
+      calcOperation(inProb.lastProbabilityArr, outProb.lastProbabilityArr, probabilityMatrix);
+   }
+
+   private static void calcOperation(final int[] inProbArr, final int[] outProbArr, final PMatrix probabilityMatrix) {
+      for (int pPos = 0; pPos < inProbArr.length; pPos++) {
+         int prob = 0;
+         for (int mPos = 0; mPos < inProbArr.length; mPos++) {
+            prob += inProbArr[mPos] * probabilityMatrix.m[pPos][mPos];
+         }
+         outProbArr[pPos] = prob;
+      }
    }
 }

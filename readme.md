@@ -639,3 +639,23 @@ r = s*sm31 + l*lm32 + r*rm33
 
    0, 1, 5
 => 0, 5, 1
+
+# Probability
+## right (fast:20) to right (slow:10)
+```
+				a-b
+			a	=d	b
+		su	30	-30	60
+		sd	70	30	40
+		r	20	10	10
+		s	80	-10	90
+		l	0	0	0
+
+			a-d		b+d
+			=a		=b
+		su	60		30
+		sd	40		70
+		r	10		20
+		s	90		80
+		l	0		0
+```
