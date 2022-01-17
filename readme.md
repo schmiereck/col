@@ -641,6 +641,18 @@ r = s*sm31 + l*lm32 + r*rm33
 => 0, 5, 1
 
 # Probability
+
+```
+    -> X
+    -> ->
+    --> ->
+    -> -->
+    -> <-
+    --> <-
+    -> <--
+    X ->
+```
+
 ## right (fast:20) to right (slow:10)
 ```
 				a-b
