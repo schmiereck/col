@@ -63,10 +63,11 @@ public class ProbCellService {
    }
 
    private static void printProb(final ProbCell probCell) {
-      System.out.printf("%3d %3d %3d ",
+      System.out.printf("%3d %3d %3d (%1d)",
               probCell.outProb.probabilityArr[DirProbLeft],
               probCell.outProb.probabilityArr[DirProbStay],
-              probCell.outProb.probabilityArr[DirProbRight]);
+              probCell.outProb.probabilityArr[DirProbRight],
+              probCell.outProb.lastProbabilityPos);
    }
 
    private static void calcNextProb(final ProbCell probCell) {
@@ -95,24 +96,141 @@ public class ProbCellService {
       //    -> <--
       //    X ->
       switch (outProb.lastProbabilityPos) {
+         //    b: a:?   b:<-  c:?
+         case DirProbLeft -> {
+             switch (lOutProb.lastProbabilityPos) {
+               //    b: a:->  b:<-  c:?
+               case DirProbRight -> {
+                  switch (rOutProb.lastProbabilityPos) {
+                     //    b: a:->  b:<-  c:<-
+                     case DirProbLeft -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, rOutProb.probabilityArr);
+                     //    b: a:->  b:<-  c:X
+                     case DirProbStay -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, lOutProb.probabilityArr);
+                     //    b: a:->  b:<-  c:->
+                     case DirProbRight -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, lOutProb.probabilityArr);
+                     //default -> copyArr(inProb.probabilityArr, outProb.probabilityArr);
+                     default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
+                  }
+               }
+               //    b: a:X   b:<-  c:?
+               case DirProbStay -> {
+                  switch (rOutProb.lastProbabilityPos) {
+                     //    a: c:X   a:<-  b:<-
+                     case DirProbLeft -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, lOutProb.probabilityArr);
+                     //    b: c:X   a:<-  b:X
+                     case DirProbStay -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, lOutProb.probabilityArr);
+                     //    a: c:X   a:<-  b:->
+                     case DirProbRight -> copyArr(inProb.probabilityArr, outProb.probabilityArr);
+                     default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
+                  }
+               }
+               //    b: a:<-  b:<-  c:?
+               case DirProbLeft -> {
+                  switch (rOutProb.lastProbabilityPos) {
+                     //    a: c:<-  a:<-  b:<-
+                     case DirProbLeft -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, lOutProb.probabilityArr);
+                     //    b: c:<-  a:<-  b:X
+                     case DirProbStay -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, lOutProb.probabilityArr);
+                     //    a: c:<-  a:<-  b:->
+                     case DirProbRight -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, lOutProb.probabilityArr);
+                     default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
+                  }
+               }
+               //default -> copyArr(inProb.probabilityArr, outProb.probabilityArr);
+               default -> throw new IllegalStateException("Unexpected value: " + lOutProb.lastProbabilityPos);
+            }
+
+         }
+         //    b: a:?   b:X   c:?
          case DirProbStay -> {
             switch (lOutProb.lastProbabilityPos) {
-               case DirProbRight -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, lOutProb.probabilityArr);
-               default -> copyArr(inProb.probabilityArr, outProb.probabilityArr);
+               //    b: a:->  b:X   c:?
+               case DirProbRight -> {
+                  switch (rOutProb.lastProbabilityPos) {
+                     //    b: a:->  b:X   c:<-
+                     case DirProbLeft -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, rOutProb.probabilityArr);
+                     //    b: a:->  b:X   c:X
+                     case DirProbStay -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, lOutProb.probabilityArr);
+                     //    b: a:->  b:X   c:->
+                     case DirProbRight -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, lOutProb.probabilityArr);
+                     //default -> copyArr(inProb.probabilityArr, outProb.probabilityArr);
+                     default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
+                  }
+               }
+               //    b: a:X   b:X   c:?
+               case DirProbStay -> {
+                  switch (rOutProb.lastProbabilityPos) {
+                     //    a: c:X   a:X   b:<-
+                     case DirProbLeft -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, rOutProb.probabilityArr);
+                     //    b: c:X   a:X   b:X
+                     case DirProbStay -> copyArr(inProb.probabilityArr, outProb.probabilityArr);
+                     //    a: c:X   a:X   b:->
+                     case DirProbRight -> copyArr(inProb.probabilityArr, outProb.probabilityArr);
+                     default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
+                  }
+               }
+               //    b: a:<-  b:X   c:?
+               case DirProbLeft -> {
+                  switch (rOutProb.lastProbabilityPos) {
+                     //    a: c:<-  a:X   b:<-
+                     case DirProbLeft -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, rOutProb.probabilityArr);
+                     //    b: c:<-  a:X   b:X
+                     case DirProbStay -> copyArr(inProb.probabilityArr, outProb.probabilityArr);
+                     //    a: c:<-  a:X   b:->
+                     case DirProbRight -> copyArr(inProb.probabilityArr, outProb.probabilityArr);
+                     default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
+                  }
+               }
+               //default -> copyArr(inProb.probabilityArr, outProb.probabilityArr);
+               default -> throw new IllegalStateException("Unexpected value: " + lOutProb.lastProbabilityPos);
             }
          }
+         //    b: a:?   b:->  c:?
          case DirProbRight -> {
-            switch (rOutProb.lastProbabilityPos) {
-               //    -> X
-               case DirProbStay -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, rOutProb.probabilityArr);
-               //    -> ->
-               //    --> ->
-               //    -> -->
-               case DirProbRight -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, rOutProb.probabilityArr);
-               default -> copyArr(inProb.probabilityArr, outProb.probabilityArr);
+            switch (lOutProb.lastProbabilityPos) {
+               //    b: a:->  b:->  c:?
+               case DirProbRight -> {
+                  switch (rOutProb.lastProbabilityPos) {
+                     //    b: a:->  b:->  c:<-
+                     case DirProbLeft -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, rOutProb.probabilityArr);
+                     //    b: a:->  b:->  c:X
+                     case DirProbStay -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, rOutProb.probabilityArr);
+                     //    b: a:->  b:->  c:->
+                     case DirProbRight -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, lOutProb.probabilityArr);
+                     //default -> copyArr(inProb.probabilityArr, outProb.probabilityArr);
+                     default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
+                  }
+               }
+               //    b: a:X   b:X   c:?
+               case DirProbStay -> {
+                  switch (rOutProb.lastProbabilityPos) {
+                     //    a: c:X   a:->  b:<-
+                     case DirProbLeft -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, rOutProb.probabilityArr);
+                     //    b: c:X   a:->  b:X
+                     case DirProbStay -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, rOutProb.probabilityArr);
+                     //    a: c:X   a:->  b:->
+                     case DirProbRight -> copyArr(inProb.probabilityArr, outProb.probabilityArr);
+                     default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
+                  }
+               }
+               //    b: a:<-  b:X   c:?
+               case DirProbLeft -> {
+                  switch (rOutProb.lastProbabilityPos) {
+                     //    a: c:<-  a:X   b:<-
+                     case DirProbLeft -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, rOutProb.probabilityArr);
+                     //    b: c:<-  a:X   b:X
+                     case DirProbStay -> copyArr(inProb.probabilityArr, outProb.probabilityArr);
+                     //    a: c:<-  a:X   b:->
+                     case DirProbRight -> copyArr(inProb.probabilityArr, outProb.probabilityArr);
+                     default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
+                  }
+               }
+               //default -> copyArr(inProb.probabilityArr, outProb.probabilityArr);
+               default -> throw new IllegalStateException("Unexpected value: " + lOutProb.lastProbabilityPos);
             }
          }
-         default -> copyArr(inProb.probabilityArr, outProb.probabilityArr);
+         //default -> copyArr(inProb.probabilityArr, outProb.probabilityArr);
+         default -> throw new IllegalStateException("Unexpected value: " + outProb.lastProbabilityPos);
       }
       //switch (rOutProb.lastProbabilityPos) {
       //   case DirProbLeft -> addArrDiff(inProb.probabilityArr, outProb.probabilityArr, rOutProb.probabilityArr);

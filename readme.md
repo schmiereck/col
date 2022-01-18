@@ -643,6 +643,7 @@ r = s*sm31 + l*lm32 + r*rm33
 # Probability
 
 ```
+    X X
     -> X
     --> X
     -> ->

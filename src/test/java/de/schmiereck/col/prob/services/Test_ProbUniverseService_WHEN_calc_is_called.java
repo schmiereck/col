@@ -76,14 +76,140 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
    }
 
    @Test
+   void GIVEN_left70_to_stay100_THEN_right70_moved() {
+      // Arrange
+      //    --> X
+      final ProbUniverse probUniverse = new ProbUniverse(6);
+
+      ProbUniverseService.init(probUniverse);
+      initProbCell(probUniverse, 5,    70, 30, 0);
+      ProbUniverseService.calcInit(probUniverse);
+
+      // Act
+      printProbLine(0, probUniverse);
+      calc(probUniverse);
+
+      // Assert
+      printProbLine(1, probUniverse);
+      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 4,   70, 30, 0);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(2, probUniverse);
+      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 4,   70, 30, 0);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(3, probUniverse);
+      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 4,   0, 100, 0);
+      assertProb(probUniverse, 3,   70, 30, 0);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(4, probUniverse);
+      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 4,   0, 100, 0);
+      assertProb(probUniverse, 3,   70, 30, 0);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(5, probUniverse);
+      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 4,   0, 100, 0);
+      assertProb(probUniverse, 3,   0, 100, 0);
+      assertProb(probUniverse, 2,   70, 30, 0);
+   }
+
+   @Test
+   void GIVEN_left20_to_stay100_THEN_right70_moved() {
+      // Arrange
+      //    --> X
+      final ProbUniverse probUniverse = new ProbUniverse(6);
+
+      ProbUniverseService.init(probUniverse);
+      initProbCell(probUniverse, 5,    20, 80, 0);
+      ProbUniverseService.calcInit(probUniverse);
+
+      // Act
+      printProbLine(0, probUniverse);
+      calc(probUniverse);
+
+      // Assert
+      printProbLine(1, probUniverse);
+      assertProb(probUniverse, 5,   20, 80, 0);
+      assertProb(probUniverse, 4,   0, 100, 0);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(2, probUniverse);
+      assertProb(probUniverse, 5,   20, 80, 0);
+      assertProb(probUniverse, 4,   0, 100, 0);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(3, probUniverse);
+      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 4,   20, 80, 0);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(4, probUniverse);
+      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 4,   20, 80, 0);
+      assertProb(probUniverse, 3,   0, 100, 0);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(5, probUniverse);
+      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 4,   20, 80, 0);
+      assertProb(probUniverse, 3,   0, 100, 0);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(6, probUniverse);
+      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 4,   20, 80, 0);
+      assertProb(probUniverse, 3,   0, 100, 0);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(7, probUniverse);
+      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 4,   20, 80, 0);
+      assertProb(probUniverse, 3,   0, 100, 0);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(8, probUniverse);
+      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 4,   0, 100, 0);
+      assertProb(probUniverse, 3,   20, 80, 0);
+   }
+
+   @Test
    void GIVEN_right30_to_right30_THEN_right30_moved() {
       // Arrange
       //    -> ->
       final ProbUniverse probUniverse = new ProbUniverse(6);
 
       ProbUniverseService.init(probUniverse);
-      initProbCell(probUniverse, 0, 0, 70, 30);
-      initProbCell(probUniverse, 1, 0, 70, 30);
+      initProbCell(probUniverse, 0,    0, 70, 30);
+      initProbCell(probUniverse, 1,    0, 70, 30);
       ProbUniverseService.calcInit(probUniverse);
 
       // Act
@@ -97,6 +223,30 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       assertProb(probUniverse, 0,   0, 70, 30);
       assertProb(probUniverse, 1,   0, 100, 0);
       assertProb(probUniverse, 2,   0, 70, 30);
+   }
+
+   @Test
+   void GIVEN_left30_to_left30_THEN_right30_moved() {
+      // Arrange
+      //    -> ->
+      final ProbUniverse probUniverse = new ProbUniverse(6);
+
+      ProbUniverseService.init(probUniverse);
+      initProbCell(probUniverse, 5,    30, 70, 0);
+      initProbCell(probUniverse, 4,    30, 70, 0);
+      ProbUniverseService.calcInit(probUniverse);
+
+      // Act
+      printProbLine(0, probUniverse);
+      calc(probUniverse);
+      printProbLine(1, probUniverse);
+      calc(probUniverse);
+
+      // Assert
+      printProbLine(2, probUniverse);
+      assertProb(probUniverse, 5,   30, 70, 0);
+      assertProb(probUniverse, 4,   0, 100, 0);
+      assertProb(probUniverse, 3,   30, 70, 0);
    }
 
    @Test
@@ -165,6 +315,85 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       assertProb(probUniverse, 3,   0, 100, 0);
       assertProb(probUniverse, 4,   0, 20, 80);
       assertProb(probUniverse, 5,   0, 100, 0);
+   }
+
+   @Test
+   void GIVEN_left80_to_left20_THEN_right30_moved() {
+      // Arrange
+      //    -> ->
+      final ProbUniverse probUniverse = new ProbUniverse(6);
+
+      ProbUniverseService.init(probUniverse);
+      initProbCell(probUniverse, 5,    80, 20, 0);
+      initProbCell(probUniverse, 4,    20, 80, 0);
+      ProbUniverseService.calcInit(probUniverse);
+
+      // Act
+      printProbLine(0, probUniverse);
+      calc(probUniverse);
+      // Assert
+      printProbLine(1, probUniverse);
+      assertProb(probUniverse, 5,   20, 80, 0);
+      assertProb(probUniverse, 4,   80, 20, 0);
+      assertProb(probUniverse, 3,   0, 100, 0);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(2, probUniverse);
+      assertProb(probUniverse, 5,   20, 80, 0);
+      assertProb(probUniverse, 4,   0, 100, 0);
+      assertProb(probUniverse, 3,   80, 20, 0);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(3, probUniverse);
+      assertProb(probUniverse, 5,   20, 80, 0);
+      assertProb(probUniverse, 4,   0, 100, 0);
+      assertProb(probUniverse, 3,   80, 20, 0);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(4, probUniverse);
+      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 4,   20, 80, 0);
+      assertProb(probUniverse, 3,   0, 100, 0);
+      assertProb(probUniverse, 2,   80, 20, 0);
+      assertProb(probUniverse, 1,   0, 100, 0);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(5, probUniverse);
+      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 4,   20, 80, 0);
+      assertProb(probUniverse, 3,   0, 100, 0);
+      assertProb(probUniverse, 2,   80, 20, 0);
+      assertProb(probUniverse, 1,   0, 100, 0);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(6, probUniverse);
+      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 4,   20, 80, 0);
+      assertProb(probUniverse, 3,   0, 100, 0);
+      assertProb(probUniverse, 2,   0, 100, 0);
+      assertProb(probUniverse, 1,   80, 20, 0);
+      assertProb(probUniverse, 0,   0, 100, 0);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(7, probUniverse);
+      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 4,   0, 100, 0);
+      assertProb(probUniverse, 3,   20, 80, 0);
+      assertProb(probUniverse, 2,   0, 100, 0);
+      assertProb(probUniverse, 1,   80, 20, 0);
+      assertProb(probUniverse, 0,   0, 100, 0);
    }
 
    private static void assertProb(final ProbUniverse probUniverse, final int pos, final int lp, final int sp, final int rp) {
