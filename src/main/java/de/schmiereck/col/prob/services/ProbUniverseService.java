@@ -1,6 +1,7 @@
 package de.schmiereck.col.prob.services;
 
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbStay;
+import static de.schmiereck.col.prob.services.ProbCellService.EProbSize;
 import static de.schmiereck.col.prob.services.ProbCellService.Max_Probability;
 import static de.schmiereck.col.prob.services.ProbCellService.ProbSize;
 import static de.schmiereck.col.prob.services.ProbCellService.calcInProb;
@@ -19,6 +20,9 @@ public class ProbUniverseService {
       for (int pos = 0; pos < probUniverse.probCellArr.length; pos++) {
          final ProbCell probCell = new ProbCell();
 
+         //probCell.eProb = new Probability(Max_Probability, EProbSize);
+         probCell.inEField = 0;
+         probCell.outEField = 0;
          probCell.inProb = new Probability(Max_Probability, ProbSize);
          probCell.outProb = new Probability(Max_Probability, ProbSize);
 

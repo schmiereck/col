@@ -3,6 +3,7 @@ package de.schmiereck.col.prob.services;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbLeft;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbRight;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbStay;
+import static de.schmiereck.col.prob.services.ProbCellService.Max_Probability;
 import static de.schmiereck.col.prob.services.ProbCellService.printProbLine;
 import static de.schmiereck.col.prob.services.ProbUniverseService.calc;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,14 +15,45 @@ import org.junit.jupiter.api.Test;
 
 public class Test_ProbUniverseService_WHEN_calc_is_called {
 
-   //    -> X
+   @Test
+   void GIVEN_right100_to_stay100_THEN_right100_moved() {
+      // Arrange
+      //    --> X
+      final ProbUniverse probUniverse = new ProbUniverse(3);
 
-   //    --> ->
-   //    -> -->
-   //    -> <-
-   //    --> <-
-   //    -> <--
-   //    X ->
+      ProbUniverseService.init(probUniverse);
+      initProbCell(probUniverse, 0,    0, 0, 100);
+      ProbUniverseService.calcInit(probUniverse);
+
+      // Act
+      printProbLine(0, probUniverse);
+      calc(probUniverse);
+
+      // Assert
+      printProbLine(1, probUniverse);
+      assertProb(probUniverse, 0, 0, 100, 0, 0);
+      assertProb(probUniverse, 1, 0, 0, 100, 100);
+   }
+
+   @Test
+   void GIVEN_left100_to_stay100_THEN_left100_moved() {
+      // Arrange
+      //    --> X
+      final ProbUniverse probUniverse = new ProbUniverse(3);
+
+      ProbUniverseService.init(probUniverse);
+      initProbCell(probUniverse, 2,    100, 0, 0);
+      ProbUniverseService.calcInit(probUniverse);
+
+      // Act
+      printProbLine(0, probUniverse);
+      calc(probUniverse);
+
+      // Assert
+      printProbLine(1, probUniverse);
+      assertProb(probUniverse, 2, 0, 100, 0, 0);
+      assertProb(probUniverse, 1, 100, 0, 0, 100);
+   }
 
    @Test
    void GIVEN_right70_to_stay100_THEN_right70_moved() {
@@ -396,10 +428,59 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       assertProb(probUniverse, 0,   0, 100, 0);
    }
 
+   @Test
+   void GIVEN_pos2_left70_to_pos3_right100_THEN_right70_moved() {
+      // Arrange
+      //    --> X
+      final ProbUniverse probUniverse = new ProbUniverse(6);
+
+      ProbUniverseService.init(probUniverse);
+      initProbCell(probUniverse, 2,    0, 30, 70);
+      initProbCell(probUniverse, 3,    70, 30, 0);
+      ProbUniverseService.calcInit(probUniverse);
+
+      // Act
+      printProbLine(0, probUniverse);
+      calc(probUniverse);
+
+      // Assert
+      printProbLine(1, probUniverse);
+      assertProb(probUniverse, 2,    70, 30, 0);
+      assertProb(probUniverse, 3,    0, 30, 70);
+   }
+
+   @Test
+   void GIVEN_pos2_left70_to_pos4_right100_THEN_right70_moved() {
+      // Arrange
+      //    --> X
+      final ProbUniverse probUniverse = new ProbUniverse(6);
+
+      ProbUniverseService.init(probUniverse);
+      initProbCell(probUniverse, 2,    0, 30, 70);
+      initProbCell(probUniverse, 4,    70, 30, 0);
+      ProbUniverseService.calcInit(probUniverse);
+
+      // Act
+      printProbLine(0, probUniverse);
+      calc(probUniverse);
+
+      // Assert
+      printProbLine(1, probUniverse);
+      assertProb(probUniverse, 2,    70, 30, 0);
+      assertProb(probUniverse, 4,    0, 30, 70);
+   }
+
    private static void assertProb(final ProbUniverse probUniverse, final int pos, final int lp, final int sp, final int rp) {
       assertEquals(lp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbLeft], String.format("Left: pos:%d", pos));
       assertEquals(sp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbStay], String.format("Stay: pos:%d", pos));
       assertEquals(rp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbRight], String.format("Right: pos:%d", pos));
+   }
+
+   private static void assertProb(final ProbUniverse probUniverse, final int pos, final int lp, final int sp, final int rp, final int eField) {
+      assertEquals(lp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbLeft], String.format("Left: pos:%d", pos));
+      assertEquals(sp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbStay], String.format("Stay: pos:%d", pos));
+      assertEquals(rp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbRight], String.format("Right: pos:%d", pos));
+      assertEquals(eField, probUniverse.probCellArr[pos].outEField, String.format("eField: pos:%d", pos));
    }
 
    private static void initProbCell(final ProbUniverse probUniverse, final int pos, final int lp, final int sp, final int rp) {
@@ -408,5 +489,6 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       probCell.outProb.probabilityArr[DirProbStay]    = sp;
       probCell.outProb.probabilityArr[DirProbLeft]    = lp;
       probCell.outProb.probabilityArr[DirProbRight]   = rp;
+      probCell.outEField = Max_Probability;
    }
 }
