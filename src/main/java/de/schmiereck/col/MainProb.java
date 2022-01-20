@@ -3,17 +3,9 @@ package de.schmiereck.col;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbLeft;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbRight;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbStay;
-import static de.schmiereck.col.prob.services.ProbCellService.Max_Probability;
-import static de.schmiereck.col.prob.services.ProbCellService.ProbSize;
-import static de.schmiereck.col.prob.services.ProbCellService.calcInProb;
-import static de.schmiereck.col.prob.services.ProbCellService.calcNextProb;
-import static de.schmiereck.col.prob.services.ProbCellService.calcOut;
-import static de.schmiereck.col.prob.services.ProbCellService.printProbLine;
+import static de.schmiereck.col.prob.services.ProbCellServiceUtils.printProbLine;
 import static de.schmiereck.col.prob.services.ProbUniverseService.calc;
-import static de.schmiereck.col.services.ProbabilityService.calcNext;
-import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
 
-import de.schmiereck.col.model.Probability;
 import de.schmiereck.col.prob.model.ProbCell;
 import de.schmiereck.col.prob.model.ProbUniverse;
 import de.schmiereck.col.prob.services.ProbUniverseService;

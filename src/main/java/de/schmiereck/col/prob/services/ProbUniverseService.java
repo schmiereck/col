@@ -1,14 +1,13 @@
 package de.schmiereck.col.prob.services;
 
+import static de.schmiereck.col.prob.model.ProbCell.EFieldLeft;
+import static de.schmiereck.col.prob.model.ProbCell.EFieldRight;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbStay;
-import static de.schmiereck.col.prob.services.ProbCellService.EProbSize;
 import static de.schmiereck.col.prob.services.ProbCellService.Max_Probability;
 import static de.schmiereck.col.prob.services.ProbCellService.ProbSize;
 import static de.schmiereck.col.prob.services.ProbCellService.calcInProb;
-import static de.schmiereck.col.prob.services.ProbCellService.calcNextProb;
+import static de.schmiereck.col.prob.services.ProbCellService.calcNextOutProb;
 import static de.schmiereck.col.prob.services.ProbCellService.calcOut;
-import static de.schmiereck.col.services.ProbabilityService.calcInit;
-import static de.schmiereck.col.services.ProbabilityService.calcInit;
 
 import de.schmiereck.col.model.Probability;
 import de.schmiereck.col.prob.model.ProbCell;
@@ -21,8 +20,10 @@ public class ProbUniverseService {
          final ProbCell probCell = new ProbCell();
 
          //probCell.eProb = new Probability(Max_Probability, EProbSize);
-         probCell.inEField = 0;
-         probCell.outEField = 0;
+         probCell.inEField[EFieldLeft] = 0;
+         probCell.inEField[EFieldRight] = 0;
+         probCell.outEField[EFieldLeft] = 0;
+         probCell.outEField[EFieldRight] = 0;
          probCell.inProb = new Probability(Max_Probability, ProbSize);
          probCell.outProb = new Probability(Max_Probability, ProbSize);
 
@@ -41,7 +42,7 @@ public class ProbUniverseService {
    }
 
    public static void calc(final ProbUniverse probUniverse) {
-      calcNextProb(probUniverse);
+      calcNextOutProb(probUniverse);
       calcInProb(probUniverse);
       calcOut(probUniverse);
    }
