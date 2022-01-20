@@ -25,7 +25,7 @@ public class ProbCellServiceUtils {
       System.out.printf("    ", cnt);
       for (int pos = 0; pos < probCellArr.length; pos++) {
          final ProbCell probCell = probCellArr[pos];
-         System.out.printf("%3d %3d        ", probCell.outEField[EFieldLeft], probCell.outEField[EFieldRight]);
+         System.out.printf("%3d %3d %3d    ", probCell.outEFieldArr[EFieldLeft], probCell.outEField, probCell.outEFieldArr[EFieldRight]);
          System.out.printf("| ");
       }
       System.out.printf("\n");

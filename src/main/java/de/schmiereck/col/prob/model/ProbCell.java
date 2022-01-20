@@ -8,8 +8,10 @@ public class ProbCell {
    public static final int EFieldSize = 2;
 
    //public Probability eProb;
-   public int[] inEField = new int[EFieldSize];
-   public int[] outEField = new int[EFieldSize];
+   public int inEField;
+   public int outEField;
+   public int[] inEFieldArr = new int[EFieldSize];
+   public int[] outEFieldArr = new int[EFieldSize];
    public Probability inProb;
    public Probability outProb;
 }
