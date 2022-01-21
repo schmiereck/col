@@ -89,17 +89,32 @@ public class ProbCellService {
    }
 
    private static void calcOutFields(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
+      calcOutFieldSource(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
       calcOutField(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
       calcOutField(probCell.pProbField, lProbCell.pProbField, rProbCell.pProbField);
+   }
+
+   private static int Field_Divisor = 10; // 2;
+
+   private static void calcOutFieldSource(final ProbField probField, final ProbField lProbField, final ProbField rProbField) {
+      probField.outField = probField.inField;
+      //probCell.outEField = probCell.inEField + lProbCell.inEField/2 - rProbCell.inEField/2;
+      //probCell.outEFieldArr[EFieldLeft] = probCell.inEFieldArr[EFieldLeft] + rProbCell.inEFieldArr[EFieldLeft]/2;
+      //probCell.outEFieldArr[EFieldRight] = probCell.inEFieldArr[EFieldRight] + lProbCell.inEFieldArr[EFieldRight]/2;
+
+      //probField.outFieldArr[FieldLeft] = probField.inField + rProbField.inField / Field_Divisor;
+      //probField.outFieldArr[FieldRight] = probField.inField + lProbField.inField / Field_Divisor;
+      probField.outFieldArr[FieldLeft] = rProbField.inField / Field_Divisor;
+      probField.outFieldArr[FieldRight] = lProbField.inField / Field_Divisor;
    }
 
    private static void calcOutField(final ProbField probField, final ProbField lProbField, final ProbField rProbField) {
       probField.outField = probField.inField;
       //probCell.outEField = probCell.inEField + lProbCell.inEField/2 - rProbCell.inEField/2;
-      //probCell.outEFieldArr[EFieldLeft] = probCell.inEFieldArr[EFieldLeft] + rProbCell.inEFieldArr[EFieldLeft]/2;
-      //probCell.outEFieldArr[EFieldRight] = probCell.inEFieldArr[EFieldRight] + lProbCell.inEFieldArr[EFieldRight]/2;
-      probField.outFieldArr[FieldLeft] = probField.inField + rProbField.inField / 2;
-      probField.outFieldArr[FieldRight] = probField.inField + lProbField.inField / 2;
+      probField.outFieldArr[FieldLeft] += probField.inFieldArr[FieldLeft] + rProbField.inFieldArr[FieldLeft] / Field_Divisor;
+      probField.outFieldArr[FieldRight] += probField.inFieldArr[FieldRight] + lProbField.inFieldArr[FieldRight] / Field_Divisor;
+      //probField.outFieldArr[FieldLeft] = probField.inField + rProbField.inField / 2;
+      //probField.outFieldArr[FieldRight] = probField.inField + lProbField.inField / 2;
    }
 
    private static void calcInProb(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
@@ -109,6 +124,8 @@ public class ProbCellService {
       final Probability outProb = probCell.outProb;
       final Probability lOutProb = lProbCell.outProb;
       final Probability rOutProb = rProbCell.outProb;
+
+      calcInProbField(probCell, lProbCell, rProbCell);
 
       //    -> <-
       //    --> <-
@@ -139,7 +156,7 @@ public class ProbCellService {
                      //    b: c:X   a:<-  b:X
                      case DirProbStay -> addDiff(probCell, lProbCell);
                      //    a: c:X   a:<-  b:->
-                     case DirProbRight -> copy(probCell);
+                     case DirProbRight -> copyOut2In(probCell);
                      default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
                   }
                }
@@ -182,9 +199,9 @@ public class ProbCellService {
                      //    a: c:X   a:X   b:<-
                      case DirProbLeft -> addDiff(probCell, rProbCell);
                      //    b: c:X   a:X   b:X
-                     case DirProbStay -> copy(probCell);
+                     case DirProbStay -> copyOut2In(probCell);
                      //    a: c:X   a:X   b:->
-                     case DirProbRight -> copy(probCell);
+                     case DirProbRight -> copyOut2In(probCell);
                      default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
                   }
                }
@@ -194,9 +211,9 @@ public class ProbCellService {
                      //    a: c:<-  a:X   b:<-
                      case DirProbLeft -> addDiff(probCell, rProbCell);
                      //    b: c:<-  a:X   b:X
-                     case DirProbStay -> copy(probCell);
+                     case DirProbStay -> copyOut2In(probCell);
                      //    a: c:<-  a:X   b:->
-                     case DirProbRight -> copy(probCell);
+                     case DirProbRight -> copyOut2In(probCell);
                      default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
                   }
                }
@@ -228,7 +245,7 @@ public class ProbCellService {
                      //    a: c:X   a:->  b:X
                      case DirProbStay -> addDiff(probCell, rProbCell);
                      //    a: c:X   a:->  b:->
-                     case DirProbRight -> copy(probCell);
+                     case DirProbRight -> copyOut2In(probCell);
                      default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
                   }
                }
@@ -238,9 +255,9 @@ public class ProbCellService {
                      //    a: c:<-  a:X   b:<-
                      case DirProbLeft -> addDiff(probCell, rProbCell);
                      //    a: c:<-  a:X   b:X
-                     case DirProbStay -> copy(probCell);
+                     case DirProbStay -> copyOut2In(probCell);
                      //    a: c:<-  a:X   b:->
-                     case DirProbRight -> copy(probCell);
+                     case DirProbRight -> copyOut2In(probCell);
                      default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
                   }
                }
@@ -254,6 +271,39 @@ public class ProbCellService {
       //switch (rOutProb.lastProbabilityPos) {
       //   case DirProbLeft ->  addDiff(probCell, rProbCell);
       //}
+   }
+
+   public static void calcInProbField(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
+      final int eol = probCell.eProbField.outFieldArr[FieldLeft];
+      final int eor = probCell.eProbField.outFieldArr[FieldRight];
+      final int pil;
+      final int pir;
+
+      if ((eol > 0) && (eor > 0)) {
+         pil = eol;
+         pir = eor;
+      } else {
+         pil = 0;
+         pir = 0;
+      }
+      probCell.pProbField.inFieldArr[FieldLeft] += pil;
+      probCell.pProbField.inFieldArr[FieldRight] += pir;
+/*
+      final int eolr = lProbCell.eProbField.outFieldArr[FieldRight];
+      final int eorl = rProbCell.eProbField.outFieldArr[FieldLeft];
+      final int pilr;
+      final int pirl;
+
+      if ((eolr > 0) && (eorl > 0)) {
+         pilr = eolr;
+         pirl = eorl;
+      } else {
+         pilr = 0;
+         pirl = 0;
+      }
+      probCell.pProbField.inFieldArr[FieldRight] += pilr;
+      probCell.pProbField.inFieldArr[FieldLeft] += pirl;
+*/
    }
 
    private static void addDiff(final ProbCell probCell, final ProbCell bProbCell) {
@@ -275,7 +325,7 @@ public class ProbCellService {
       //probCell.inEFieldArr[EFieldRight] += probCell.outEFieldArr[EFieldRight] - (probCell.outEFieldArr[EFieldRight] - bProbCell.outEFieldArr[EFieldRight]);
    }
 
-   private static void copy(final ProbCell probCell) {
+   private static void copyOut2In(final ProbCell probCell) {
       final Probability inProb = probCell.inProb;
       final Probability outProb = probCell.outProb;
 
@@ -317,6 +367,6 @@ public class ProbCellService {
 
    public static void calcInit(final ProbCell probCell) {
       ProbabilityService.calcInit(probCell.outProb);
-      copy(probCell);
+      copyOut2In(probCell);
    }
 }

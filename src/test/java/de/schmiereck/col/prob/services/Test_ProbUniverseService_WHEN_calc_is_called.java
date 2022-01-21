@@ -493,7 +493,7 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
    @Test
    void GIVEN_pos2_left70_to_pos4_right70_THEN_reflection_with_eField() {
       // Arrange
-      final ProbUniverse probUniverse = new ProbUniverse(6);
+      final ProbUniverse probUniverse = new ProbUniverse(7);
 
       ProbUniverseService.init(probUniverse);
       initProbCell(probUniverse, 2,    0, 30, 70);

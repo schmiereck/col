@@ -46,12 +46,29 @@ public class ProbUniverseService {
       for (int pos = 0; pos < probUniverse.probCellArr.length; pos++) {
          final ProbCell probCell = probUniverse.probCellArr[pos];
 
+         // in = out
          ProbCellService.calcInit(probCell);
       }
       for (int pos = 0; pos < probUniverse.probCellArr.length; pos++) {
          final ProbCell probCell = probUniverse.probCellArr[pos];
          final ProbCell lProbCell = probUniverse.probCellArr[calcCellPos(probUniverse.universeSize, pos - 1)];
          final ProbCell rProbCell = probUniverse.probCellArr[calcCellPos(probUniverse. universeSize, pos + 1)];
+         // out = in
+         ProbCellService.calcOut(probCell, lProbCell, rProbCell);
+      }
+      for (int pos = 0; pos < probUniverse.probCellArr.length; pos++) {
+         final ProbCell probCell = probUniverse.probCellArr[pos];
+         final ProbCell lProbCell = probUniverse.probCellArr[calcCellPos(probUniverse.universeSize, pos - 1)];
+         final ProbCell rProbCell = probUniverse.probCellArr[calcCellPos(probUniverse. universeSize, pos + 1)];
+
+         // in = out
+         ProbCellService.calcInProbField(probCell, lProbCell, rProbCell);
+      }
+      for (int pos = 0; pos < probUniverse.probCellArr.length; pos++) {
+         final ProbCell probCell = probUniverse.probCellArr[pos];
+         final ProbCell lProbCell = probUniverse.probCellArr[calcCellPos(probUniverse.universeSize, pos - 1)];
+         final ProbCell rProbCell = probUniverse.probCellArr[calcCellPos(probUniverse. universeSize, pos + 1)];
+         // out = in
          ProbCellService.calcOut(probCell, lProbCell, rProbCell);
       }
 
