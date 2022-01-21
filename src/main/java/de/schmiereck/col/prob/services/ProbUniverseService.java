@@ -1,7 +1,7 @@
 package de.schmiereck.col.prob.services;
 
-import static de.schmiereck.col.prob.model.ProbCell.EFieldLeft;
-import static de.schmiereck.col.prob.model.ProbCell.EFieldRight;
+import static de.schmiereck.col.prob.model.ProbField.FieldLeft;
+import static de.schmiereck.col.prob.model.ProbField.FieldRight;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbStay;
 import static de.schmiereck.col.prob.services.ProbCellService.Max_Probability;
 import static de.schmiereck.col.prob.services.ProbCellService.ProbSize;
@@ -12,6 +12,7 @@ import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
 
 import de.schmiereck.col.model.Probability;
 import de.schmiereck.col.prob.model.ProbCell;
+import de.schmiereck.col.prob.model.ProbField;
 import de.schmiereck.col.prob.model.ProbUniverse;
 import de.schmiereck.col.services.ProbabilityService;
 
@@ -20,13 +21,8 @@ public class ProbUniverseService {
       for (int pos = 0; pos < probUniverse.probCellArr.length; pos++) {
          final ProbCell probCell = new ProbCell();
 
-         //probCell.eProb = new Probability(Max_Probability, EProbSize);
-         probCell.inEField = 0;
-         probCell.inEFieldArr[EFieldLeft] = 0;
-         probCell.inEFieldArr[EFieldRight] = 0;
-         probCell.outEField = 0;
-         probCell.outEFieldArr[EFieldLeft] = 0;
-         probCell.outEFieldArr[EFieldRight] = 0;
+         initField(probCell.eProbField);
+         initField(probCell.pProbField);
          probCell.inProb = new Probability(Max_Probability, ProbSize);
          probCell.outProb = new Probability(Max_Probability, ProbSize);
 
@@ -34,6 +30,16 @@ public class ProbUniverseService {
 
          probUniverse.probCellArr[pos] = probCell;
       }
+   }
+
+   private static void initField(final ProbField probField) {
+      //probCell.eProb = new Probability(Max_Probability, EProbSize);
+      probField.inField = 0;
+      probField.inFieldArr[FieldLeft] = 0;
+      probField.inFieldArr[FieldRight] = 0;
+      probField.outField = 0;
+      probField.outFieldArr[FieldLeft] = 0;
+      probField.outFieldArr[FieldRight] = 0;
    }
 
    public static void calcInit(final ProbUniverse probUniverse) {
