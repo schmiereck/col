@@ -157,13 +157,13 @@ public class ProbabilityService {
       dirProbability.lastProbabilityArr[DirProbRight] = sl*probabilityMatrix.m[2][0] + ll*probabilityMatrix.m[2][1] + rl*probabilityMatrix.m[2][2];
    }
 
-   public static void calcOperation(final Probability inProb, final Probability outProb, final PMatrix probabilityMatrix) {
-      calcOperation(inProb.probabilityArr, outProb.probabilityArr, probabilityMatrix);
-      calcOperation(inProb.probabilityCntArr, outProb.probabilityCntArr, probabilityMatrix);
-      calcOperation(inProb.lastProbabilityArr, outProb.lastProbabilityArr, probabilityMatrix);
+   public static void calcOperation(final Probability outProb, final Probability inProb, final PMatrix probabilityMatrix) {
+      calcOperation(outProb.probabilityArr, inProb.probabilityArr, probabilityMatrix);
+      calcOperation(outProb.probabilityCntArr, inProb.probabilityCntArr, probabilityMatrix);
+      calcOperation(outProb.lastProbabilityArr, inProb.lastProbabilityArr, probabilityMatrix);
    }
 
-   private static void calcOperation(final int[] inProbArr, final int[] outProbArr, final PMatrix probabilityMatrix) {
+   private static void calcOperation(final int[] outProbArr, final int[] inProbArr, final PMatrix probabilityMatrix) {
       for (int pPos = 0; pPos < inProbArr.length; pPos++) {
          int prob = 0;
          for (int mPos = 0; mPos < inProbArr.length; mPos++) {

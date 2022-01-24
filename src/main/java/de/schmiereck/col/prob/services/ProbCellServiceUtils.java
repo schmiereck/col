@@ -25,21 +25,38 @@ public class ProbCellServiceUtils {
       }
       System.out.printf("\n");
 
-      printProbFieldLine("e", probCellArr, (final ProbCell probCell) -> { return probCell.eProbField; });
-      printProbFieldLine("p", probCellArr, (final ProbCell probCell) -> { return probCell.pProbField; });
+      printOutProbFieldLine("e", probCellArr, (final ProbCell probCell) -> { return probCell.eProbField; });
+      printInProbFieldLine("e", probCellArr, (final ProbCell probCell) -> { return probCell.eProbField; });
+      printOutProbFieldLine("p", probCellArr, (final ProbCell probCell) -> { return probCell.pProbField; });
+      printInProbFieldLine("p", probCellArr, (final ProbCell probCell) -> { return probCell.pProbField; });
    }
 
-   private static void printProbFieldLine(final String fieldName, final ProbCell[] probCellArr, final Function<ProbCell, ProbField> probFieldFunction) {
-      System.out.printf("%s   ", fieldName);
+   private static void printInProbFieldLine(final String fieldName, final ProbCell[] probCellArr, final Function<ProbCell, ProbField> probFieldFunction) {
+      System.out.printf("%s-i ", fieldName);
       for (int pos = 0; pos < probCellArr.length; pos++) {
          final ProbCell probCell = probCellArr[pos];
          final ProbField probField = probFieldFunction.apply(probCell);
-         printProbField(probField);
+         printInProbField(probField);
       }
       System.out.printf("\n");
    }
 
-   private static void printProbField(final ProbField probField) {
+   private static void printInProbField(final ProbField probField) {
+      System.out.printf("%3d %3d %3d    ", probField.inFieldArr[FieldLeft], probField.inField, probField.inFieldArr[FieldRight]);
+      System.out.printf("| ");
+   }
+
+   private static void printOutProbFieldLine(final String fieldName, final ProbCell[] probCellArr, final Function<ProbCell, ProbField> probFieldFunction) {
+      System.out.printf("%s-o ", fieldName);
+      for (int pos = 0; pos < probCellArr.length; pos++) {
+         final ProbCell probCell = probCellArr[pos];
+         final ProbField probField = probFieldFunction.apply(probCell);
+         printOutProbField(probField);
+      }
+      System.out.printf("\n");
+   }
+
+   private static void printOutProbField(final ProbField probField) {
       System.out.printf("%3d %3d %3d    ", probField.outFieldArr[FieldLeft], probField.outField, probField.outFieldArr[FieldRight]);
       System.out.printf("| ");
    }
