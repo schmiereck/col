@@ -83,158 +83,47 @@ public class ProbCellService {
       final Probability lOutProb = lProbCell.outProb;
       final Probability rOutProb = rProbCell.outProb;
 
-      //    -> <-
-      //    --> <-
-      //    -> <--
-      //    X ->
-      switch (outProb.lastProbabilityPos) {
-         //    b: a:?   b:<-  c:?   -----------------------
-         case DirProbLeft -> {
-            if (lProbCell.pProbField.outFieldArr[FieldRight] > 0) {
-               calcOperation(probCell.inProb, probCell.outProb, LR_REFLECTION_MATRIX);
-            } else {
-               switch (lOutProb.lastProbabilityPos) {
-                  //    b: a:->  b:<-  c:?
-                  case DirProbRight -> {
-                     switch (rOutProb.lastProbabilityPos) {
-                        //    b: a:->  b:<-  c:<-
-                        case DirProbLeft -> addDiff(probCell, rProbCell);
-                        //    b: a:->  b:<-  c:X
-                        case DirProbStay -> addDiff(probCell, lProbCell);
-                        //    b: a:->  b:<-  c:->
-                        case DirProbRight -> addDiff(probCell, lProbCell);
-                        //default -> copy(probCell);
-                        default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
-                     }
-                  }
-                  //    b: a:X   b:<-  c:?
-                  case DirProbStay -> {
-                     switch (rOutProb.lastProbabilityPos) {
-                        //    a: c:X   a:<-  b:<-
-                        case DirProbLeft -> addDiff(probCell, lProbCell);
-                        //    b: c:X   a:<-  b:X
-                        case DirProbStay -> addDiff(probCell, lProbCell);
-                        //    a: c:X   a:<-  b:->
-                        case DirProbRight -> copyOut2In(probCell);
-                        default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
-                     }
-                  }
-                  //    b: a:<-  b:<-  c:?
-                  case DirProbLeft -> {
-                     switch (rOutProb.lastProbabilityPos) {
-                        //    a: c:<-  a:<-  b:<-
-                        case DirProbLeft -> addDiff(probCell, lProbCell);
-                        //    b: c:<-  a:<-  b:X
-                        case DirProbStay -> addDiff(probCell, lProbCell);
-                        //    a: c:<-  a:<-  b:->
-                        case DirProbRight -> addDiff(probCell, lProbCell);
-                        default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
-                     }
-                  }
-                  //default -> copy(probCell);
-                  default -> throw new IllegalStateException("Unexpected value: " + lOutProb.lastProbabilityPos);
-               }
-            }
-         }
-         //    b: a:?   b:X   c:?   -----------------------
-         case DirProbStay -> {
-            switch (lOutProb.lastProbabilityPos) {
-               //    b: a:->  b:X   c:?
-               case DirProbRight -> {
-                  switch (rOutProb.lastProbabilityPos) {
-                     //    b: a:->  b:X   c:<-
-                     case DirProbLeft -> addDiff(probCell, rProbCell);
-                     //    b: a:->  b:X   c:X
-                     case DirProbStay -> addDiff(probCell, lProbCell);
-                     //    b: a:->  b:X   c:->
-                     case DirProbRight -> addDiff(probCell, lProbCell);
-                     //default -> copy(probCell);
-                     default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
-                  }
-               }
-               //    b: a:X   b:X   c:?
-               case DirProbStay -> {
-                  switch (rOutProb.lastProbabilityPos) {
-                     //    a: c:X   a:X   b:<-
-                     case DirProbLeft -> addDiff(probCell, rProbCell);
-                     //    b: c:X   a:X   b:X
-                     case DirProbStay -> copyOut2In(probCell);
-                     //    a: c:X   a:X   b:->
-                     case DirProbRight -> copyOut2In(probCell);
-                     default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
-                  }
-               }
-               //    b: a:<-  b:X   c:?
-               case DirProbLeft -> {
-                  switch (rOutProb.lastProbabilityPos) {
-                     //    a: c:<-  a:X   b:<-
-                     case DirProbLeft -> addDiff(probCell, rProbCell);
-                     //    b: c:<-  a:X   b:X
-                     case DirProbStay -> copyOut2In(probCell);
-                     //    a: c:<-  a:X   b:->
-                     case DirProbRight -> copyOut2In(probCell);
-                     default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
-                  }
-               }
-               //default -> copy(probCell);
-               default -> throw new IllegalStateException("Unexpected value: " + lOutProb.lastProbabilityPos);
-            }
-         }
-         //    b: a:?   b:->  c:?   -----------------------
-         case DirProbRight -> {
-            // c is pField?
+      // p-Field Source?
+      if ((probCell.pProbField.outFieldArr[FieldRight] > 0) && (probCell.pProbField.outFieldArr[FieldLeft] > 0)) {
+         copyOut2In(probCell);
+      } else {
+         // a is p-Field?  b: a:->   b:?  c:?
+         if (lProbCell.pProbField.outFieldArr[FieldRight] > 0) {
+            calcOperation(probCell.inProb, probCell.outProb, LR_REFLECTION_MATRIX);
+            // TODO P Event Remove  !!!
+         } else {
+            // c is p-Field?  b: a:?   b:?  c:<-
             if (rProbCell.pProbField.outFieldArr[FieldLeft] > 0) {
                calcOperation(probCell.inProb, probCell.outProb, LR_REFLECTION_MATRIX);
             } else {
-               switch (lOutProb.lastProbabilityPos) {
-                  //    b: a:->  b:->  c:?
-                  case DirProbRight -> {
-                     switch (rOutProb.lastProbabilityPos) {
-                        //    b: a:->  b:->  c:<-
-                        case DirProbLeft -> addDiff(probCell, rProbCell);
-                        //    b: a:->  b:->  c:X
-                        case DirProbStay -> addDiff(probCell, rProbCell);
-                        //    a: a:->  b:->  c:->
-                        case DirProbRight -> addDiff(probCell, lProbCell);
-                        //default -> copy(probCell);
-                        default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
+               if ((rOutProb.lastProbabilityPos == DirProbLeft) && (lOutProb.lastProbabilityPos == DirProbRight)) {
+                  throw new RuntimeException("LR crash.");
+               }
+               if (outProb.lastProbabilityPos == DirProbRight) {
+                  addDiff(probCell, rProbCell);
+               } else {
+                  if (outProb.lastProbabilityPos == DirProbLeft) {
+                     addDiff(probCell, lProbCell);
+                  } else {
+                     if (lOutProb.lastProbabilityPos == DirProbRight) {
+                        addDiff(probCell, lProbCell);
+                     } else {
+                        if (rOutProb.lastProbabilityPos == DirProbLeft) {
+                           addDiff(probCell, rProbCell);
+                        } else {
+                           if (outProb.lastProbabilityPos == DirProbStay) {
+                              copyOut2In(probCell);
+                              //addDiff(probCell, rProbCell);
+                           } else {
+                              copyOut2In(probCell);
+                           }
+                        }
                      }
                   }
-                  //    b: a:X   b:X   c:?
-                  case DirProbStay -> {
-                     switch (rOutProb.lastProbabilityPos) {
-                        //    a: c:X   a:->  b:<-
-                        case DirProbLeft -> addDiff(probCell, rProbCell);
-                        //    a: c:X   a:->  b:X
-                        case DirProbStay -> addDiff(probCell, rProbCell);
-                        //    a: c:X   a:->  b:->
-                        case DirProbRight -> copyOut2In(probCell);
-                        default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
-                     }
-                  }
-                  //    b: a:<-  b:X   c:?
-                  case DirProbLeft -> {
-                     switch (rOutProb.lastProbabilityPos) {
-                        //    a: c:<-  a:X   b:<-
-                        case DirProbLeft -> addDiff(probCell, rProbCell);
-                        //    a: c:<-  a:X   b:X
-                        case DirProbStay -> copyOut2In(probCell);
-                        //    a: c:<-  a:X   b:->
-                        case DirProbRight -> copyOut2In(probCell);
-                        default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
-                     }
-                  }
-                  //default -> copy(probCell);
-                  default -> throw new IllegalStateException("Unexpected value: " + lOutProb.lastProbabilityPos);
                }
             }
          }
-         //default -> copy(probCell);
-         default -> throw new IllegalStateException("Unexpected value: " + outProb.lastProbabilityPos);
       }
-      //switch (rOutProb.lastProbabilityPos) {
-      //   case DirProbLeft ->  addDiff(probCell, rProbCell);
-      //}
    }
 
    public static void calcInField(final ProbField probField, final ProbField lProbField, final ProbField rProbField) {
@@ -296,14 +185,14 @@ public class ProbCellService {
    }
 
    private static void calcOutFields(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
-      calcOutFieldSource(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
       calcOutField(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
       calcOutField(probCell.pProbField, lProbCell.pProbField, rProbCell.pProbField);
+      calcOutFieldSource(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
    }
 
    private static int Field_Divisor = 10; // 2;
 
-   private static void calcOutFieldSource(final ProbField probField, final ProbField lProbField, final ProbField rProbField) {
+   public static void calcOutFieldSource(final ProbField probField, final ProbField lProbField, final ProbField rProbField) {
       probField.outField = probField.inField;
       //probCell.outEField = probCell.inEField + lProbCell.inEField/2 - rProbCell.inEField/2;
       //probCell.outEFieldArr[EFieldLeft] = probCell.inEFieldArr[EFieldLeft] + rProbCell.inEFieldArr[EFieldLeft]/2;
@@ -311,8 +200,8 @@ public class ProbCellService {
 
       //probField.outFieldArr[FieldLeft] = probField.inField + rProbField.inField / Field_Divisor;
       //probField.outFieldArr[FieldRight] = probField.inField + lProbField.inField / Field_Divisor;
-      //probField.outFieldArr[FieldLeft] = rProbField.inField;// / Field_Divisor;
-      //probField.outFieldArr[FieldRight] = lProbField.inField;// / Field_Divisor;
+      probField.outFieldArr[FieldLeft] += rProbField.inField;// / Field_Divisor;
+      probField.outFieldArr[FieldRight] += lProbField.inField;// / Field_Divisor;
    }
 
    private static void calcOutField(final ProbField probField, final ProbField lProbField, final ProbField rProbField) {
@@ -323,7 +212,7 @@ public class ProbCellService {
       probField.outFieldArr[FieldRight] = probField.inFieldArr[FieldRight];
    }
 
-   private static void addDiff(final ProbCell probCell, final ProbCell bProbCell) {
+   static void addDiff(final ProbCell probCell, final ProbCell bProbCell) {
       final Probability inProb = probCell.inProb;
       final Probability outProb = probCell.outProb;
       final Probability bOutProb = bProbCell.outProb;
@@ -342,7 +231,7 @@ public class ProbCellService {
       //probCell.inEFieldArr[EFieldRight] += probCell.outEFieldArr[EFieldRight] - (probCell.outEFieldArr[EFieldRight] - bProbCell.outEFieldArr[EFieldRight]);
    }
 
-   private static void copyOut2In(final ProbCell probCell) {
+   static void copyOut2In(final ProbCell probCell) {
       final Probability inProb = probCell.inProb;
       final Probability outProb = probCell.outProb;
 

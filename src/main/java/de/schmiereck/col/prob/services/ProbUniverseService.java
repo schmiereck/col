@@ -81,9 +81,9 @@ public class ProbUniverseService {
    }
 
    public static void calc(final ProbUniverse probUniverse) {
-      calcNextOutProb(probUniverse);
       calcInProb(probUniverse);
       calcOut(probUniverse);
+      calcNextOutProb(probUniverse);
    }
 
    /**
@@ -109,7 +109,7 @@ public class ProbUniverseService {
          final ProbCell lProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos - 1)];
          final ProbCell rProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos + 1)];
 
-         ProbCellService.calcInFieldSource(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
+//         ProbCellService.calcInFieldSource(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
          ProbCellService.calcInField(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
          ProbCellService.calcInProbField(probCell, lProbCell, rProbCell);
          ProbCellService.calcInProb(probCell, lProbCell, rProbCell);
@@ -128,6 +128,7 @@ public class ProbUniverseService {
          final ProbCell lProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos - 1)];
          final ProbCell rProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos + 1)];
          ProbCellService.calcOut(probCell, lProbCell, rProbCell);
+         //ProbCellService.calcOutFieldSource(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
       }
 
       for (int pos = 0; pos < probCellArr.length; pos++) {
