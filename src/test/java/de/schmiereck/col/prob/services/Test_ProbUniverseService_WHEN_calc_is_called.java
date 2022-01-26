@@ -591,25 +591,27 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       calc(probUniverse);
       // Assert
       printProbLine(2, probUniverse);
-      assertProb(probUniverse, 3,    70, 30, 0);
+      assertProb(probUniverse, 3,    30, 70, 0);
       assertProb(probUniverse, 4,    0, 100, 0);
-      assertProb(probUniverse, 5,    0, 30, 70);
+      assertProb(probUniverse, 5,    0, 70, 30);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(3, probUniverse);
-      assertProb(probUniverse, 3,    70, 30, 0);
+      assertProb(probUniverse, 3,    100, 0, 0);
       assertProb(probUniverse, 4,    0, 100, 0);
-      assertProb(probUniverse, 5,    0, 30, 70);
+      assertProb(probUniverse, 5,    0, 0, 100);
 
       // Act
       calc(probUniverse);
-      // TODO Assert
+      // Assert
       printProbLine(4, probUniverse);
-      assertProb(probUniverse, 3,    70, 30, 0);
+      assertProb(probUniverse, 2,    100, 0, 0);
+      assertProb(probUniverse, 3,    0, 100, 0);
       assertProb(probUniverse, 4,    0, 100, 0);
-      assertProb(probUniverse, 5,    0, 30, 70);
+      assertProb(probUniverse, 5,    0, 100, 0);
+      assertProb(probUniverse, 6,    0, 0, 100);
    }
 
    @Test

@@ -251,22 +251,22 @@ public class ProbCellService {
    private static boolean calcBeschl(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
       final boolean ret;
       // a is p-Field?  b: a:->   b:?  c:?
-      if ((probCell.pProbField.outFieldArr[FieldRight] > 0)) {
+      if ((probCell.pProbField.outFieldArr[FieldRight] > 0) && (probCell.eProbField.outField > 0)) {
          calcBeschl(probCell, probCell);
          // TODO P Event Remove  !!!
          ret = true;
       } else {
-         if ((lProbCell.pProbField.outFieldArr[FieldRight] > 0)) {
+         if ((lProbCell.pProbField.outFieldArr[FieldRight] > 0) && (probCell.eProbField.outField > 0)) {
             calcBeschl(probCell, lProbCell);
             // TODO P Event Remove  !!!
             ret = true;
          } else {
             // c is p-Field?  b: a:?   b:?  c:<-
-            if ((probCell.pProbField.outFieldArr[FieldLeft] > 0)) {
+            if ((probCell.pProbField.outFieldArr[FieldLeft] > 0) && (probCell.eProbField.outField > 0)) {
                calcBeschl(probCell, probCell);
                ret = true;
             } else {
-               if ((rProbCell.pProbField.outFieldArr[FieldLeft] > 0)) {
+               if ((rProbCell.pProbField.outFieldArr[FieldLeft] > 0) && (probCell.eProbField.outField > 0)) {
                   calcBeschl(probCell, rProbCell);
                   ret = true;
                } else {
@@ -279,41 +279,47 @@ public class ProbCellService {
    }
 
    /**
-    *	      il = min(or, pol) = min(70, 100) = 70
-    * 			         ir = min(ol, por) = min(0, 0) = 0
-    * o:	   0	   30	   70
-    * po:	100		   0
-    * 	=>
-    * o:	   70	   30	   0
-    * po:	100		   0
-    * 	=>
-    * 	   il = min(or, pol) = min(0, 100) = 0
-    * 			         ir = min(ol, por) = min(70, 0) = 0
-    * o:	   70	   30	   0
-    * po:	100		   0
-    *
-    * pod = Differenz l/r-po.
-    * pod als prozentualen Anteil betrachten und diff zu l/r-i addieren
+    *	L  S  R
+    *	Richtung pField verschieben (100 = 100%, 50 = 50%, ...)
+    *	Auch Stay berücksichtigen!
     */
    private static void calcBeschl(final ProbCell probCell, final ProbCell pProbCell) {
       // TODO Nicht reflect sondern Impuls des pFields übertragen.
       final int pol = pProbCell.pProbField.outFieldArr[FieldLeft];
       final int por = pProbCell.pProbField.outFieldArr[FieldRight];
-      final int pod = absIM(por - pol);
+      //final int pod = absIM(por - pol);
+      //final int pod = absIM(pol - por);
+      final int pod = (por - pol);
+      final int apod = absIM(pod);
 
       final int ol = probCell.outProb.probabilityArr[DirProbLeft];
+      final int os = probCell.outProb.probabilityArr[DirProbStay];
       final int or = probCell.outProb.probabilityArr[DirProbRight];
-      final int od = or - ol;
+      final int olm = Max_Probability - ol;
+      final int osm = Max_Probability - os;
+      final int orm = Max_Probability - or;
+      final int odl = ((ol * apod) / Max_Probability);
+      final int ods = ((os * apod) / Max_Probability);
+      final int odr = ((or * apod) / Max_Probability);
 
       //final int dl = minIM(or, pol);
       //final int dr = minIM(ol, por);
       //final int odd = Max_Probability - od;
 
-      final int il = ol + ((od * pod) / Max_Probability);
-      final int ir = or - ((od * pod) / Max_Probability);
-
+      final int il;
+      final int is;
+      final int ir;
+      if (pod < 0) {
+         il = ol + ods;
+         is = os - ods + odr;
+         ir = or - odr;
+      } else {
+         il = ol - odl;
+         is = os - ods + odl;
+         ir = or + ods;
+      }
       probCell.inProb.probabilityArr[DirProbLeft] = il;
-      probCell.inProb.probabilityArr[DirProbStay] = probCell.outProb.probabilityArr[DirProbStay];
+      probCell.inProb.probabilityArr[DirProbStay] = is;
       probCell.inProb.probabilityArr[DirProbRight] = ir;
 
       //calcOperation(probCell.inProb, probCell.outProb, LR_REFLECTION_MATRIX);
