@@ -5,6 +5,8 @@ import static de.schmiereck.col.prob.model.ProbField.FieldRight;
 import static de.schmiereck.col.services.ProbabilityService.calcNext;
 import static de.schmiereck.col.services.ProbabilityService.calcOperation;
 import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
+import static de.schmiereck.col.utils.IntMathUtils.absIM;
+import static de.schmiereck.col.utils.IntMathUtils.minIM;
 
 import de.schmiereck.col.model.PMatrix;
 import de.schmiereck.col.model.Probability;
@@ -276,15 +278,45 @@ public class ProbCellService {
       return ret;
    }
 
+   /**
+    *	      il = min(or, pol) = min(70, 100) = 70
+    * 			         ir = min(ol, por) = min(0, 0) = 0
+    * o:	   0	   30	   70
+    * po:	100		   0
+    * 	=>
+    * o:	   70	   30	   0
+    * po:	100		   0
+    * 	=>
+    * 	   il = min(or, pol) = min(0, 100) = 0
+    * 			         ir = min(ol, por) = min(70, 0) = 0
+    * o:	   70	   30	   0
+    * po:	100		   0
+    *
+    * pod = Differenz l/r-po.
+    * pod als prozentualen Anteil betrachten und diff zu l/r-i addieren
+    */
    private static void calcBeschl(final ProbCell probCell, final ProbCell pProbCell) {
       // TODO Nicht reflect sondern Impuls des pFields übertragen.
       final int pol = pProbCell.pProbField.outFieldArr[FieldLeft];
       final int por = pProbCell.pProbField.outFieldArr[FieldRight];
+      final int pod = absIM(por - pol);
 
       final int ol = probCell.outProb.probabilityArr[DirProbLeft];
       final int or = probCell.outProb.probabilityArr[DirProbRight];
+      final int od = or - ol;
 
-      calcOperation(probCell.inProb, probCell.outProb, LR_REFLECTION_MATRIX);
+      //final int dl = minIM(or, pol);
+      //final int dr = minIM(ol, por);
+      //final int odd = Max_Probability - od;
+
+      final int il = ol + ((od * pod) / Max_Probability);
+      final int ir = or - ((od * pod) / Max_Probability);
+
+      probCell.inProb.probabilityArr[DirProbLeft] = il;
+      probCell.inProb.probabilityArr[DirProbStay] = probCell.outProb.probabilityArr[DirProbStay];
+      probCell.inProb.probabilityArr[DirProbRight] = ir;
+
+      //calcOperation(probCell.inProb, probCell.outProb, LR_REFLECTION_MATRIX);
 
       copyField(probCell.eProbField);
       copyField(probCell.pProbField);
