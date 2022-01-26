@@ -591,9 +591,9 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       calc(probUniverse);
       // Assert
       printProbLine(2, probUniverse);
-      assertProb(probUniverse, 3,    0, 30, 70);
+      assertProb(probUniverse, 3,    70, 30, 0);
       assertProb(probUniverse, 4,    0, 100, 0);
-      assertProb(probUniverse, 5,    70, 30, 0);
+      assertProb(probUniverse, 5,    0, 30, 70);
 
       // Act
       calc(probUniverse);

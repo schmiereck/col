@@ -10,7 +10,6 @@ import de.schmiereck.col.model.PMatrix;
 import de.schmiereck.col.model.Probability;
 import de.schmiereck.col.prob.model.ProbCell;
 import de.schmiereck.col.prob.model.ProbField;
-import de.schmiereck.col.prob.model.ProbUniverse;
 import de.schmiereck.col.services.ProbabilityService;
 
 /**
@@ -87,36 +86,27 @@ public class ProbCellService {
       if ((probCell.pProbField.outFieldArr[FieldRight] > 0) && (probCell.pProbField.outFieldArr[FieldLeft] > 0)) {
          copyOut2In(probCell);
       } else {
-         // a is p-Field?  b: a:->   b:?  c:?
-         if (lProbCell.pProbField.outFieldArr[FieldRight] > 0) {
-            calcOperation(probCell.inProb, probCell.outProb, LR_REFLECTION_MATRIX);
-            // TODO P Event Remove  !!!
-         } else {
-            // c is p-Field?  b: a:?   b:?  c:<-
-            if (rProbCell.pProbField.outFieldArr[FieldLeft] > 0) {
-               calcOperation(probCell.inProb, probCell.outProb, LR_REFLECTION_MATRIX);
+         if (calcBeschl(probCell, lProbCell, rProbCell) == false) {
+            if ((rOutProb.lastProbabilityPos == DirProbLeft) && (lOutProb.lastProbabilityPos == DirProbRight)) {
+               throw new RuntimeException("LR crash.");
+            }
+            if (outProb.lastProbabilityPos == DirProbRight) {
+               addDiff(probCell, rProbCell);
             } else {
-               if ((rOutProb.lastProbabilityPos == DirProbLeft) && (lOutProb.lastProbabilityPos == DirProbRight)) {
-                  throw new RuntimeException("LR crash.");
-               }
-               if (outProb.lastProbabilityPos == DirProbRight) {
-                  addDiff(probCell, rProbCell);
+               if (outProb.lastProbabilityPos == DirProbLeft) {
+                  addDiff(probCell, lProbCell);
                } else {
-                  if (outProb.lastProbabilityPos == DirProbLeft) {
+                  if (lOutProb.lastProbabilityPos == DirProbRight) {
                      addDiff(probCell, lProbCell);
                   } else {
-                     if (lOutProb.lastProbabilityPos == DirProbRight) {
-                        addDiff(probCell, lProbCell);
+                     if (rOutProb.lastProbabilityPos == DirProbLeft) {
+                        addDiff(probCell, rProbCell);
                      } else {
-                        if (rOutProb.lastProbabilityPos == DirProbLeft) {
-                           addDiff(probCell, rProbCell);
+                        if (outProb.lastProbabilityPos == DirProbStay) {
+                           copyOut2In(probCell);
+                           //addDiff(probCell, rProbCell);
                         } else {
-                           if (outProb.lastProbabilityPos == DirProbStay) {
-                              copyOut2In(probCell);
-                              //addDiff(probCell, rProbCell);
-                           } else {
-                              copyOut2In(probCell);
-                           }
+                           copyOut2In(probCell);
                         }
                      }
                   }
@@ -135,17 +125,26 @@ public class ProbCellService {
    }
 
    public static void calcInProbField(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
-      final int eol = probCell.eProbField.outFieldArr[FieldLeft];
-      final int eor = probCell.eProbField.outFieldArr[FieldRight];
+      //final int eol = probCell.eProbField.outFieldArr[FieldLeft];
+      //final int eor = probCell.eProbField.outFieldArr[FieldRight];
+      final int reol = rProbCell.eProbField.outFieldArr[FieldLeft];
+      final int reor = rProbCell.eProbField.outFieldArr[FieldRight];
+      final int leol = lProbCell.eProbField.outFieldArr[FieldLeft];
+      final int leor = lProbCell.eProbField.outFieldArr[FieldRight];
       final int pil;
       final int pir;
 
-      if ((eol > 0) && (eor > 0)) {
-         pil = eol;
-         pir = eor;
+      if ((reol > 0) && (reor > 0)) {
+         pil = reol;
+         pir = 0;//reor;
       } else {
-         pil = 0;
-         pir = 0;
+         if ((leol > 0) && (leor > 0)) {
+            pil = 0;//leol;
+            pir = leor;
+         } else {
+            pil = 0;
+            pir = 0;
+         }
       }
       probCell.pProbField.inFieldArr[FieldLeft] += pil;
       probCell.pProbField.inFieldArr[FieldRight] += pir;
@@ -167,8 +166,16 @@ public class ProbCellService {
 */
    }
 
-   public static void clearIn(final ProbCell probCell) {
+   public static void clearInProb(final ProbCell probCell) {
       clearArr(probCell.inProb.probabilityArr);
+      //probCell.eProbField.inField = 0;
+      //clearArr(probCell.eProbField.inFieldArr);
+      //probCell.pProbField.inField = 0;
+      //clearArr(probCell.pProbField.inFieldArr);
+   }
+
+   public static void clearInFields(final ProbCell probCell) {
+      //clearArr(probCell.inProb.probabilityArr);
       probCell.eProbField.inField = 0;
       clearArr(probCell.eProbField.inFieldArr);
       probCell.pProbField.inField = 0;
@@ -179,20 +186,26 @@ public class ProbCellService {
       calcNext(probCell.outProb);
    }
 
-   public static void calcOut(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
+   public static void calcOutProb(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
       copyArr(probCell.outProb.probabilityArr, probCell.inProb.probabilityArr);
-      calcOutFields(probCell, lProbCell, rProbCell);
    }
 
-   private static void calcOutFields(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
+   static void calcOutEFields(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
       calcOutField(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
+      calcOutEFieldSource(probCell, lProbCell, rProbCell);
+   }
+
+   static void calcOutPFields(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
       calcOutField(probCell.pProbField, lProbCell.pProbField, rProbCell.pProbField);
-      calcOutFieldSource(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
    }
 
    private static int Field_Divisor = 10; // 2;
 
-   public static void calcOutFieldSource(final ProbField probField, final ProbField lProbField, final ProbField rProbField) {
+   public static void calcOutEFieldSource(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
+      final ProbField probField = probCell.eProbField;
+      final ProbField lProbField = lProbCell.eProbField;
+      final ProbField rProbField = rProbCell.eProbField;
+
       probField.outField = probField.inField;
       //probCell.outEField = probCell.inEField + lProbCell.inEField/2 - rProbCell.inEField/2;
       //probCell.outEFieldArr[EFieldLeft] = probCell.inEFieldArr[EFieldLeft] + rProbCell.inEFieldArr[EFieldLeft]/2;
@@ -200,6 +213,8 @@ public class ProbCellService {
 
       //probField.outFieldArr[FieldLeft] = probField.inField + rProbField.inField / Field_Divisor;
       //probField.outFieldArr[FieldRight] = probField.inField + lProbField.inField / Field_Divisor;
+      //probField.outFieldArr[FieldLeft] += (rProbField.inField * rProbCell.inProb.probabilityArr[DirProbLeft]) / Max_Probability;
+      //probField.outFieldArr[FieldRight] += (lProbField.inField * lProbCell.inProb.probabilityArr[DirProbRight]) / Max_Probability;
       probField.outFieldArr[FieldLeft] += rProbField.inField;// / Field_Divisor;
       probField.outFieldArr[FieldRight] += lProbField.inField;// / Field_Divisor;
    }
@@ -229,6 +244,50 @@ public class ProbCellService {
       probField.inField += probField.outField - (probField.outField - bProbField.outField);
       //probCell.inEFieldArr[EFieldLeft] += probCell.outEFieldArr[EFieldLeft] - (probCell.outEFieldArr[EFieldLeft] - bProbCell.outEFieldArr[EFieldLeft]);
       //probCell.inEFieldArr[EFieldRight] += probCell.outEFieldArr[EFieldRight] - (probCell.outEFieldArr[EFieldRight] - bProbCell.outEFieldArr[EFieldRight]);
+   }
+
+   private static boolean calcBeschl(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
+      final boolean ret;
+      // a is p-Field?  b: a:->   b:?  c:?
+      if ((probCell.pProbField.outFieldArr[FieldRight] > 0)) {
+         calcBeschl(probCell, probCell);
+         // TODO P Event Remove  !!!
+         ret = true;
+      } else {
+         if ((lProbCell.pProbField.outFieldArr[FieldRight] > 0)) {
+            calcBeschl(probCell, lProbCell);
+            // TODO P Event Remove  !!!
+            ret = true;
+         } else {
+            // c is p-Field?  b: a:?   b:?  c:<-
+            if ((probCell.pProbField.outFieldArr[FieldLeft] > 0)) {
+               calcBeschl(probCell, probCell);
+               ret = true;
+            } else {
+               if ((rProbCell.pProbField.outFieldArr[FieldLeft] > 0)) {
+                  calcBeschl(probCell, rProbCell);
+                  ret = true;
+               } else {
+                  ret = false;
+               }
+            }
+         }
+      }
+      return ret;
+   }
+
+   private static void calcBeschl(final ProbCell probCell, final ProbCell pProbCell) {
+      // TODO Nicht reflect sondern Impuls des pFields übertragen.
+      final int pol = pProbCell.pProbField.outFieldArr[FieldLeft];
+      final int por = pProbCell.pProbField.outFieldArr[FieldRight];
+
+      final int ol = probCell.outProb.probabilityArr[DirProbLeft];
+      final int or = probCell.outProb.probabilityArr[DirProbRight];
+
+      calcOperation(probCell.inProb, probCell.outProb, LR_REFLECTION_MATRIX);
+
+      copyField(probCell.eProbField);
+      copyField(probCell.pProbField);
    }
 
    static void copyOut2In(final ProbCell probCell) {

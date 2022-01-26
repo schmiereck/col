@@ -17,26 +17,30 @@ L und R spüren sich noch nicht,
 können aber nicht beide 2 besetzen.
 
 Lösung:
- 0 1 2 3 4 5
+ 0 A 2 B 4 5
 | |R| |L| | |  E-Feld
-|r|r|x|l|l| |  e-Feld
-| | |P| | | |  p-Feld
+|l| |r| | | |  e-Feld A
+| | |l| |r| |  e-Feld B
+| |l|P|r| | |  p-Feld
 =>
 | |L| | |R| |  E-Feld
-|l|l|l|r|r|r|  e-Feld
+|l| |r|l| |r|  e-Feld
 
- 0 1 2 3 4 5
+ 0 A 2 3 B 5
 | |R| | |L| |  E-Feld
-|r|r|r|l|l|l|  e-Feld
-| | |P|P| | |  p-Feld
+|l| |r|r| | |  e-Feld A
+| | |l|l| |r|  e-Feld B
+| |l|P|r|r| |  p-Feld 
+| |l|l|P|r| |  p-Feld
 =>
 | |L| | |R| |  E-Feld
-|l| |l|r| |r|  e-Feld
+|l| |r|l| |r|  e-Feld
 
-0 1 2 3 4 5
+ 0 A 2 3 B 5
 | |R| | | |L| |  E-Feld
-|r|r|r| |l|l|l|  e-Feld
-| | |p|P|p| | |  p-Feld
+|l| |r|r| | | |  e-Feld A
+| | | |l|l| |r|  e-Feld B
+| |l|l|P|r|r| |  p-Feld
 
 e-Feld entsteht in der Nachbarschaft eines E-Feld Teilchens.
 Es hat eine Richtung.
@@ -45,3 +49,20 @@ Richtung zu bewegen (Impuls).
 
 p-Feld entsteht in der Nachbarschaft eines e-Feld Teilchens.
 p-Feld überträgt den Impuls.
+
+# Field and Probability
+Immer in beide Richtungen volle Stärke.
+```
+        L   S   R
+        0   90  10
+e L:100             R:100
+
+        L   S   R
+        0   30  70
+e L:100             R:100
+
+        L   S   R
+        0   100 0
+e L:100             R:100
+
+```
