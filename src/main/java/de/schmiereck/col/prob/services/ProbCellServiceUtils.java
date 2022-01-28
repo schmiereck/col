@@ -87,14 +87,9 @@ public class ProbCellServiceUtils {
       final int osm = Max_Probability - os;
       final int orm = Max_Probability - or;
 
-      final int odlt = ((ol * apod) / Max_Probability);
-      final int odl = odlt > 0 ? odlt : ((ol * apod) % Max_Probability) > 0 ? 1 : 0;
-
-      final int odst = ((os * apod) / Max_Probability);
-      final int ods = odst > 0 ? odst : ((os * apod) % Max_Probability) > 0 ? 1 : 0;
-
-      final int odrt = ((or * apod) / Max_Probability);
-      final int odr = odrt > 0 ? odrt : ((or * apod) % Max_Probability) > 0 ? 1 : 0;
+      final int odl = weightIM(ol, apod, Max_Probability);
+      final int ods = weightIM(os, apod, Max_Probability);
+      final int odr = weightIM(or, apod, Max_Probability);
 
       //final int dl = minIM(or, pol);
       //final int dr = minIM(ol, por);
@@ -105,28 +100,34 @@ public class ProbCellServiceUtils {
       final int ir;
       // To Left?
       if (pod < 0) {
-         final int r1 = or - odr;
-         ir = r1;
-
+         ir = or - odr;
          if (ir > 0) {
-            final int s1 = os + odr;
-            is = s1;
+            is = os + odr;
             il = ol;
          } else {
-            final int s1 = os + odr - ods;
-            is = s1;
-
-            final int l1 = ol + ods;
-            il = l1;
+            is = os + odr - ods;
+            il = ol + ods;
          }
       } else {
+         // To Right.
          il = ol - odl;
-         is = os - ods + odl;
-         ir = or + ods;
+         if (il > 0) {
+            is = os + odl;
+            ir = or;
+         } else {
+            is = os + odl - ods;
+            ir = or + ods;
+         }
       }
       inProb.probabilityArr[DirProbLeft] = il;
       inProb.probabilityArr[DirProbStay] = is;
       inProb.probabilityArr[DirProbRight] = ir;
+   }
+
+   private static int weightIM(final int ol, final int apod, final int maxWeight) {
+      final int odlt = ((ol * apod) / maxWeight);
+      final int odl = odlt > 0 ? odlt : ((ol * apod) % maxWeight) > 0 ? 1 : 0;
+      return odl;
    }
 
    public static void calcImpulse_wrong(final Probability inProb, final Probability outProb, final ProbField pProbField) {

@@ -13,24 +13,40 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import de.schmiereck.col.model.Probability;
 import de.schmiereck.col.prob.model.ProbField;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
 
-   @Test
-   void GIVEN_eOutL0S100R0_pL100R0_THEN_eIn_accelerated() {
+   private static  Stream<Arguments> provideArguments() {
+      return Stream.of(
+              // A1-R:   0		100		0		<- 100      =>    100		0		  0
+              Arguments.of(new int[]{100, 0}, new int[]{0, 100, 0}, new int[]{100, 0, 0}),
+              // A1-L:   100 ->    0		100		0      =>    0		   0		100
+              Arguments.of(new int[]{0, 100}, new int[]{0, 100, 0}, new int[]{0, 0, 100})
+      );
+   }
+
+   @ParameterizedTest
+   @MethodSource("provideArguments")
+   void GIVEN_eOutLxSxRx_pLxRx_THEN_eIn_accelerated(final int[] pFieldArr, final int[] outProbArr, final int[] inProbArr) {
       // Arrange
       final ProbField pProbField = new ProbField();
 
-      pProbField.outFieldArr[FieldLeft] = 100;
-      pProbField.outFieldArr[FieldRight] = 0;
+      pProbField.outFieldArr[FieldLeft] = pFieldArr[0];
+      pProbField.outFieldArr[FieldRight] = pFieldArr[1];
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
-      // A1:   0		100		0		<- 100
-      outProb.probabilityArr[DirProbLeft]    = 0;
-      outProb.probabilityArr[DirProbStay]    = 100;
-      outProb.probabilityArr[DirProbRight]   = 0;
+      outProb.probabilityArr[DirProbLeft]    = outProbArr[0];
+      outProb.probabilityArr[DirProbStay]    = outProbArr[1];
+      outProb.probabilityArr[DirProbRight]   = outProbArr[2];
 
       final Probability inProb = new Probability(Max_Probability, DirProbSize);
 
@@ -38,10 +54,9 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
       calcImpulse(inProb, outProb, pProbField);
 
       // Assert
-      //   100		0		0
-      assertEquals(100, inProb.probabilityArr[DirProbLeft]);
-      assertEquals(0, inProb.probabilityArr[DirProbStay]);
-      assertEquals(0, inProb.probabilityArr[DirProbRight]);
+      assertEquals(inProbArr[0], inProb.probabilityArr[DirProbLeft]);
+      assertEquals(inProbArr[1], inProb.probabilityArr[DirProbStay]);
+      assertEquals(inProbArr[2], inProb.probabilityArr[DirProbRight]);
    }
 
    @Test
@@ -54,7 +69,7 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
-      // A2:   0		100		0		<- 50
+      // A2-R:   0		100		0		<- 50
       outProb.probabilityArr[DirProbLeft]    = 0;
       outProb.probabilityArr[DirProbStay]    = 100;
       outProb.probabilityArr[DirProbRight]   = 0;
@@ -72,6 +87,33 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
    }
 
    @Test
+   void GIVEN_eOutL0S100R0_pL0R50_THEN_eIn_accelerated() {
+      // Arrange
+      final ProbField pProbField = new ProbField();
+
+      pProbField.outFieldArr[FieldLeft] = 0;
+      pProbField.outFieldArr[FieldRight] = 50;
+
+      final Probability outProb = new Probability(Max_Probability, DirProbSize);
+
+      // A2-L:   50 ->    0		100		0
+      outProb.probabilityArr[DirProbLeft]    = 0;
+      outProb.probabilityArr[DirProbStay]    = 100;
+      outProb.probabilityArr[DirProbRight]   = 0;
+
+      final Probability inProb = new Probability(Max_Probability, DirProbSize);
+
+      // Act
+      calcImpulse(inProb, outProb, pProbField);
+
+      // Assert
+      //   0		50		50
+      assertEquals(0, inProb.probabilityArr[DirProbLeft]);
+      assertEquals(50, inProb.probabilityArr[DirProbStay]);
+      assertEquals(50, inProb.probabilityArr[DirProbRight]);
+   }
+
+   @Test
    void GIVEN_eOutL0S100R0_pL1R0_THEN_eIn_accelerated() {
       // Arrange
       final ProbField pProbField = new ProbField();
@@ -81,7 +123,7 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
-      // A3:   0  100 0    <- 1
+      // A3-R:   0  100 0    <- 1
       outProb.probabilityArr[DirProbLeft]    = 0;
       outProb.probabilityArr[DirProbStay]    = 100;
       outProb.probabilityArr[DirProbRight]   = 0;
@@ -108,7 +150,7 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
-      // B1:   0		99		1		<- 100
+      // B1-R:   0		99		1		<- 100
       outProb.probabilityArr[DirProbLeft]    = 0;
       outProb.probabilityArr[DirProbStay]    = 99;
       outProb.probabilityArr[DirProbRight]   = 1;
@@ -135,7 +177,7 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
-      // B2:   0  99 1    <- 1
+      // B2-R:   0  99 1    <- 1
       outProb.probabilityArr[DirProbLeft]    = 0;
       outProb.probabilityArr[DirProbStay]    = 99;
       outProb.probabilityArr[DirProbRight]   = 1;
@@ -162,7 +204,7 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
-      // C1:   0		30		70		<- 100
+      // C1-R:   0		30		70		<- 100
       outProb.probabilityArr[DirProbLeft]    = 0;
       outProb.probabilityArr[DirProbStay]    = 30;
       outProb.probabilityArr[DirProbRight]   = 70;
@@ -189,7 +231,7 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
-      // C2:   0		30		70		<- 50
+      // C2-R:   0		30		70		<- 50
       outProb.probabilityArr[DirProbLeft]    = 0;
       outProb.probabilityArr[DirProbStay]    = 30;
       outProb.probabilityArr[DirProbRight]   = 70;
@@ -216,7 +258,7 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
-      // C3:   0		70		30		<- 50
+      // C3-R:   0		70		30		<- 50
       outProb.probabilityArr[DirProbLeft]    = 0;
       outProb.probabilityArr[DirProbStay]    = 70;
       outProb.probabilityArr[DirProbRight]   = 30;
@@ -243,7 +285,7 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
-      // D1:   0		0		100		<- 100
+      // D1-R:   0		0		100		<- 100
       outProb.probabilityArr[DirProbLeft]    = 0;
       outProb.probabilityArr[DirProbStay]    = 0;
       outProb.probabilityArr[DirProbRight]   = 100;
@@ -270,7 +312,7 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
-      // D2:   0		0		100		<- 50
+      // D2-R:   0		0		100		<- 50
       outProb.probabilityArr[DirProbLeft]    = 0;
       outProb.probabilityArr[DirProbStay]    = 0;
       outProb.probabilityArr[DirProbRight]   = 100;
@@ -297,7 +339,7 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
-      // E1:   30		70		0		<- 100
+      // E1-R:   30		70		0		<- 100
       outProb.probabilityArr[DirProbLeft]    = 30;
       outProb.probabilityArr[DirProbStay]    = 70;
       outProb.probabilityArr[DirProbRight]   = 0;
@@ -324,7 +366,7 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
-      // E2:   30		70		0		<- 50
+      // E2-R:   30		70		0		<- 50
       outProb.probabilityArr[DirProbLeft]    = 30;
       outProb.probabilityArr[DirProbStay]    = 70;
       outProb.probabilityArr[DirProbRight]   = 0;
@@ -339,5 +381,32 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
       assertEquals(65, inProb.probabilityArr[DirProbLeft]);
       assertEquals(35, inProb.probabilityArr[DirProbStay]);
       assertEquals(0, inProb.probabilityArr[DirProbRight]);
+   }
+
+   @Test
+   void GIVEN_eOutL0S70R30_pL0R50_THEN_eIn_accelerated() {
+      // Arrange
+      final ProbField pProbField = new ProbField();
+
+      pProbField.outFieldArr[FieldLeft] = 0;
+      pProbField.outFieldArr[FieldRight] = 50;
+
+      final Probability outProb = new Probability(Max_Probability, DirProbSize);
+
+      // E2-L:   50  ->    0		70		30
+      outProb.probabilityArr[DirProbLeft]    = 0;
+      outProb.probabilityArr[DirProbStay]    = 70;
+      outProb.probabilityArr[DirProbRight]   = 30;
+
+      final Probability inProb = new Probability(Max_Probability, DirProbSize);
+
+      // Act
+      calcImpulse(inProb, outProb, pProbField);
+
+      // Assert
+      // 65		35		65
+      assertEquals(0, inProb.probabilityArr[DirProbLeft]);
+      assertEquals(35, inProb.probabilityArr[DirProbStay]);
+      assertEquals(65, inProb.probabilityArr[DirProbRight]);
    }
 }
