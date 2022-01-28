@@ -2,11 +2,10 @@ package de.schmiereck.col.prob.services;
 
 import static de.schmiereck.col.prob.model.ProbField.FieldLeft;
 import static de.schmiereck.col.prob.model.ProbField.FieldRight;
+import static de.schmiereck.col.prob.services.ProbCellServiceUtils.calcImpulse;
 import static de.schmiereck.col.services.ProbabilityService.calcNext;
-import static de.schmiereck.col.services.ProbabilityService.calcOperation;
 import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
 import static de.schmiereck.col.utils.IntMathUtils.absIM;
-import static de.schmiereck.col.utils.IntMathUtils.minIM;
 
 import de.schmiereck.col.model.PMatrix;
 import de.schmiereck.col.model.Probability;
@@ -250,30 +249,39 @@ public class ProbCellService {
 
    private static boolean calcBeschl(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
       final boolean ret;
-      // a is p-Field?  b: a:->   b:?  c:?
-      if ((probCell.pProbField.outFieldArr[FieldRight] > 0) && (probCell.eProbField.outField > 0)) {
-         calcBeschl(probCell, probCell);
-         // TODO P Event Remove  !!!
-         ret = true;
-      } else {
-         if ((lProbCell.pProbField.outFieldArr[FieldRight] > 0) && (probCell.eProbField.outField > 0)) {
-            calcBeschl(probCell, lProbCell);
+      if (probCell.eProbField.outField > 0) {
+         // a is p-Field?  b: a:->   b:?  c:?
+         if ((probCell.pProbField.outFieldArr[FieldRight] > 0)) {
+            calcBeschl(probCell, probCell);
             // TODO P Event Remove  !!!
             ret = true;
          } else {
             // c is p-Field?  b: a:?   b:?  c:<-
-            if ((probCell.pProbField.outFieldArr[FieldLeft] > 0) && (probCell.eProbField.outField > 0)) {
+            if ((probCell.pProbField.outFieldArr[FieldLeft] > 0)) {
                calcBeschl(probCell, probCell);
                ret = true;
-            } else {
-               if ((rProbCell.pProbField.outFieldArr[FieldLeft] > 0) && (probCell.eProbField.outField > 0)) {
-                  calcBeschl(probCell, rProbCell);
+            } else
+            {
+               /*
+               if ((lProbCell.pProbField.outFieldArr[FieldRight] > 0)) {
+                  calcBeschl(probCell, lProbCell);
+                  // TODO P Event Remove  !!!
                   ret = true;
                } else {
-                  ret = false;
+                  if ((rProbCell.pProbField.outFieldArr[FieldLeft] > 0)) {
+                     calcBeschl(probCell, rProbCell);
+                     ret = true;
+                  } else
+                   {
+                     ret = false;
+                  }
                }
+               */
+               ret = false;
             }
          }
+      } else {
+         ret = false;
       }
       return ret;
    }
@@ -284,43 +292,12 @@ public class ProbCellService {
     *	Auch Stay berücksichtigen!
     */
    private static void calcBeschl(final ProbCell probCell, final ProbCell pProbCell) {
-      // TODO Nicht reflect sondern Impuls des pFields übertragen.
-      final int pol = pProbCell.pProbField.outFieldArr[FieldLeft];
-      final int por = pProbCell.pProbField.outFieldArr[FieldRight];
-      //final int pod = absIM(por - pol);
-      //final int pod = absIM(pol - por);
-      final int pod = (por - pol);
-      final int apod = absIM(pod);
+      // Impuls des pFields übertragen.
+      final ProbField pProbField = pProbCell.pProbField;
+      final Probability outProb = probCell.outProb;
+      final Probability inProb = probCell.inProb;
 
-      final int ol = probCell.outProb.probabilityArr[DirProbLeft];
-      final int os = probCell.outProb.probabilityArr[DirProbStay];
-      final int or = probCell.outProb.probabilityArr[DirProbRight];
-      final int olm = Max_Probability - ol;
-      final int osm = Max_Probability - os;
-      final int orm = Max_Probability - or;
-      final int odl = ((ol * apod) / Max_Probability);
-      final int ods = ((os * apod) / Max_Probability);
-      final int odr = ((or * apod) / Max_Probability);
-
-      //final int dl = minIM(or, pol);
-      //final int dr = minIM(ol, por);
-      //final int odd = Max_Probability - od;
-
-      final int il;
-      final int is;
-      final int ir;
-      if (pod < 0) {
-         il = ol + ods;
-         is = os - ods + odr;
-         ir = or - odr;
-      } else {
-         il = ol - odl;
-         is = os - ods + odl;
-         ir = or + ods;
-      }
-      probCell.inProb.probabilityArr[DirProbLeft] = il;
-      probCell.inProb.probabilityArr[DirProbStay] = is;
-      probCell.inProb.probabilityArr[DirProbRight] = ir;
+      calcImpulse(inProb, outProb, pProbField);
 
       //calcOperation(probCell.inProb, probCell.outProb, LR_REFLECTION_MATRIX);
 
