@@ -76,49 +76,29 @@ public class ProbUniverseService {
       */
    }
 
-   public static void calc_works(final ProbUniverse probUniverse) {
-      calcInProb(probUniverse);
-      calcInEFields(probUniverse);
-      calcInPFields(probUniverse);
-
-      calcOutProb(probUniverse);
-      calcOutEFields(probUniverse);
-      calcOutPFields(probUniverse);
-
-      clearInProb(probUniverse);
-      clearInFields(probUniverse);
-
-      calcNextOutProb(probUniverse);
-   }
-
    public static void calc(final ProbUniverse probUniverse) {
-
+      // Prob:
       calcInProb(probUniverse);
       calcOutProb(probUniverse);
+
+      calcImpulseOut2Out(probUniverse);
+
       clearInProb(probUniverse);
 
-      calcInEFields(probUniverse);
-      calcOutEFields(probUniverse);
-      calcInPFields(probUniverse);
-      calcOutPFields(probUniverse);
-      clearInFields(probUniverse);
-
-
-      calcNextOutProb(probUniverse);
-   }
-
-   public static void calc_target(final ProbUniverse probUniverse) {
       // Fields:
       calcInEFields(probUniverse);
-      calcInPFields(probUniverse);
       calcOutEFields(probUniverse);
+
+      calcInPFields(probUniverse);
       calcOutPFields(probUniverse);
+
+      //calcInImpulse(probUniverse);
+      //calcOutProb(probUniverse);
+
+
       clearInFields(probUniverse);
 
-      // Dir-Probality:
-      calcInProb(probUniverse);
-      calcOutProb(probUniverse);
-      clearInProb(probUniverse);
+
       calcNextOutProb(probUniverse);
    }
 
@@ -164,6 +144,21 @@ public class ProbUniverseService {
          //ProbCellService.calcInField(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
          ProbCellService.calcInProbField(probCell, lProbCell, rProbCell);
          //ProbCellService.calcInProb(probCell, lProbCell, rProbCell);
+      }
+   }
+
+   public static void calcImpulseOut2Out(final ProbUniverse probUniverse) {
+      final ProbCell[] probCellArr = probUniverse.probCellArr;
+
+      for (int pos = 0; pos < probCellArr.length; pos++) {
+         final ProbCell probCell = probCellArr[pos];
+         final ProbCell lProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos - 1)];
+         final ProbCell rProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos + 1)];
+
+//         ProbCellService.calcInFieldSource(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
+         //ProbCellService.calcInField(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
+         //ProbCellService.calcInProbField(probCell, lProbCell, rProbCell);
+         ProbCellService.calcImpulseOut2Out(probCell);
       }
    }
 

@@ -2,10 +2,8 @@ package de.schmiereck.col.prob.services;
 
 import static de.schmiereck.col.prob.model.ProbField.FieldLeft;
 import static de.schmiereck.col.prob.model.ProbField.FieldRight;
-import static de.schmiereck.col.prob.services.ProbCellServiceUtils.calcImpulse;
 import static de.schmiereck.col.services.ProbabilityService.calcNext;
 import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
-import static de.schmiereck.col.utils.IntMathUtils.absIM;
 
 import de.schmiereck.col.model.PMatrix;
 import de.schmiereck.col.model.Probability;
@@ -87,7 +85,8 @@ public class ProbCellService {
       if ((probCell.pProbField.outFieldArr[FieldRight] > 0) && (probCell.pProbField.outFieldArr[FieldLeft] > 0)) {
          copyOut2In(probCell);
       } else {
-         if (calcBeschl(probCell, lProbCell, rProbCell) == false) {
+         //if (calcInImpulse(probCell, lProbCell, rProbCell) == false)
+         {
             if ((rOutProb.lastProbabilityPos == DirProbLeft) && (lOutProb.lastProbabilityPos == DirProbRight)) {
                throw new RuntimeException("LR crash.");
             }
@@ -189,6 +188,10 @@ public class ProbCellService {
 
    public static void calcOutProb(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
       copyArr(probCell.outProb.probabilityArr, probCell.inProb.probabilityArr);
+      //copyArr(probCell.outProb.probabilityCntArr, probCell.inProb.probabilityCntArr);
+      //copyArr(probCell.outProb.lastProbabilityArr, probCell.inProb.lastProbabilityArr);
+      //copyArr(probCell.outProb.lastProbabilityCntArr, probCell.inProb.lastProbabilityCntArr);
+      //probCell.outProb.lastProbabilityPos = probCell.inProb.lastProbabilityPos;
    }
 
    static void calcOutEFields(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
@@ -247,18 +250,18 @@ public class ProbCellService {
       //probCell.inEFieldArr[EFieldRight] += probCell.outEFieldArr[EFieldRight] - (probCell.outEFieldArr[EFieldRight] - bProbCell.outEFieldArr[EFieldRight]);
    }
 
-   private static boolean calcBeschl(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
+   public static boolean calcImpulseOut2Out(final ProbCell probCell) {
       final boolean ret;
       if (probCell.eProbField.outField > 0) {
          // a is p-Field?  b: a:->   b:?  c:?
          if ((probCell.pProbField.outFieldArr[FieldRight] > 0)) {
-            calcBeschl(probCell, probCell);
+            calcImpulseOut2Out(probCell, probCell);
             // TODO P Event Remove  !!!
             ret = true;
          } else {
             // c is p-Field?  b: a:?   b:?  c:<-
             if ((probCell.pProbField.outFieldArr[FieldLeft] > 0)) {
-               calcBeschl(probCell, probCell);
+               calcImpulseOut2Out(probCell, probCell);
                ret = true;
             } else
             {
@@ -291,18 +294,19 @@ public class ProbCellService {
     *	Richtung pField verschieben (100 = 100%, 50 = 50%, ...)
     *	Auch Stay berücksichtigen!
     */
-   private static void calcBeschl(final ProbCell probCell, final ProbCell pProbCell) {
+   private static void calcImpulseOut2Out(final ProbCell probCell, final ProbCell pProbCell) {
       // Impuls des pFields übertragen.
       final ProbField pProbField = pProbCell.pProbField;
       final Probability outProb = probCell.outProb;
       final Probability inProb = probCell.inProb;
 
-      calcImpulse(inProb, outProb, pProbField);
+      //ProbCellServiceUtils.calcImpulse(inProb, outProb, pProbField);
+      ProbCellServiceUtils.calcImpulse(outProb, outProb, pProbField);
 
       //calcOperation(probCell.inProb, probCell.outProb, LR_REFLECTION_MATRIX);
 
-      copyField(probCell.eProbField);
-      copyField(probCell.pProbField);
+      //copyField(probCell.eProbField);
+      //copyField(probCell.pProbField);
    }
 
    static void copyOut2In(final ProbCell probCell) {
