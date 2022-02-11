@@ -21,4 +21,11 @@ public class IntMathUtils {
       }
       return ret;
    }
+
+   public static int fieldIM(final int v, final int f) {
+      final int r = v / f;
+      final int d = f / (r + 1);
+      final int fn = f - d;
+      return fn;
+   }
 }

@@ -3,8 +3,11 @@ package de.schmiereck.col;
 import static de.schmiereck.col.prob.services.ProbCellService.Max_Probability;
 import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
 import static de.schmiereck.col.utils.IntMathUtils.absIM;
+import static de.schmiereck.col.utils.IntMathUtils.fieldIM;
 
 public class MainField2 {
+   public static final int Max_Probability = 100;
+
    private static class FieldCell {
       public int inFieldArr[] = new int[2];
       public int outFieldArr[] = new int[2];
@@ -14,19 +17,19 @@ public class MainField2 {
 
    public static void main(String[] args) {
       //----------------------------------------------------------------------------------------------------------------
-      final int universeSize = 20 + 1;
+      final int universeSize = 40 + 1;
       final MainField2.FieldCell[] fieldCellArr = new MainField2.FieldCell[universeSize];
 
       for (int pos = 0; pos < fieldCellArr.length; pos++) {
          fieldCellArr[pos] = new MainField2.FieldCell();
       }
 
-      fieldCellArr[universeSize / 2].outField = 100;
+      fieldCellArr[universeSize / 2].outField = Max_Probability;
 
       //----------------------------------------------------------------------------------------------------------------
       print(0, universeSize, fieldCellArr);
 
-      for (int cnt = 1; cnt < 12; cnt++) {
+      for (int cnt = 1; cnt < 122; cnt++) {
          calc(universeSize, fieldCellArr);
          print(cnt, universeSize, fieldCellArr);
       }
@@ -65,20 +68,18 @@ public class MainField2 {
          final int dl = lFieldCell.outField - fieldCell.outField;
          final int dr = rFieldCell.outField - fieldCell.outField;
          final int dlr = lFieldCell.outField - rFieldCell.outField;
+         final int adlr = absIM(dlr);
 
-         final int outField = fieldCell.outField;
-         final int dField = outField / 3;
-         final int lrField;
-
-         //fieldCell.inField = dlr;
-         //fieldCell.inField = fieldCell.outField + absIM(dlr);
-         //fieldCell.inField = fieldCell.outField + absIM(dl) + absIM(dr);
          if (dr > 0) {
-            fieldCell.inField = fieldCell.outField + (dr - ((Max_Probability - dr) + 1));
-         } else {
+            //fieldCell.inField = fieldCell.outField + (dr - ((Max_Probability - dr) + 1));
+            fieldCell.inField += fieldIM(Max_Probability, dr);
+         } //else
+         {
             if (dl > 0) {
-               fieldCell.inField = fieldCell.outField + dl - 1;
-            } else {
+               //fieldCell.inField = fieldCell.outField + dl - 1;
+               fieldCell.inField += fieldIM(Max_Probability, dl);
+            } //else
+            if ((dr <= 0) && (dl <= 0)) {
                fieldCell.inField = fieldCell.outField;
             }
          }
