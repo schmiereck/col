@@ -6,7 +6,7 @@ import static de.schmiereck.col.prob.services.ProbCellService.DirProbLeft;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbRight;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbStay;
 import static de.schmiereck.col.prob.services.ProbCellService.LR_REFLECTION_MATRIX;
-import static de.schmiereck.col.prob.services.ProbCellService.addDiff;
+import static de.schmiereck.col.prob.services.ProbCellService.addDiffOut2In;
 import static de.schmiereck.col.prob.services.ProbCellService.copyOut2In;
 import static de.schmiereck.col.services.ProbabilityService.calcOperation;
 
@@ -39,11 +39,11 @@ public class ProbCellInServiceUtils {
                   case DirProbRight -> {
                      switch (rOutProb.lastProbabilityPos) {
                         //    b: a:->  b:<-  c:<-
-                        case DirProbLeft -> addDiff(probCell, rProbCell);
+                        case DirProbLeft -> addDiffOut2In(probCell, rProbCell);
                         //    b: a:->  b:<-  c:X
-                        case DirProbStay -> addDiff(probCell, lProbCell);
+                        case DirProbStay -> addDiffOut2In(probCell, lProbCell);
                         //    b: a:->  b:<-  c:->
-                        case DirProbRight -> addDiff(probCell, lProbCell);
+                        case DirProbRight -> addDiffOut2In(probCell, lProbCell);
                         //default -> copy(probCell);
                         default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
                      }
@@ -52,9 +52,9 @@ public class ProbCellInServiceUtils {
                   case DirProbStay -> {
                      switch (rOutProb.lastProbabilityPos) {
                         //    b: a:X   b:<-  c:<-
-                        case DirProbLeft -> addDiff(probCell, lProbCell);
+                        case DirProbLeft -> addDiffOut2In(probCell, lProbCell);
                         //    b: a:X   b:<-  c:X
-                        case DirProbStay -> addDiff(probCell, lProbCell);
+                        case DirProbStay -> addDiffOut2In(probCell, lProbCell);
                         //    b: a:X   b:<-  c:->
                         case DirProbRight -> copyOut2In(probCell);
                         default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
@@ -64,11 +64,11 @@ public class ProbCellInServiceUtils {
                   case DirProbLeft -> {
                      switch (rOutProb.lastProbabilityPos) {
                         //    b: a:<-  b:<-  c:<-
-                        case DirProbLeft -> addDiff(probCell, lProbCell);
+                        case DirProbLeft -> addDiffOut2In(probCell, lProbCell);
                         //    b: a:<-  b:<-  c:X
-                        case DirProbStay -> addDiff(probCell, lProbCell);
+                        case DirProbStay -> addDiffOut2In(probCell, lProbCell);
                         //    b: a:<-  b:<-  c:->
-                        case DirProbRight -> addDiff(probCell, lProbCell);
+                        case DirProbRight -> addDiffOut2In(probCell, lProbCell);
                         default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
                      }
                   }
@@ -87,11 +87,11 @@ public class ProbCellInServiceUtils {
                   case DirProbRight -> {
                      switch (rOutProb.lastProbabilityPos) {
                         //    b: a:->  b:X   c:<-
-                        case DirProbLeft -> addDiff(probCell, rProbCell);
+                        case DirProbLeft -> addDiffOut2In(probCell, rProbCell);
                         //    b: a:->  b:X   c:X
-                        case DirProbStay -> addDiff(probCell, lProbCell);
+                        case DirProbStay -> addDiffOut2In(probCell, lProbCell);
                         //    b: a:->  b:X   c:->
-                        case DirProbRight -> addDiff(probCell, lProbCell);
+                        case DirProbRight -> addDiffOut2In(probCell, lProbCell);
                         //default -> copy(probCell);
                         default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
                      }
@@ -100,7 +100,7 @@ public class ProbCellInServiceUtils {
                   case DirProbStay -> {
                      switch (rOutProb.lastProbabilityPos) {
                         //    b: a:X   b:X   c:<-
-                        case DirProbLeft -> addDiff(probCell, rProbCell);
+                        case DirProbLeft -> addDiffOut2In(probCell, rProbCell);
                         //    b: a:X   b:X   c:X
                         case DirProbStay -> copyOut2In(probCell);
                         //    b: a:X   b:X   c:->
@@ -112,7 +112,7 @@ public class ProbCellInServiceUtils {
                   case DirProbLeft -> {
                      switch (rOutProb.lastProbabilityPos) {
                         //    b: a:<-  b:X   c:<-
-                        case DirProbLeft -> addDiff(probCell, rProbCell);
+                        case DirProbLeft -> addDiffOut2In(probCell, rProbCell);
                         //    b: a:<-  b:X   c:X
                         case DirProbStay -> copyOut2In(probCell);
                         //    b: a:<-  b:X   c:->
@@ -136,11 +136,11 @@ public class ProbCellInServiceUtils {
                   case DirProbRight -> {
                      switch (rOutProb.lastProbabilityPos) {
                         //    b: a:->  b:->  c:<-
-                        case DirProbLeft -> addDiff(probCell, rProbCell);
+                        case DirProbLeft -> addDiffOut2In(probCell, rProbCell);
                         //    b: a:->  b:->  c:X
-                        case DirProbStay -> addDiff(probCell, rProbCell);
+                        case DirProbStay -> addDiffOut2In(probCell, rProbCell);
                         //    b: a:->  b:->  c:->
-                        case DirProbRight -> addDiff(probCell, lProbCell);
+                        case DirProbRight -> addDiffOut2In(probCell, lProbCell);
                         //default -> copy(probCell);
                         default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
                      }
@@ -149,9 +149,9 @@ public class ProbCellInServiceUtils {
                   case DirProbStay -> {
                      switch (rOutProb.lastProbabilityPos) {
                         //    b: a:X   b:->  c:<-
-                        case DirProbLeft -> addDiff(probCell, rProbCell);
+                        case DirProbLeft -> addDiffOut2In(probCell, rProbCell);
                         //    b: a:X   b:->  c:X
-                        case DirProbStay -> addDiff(probCell, rProbCell);
+                        case DirProbStay -> addDiffOut2In(probCell, rProbCell);
                         //    b: a:X   b:->  c:->
                         case DirProbRight -> copyOut2In(probCell);
                         default -> throw new IllegalStateException("Unexpected value: " + rOutProb.lastProbabilityPos);
@@ -161,7 +161,7 @@ public class ProbCellInServiceUtils {
                   case DirProbLeft -> {
                      switch (rOutProb.lastProbabilityPos) {
                         //    b: a:<-  b:X   c:<-
-                        case DirProbLeft -> addDiff(probCell, rProbCell);
+                        case DirProbLeft -> addDiffOut2In(probCell, rProbCell);
                         //    b: a:<-  b:X   c:X
                         case DirProbStay -> copyOut2In(probCell);
                         //    b: a:<-  b:X   c:->

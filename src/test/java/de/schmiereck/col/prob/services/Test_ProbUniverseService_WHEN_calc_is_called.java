@@ -617,11 +617,15 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
    @Test
    void GIVEN_pos1_left70_to_pos6_right70_THEN_reflection_with_eField() {
       // Arrange
-      final ProbUniverse probUniverse = new ProbUniverse(8);
+      final ProbUniverse probUniverse = new ProbUniverse(12);
 
       ProbUniverseService.init(probUniverse);
       initProbCell(probUniverse, 1,    0, 30, 70);
-      initProbCell(probUniverse, 6,    70, 30, 0);
+      probUniverse.probCellArr[2].eProbField.outFieldArr[FieldRight] = 100;
+      probUniverse.probCellArr[3].eProbField.outFieldArr[FieldRight] = 11;
+      probUniverse.probCellArr[7].eProbField.outFieldArr[FieldLeft] = 11;
+      probUniverse.probCellArr[8].eProbField.outFieldArr[FieldLeft] = 100;
+      initProbCell(probUniverse, 9,    70, 30, 0);
       ProbUniverseService.calcInit(probUniverse);
 
       // Act
@@ -630,28 +634,74 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       // Assert
       printProbLine(1, probUniverse);
       assertProb(probUniverse, 2,    0, 30, 70);
-      assertProb(probUniverse, 5,    70, 30, 0);
+      assertProb(probUniverse, 8,    70, 30, 0);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(2, probUniverse);
-      assertProbP(probUniverse, 2,    0, 30, 70,   10, 0, 0);
-      assertProbP(probUniverse, 5,    70, 30, 0,   0, 0, 10);
+      assertProbP(probUniverse, 2,    0, 30, 70,   0, 0, 0);
+      assertProbP(probUniverse, 8,    70, 30, 0,   0, 0, 0);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(3, probUniverse);
-      assertProb(probUniverse, 2,    0, 37, 63);
-      assertProb(probUniverse, 5,    63, 37, 0);
+      assertProbP(probUniverse, 3,    0, 30, 70,   0, 0, 0);
+      assertProbP(probUniverse, 4,    0, 100, 0,   1, 0, 0);
+      assertProbP(probUniverse, 6,    0, 100, 0,   0, 0, 1);
+      assertProbP(probUniverse, 7,    70, 30, 0,   0, 0, 0);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(4, probUniverse);
-      assertProb(probUniverse, 2,    0, 37, 63);
-      assertProb(probUniverse, 5,    63, 37, 0);
+      assertProbP(probUniverse, 3,    0, 30, 70,   1, 0, 0);
+      assertProbP(probUniverse, 4,    0, 100, 0,   11, 0, 0);
+      assertProbP(probUniverse, 6,    0, 100, 0,   0, 0, 11);
+      assertProbP(probUniverse, 7,    70, 30, 0,   0, 0, 1);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(5, probUniverse);
+      assertProbP(probUniverse, 4,    0, 31, 69,   110, 0, 0);
+      assertProbP(probUniverse, 6,    69, 31, 0,   0, 0, 110);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(6, probUniverse);
+      assertProb(probUniverse, 4,    31, 69, 0);
+      assertProb(probUniverse, 6,    0, 69, 31);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(7, probUniverse);
+      assertProb(probUniverse, 4,    31, 69, 0);
+      assertProb(probUniverse, 6,    0, 69, 31);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(8, probUniverse);
+      assertProb(probUniverse, 4,    31, 69, 0);
+      assertProb(probUniverse, 6,    0, 69, 31);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(9, probUniverse);
+      assertProb(probUniverse, 4,    31, 69, 0);
+      assertProb(probUniverse, 6,    0, 69, 31);
+
+      // Act
+      calc(probUniverse);
+      // Assert
+      printProbLine(10, probUniverse);
+      assertProb(probUniverse, 4,    31, 69, 0);
+      assertProb(probUniverse, 6,    0, 69, 31);
    }
 
    private static void assertProb(final ProbUniverse probUniverse, final int pos, final int lp, final int sp, final int rp) {

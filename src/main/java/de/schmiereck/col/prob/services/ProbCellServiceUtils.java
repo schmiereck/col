@@ -78,7 +78,14 @@ public class ProbCellServiceUtils {
       //final int pod = absIM(por - pol);
       //final int pod = absIM(pol - por);
       final int pod = (por - pol);
-      final int apod = absIM(pod);
+      final int apodt = absIM(pod);
+      final int apod;
+      if (apodt > Max_Probability) {
+         // TODO reflect the other p-part
+         apod = Max_Probability;
+      } else {
+         apod = apodt;
+      }
 
       final int ol = outProb.probabilityArr[DirProbLeft];
       final int os = outProb.probabilityArr[DirProbStay];
