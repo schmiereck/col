@@ -4,6 +4,8 @@ import static de.schmiereck.col.prob.model.ProbField.FieldLeft;
 import static de.schmiereck.col.prob.model.ProbField.FieldRight;
 import static de.schmiereck.col.services.ProbabilityService.calcNext;
 import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
+import static de.schmiereck.col.utils.IntMathUtils.calcDenominator2;
+import static de.schmiereck.col.utils.IntMathUtils.calcFieldIn;
 
 import de.schmiereck.col.model.PMatrix;
 import de.schmiereck.col.model.Probability;
@@ -25,6 +27,9 @@ import de.schmiereck.col.services.ProbabilityService;
 public class ProbCellService {
 
    public static final int Max_Probability = 100;
+   public static final int EField_Range = 5;
+   public static final int Max_EField = calcDenominator2(EField_Range);
+   public static final int Min_EField = Max_EField/EField_Range;
 
    public static final int DirProbStay = 0;
    public static final int DirProbLeft = 1;
@@ -120,8 +125,23 @@ public class ProbCellService {
       //probField.outField = probField.inField;
       //probField.inFieldArr[FieldLeft] += probField.outFieldArr[FieldLeft] + rProbField.outFieldArr[FieldLeft] / Field_Divisor;
       //probField.inFieldArr[FieldRight] += probField.outFieldArr[FieldRight] + lProbField.outFieldArr[FieldRight] / Field_Divisor;
-      probField.inFieldArr[FieldLeft] += rProbField.outFieldArr[FieldLeft] / Field_Divisor;
-      probField.inFieldArr[FieldRight] += lProbField.outFieldArr[FieldRight] / Field_Divisor;
+
+      //probField.inFieldArr[FieldLeft] += rProbField.outFieldArr[FieldLeft] / Field_Divisor;
+      //probField.inFieldArr[FieldRight] += lProbField.outFieldArr[FieldRight] / Field_Divisor;
+      {
+         final int out = probField.outFieldArr[FieldLeft];
+         final int outL = 0;//lProbField.outFieldArr[FieldLeft];
+         final int outR = rProbField.outFieldArr[FieldLeft];
+         final int inL = calcFieldIn(outL, outR, out, Max_EField, Min_EField);
+         probField.inFieldArr[FieldLeft] = inL;
+      }
+      {
+         final int out = probField.outFieldArr[FieldRight];
+         final int outL = lProbField.outFieldArr[FieldRight];
+         final int outR = 0;//rProbField.outFieldArr[FieldRight];
+         final int inR = calcFieldIn(outL, outR, out, Max_EField, Min_EField);
+         probField.inFieldArr[FieldRight] = inR;
+      }
    }
 
    public static void calcPFieldEOut2PIn(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
@@ -221,8 +241,13 @@ public class ProbCellService {
       //probField.outFieldArr[FieldRight] = probField.inField + lProbField.inField / Field_Divisor;
       //probField.outFieldArr[FieldLeft] += (rProbField.inField * rProbCell.inProb.probabilityArr[DirProbLeft]) / Max_Probability;
       //probField.outFieldArr[FieldRight] += (lProbField.inField * lProbCell.inProb.probabilityArr[DirProbRight]) / Max_Probability;
-      probField.outFieldArr[FieldLeft] += rProbField.inField;// / Field_Divisor;
-      probField.outFieldArr[FieldRight] += lProbField.inField;// / Field_Divisor;
+
+      if (rProbField.inField > 0) {
+         probField.outFieldArr[FieldLeft] = rProbField.inField;
+      }
+      if (lProbField.inField > 0) {
+         probField.outFieldArr[FieldRight] = lProbField.inField;
+      }
    }
 
    private static void calcFieldIn2Out(final ProbField probField) {

@@ -1,12 +1,15 @@
 package de.schmiereck.col;
 
-import static de.schmiereck.col.prob.services.ProbCellService.Max_Probability;
 import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
 import static de.schmiereck.col.utils.IntMathUtils.absIM;
+import static de.schmiereck.col.utils.IntMathUtils.calcDenominator2;
+import static de.schmiereck.col.utils.IntMathUtils.calcFieldIn;
 import static de.schmiereck.col.utils.IntMathUtils.fieldIM;
 
 public class MainField2 {
-   public static final int Max_Probability = 100;
+   public static final int Field_Range = 7;
+   public static final int Max_Field = calcDenominator2(Field_Range);
+   public static final int Min_Field = Max_Field/Field_Range;
 
    private static class FieldCell {
       public int inFieldArr[] = new int[2];
@@ -24,12 +27,12 @@ public class MainField2 {
          fieldCellArr[pos] = new MainField2.FieldCell();
       }
 
-      fieldCellArr[universeSize / 2].outField = Max_Probability;
-
       //----------------------------------------------------------------------------------------------------------------
       print(0, universeSize, fieldCellArr);
 
-      for (int cnt = 1; cnt < 122; cnt++) {
+      for (int cnt = 1; cnt < 19; cnt++) {
+
+         fieldCellArr[universeSize / 2 + cnt / 2].outField = Max_Field;
          calc(universeSize, fieldCellArr);
          print(cnt, universeSize, fieldCellArr);
       }
@@ -38,7 +41,10 @@ public class MainField2 {
 
    private static void calc(final int universeSize, final MainField2.FieldCell[] fieldCellArr) {
       clearIn(universeSize, fieldCellArr);
-      calcOut2In(universeSize, fieldCellArr);
+      //calcOut2In(universeSize, fieldCellArr);
+      //calcOut2In2(universeSize, fieldCellArr);
+      //calcOut2In3(universeSize, fieldCellArr);
+      calcOut2In4(universeSize, fieldCellArr);
       copyIn2Out(universeSize, fieldCellArr);
    }
 
@@ -60,6 +66,23 @@ public class MainField2 {
       }
    }
 
+   private static void calcOut2In4(final int universeSize, final MainField2.FieldCell[] fieldCellArr) {
+      for (int pos = 0; pos < fieldCellArr.length; pos++) {
+         final MainField2.FieldCell lFieldCell = fieldCellArr[calcCellPos(universeSize, pos - 1)];
+         final MainField2.FieldCell rFieldCell = fieldCellArr[calcCellPos(universeSize, pos + 1)];
+         final MainField2.FieldCell fieldCell = fieldCellArr[pos];
+         final int dl = lFieldCell.outField;
+         final int dr = rFieldCell.outField;
+         final int dlr = lFieldCell.outField - rFieldCell.outField;
+         final int adlr = absIM(dlr);
+         final int out = fieldCell.outField;
+
+         final int in = calcFieldIn(dl, dr, out, Max_Field, Min_Field);
+
+         fieldCell.inField = in;
+      }
+   }
+
    private static void calcOut2In(final int universeSize, final MainField2.FieldCell[] fieldCellArr) {
       for (int pos = 0; pos < fieldCellArr.length; pos++) {
          final MainField2.FieldCell lFieldCell = fieldCellArr[calcCellPos(universeSize, pos - 1)];
@@ -72,15 +95,66 @@ public class MainField2 {
 
          if (dr > 0) {
             //fieldCell.inField = fieldCell.outField + (dr - ((Max_Probability - dr) + 1));
-            fieldCell.inField += fieldIM(Max_Probability, dr);
+            fieldCell.inField += fieldIM(Max_Field, dr);
          } //else
          {
             if (dl > 0) {
                //fieldCell.inField = fieldCell.outField + dl - 1;
-               fieldCell.inField += fieldIM(Max_Probability, dl);
+               fieldCell.inField += fieldIM(Max_Field, dl);
             } //else
             if ((dr <= 0) && (dl <= 0)) {
                fieldCell.inField = fieldCell.outField;
+            }
+         }
+      }
+   }
+
+   private static void calcOut2In3(final int universeSize, final MainField2.FieldCell[] fieldCellArr) {
+      for (int pos = 0; pos < fieldCellArr.length; pos++) {
+         final MainField2.FieldCell lFieldCell = fieldCellArr[calcCellPos(universeSize, pos - 1)];
+         final MainField2.FieldCell rFieldCell = fieldCellArr[calcCellPos(universeSize, pos + 1)];
+         final MainField2.FieldCell fieldCell = fieldCellArr[pos];
+         final int dl = lFieldCell.outField;
+         final int dr = rFieldCell.outField;
+         final int dlr = lFieldCell.outField - rFieldCell.outField;
+         final int adlr = absIM(dlr);
+
+         if (dr > 0) {
+            //fieldCell.inField = fieldCell.outField + (dr - ((Max_Probability - dr) + 1));
+            fieldCell.inField += fieldIM(Max_Field, dr);
+         } //else
+         {
+            if (dl > 0) {
+               //fieldCell.inField = fieldCell.outField + dl - 1;
+               fieldCell.inField += fieldIM(Max_Field, dl);
+            } //else
+            if ((dr <= 0) && (dl <= 0))
+            {
+               fieldCell.inField = fieldCell.outField;
+            }
+         }
+      }
+   }
+
+   private static void calcOut2In2(final int universeSize, final MainField2.FieldCell[] fieldCellArr) {
+      for (int pos = 0; pos < fieldCellArr.length; pos++) {
+         final MainField2.FieldCell lFieldCell = fieldCellArr[calcCellPos(universeSize, pos - 1)];
+         final MainField2.FieldCell rFieldCell = fieldCellArr[calcCellPos(universeSize, pos + 1)];
+         final MainField2.FieldCell fieldCell = fieldCellArr[pos];
+         final int dl = lFieldCell.outField - fieldCell.outField;
+         final int dr = rFieldCell.outField - fieldCell.outField;
+         final int dlr = lFieldCell.outField - rFieldCell.outField;
+         final int adlr = absIM(dlr);
+
+         if (dlr > 0) {
+            fieldCell.inField += fieldIM(Max_Field, dlr);
+         } //else
+         {
+            if (dlr < 0) {
+               fieldCell.inField += fieldIM(Max_Field, -dlr);
+            } //else
+            if (dlr == 0) {
+               //fieldCell.inField = fieldCell.outField;
             }
          }
       }

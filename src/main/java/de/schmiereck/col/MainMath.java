@@ -1,5 +1,9 @@
 package de.schmiereck.col;
 
+import static de.schmiereck.col.utils.IntMathUtils.calcDenominator;
+import static de.schmiereck.col.utils.IntMathUtils.calcDenominator2;
+import static de.schmiereck.col.utils.IntMathUtils.calcNorm;
+
 /**
  * numerator      Zähler
  * ----------- = --------
@@ -70,38 +74,5 @@ public class MainMath {
          f = fn;
       }
       //----------------------------------------------------------------------------------------------------------------
-   }
-
-   private static int calcDenominator(final int value) {
-      int denom = 1;
-      for (int d = 1; d < value; d++) {
-         denom *= d;
-      }
-      return denom;
-   }
-
-   private static int calcDenominator2(final int value) {
-      int denom = 1;
-      for (int d = 1; d <= value; d++) {
-         denom *= d;
-      }
-      return denom;
-   }
-
-   private static long calcDenominatorL(final long value) {
-      long denom = 1;
-      for (long d = 1; d < value; d++) {
-         denom *= d;
-      }
-      return denom;
-   }
-
-   private static int calcNorm(final int value, final int exer) {
-      int denom = 1;
-      for (int d = 1; d <= value; d++) {
-         if (d != exer)
-            denom *= d;
-      }
-      return denom;
    }
 }

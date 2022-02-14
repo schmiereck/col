@@ -2,6 +2,7 @@ package de.schmiereck.col.prob.services;
 
 import static de.schmiereck.col.prob.model.ProbField.FieldLeft;
 import static de.schmiereck.col.prob.model.ProbField.FieldRight;
+import static de.schmiereck.col.prob.services.ProbCellService.DirProbLeft;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbSize;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbStay;
 import static de.schmiereck.col.prob.services.ProbCellService.Max_Probability;
@@ -81,7 +82,7 @@ public class ProbUniverseService {
       clearProbIn(probUniverse);
 
       // Prob:
-      calcImpulseOut2Out(probUniverse);
+      //calcImpulseOut2Out(probUniverse);
 
       calcProbOut2In(probUniverse);
       calcProbIn2Out(probUniverse);
@@ -92,8 +93,8 @@ public class ProbUniverseService {
       calcEFieldOut2In(probUniverse);
       calcEFieldIn2Out(probUniverse);
 
-      calcPFieldEOut2PIn(probUniverse);
-      calcPFieldIn2Out(probUniverse);
+      //calcPFieldEOut2PIn(probUniverse);
+      //calcPFieldIn2Out(probUniverse);
    }
 
    /**
@@ -119,7 +120,7 @@ public class ProbUniverseService {
          final ProbCell lProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos - 1)];
          final ProbCell rProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos + 1)];
 
-//         ProbCellService.calcInFieldSource(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
+         //ProbCellService.calcInFieldSource(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
          ProbCellService.calcFieldOut2In(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
          //ProbCellService.calcInProbField(probCell, lProbCell, rProbCell);
          //ProbCellService.calcInProb(probCell, lProbCell, rProbCell);
