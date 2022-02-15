@@ -22,7 +22,7 @@ public class ProbCellServiceUtils {
    public static void printProbLine(final int cnt, final ProbUniverse probUniverse) {
       final ProbCell[] probCellArr = probUniverse.probCellArr;
 
-      System.out.printf("%2d: ", cnt);
+      System.out.printf("%2d:e", cnt);
       for (int pos = 0; pos < probCellArr.length; pos++) {
          final ProbCell probCell = probCellArr[pos];
          printProb(probCell);
@@ -32,10 +32,10 @@ public class ProbCellServiceUtils {
 
       printOutProbFieldLine("e", probCellArr,
               (final ProbCell probCell) -> { return probCell.eProbField; },
-              (final ProbCell probCell) -> { return probCell.ePart; });
+              (final ProbCell probCell) -> { return probCell.eOutPart; });
       printInProbFieldLine("e", probCellArr,
               (final ProbCell probCell) -> { return probCell.eProbField; },
-              (final ProbCell probCell) -> { return probCell.ePart; });
+              (final ProbCell probCell) -> { return probCell.eInPart; });
       printOutProbFieldLine("p", probCellArr,
               (final ProbCell probCell) -> { return probCell.pProbField; },
               (final ProbCell probCell) -> { return probCell.pPart; });
@@ -93,11 +93,15 @@ public class ProbCellServiceUtils {
    }
 
    private static void printProb(final ProbCell probCell) {
-      System.out.printf("%3d %3d %3d (%1d)",
-              probCell.outProb.probabilityArr[DirProbLeft],
-              probCell.outProb.probabilityArr[DirProbStay],
-              probCell.outProb.probabilityArr[DirProbRight],
-              probCell.outProb.lastProbabilityPos);
+      if (Objects.nonNull(probCell.eOutPart)) {
+         System.out.printf("%3d %3d %3d (%1d)",
+                 probCell.eOutPart.outProb.probabilityArr[DirProbLeft],
+                 probCell.eOutPart.outProb.probabilityArr[DirProbStay],
+                 probCell.eOutPart.outProb.probabilityArr[DirProbRight],
+                 probCell.eOutPart.outProb.lastProbabilityPos);
+      } else {
+         System.out.printf("--- --- --- (-)");
+      }
    }
 
    public static void calcImpulse(final Probability inProb, final Probability outProb, final ProbField pProbField) {

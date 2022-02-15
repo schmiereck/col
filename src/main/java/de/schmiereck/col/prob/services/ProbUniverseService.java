@@ -21,13 +21,14 @@ public class ProbUniverseService {
       for (int pos = 0; pos < probUniverse.probCellArr.length; pos++) {
          final ProbCell probCell = new ProbCell();
 
-         initField(probCell.ePart, probCell.eProbField);
+         initField(probCell.eOutPart, probCell.eProbField);
          initField(probCell.pPart, probCell.pProbField);
-         probCell.inProb = new Probability(Max_Probability, DirProbSize);
-         probCell.outProb = new Probability(Max_Probability, DirProbSize);
+         if (Objects.nonNull(probCell.eOutPart)) {
+            //probCell.ePart.inProb = new Probability(Max_Probability, DirProbSize);
+            //probCell.ePart.outProb = new Probability(Max_Probability, DirProbSize);
 
-         probCell.outProb.probabilityArr[DirProbStay]    = 100;
-
+            //probCell.ePart.outProb.probabilityArr[DirProbStay] = 100;
+         }
          probUniverse.probCellArr[pos] = probCell;
       }
    }
@@ -86,7 +87,7 @@ public class ProbUniverseService {
 
    public static void calc(final ProbUniverse probUniverse) {
       clearFieldsIn(probUniverse);
-      clearProbIn(probUniverse);
+      //clearProbIn(probUniverse);
 
       // Prob:
       //calcImpulseOut2Out(probUniverse);
@@ -239,7 +240,7 @@ public class ProbUniverseService {
          //ProbCellService.calcOutFieldSource(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
       }
    }
-
+/*
    public static void clearProbIn(final ProbUniverse probUniverse) {
       final ProbCell[] probCellArr = probUniverse.probCellArr;
 
@@ -248,4 +249,6 @@ public class ProbUniverseService {
          ProbCellService.clearProbIn(probCell);
       }
    }
+
+ */
 }

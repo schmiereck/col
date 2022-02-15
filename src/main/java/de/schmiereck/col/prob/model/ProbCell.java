@@ -14,8 +14,9 @@ public class ProbCell {
    //public int[] outEFieldArr = new int[EFieldSize];
    public ProbField eProbField = new ProbField();
    public ProbField pProbField = new ProbField();
-   public Probability inProb;
-   public Probability outProb;
-   public Part ePart;
+   //public Probability inProb;
+   //public Probability outProb;
+   public Part eInPart;
+   public Part eOutPart;
    public Part pPart;
 }

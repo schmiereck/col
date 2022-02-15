@@ -2,7 +2,9 @@ package de.schmiereck.col;
 
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbLeft;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbRight;
+import static de.schmiereck.col.prob.services.ProbCellService.DirProbSize;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbStay;
+import static de.schmiereck.col.prob.services.ProbCellService.Max_Probability;
 import static de.schmiereck.col.prob.services.ProbCellServiceUtils.printProbLine;
 import static de.schmiereck.col.prob.services.ProbUniverseService.calc;
 
@@ -28,12 +30,12 @@ public class MainProb {
          //probCell.outProb.probabilityArr[DirProbStay]    = 100;//70;
          //probCell.outProb.probabilityArr[DirProbRight]   = 0;//30;
 
-         probCell.outProb.probabilityArr[DirProbLeft]    =  0;
-         probCell.outProb.probabilityArr[DirProbStay]    = 70;
-         probCell.outProb.probabilityArr[DirProbRight]   = 30;
-         probCell.ePart = new Part();
+         probCell.eOutPart = new Part(Max_Probability, DirProbSize);
+         probCell.eOutPart.outProb.probabilityArr[DirProbLeft]    =  0;
+         probCell.eOutPart.outProb.probabilityArr[DirProbStay]    = 70;
+         probCell.eOutPart.outProb.probabilityArr[DirProbRight]   = 30;
 
-         probCell.ePart.outField = 100;
+         probCell.eOutPart.outField = 100;
       }
       ProbUniverseService.calcInit(probUniverse);
       //----------------------------------------------------------------------------------------------------------------

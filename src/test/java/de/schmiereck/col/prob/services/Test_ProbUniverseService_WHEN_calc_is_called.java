@@ -4,12 +4,14 @@ import static de.schmiereck.col.prob.model.ProbField.FieldLeft;
 import static de.schmiereck.col.prob.model.ProbField.FieldRight;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbLeft;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbRight;
+import static de.schmiereck.col.prob.services.ProbCellService.DirProbSize;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbStay;
 import static de.schmiereck.col.prob.services.ProbCellService.Max_Probability;
 import static de.schmiereck.col.prob.services.ProbCellServiceUtils.printProbLine;
 import static de.schmiereck.col.prob.services.ProbUniverseService.calc;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import de.schmiereck.col.prob.model.Part;
 import de.schmiereck.col.prob.model.ProbCell;
 import de.schmiereck.col.prob.model.ProbUniverse;
 
@@ -705,38 +707,39 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
    }
 
    private static void assertProb(final ProbUniverse probUniverse, final int pos, final int lp, final int sp, final int rp) {
-      assertEquals(lp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbLeft], String.format("Left: pos:%d", pos));
-      assertEquals(sp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbStay], String.format("Stay: pos:%d", pos));
-      assertEquals(rp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbRight], String.format("Right: pos:%d", pos));
+      assertEquals(lp, probUniverse.probCellArr[pos].eOutPart.outProb.probabilityArr[DirProbLeft], String.format("Left: pos:%d", pos));
+      assertEquals(sp, probUniverse.probCellArr[pos].eOutPart.outProb.probabilityArr[DirProbStay], String.format("Stay: pos:%d", pos));
+      assertEquals(rp, probUniverse.probCellArr[pos].eOutPart.outProb.probabilityArr[DirProbRight], String.format("Right: pos:%d", pos));
    }
 
    private static void assertProb(final ProbUniverse probUniverse, final int pos, final int lp, final int sp, final int rp,
                                   final int lEField, final int eField, final int rEField) {
-      assertEquals(lp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbLeft], String.format("Left: pos:%d", pos));
-      assertEquals(sp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbStay], String.format("Stay: pos:%d", pos));
-      assertEquals(rp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbRight], String.format("Right: pos:%d", pos));
+      assertEquals(lp, probUniverse.probCellArr[pos].eOutPart.outProb.probabilityArr[DirProbLeft], String.format("Left: pos:%d", pos));
+      assertEquals(sp, probUniverse.probCellArr[pos].eOutPart.outProb.probabilityArr[DirProbStay], String.format("Stay: pos:%d", pos));
+      assertEquals(rp, probUniverse.probCellArr[pos].eOutPart.outProb.probabilityArr[DirProbRight], String.format("Right: pos:%d", pos));
       assertEquals(lEField, probUniverse.probCellArr[pos].eProbField.outFieldArr[FieldLeft], String.format("eFieldLeft: pos:%d", pos));
-      assertEquals(eField, probUniverse.probCellArr[pos].ePart.outField, String.format("eField: pos:%d", pos));
+      assertEquals(eField, probUniverse.probCellArr[pos].eOutPart.outField, String.format("eField: pos:%d", pos));
       assertEquals(rEField, probUniverse.probCellArr[pos].eProbField.outFieldArr[FieldRight], String.format("eFieldRight: pos:%d", pos));
    }
 
    private static void assertProbP(final ProbUniverse probUniverse, final int pos, final int lp, final int sp, final int rp,
                                    final int lPField, final int pField, final int rPField) {
-      assertEquals(lp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbLeft], String.format("Left: pos:%d", pos));
-      assertEquals(sp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbStay], String.format("Stay: pos:%d", pos));
-      assertEquals(rp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbRight], String.format("Right: pos:%d", pos));
+      assertEquals(lp, probUniverse.probCellArr[pos].eOutPart.outProb.probabilityArr[DirProbLeft], String.format("Left: pos:%d", pos));
+      assertEquals(sp, probUniverse.probCellArr[pos].eOutPart.outProb.probabilityArr[DirProbStay], String.format("Stay: pos:%d", pos));
+      assertEquals(rp, probUniverse.probCellArr[pos].eOutPart.outProb.probabilityArr[DirProbRight], String.format("Right: pos:%d", pos));
       assertEquals(lPField, probUniverse.probCellArr[pos].pProbField.outFieldArr[FieldLeft], String.format("pFieldLeft: pos:%d", pos));
-      assertEquals(pField, probUniverse.probCellArr[pos].ePart.outField, String.format("pField: pos:%d", pos));
+      assertEquals(pField, probUniverse.probCellArr[pos].eOutPart.outField, String.format("pField: pos:%d", pos));
       assertEquals(rPField, probUniverse.probCellArr[pos].pProbField.outFieldArr[FieldRight], String.format("pFieldRight: pos:%d", pos));
    }
 
    private static void initProbCell(final ProbUniverse probUniverse, final int pos, final int lp, final int sp, final int rp) {
       final ProbCell probCell = probUniverse.probCellArr[pos];
 
-      probCell.outProb.probabilityArr[DirProbStay]    = sp;
-      probCell.outProb.probabilityArr[DirProbLeft]    = lp;
-      probCell.outProb.probabilityArr[DirProbRight]   = rp;
-      probCell.ePart.outField = Max_Probability;
+      probCell.eOutPart = new Part(Max_Probability, DirProbSize);
+      probCell.eOutPart.outProb.probabilityArr[DirProbStay]    = sp;
+      probCell.eOutPart.outProb.probabilityArr[DirProbLeft]    = lp;
+      probCell.eOutPart.outProb.probabilityArr[DirProbRight]   = rp;
+      probCell.eOutPart.outField = Max_Probability;
       //probCell.outEFieldArr[EFieldLeft] = Max_Probability;
       //probCell.outEFieldArr[EFieldRight] = Max_Probability;
    }
