@@ -6,6 +6,7 @@ import static de.schmiereck.col.prob.services.ProbCellService.DirProbStay;
 import static de.schmiereck.col.prob.services.ProbCellServiceUtils.printProbLine;
 import static de.schmiereck.col.prob.services.ProbUniverseService.calc;
 
+import de.schmiereck.col.prob.model.Part;
 import de.schmiereck.col.prob.model.ProbCell;
 import de.schmiereck.col.prob.model.ProbUniverse;
 import de.schmiereck.col.prob.services.ProbUniverseService;
@@ -30,8 +31,9 @@ public class MainProb {
          probCell.outProb.probabilityArr[DirProbLeft]    =  0;
          probCell.outProb.probabilityArr[DirProbStay]    = 70;
          probCell.outProb.probabilityArr[DirProbRight]   = 30;
+         probCell.ePart = new Part();
 
-         probCell.eProbField.outField = 100;
+         probCell.ePart.outField = 100;
       }
       ProbUniverseService.calcInit(probUniverse);
       //----------------------------------------------------------------------------------------------------------------

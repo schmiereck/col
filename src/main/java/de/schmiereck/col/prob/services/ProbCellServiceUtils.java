@@ -9,10 +9,12 @@ import static de.schmiereck.col.prob.services.ProbCellService.Max_Probability;
 import static de.schmiereck.col.utils.IntMathUtils.absIM;
 
 import de.schmiereck.col.model.Probability;
+import de.schmiereck.col.prob.model.Part;
 import de.schmiereck.col.prob.model.ProbCell;
 import de.schmiereck.col.prob.model.ProbField;
 import de.schmiereck.col.prob.model.ProbUniverse;
 
+import java.util.Objects;
 import java.util.function.Function;
 
 public class ProbCellServiceUtils {
@@ -28,39 +30,65 @@ public class ProbCellServiceUtils {
       }
       System.out.printf("\n");
 
-      printOutProbFieldLine("e", probCellArr, (final ProbCell probCell) -> { return probCell.eProbField; });
-      printInProbFieldLine("e", probCellArr, (final ProbCell probCell) -> { return probCell.eProbField; });
-      printOutProbFieldLine("p", probCellArr, (final ProbCell probCell) -> { return probCell.pProbField; });
-      printInProbFieldLine("p", probCellArr, (final ProbCell probCell) -> { return probCell.pProbField; });
+      printOutProbFieldLine("e", probCellArr,
+              (final ProbCell probCell) -> { return probCell.eProbField; },
+              (final ProbCell probCell) -> { return probCell.ePart; });
+      printInProbFieldLine("e", probCellArr,
+              (final ProbCell probCell) -> { return probCell.eProbField; },
+              (final ProbCell probCell) -> { return probCell.ePart; });
+      printOutProbFieldLine("p", probCellArr,
+              (final ProbCell probCell) -> { return probCell.pProbField; },
+              (final ProbCell probCell) -> { return probCell.pPart; });
+      printInProbFieldLine("p", probCellArr,
+              (final ProbCell probCell) -> { return probCell.pProbField; },
+              (final ProbCell probCell) -> { return probCell.pPart; });
    }
 
-   private static void printInProbFieldLine(final String fieldName, final ProbCell[] probCellArr, final Function<ProbCell, ProbField> probFieldFunction) {
+   private static void printInProbFieldLine(final String fieldName, final ProbCell[] probCellArr,
+                                            final Function<ProbCell, ProbField> probFieldFunction,
+                                            final Function<ProbCell, Part> partFunction) {
       System.out.printf("%s-i ", fieldName);
       for (int pos = 0; pos < probCellArr.length; pos++) {
          final ProbCell probCell = probCellArr[pos];
          final ProbField probField = probFieldFunction.apply(probCell);
-         printInProbField(probField);
+         final Part part = partFunction.apply(probCell);
+         printInProbField(part, probField);
       }
       System.out.printf("\n");
    }
 
-   private static void printInProbField(final ProbField probField) {
-      System.out.printf("%3d %3d %3d    ", probField.inFieldArr[FieldLeft], probField.inField, probField.inFieldArr[FieldRight]);
+   private static void printInProbField(final Part part, final ProbField probField) {
+      final int eInField;
+      if (Objects.nonNull(part)) {
+         eInField = 0;//part.inField;
+      } else {
+         eInField = 0;
+      }
+      System.out.printf("%3d %3d %3d    ", probField.inFieldArr[FieldLeft], eInField, probField.inFieldArr[FieldRight]);
       System.out.printf("| ");
    }
 
-   private static void printOutProbFieldLine(final String fieldName, final ProbCell[] probCellArr, final Function<ProbCell, ProbField> probFieldFunction) {
+   private static void printOutProbFieldLine(final String fieldName, final ProbCell[] probCellArr,
+                                             final Function<ProbCell, ProbField> probFieldFunction,
+                                             final Function<ProbCell, Part> partFunction) {
       System.out.printf("%s-o ", fieldName);
       for (int pos = 0; pos < probCellArr.length; pos++) {
          final ProbCell probCell = probCellArr[pos];
          final ProbField probField = probFieldFunction.apply(probCell);
-         printOutProbField(probField);
+         final Part part = partFunction.apply(probCell);
+         printOutProbField(part, probField);
       }
       System.out.printf("\n");
    }
 
-   private static void printOutProbField(final ProbField probField) {
-      System.out.printf("%3d %3d %3d    ", probField.outFieldArr[FieldLeft], probField.outField, probField.outFieldArr[FieldRight]);
+   private static void printOutProbField(final Part part, final ProbField probField) {
+      final int eOutField;
+      if (Objects.nonNull(part)) {
+         eOutField = part.outField;
+      } else {
+         eOutField = 0;
+      }
+      System.out.printf("%3d %3d %3d    ", probField.outFieldArr[FieldLeft], eOutField, probField.outFieldArr[FieldRight]);
       System.out.printf("| ");
    }
 

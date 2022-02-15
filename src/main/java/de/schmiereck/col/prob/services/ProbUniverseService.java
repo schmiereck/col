@@ -9,17 +9,20 @@ import static de.schmiereck.col.prob.services.ProbCellService.Max_Probability;
 import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
 
 import de.schmiereck.col.model.Probability;
+import de.schmiereck.col.prob.model.Part;
 import de.schmiereck.col.prob.model.ProbCell;
 import de.schmiereck.col.prob.model.ProbField;
 import de.schmiereck.col.prob.model.ProbUniverse;
+
+import java.util.Objects;
 
 public class ProbUniverseService {
    public static void init(final ProbUniverse probUniverse) {
       for (int pos = 0; pos < probUniverse.probCellArr.length; pos++) {
          final ProbCell probCell = new ProbCell();
 
-         initField(probCell.eProbField);
-         initField(probCell.pProbField);
+         initField(probCell.ePart, probCell.eProbField);
+         initField(probCell.pPart, probCell.pProbField);
          probCell.inProb = new Probability(Max_Probability, DirProbSize);
          probCell.outProb = new Probability(Max_Probability, DirProbSize);
 
@@ -29,12 +32,16 @@ public class ProbUniverseService {
       }
    }
 
-   private static void initField(final ProbField probField) {
+   private static void initField(final Part part, final ProbField probField) {
       //probCell.eProb = new Probability(Max_Probability, EProbSize);
-      probField.inField = 0;
+      if (Objects.nonNull(part)) {
+         //part.inField = 0;
+      }
       probField.inFieldArr[FieldLeft] = 0;
       probField.inFieldArr[FieldRight] = 0;
-      probField.outField = 0;
+      if (Objects.nonNull(part)) {
+         part.outField = 0;
+      }
       probField.outFieldArr[FieldLeft] = 0;
       probField.outFieldArr[FieldRight] = 0;
    }

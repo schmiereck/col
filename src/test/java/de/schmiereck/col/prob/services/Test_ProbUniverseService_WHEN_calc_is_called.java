@@ -716,7 +716,7 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       assertEquals(sp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbStay], String.format("Stay: pos:%d", pos));
       assertEquals(rp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbRight], String.format("Right: pos:%d", pos));
       assertEquals(lEField, probUniverse.probCellArr[pos].eProbField.outFieldArr[FieldLeft], String.format("eFieldLeft: pos:%d", pos));
-      assertEquals(eField, probUniverse.probCellArr[pos].eProbField.outField, String.format("eField: pos:%d", pos));
+      assertEquals(eField, probUniverse.probCellArr[pos].ePart.outField, String.format("eField: pos:%d", pos));
       assertEquals(rEField, probUniverse.probCellArr[pos].eProbField.outFieldArr[FieldRight], String.format("eFieldRight: pos:%d", pos));
    }
 
@@ -726,7 +726,7 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       assertEquals(sp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbStay], String.format("Stay: pos:%d", pos));
       assertEquals(rp, probUniverse.probCellArr[pos].outProb.probabilityArr[DirProbRight], String.format("Right: pos:%d", pos));
       assertEquals(lPField, probUniverse.probCellArr[pos].pProbField.outFieldArr[FieldLeft], String.format("pFieldLeft: pos:%d", pos));
-      assertEquals(pField, probUniverse.probCellArr[pos].pProbField.outField, String.format("pField: pos:%d", pos));
+      assertEquals(pField, probUniverse.probCellArr[pos].ePart.outField, String.format("pField: pos:%d", pos));
       assertEquals(rPField, probUniverse.probCellArr[pos].pProbField.outFieldArr[FieldRight], String.format("pFieldRight: pos:%d", pos));
    }
 
@@ -736,7 +736,7 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       probCell.outProb.probabilityArr[DirProbStay]    = sp;
       probCell.outProb.probabilityArr[DirProbLeft]    = lp;
       probCell.outProb.probabilityArr[DirProbRight]   = rp;
-      probCell.eProbField.outField = Max_Probability;
+      probCell.ePart.outField = Max_Probability;
       //probCell.outEFieldArr[EFieldLeft] = Max_Probability;
       //probCell.outEFieldArr[EFieldRight] = Max_Probability;
    }

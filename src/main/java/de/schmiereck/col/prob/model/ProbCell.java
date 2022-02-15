@@ -16,4 +16,6 @@ public class ProbCell {
    public ProbField pProbField = new ProbField();
    public Probability inProb;
    public Probability outProb;
+   public Part ePart;
+   public Part pPart;
 }
