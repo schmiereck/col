@@ -58,6 +58,7 @@ public class ProbUniverseService {
       calcEFieldOut2In(probUniverse);
       calcEFieldIn2Out(probUniverse);
 
+      calcPFieldOut2In(probUniverse);
       calcPFieldEOut2PIn(probUniverse);
       calcPFieldIn2Out(probUniverse);
    }
@@ -85,10 +86,7 @@ public class ProbUniverseService {
          final ProbCell lProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos - 1)];
          final ProbCell rProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos + 1)];
 
-         //ProbCellService.calcInFieldSource(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
          ProbCellService.calcEFieldOut2In(probCell, lProbCell, rProbCell);
-         //ProbCellService.calcInProbField(probCell, lProbCell, rProbCell);
-         //ProbCellService.calcInProb(probCell, lProbCell, rProbCell);
       }
    }
 
@@ -101,6 +99,18 @@ public class ProbUniverseService {
          final ProbCell rProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos + 1)];
 
          ProbCellService.calcPFieldEOut2PIn(probCell, lProbCell, rProbCell);
+      }
+   }
+
+   public static void calcPFieldOut2In(final ProbUniverse probUniverse) {
+      final ProbCell[] probCellArr = probUniverse.probCellArr;
+
+      for (int pos = 0; pos < probCellArr.length; pos++) {
+         final ProbCell probCell = probCellArr[pos];
+         final ProbCell lProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos - 1)];
+         final ProbCell rProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos + 1)];
+
+         ProbCellService.calcPFieldOut2In(probCell, lProbCell, rProbCell);
       }
    }
 
@@ -148,10 +158,7 @@ public class ProbUniverseService {
          final ProbCell probCell = probCellArr[pos];
          final ProbCell lProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos - 1)];
          final ProbCell rProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos + 1)];
-         //ProbCellService.calcOutProb(probCell, lProbCell, rProbCell);
          ProbCellService.calcEFieldIn2Out(probCell, lProbCell, rProbCell);
-         //ProbCellService.calcOutPFields(probCell, lProbCell, rProbCell);
-         //ProbCellService.calcOutFieldSource(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
       }
    }
 
@@ -162,10 +169,7 @@ public class ProbUniverseService {
          final ProbCell probCell = probCellArr[pos];
          final ProbCell lProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos - 1)];
          final ProbCell rProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos + 1)];
-         //ProbCellService.calcOutProb(probCell, lProbCell, rProbCell);
-         //ProbCellService.calcOutEFields(probCell, lProbCell, rProbCell);
          ProbCellService.calcPFieldIn2Out(probCell);
-         //ProbCellService.calcOutFieldSource(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
       }
    }
 

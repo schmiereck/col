@@ -30,18 +30,18 @@ public class ProbCellServiceUtils {
       }
       System.out.printf("\n");
 
-      printInProbFieldLine("e", probCellArr,
-              (final ProbCell probCell) -> { return probCell.eProbFieldArr; },
-              (final ProbCell probCell) -> { return probCell.eInPart; });
       printOutProbFieldLine("e", probCellArr,
               (final ProbCell probCell) -> { return probCell.eProbFieldArr; },
               (final ProbCell probCell) -> { return probCell.eOutPart; });
-      printInProbFieldLine("p", probCellArr,
-              (final ProbCell probCell) -> { return probCell.pProbFieldArr; },
-              (final ProbCell probCell) -> { return probCell.pInPart; });
+      printInProbFieldLine("e", probCellArr,
+              (final ProbCell probCell) -> { return probCell.eProbFieldArr; },
+              (final ProbCell probCell) -> { return probCell.eInPart; });
       printOutProbFieldLine("p", probCellArr,
               (final ProbCell probCell) -> { return probCell.pProbFieldArr; },
               (final ProbCell probCell) -> { return probCell.pOutPart; });
+      printInProbFieldLine("p", probCellArr,
+              (final ProbCell probCell) -> { return probCell.pProbFieldArr; },
+              (final ProbCell probCell) -> { return probCell.pInPart; });
    }
 
    private static void printInProbFieldLine(final String fieldName, final ProbCell[] probCellArr,
@@ -64,8 +64,10 @@ public class ProbCellServiceUtils {
       } else {
          eInField = 0;
       }
-      System.out.printf("%3d %3d %3d    ",
-              probFieldArr[FieldLeft].inField, eInField, probFieldArr[FieldRight].inField);
+      String pLStr = (Objects.nonNull(probFieldArr[FieldLeft].inSourcePart)) ? "<" : " ";
+      String pRStr = (Objects.nonNull(probFieldArr[FieldRight].inSourcePart)) ? ">" : " ";
+      System.out.printf("%3d %3d %3d %s%s ",
+              probFieldArr[FieldLeft].inField, eInField, probFieldArr[FieldRight].inField, pLStr, pRStr);
       System.out.printf("| ");
    }
 

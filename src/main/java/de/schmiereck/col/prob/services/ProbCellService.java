@@ -157,6 +157,9 @@ public class ProbCellService {
          } else {
             probCell.eProbFieldArr[FieldLeft].inSourcePart = null;
          }
+      } else {
+         probCell.eProbFieldArr[FieldLeft].inField = 0;
+         probCell.eProbFieldArr[FieldLeft].inSourcePart = null;
       }
       if (Objects.nonNull(lProbCell.eProbFieldArr[FieldRight].outSourcePart))
       {
@@ -170,6 +173,44 @@ public class ProbCellService {
          } else {
             probCell.eProbFieldArr[FieldRight].inSourcePart = null;
          }
+      } else {
+         probCell.eProbFieldArr[FieldRight].inField = 0;
+         probCell.eProbFieldArr[FieldRight].inSourcePart = null;
+      }
+   }
+
+   public static void calcPFieldOut2In(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
+      if (Objects.nonNull(rProbCell.pProbFieldArr[FieldLeft].outSourcePart))
+      {
+         final int out = probCell.pProbFieldArr[FieldLeft].outField;
+         final int outL = 0;//lProbField.outFieldArr[FieldLeft];
+         final int outR = rProbCell.pProbFieldArr[FieldLeft].outField;
+         final int inL = outR;//calcFieldIn(outL, outR, out, Max_EField, Min_EField);
+         probCell.pProbFieldArr[FieldLeft].inField = inL;
+         if (inL > 0) {
+            probCell.pProbFieldArr[FieldLeft].inSourcePart = rProbCell.pProbFieldArr[FieldLeft].outSourcePart;
+         } else {
+            probCell.pProbFieldArr[FieldLeft].inSourcePart = null;
+         }
+      } else {
+         probCell.pProbFieldArr[FieldLeft].inField = 0;
+         probCell.pProbFieldArr[FieldLeft].inSourcePart = null;
+      }
+      if (Objects.nonNull(lProbCell.pProbFieldArr[FieldRight].outSourcePart))
+      {
+         final int out = probCell.pProbFieldArr[FieldRight].outField;
+         final int outL = lProbCell.pProbFieldArr[FieldRight].outField;
+         final int outR = 0;//rProbField.outFieldArr[FieldRight];
+         final int inR = outL;//calcFieldIn(outL, outR, out, Max_EField, Min_EField);
+         probCell.pProbFieldArr[FieldRight].inField = inR;
+         if (inR > 0) {
+            probCell.pProbFieldArr[FieldRight].inSourcePart = lProbCell.pProbFieldArr[FieldRight].outSourcePart;
+         } else {
+            probCell.pProbFieldArr[FieldRight].inSourcePart = null;
+         }
+      } else {
+         probCell.pProbFieldArr[FieldRight].inField = 0;
+         probCell.pProbFieldArr[FieldRight].inSourcePart = null;
       }
    }
 
@@ -178,16 +219,46 @@ public class ProbCellService {
       final int eor = probCell.eProbFieldArr[FieldRight].outField;
 
       if ((eol > 0) && (eor > 0)) {
-         //probCell.pInPart = new Part(Max_Probability, DirProbSize);
-         //probCell.pInPart.field = Max_PField;
+         {
+            final ProbField lEProbField = probCell.eProbFieldArr[FieldLeft];
+            final int lProb = lEProbField.outSourcePart.prob.probabilityArr[DirProbLeft];
+            final ProbField lPProbField = probCell.pProbFieldArr[FieldLeft];
+            lPProbField.inField = (eol * lProb) / Max_Probability;
+            lPProbField.inSourcePart = new Part(Max_Probability, DirProbSize);
+            lPProbField.inSourcePart.field = Max_PField;
+         }
+         {
+            final ProbField rEProbField = probCell.eProbFieldArr[FieldRight];
+            final int rProb = rEProbField.outSourcePart.prob.probabilityArr[DirProbRight];
+            final ProbField rPProbField = probCell.pProbFieldArr[FieldRight];
+            rPProbField.inField = (eor * rProb) / Max_Probability;
+            rPProbField.inSourcePart = new Part(Max_Probability, DirProbSize);
+            rPProbField.inSourcePart.field = Max_PField;
+         }
+      }
+   }
 
-         final ProbField lProbField = probCell.eProbFieldArr[FieldLeft];
-         final int lProb = lProbField.outSourcePart.prob.probabilityArr[DirProbLeft];
-         probCell.pProbFieldArr[FieldLeft].inField = (eol * lProb) / Max_Probability;
+   public static void calcPFieldEOut2PIn_innerCell(final ProbCell probCell, final ProbCell lProbCell, final ProbCell rProbCell) {
+      final int eol = probCell.eProbFieldArr[FieldLeft].outField;
+      final int eor = probCell.eProbFieldArr[FieldRight].outField;
 
-         final ProbField rProbField = probCell.eProbFieldArr[FieldRight];
-         final int rProb = rProbField.outSourcePart.prob.probabilityArr[DirProbRight];
-         probCell.pProbFieldArr[FieldRight].inField = (eor * rProb) / Max_Probability;
+      if ((eol > 0) && (eor > 0)) {
+         {
+            final ProbField lEProbField = probCell.eProbFieldArr[FieldLeft];
+            final int lProb = lEProbField.outSourcePart.prob.probabilityArr[DirProbLeft];
+            final ProbField lPProbField = probCell.pProbFieldArr[FieldLeft];
+            lPProbField.inField = (eol * lProb) / Max_Probability;
+            lPProbField.inSourcePart = new Part(Max_Probability, DirProbSize);
+            lPProbField.inSourcePart.field = Max_PField;
+         }
+         {
+            final ProbField rEProbField = probCell.eProbFieldArr[FieldRight];
+            final int rProb = rEProbField.outSourcePart.prob.probabilityArr[DirProbRight];
+            final ProbField rPProbField = probCell.pProbFieldArr[FieldRight];
+            rPProbField.inField = (eor * rProb) / Max_Probability;
+            rPProbField.inSourcePart = new Part(Max_Probability, DirProbSize);
+            rPProbField.inSourcePart.field = Max_PField;
+         }
       }
       /*
       final int reol = rProbCell.eProbFieldArr[FieldLeft].outField;
@@ -343,8 +414,8 @@ public class ProbCellService {
 */
    static void moveEPart(final ProbCell probCell, final ProbCell bProbCell) {
       probCell.eInPart = bProbCell.eOutPart;
-      probCell.eProbFieldArr[FieldLeft].outField = 0;
-      probCell.eProbFieldArr[FieldRight].outField = 0;
+      probCell.eProbFieldArr[FieldLeft].inField = 0;
+      probCell.eProbFieldArr[FieldRight].inField = 0;
       //bProbCell.eOutPart = null;
    }
 

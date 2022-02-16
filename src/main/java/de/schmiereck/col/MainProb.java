@@ -54,7 +54,7 @@ public class MainProb {
       }
       ProbUniverseService.calcInit(probUniverse);
       //----------------------------------------------------------------------------------------------------------------
-      for (int cnt = 0; cnt < 12; cnt++) {
+      for (int cnt = 0; cnt <= 12; cnt++) {
          printProbLine(cnt, probUniverse);
          calc(probUniverse);
       }
