@@ -4,10 +4,10 @@ import de.schmiereck.col.model.Probability;
 
 public class Part {
    //public Probability inProb;
-   public final Probability outProb;
-   public int outField;
+   public final Probability prob;
+   public int field;
 
    public Part(final int maxProbability, final int probabilitySize) {
-      this.outProb = new Probability(maxProbability, probabilitySize);
+      this.prob = new Probability(maxProbability, probabilitySize);
    }
 }

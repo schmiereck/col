@@ -30,18 +30,18 @@ public class ProbCellServiceUtils {
       }
       System.out.printf("\n");
 
-      printOutProbFieldLine("e", probCellArr,
-              (final ProbCell probCell) -> { return probCell.eProbFieldArr; },
-              (final ProbCell probCell) -> { return probCell.eOutPart; });
       printInProbFieldLine("e", probCellArr,
               (final ProbCell probCell) -> { return probCell.eProbFieldArr; },
               (final ProbCell probCell) -> { return probCell.eInPart; });
-      printOutProbFieldLine("p", probCellArr,
-              (final ProbCell probCell) -> { return probCell.pProbFieldArr; },
-              (final ProbCell probCell) -> { return probCell.pPart; });
+      printOutProbFieldLine("e", probCellArr,
+              (final ProbCell probCell) -> { return probCell.eProbFieldArr; },
+              (final ProbCell probCell) -> { return probCell.eOutPart; });
       printInProbFieldLine("p", probCellArr,
               (final ProbCell probCell) -> { return probCell.pProbFieldArr; },
-              (final ProbCell probCell) -> { return probCell.pPart; });
+              (final ProbCell probCell) -> { return probCell.pInPart; });
+      printOutProbFieldLine("p", probCellArr,
+              (final ProbCell probCell) -> { return probCell.pProbFieldArr; },
+              (final ProbCell probCell) -> { return probCell.pOutPart; });
    }
 
    private static void printInProbFieldLine(final String fieldName, final ProbCell[] probCellArr,
@@ -85,7 +85,7 @@ public class ProbCellServiceUtils {
    private static void printOutProbField(final Part part, final ProbField[] probFieldArr) {
       final int eOutField;
       if (Objects.nonNull(part)) {
-         eOutField = part.outField;
+         eOutField = part.field;
       } else {
          eOutField = 0;
       }
@@ -99,10 +99,10 @@ public class ProbCellServiceUtils {
    private static void printProb(final ProbCell probCell) {
       if (Objects.nonNull(probCell.eOutPart)) {
          System.out.printf("%3d %3d %3d (%1d)",
-                 probCell.eOutPart.outProb.probabilityArr[DirProbLeft],
-                 probCell.eOutPart.outProb.probabilityArr[DirProbStay],
-                 probCell.eOutPart.outProb.probabilityArr[DirProbRight],
-                 probCell.eOutPart.outProb.lastProbabilityPos);
+                 probCell.eOutPart.prob.probabilityArr[DirProbLeft],
+                 probCell.eOutPart.prob.probabilityArr[DirProbStay],
+                 probCell.eOutPart.prob.probabilityArr[DirProbRight],
+                 probCell.eOutPart.prob.lastProbabilityPos);
       } else {
          System.out.printf("--- --- --- (-)");
       }

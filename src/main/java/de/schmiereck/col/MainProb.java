@@ -32,11 +32,11 @@ public class MainProb {
          //probCell.outProb.probabilityArr[DirProbRight]   = 0;//30;
 
          probCell.eOutPart = new Part(Max_Probability, DirProbSize);
-         probCell.eOutPart.outProb.probabilityArr[DirProbLeft]    =  0;
-         probCell.eOutPart.outProb.probabilityArr[DirProbStay]    = 70;
-         probCell.eOutPart.outProb.probabilityArr[DirProbRight]   = 30;
+         probCell.eOutPart.prob.probabilityArr[DirProbLeft]    =  0;
+         probCell.eOutPart.prob.probabilityArr[DirProbStay]    = 70;
+         probCell.eOutPart.prob.probabilityArr[DirProbRight]   = 30;
 
-         probCell.eOutPart.outField = 100;
+         probCell.eOutPart.field = 100;
       }
       {
          final ProbCell probCell = probUniverse.probCellArr[11];
@@ -46,11 +46,11 @@ public class MainProb {
          //probCell.outProb.probabilityArr[DirProbRight]   = 0;//30;
 
          probCell.eOutPart = new Part(Max_Probability, DirProbSize);
-         probCell.eOutPart.outProb.probabilityArr[DirProbLeft]    = 30;
-         probCell.eOutPart.outProb.probabilityArr[DirProbStay]    = 70;
-         probCell.eOutPart.outProb.probabilityArr[DirProbRight]   =  0;
+         probCell.eOutPart.prob.probabilityArr[DirProbLeft]    = 20;
+         probCell.eOutPart.prob.probabilityArr[DirProbStay]    = 80;
+         probCell.eOutPart.prob.probabilityArr[DirProbRight]   =  0;
 
-         probCell.eOutPart.outField = 100;
+         probCell.eOutPart.field = 100;
       }
       ProbUniverseService.calcInit(probUniverse);
       //----------------------------------------------------------------------------------------------------------------

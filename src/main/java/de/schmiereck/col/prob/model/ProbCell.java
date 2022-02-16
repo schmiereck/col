@@ -20,7 +20,8 @@ public class ProbCell {
    //public Probability outProb;
    public Part eInPart;
    public Part eOutPart;
-   public Part pPart;
+   public Part pInPart;
+   public Part pOutPart;
 
    public ProbCell() {
       for (int pos = 0; pos < FieldSize; pos++) {
