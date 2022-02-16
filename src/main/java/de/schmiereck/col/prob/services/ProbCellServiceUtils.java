@@ -89,8 +89,8 @@ public class ProbCellServiceUtils {
       } else {
          eOutField = 0;
       }
-      String pLStr = (Objects.nonNull(probFieldArr[FieldLeft].sourcePart)) ? "<" : " ";
-      String pRStr = (Objects.nonNull(probFieldArr[FieldRight].sourcePart)) ? ">" : " ";
+      String pLStr = (Objects.nonNull(probFieldArr[FieldLeft].outSourcePart)) ? "<" : " ";
+      String pRStr = (Objects.nonNull(probFieldArr[FieldRight].outSourcePart)) ? ">" : " ";
       System.out.printf("%3d %3d %3d %s%s ",
               probFieldArr[FieldLeft].outField, eOutField, probFieldArr[FieldRight].outField, pLStr, pRStr);
       System.out.printf("| ");

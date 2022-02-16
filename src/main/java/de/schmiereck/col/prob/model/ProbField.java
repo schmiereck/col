@@ -11,5 +11,6 @@ public class ProbField {
    public int inField;
    public int outField;
 
-   public Part sourcePart;
+   public Part inSourcePart;
+   public Part outSourcePart;
 }
