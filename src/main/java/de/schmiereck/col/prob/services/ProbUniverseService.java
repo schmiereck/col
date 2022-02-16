@@ -21,8 +21,8 @@ public class ProbUniverseService {
       for (int pos = 0; pos < probUniverse.probCellArr.length; pos++) {
          final ProbCell probCell = new ProbCell();
 
-         initField(probCell.eOutPart, probCell.eProbField);
-         initField(probCell.pPart, probCell.pProbField);
+         initField(probCell.eOutPart, probCell.eProbFieldArr);
+         initField(probCell.pPart, probCell.pProbFieldArr);
          if (Objects.nonNull(probCell.eOutPart)) {
             //probCell.ePart.inProb = new Probability(Max_Probability, DirProbSize);
             //probCell.ePart.outProb = new Probability(Max_Probability, DirProbSize);
@@ -33,18 +33,18 @@ public class ProbUniverseService {
       }
    }
 
-   private static void initField(final Part part, final ProbField probField) {
+   private static void initField(final Part part, final ProbField[] probFieldArr) {
       //probCell.eProb = new Probability(Max_Probability, EProbSize);
       if (Objects.nonNull(part)) {
          //part.inField = 0;
       }
-      probField.inFieldArr[FieldLeft] = 0;
-      probField.inFieldArr[FieldRight] = 0;
+      probFieldArr[FieldLeft].inField = 0;
+      probFieldArr[FieldRight].inField = 0;
       if (Objects.nonNull(part)) {
          part.outField = 0;
       }
-      probField.outFieldArr[FieldLeft] = 0;
-      probField.outFieldArr[FieldRight] = 0;
+      probFieldArr[FieldLeft].outField = 0;
+      probFieldArr[FieldRight].outField = 0;
    }
 
    public static void calcInit(final ProbUniverse probUniverse) {
@@ -129,7 +129,7 @@ public class ProbUniverseService {
          final ProbCell rProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos + 1)];
 
          //ProbCellService.calcInFieldSource(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
-         ProbCellService.calcFieldOut2In(probCell.eProbField, lProbCell.eProbField, rProbCell.eProbField);
+         ProbCellService.calcFieldOut2In(probCell, lProbCell, rProbCell);
          //ProbCellService.calcInProbField(probCell, lProbCell, rProbCell);
          //ProbCellService.calcInProb(probCell, lProbCell, rProbCell);
       }

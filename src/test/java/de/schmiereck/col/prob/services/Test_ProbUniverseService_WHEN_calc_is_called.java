@@ -10,6 +10,7 @@ import static de.schmiereck.col.prob.services.ProbCellService.Max_Probability;
 import static de.schmiereck.col.prob.services.ProbCellServiceUtils.printProbLine;
 import static de.schmiereck.col.prob.services.ProbUniverseService.calc;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import de.schmiereck.col.prob.model.Part;
 import de.schmiereck.col.prob.model.ProbCell;
@@ -35,49 +36,49 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
 
       // Assert
       printProbLine(1, probUniverse);
-      assertProb(probUniverse, 0,   0, 100, 0,  0, 0, 0);
-      assertProb(probUniverse, 1,   0, 100, 0,  0, 0, 0);
-      assertProb(probUniverse, 2,   0, 100, 0,  100, 0, 0);
-      assertProb(probUniverse, 3,   0, 100, 0,  0, 100, 0);
-      assertProb(probUniverse, 4,   0, 100, 0,  0, 0, 100);
-      assertProb(probUniverse, 5,   0, 100, 0,  0, 0, 0);
-      assertProb(probUniverse, 6,   0, 100, 0,  0, 0, 0);
+      assertProbEF(probUniverse, 0);
+      assertProbEF(probUniverse, 1);
+      assertProbEF(probUniverse, 2,   0, 100, 0,  100, 0, 0);
+      assertProbEF(probUniverse, 3,   0, 100, 0,  0, 100, 0);
+      assertProbEF(probUniverse, 4,   0, 100, 0,  0, 0, 100);
+      assertProbEF(probUniverse, 5);
+      assertProbEF(probUniverse, 6);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(2, probUniverse);
-      assertProb(probUniverse, 0,   0, 100, 0,  0, 0, 0);
-      assertProb(probUniverse, 1,   0, 100, 0,  10, 0, 0);
-      assertProb(probUniverse, 2,   0, 100, 0,  100, 0, 0);
-      assertProb(probUniverse, 3,   0, 100, 0,  0, 100, 0);
-      assertProb(probUniverse, 4,   0, 100, 0,  0, 0, 100);
-      assertProb(probUniverse, 5,   0, 100, 0,  0, 0, 10);
-      assertProb(probUniverse, 6,   0, 100, 0,  0, 0, 0);
+      assertProbEF(probUniverse, 0);
+      assertProbEF(probUniverse, 1,   0, 100, 0,  10, 0, 0);
+      assertProbEF(probUniverse, 2,   0, 100, 0,  100, 0, 0);
+      assertProbEF(probUniverse, 3,   0, 100, 0,  0, 100, 0);
+      assertProbEF(probUniverse, 4,   0, 100, 0,  0, 0, 100);
+      assertProbEF(probUniverse, 5,   0, 100, 0,  0, 0, 10);
+      assertProbEF(probUniverse, 6);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(3, probUniverse);
-      assertProb(probUniverse, 0,   0, 100, 0,  1, 0, 0);
-      assertProb(probUniverse, 1,   0, 100, 0,  10, 0, 0);
-      assertProb(probUniverse, 2,   0, 100, 0,  100, 0, 0);
-      assertProb(probUniverse, 3,   0, 100, 0,  0, 100, 0);
-      assertProb(probUniverse, 4,   0, 100, 0,  0, 0, 100);
-      assertProb(probUniverse, 5,   0, 100, 0,  0, 0, 10);
-      assertProb(probUniverse, 6,   0, 100, 0,  0, 0, 1);
+      assertProbEF(probUniverse, 0,   0, 100, 0,  1, 0, 0);
+      assertProbEF(probUniverse, 1,   0, 100, 0,  10, 0, 0);
+      assertProbEF(probUniverse, 2,   0, 100, 0,  100, 0, 0);
+      assertProbEF(probUniverse, 3,   0, 100, 0,  0, 100, 0);
+      assertProbEF(probUniverse, 4,   0, 100, 0,  0, 0, 100);
+      assertProbEF(probUniverse, 5,   0, 100, 0,  0, 0, 10);
+      assertProbEF(probUniverse, 6,   0, 100, 0,  0, 0, 1);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(4, probUniverse);
-      assertProb(probUniverse, 0,   0, 100, 0,  1, 0, 0);
-      assertProb(probUniverse, 1,   0, 100, 0,  10, 0, 0);
-      assertProb(probUniverse, 2,   0, 100, 0,  100, 0, 0);
-      assertProb(probUniverse, 3,   0, 100, 0,  0, 100, 0);
-      assertProb(probUniverse, 4,   0, 100, 0,  0, 0, 100);
-      assertProb(probUniverse, 5,   0, 100, 0,  0, 0, 10);
-      assertProb(probUniverse, 6,   0, 100, 0,  0, 0, 1);
+      assertProbEF(probUniverse, 0,   0, 100, 0,  1, 0, 0);
+      assertProbEF(probUniverse, 1,   0, 100, 0,  10, 0, 0);
+      assertProbEF(probUniverse, 2,   0, 100, 0,  100, 0, 0);
+      assertProbEF(probUniverse, 3,   0, 100, 0,  0, 100, 0);
+      assertProbEF(probUniverse, 4,   0, 100, 0,  0, 0, 100);
+      assertProbEF(probUniverse, 5,   0, 100, 0,  0, 0, 10);
+      assertProbEF(probUniverse, 6,   0, 100, 0,  0, 0, 1);
    }
 
    @Test
@@ -95,40 +96,40 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       calc(probUniverse);
       // Assert
       printProbLine(1, probUniverse);
-      assertProb(probUniverse, 0,   0, 100, 0,  0, 0, 0);
-      assertProb(probUniverse, 1,   0, 100, 0,  0, 0, 0);
-      assertProb(probUniverse, 2,   0, 100, 0,  0, 0, 0);
-      assertProb(probUniverse, 3,   0, 100, 0,  100, 0, 0);
-      assertProb(probUniverse, 4,   0, 0, 100,  0, 100, 0);
-      assertProb(probUniverse, 5,   0, 100, 0,  0, 0, 100);
-      assertProb(probUniverse, 6,   0, 100, 0,  0, 0, 0);
-      assertProb(probUniverse, 7,   0, 100, 0,  0, 0, 0);
+      assertProbEF(probUniverse, 0);
+      assertProbEF(probUniverse, 1);
+      assertProbEF(probUniverse, 2);
+      assertProbEF(probUniverse, 3,   0, 100, 0,  100, 0, 0);
+      assertProbEF(probUniverse, 4,   0, 0, 100,  0, 100, 0);
+      assertProbEF(probUniverse, 5,   0, 100, 0,  0, 0, 100);
+      assertProbEF(probUniverse, 6);
+      assertProbEF(probUniverse, 7);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(2, probUniverse);
-      assertProb(probUniverse, 0,   0, 100, 0,  0, 0, 0);
-      assertProb(probUniverse, 1,   0, 100, 0,  0, 0, 0);
-      assertProb(probUniverse, 2,   0, 100, 0,  10, 0, 0);
-      assertProb(probUniverse, 3,   0, 100, 0,  0, 0, 0);
-      assertProb(probUniverse, 4,   0, 100, 0,  100, 0, 0);
-      assertProb(probUniverse, 5,   0, 0, 100,  0, 100, 0);
-      assertProb(probUniverse, 6,   0, 100, 0,  0, 0, 110);
-      assertProb(probUniverse, 7,   0, 100, 0,  0, 0, 0);
+      assertProbEF(probUniverse, 0);
+      assertProbEF(probUniverse, 1);
+      assertProbEF(probUniverse, 2,   0, 100, 0,  10, 0, 0);
+      assertProbEF(probUniverse, 3);
+      assertProbEF(probUniverse, 4,   0, 100, 0,  100, 0, 0);
+      assertProbEF(probUniverse, 5,   0, 0, 100,  0, 100, 0);
+      assertProbEF(probUniverse, 6,   0, 100, 0,  0, 0, 110);
+      assertProbEF(probUniverse, 7);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(3, probUniverse);
-      assertProb(probUniverse, 0,   0, 100, 0,  0, 0, 0);
-      assertProb(probUniverse, 1,   0, 100, 0,  1, 0, 0);
-      assertProb(probUniverse, 2,   0, 100, 0,  0, 0, 0);
-      assertProb(probUniverse, 3,   0, 100, 0,  10, 0, 0);
-      assertProb(probUniverse, 4,   0, 100, 0,  0, 0, 0);
-      assertProb(probUniverse, 5,   0, 100, 0,  100, 0, 0);
-      assertProb(probUniverse, 6,   0, 0, 100,  0, 100, 0);
-      assertProb(probUniverse, 7,   0, 100, 0,  0, 0, 111);
+      assertProbEF(probUniverse, 0);
+      assertProbEF(probUniverse, 1,   0, 100, 0,  1, 0, 0);
+      assertProbEF(probUniverse, 2);
+      assertProbEF(probUniverse, 3,   0, 100, 0,  10, 0, 0);
+      assertProbEF(probUniverse, 4);
+      assertProbEF(probUniverse, 5,   0, 100, 0,  100, 0, 0);
+      assertProbEF(probUniverse, 6,   0, 0, 100,  0, 100, 0);
+      assertProbEF(probUniverse, 7,   0, 100, 0,  0, 0, 111);
    }
 
    @Test
@@ -147,9 +148,9 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
 
       // Assert
       printProbLine(1, probUniverse);
-      assertProb(probUniverse, 2,   0, 100, 0,  0, 0, 100);
-      assertProb(probUniverse, 1,   100, 0, 0,  0, 100, 0);
-      assertProb(probUniverse, 0,   0, 100, 0,  100, 0, 0);
+      assertProbEF(probUniverse, 2,   0, 100, 0,  0, 0, 100);
+      assertProbEF(probUniverse, 1,   100, 0, 0,  0, 100, 0);
+      assertProbEF(probUniverse, 0,   0, 100, 0,  100, 0, 0);
    }
 
    @Test
@@ -272,67 +273,67 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       // Assert
       printProbLine(1, probUniverse);
       assertProb(probUniverse, 5,   20, 80, 0);
-      assertProb(probUniverse, 4,   0, 100, 0);
+      assertProb(probUniverse, 4);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(2, probUniverse);
       assertProb(probUniverse, 5,   20, 80, 0);
-      assertProb(probUniverse, 4,   0, 100, 0);
+      assertProb(probUniverse, 4);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(3, probUniverse);
       assertProb(probUniverse, 5,   20, 80, 0);
-      assertProb(probUniverse, 4,   0, 100, 0);
+      assertProb(probUniverse, 4);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(4, probUniverse);
-      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 5);
       assertProb(probUniverse, 4,   20, 80, 0);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(5, probUniverse);
-      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 5);
       assertProb(probUniverse, 4,   20, 80, 0);
-      assertProb(probUniverse, 3,   0, 100, 0);
+      assertProb(probUniverse, 3);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(6, probUniverse);
-      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 5);
       assertProb(probUniverse, 4,   20, 80, 0);
-      assertProb(probUniverse, 3,   0, 100, 0);
+      assertProb(probUniverse, 3);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(7, probUniverse);
-      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 5);
       assertProb(probUniverse, 4,   20, 80, 0);
-      assertProb(probUniverse, 3,   0, 100, 0);
+      assertProb(probUniverse, 3);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(8, probUniverse);
-      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 5);
       assertProb(probUniverse, 4,   20, 80, 0);
-      assertProb(probUniverse, 3,   0, 100, 0);
+      assertProb(probUniverse, 3);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(9, probUniverse);
-      assertProb(probUniverse, 5,   0, 100, 0);
-      assertProb(probUniverse, 4,   0, 100, 0);
+      assertProb(probUniverse, 5);
+      assertProb(probUniverse, 4);
       assertProb(probUniverse, 3,   20, 80, 0);
    }
 
@@ -358,7 +359,7 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       // Assert
       printProbLine(3, probUniverse);
       assertProb(probUniverse, 0,   0, 70, 30);
-      assertProb(probUniverse, 1,   0, 100, 0);
+      assertProb(probUniverse, 1);
       assertProb(probUniverse, 2,   0, 70, 30);
    }
 
@@ -384,7 +385,7 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       // Assert
       printProbLine(3, probUniverse);
       assertProb(probUniverse, 5,   30, 70, 0);
-      assertProb(probUniverse, 4,   0, 100, 0);
+      assertProb(probUniverse, 4);
       assertProb(probUniverse, 3,   30, 70, 0);
    }
 
@@ -406,21 +407,21 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       printProbLine(1, probUniverse);
       assertProb(probUniverse, 0,   0, 80, 20);
       assertProb(probUniverse, 1,   0, 20, 80);
-      assertProb(probUniverse, 2,   0, 100, 0);
+      assertProb(probUniverse, 2);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(2, probUniverse);
       assertProb(probUniverse, 0,   0, 80, 20);
-      assertProb(probUniverse, 1,   0, 100, 0);
+      assertProb(probUniverse, 1);
       assertProb(probUniverse, 2,   0, 20, 80);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(3, probUniverse);
-      assertProb(probUniverse, 0,   0, 100, 0);
+      assertProb(probUniverse, 0);
       assertProb(probUniverse, 1,   0, 80, 20);
       assertProb(probUniverse, 2,   0, 20, 80);
 
@@ -428,41 +429,41 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       calc(probUniverse);
       // Assert
       printProbLine(4, probUniverse);
-      assertProb(probUniverse, 0,   0, 100, 0);
+      assertProb(probUniverse, 0);
       assertProb(probUniverse, 1,   0, 80, 20);
-      assertProb(probUniverse, 2,   0, 100, 0);
+      assertProb(probUniverse, 2);
       assertProb(probUniverse, 3,   0, 20, 80);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(5, probUniverse);
-      assertProb(probUniverse, 0,   0, 100, 0);
+      assertProb(probUniverse, 0);
       assertProb(probUniverse, 1,   0, 80, 20);
-      assertProb(probUniverse, 2,   0, 100, 0);
+      assertProb(probUniverse, 2);
       assertProb(probUniverse, 3,   0, 20, 80);
-      assertProb(probUniverse, 4,   0, 100, 0);
+      assertProb(probUniverse, 4);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(6, probUniverse);
-      assertProb(probUniverse, 0,   0, 100, 0);
+      assertProb(probUniverse, 0);
       assertProb(probUniverse, 1,   0, 80, 20);
-      assertProb(probUniverse, 2,   0, 100, 0);
-      assertProb(probUniverse, 3,   0, 100, 0);
+      assertProb(probUniverse, 2);
+      assertProb(probUniverse, 3);
       assertProb(probUniverse, 4,   0, 20, 80);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(7, probUniverse);
-      assertProb(probUniverse, 0,   0, 100, 0);
+      assertProb(probUniverse, 0);
       assertProb(probUniverse, 1,   0, 80, 20);
-      assertProb(probUniverse, 2,   0, 100, 0);
-      assertProb(probUniverse, 3,   0, 100, 0);
+      assertProb(probUniverse, 2);
+      assertProb(probUniverse, 3);
       assertProb(probUniverse, 4,   0, 20, 80);
-      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 5);
    }
 
    @Test
@@ -483,14 +484,14 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       printProbLine(1, probUniverse);
       assertProb(probUniverse, 5,   20, 80, 0);
       assertProb(probUniverse, 4,   80, 20, 0);
-      assertProb(probUniverse, 3,   0, 100, 0);
+      assertProb(probUniverse, 3);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(2, probUniverse);
       assertProb(probUniverse, 5,   20, 80, 0);
-      assertProb(probUniverse, 4,   0, 100, 0);
+      assertProb(probUniverse, 4);
       assertProb(probUniverse, 3,   80, 20, 0);
 
       // Act
@@ -498,50 +499,50 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       // Assert
       printProbLine(3, probUniverse);
       assertProb(probUniverse, 5,   20, 80, 0);
-      assertProb(probUniverse, 4,   0, 100, 0);
+      assertProb(probUniverse, 4);
       assertProb(probUniverse, 3,   80, 20, 0);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(4, probUniverse);
-      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 5);
       assertProb(probUniverse, 4,   20, 80, 0);
-      assertProb(probUniverse, 3,   0, 100, 0);
+      assertProb(probUniverse, 3);
       assertProb(probUniverse, 2,   80, 20, 0);
-      assertProb(probUniverse, 1,   0, 100, 0);
+      assertProb(probUniverse, 1);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(5, probUniverse);
-      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 5);
       assertProb(probUniverse, 4,   20, 80, 0);
-      assertProb(probUniverse, 3,   0, 100, 0);
+      assertProb(probUniverse, 3);
       assertProb(probUniverse, 2,   80, 20, 0);
-      assertProb(probUniverse, 1,   0, 100, 0);
+      assertProb(probUniverse, 1);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(6, probUniverse);
-      assertProb(probUniverse, 5,   0, 100, 0);
+      assertProb(probUniverse, 5);
       assertProb(probUniverse, 4,   20, 80, 0);
-      assertProb(probUniverse, 3,   0, 100, 0);
-      assertProb(probUniverse, 2,   0, 100, 0);
+      assertProb(probUniverse, 3);
+      assertProb(probUniverse, 2);
       assertProb(probUniverse, 1,   80, 20, 0);
-      assertProb(probUniverse, 0,   0, 100, 0);
+      assertProb(probUniverse, 0);
 
       // Act
       calc(probUniverse);
       // Assert
       printProbLine(7, probUniverse);
-      assertProb(probUniverse, 5,   0, 100, 0);
-      assertProb(probUniverse, 4,   0, 100, 0);
+      assertProb(probUniverse, 5);
+      assertProb(probUniverse, 4);
       assertProb(probUniverse, 3,   20, 80, 0);
-      assertProb(probUniverse, 2,   0, 100, 0);
+      assertProb(probUniverse, 2);
       assertProb(probUniverse, 1,   80, 20, 0);
-      assertProb(probUniverse, 0,   0, 100, 0);
+      assertProb(probUniverse, 0);
    }
 
    @Test
@@ -623,10 +624,10 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
 
       ProbUniverseService.init(probUniverse);
       initProbCell(probUniverse, 1,    0, 30, 70);
-      probUniverse.probCellArr[2].eProbField.outFieldArr[FieldRight] = 100;
-      probUniverse.probCellArr[3].eProbField.outFieldArr[FieldRight] = 11;
-      probUniverse.probCellArr[7].eProbField.outFieldArr[FieldLeft] = 11;
-      probUniverse.probCellArr[8].eProbField.outFieldArr[FieldLeft] = 100;
+      probUniverse.probCellArr[2].eProbFieldArr[FieldRight].outField = 100;
+      probUniverse.probCellArr[3].eProbFieldArr[FieldRight].outField = 11;
+      probUniverse.probCellArr[7].eProbFieldArr[FieldLeft].outField = 11;
+      probUniverse.probCellArr[8].eProbFieldArr[FieldLeft].outField = 100;
       initProbCell(probUniverse, 9,    70, 30, 0);
       ProbUniverseService.calcInit(probUniverse);
 
@@ -712,14 +713,25 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       assertEquals(rp, probUniverse.probCellArr[pos].eOutPart.outProb.probabilityArr[DirProbRight], String.format("Right: pos:%d", pos));
    }
 
-   private static void assertProb(final ProbUniverse probUniverse, final int pos, final int lp, final int sp, final int rp,
-                                  final int lEField, final int eField, final int rEField) {
+   private static void assertProb(final ProbUniverse probUniverse, final int pos) {
+      assertNull(probUniverse.probCellArr[pos].eOutPart);
+   }
+
+   private static void assertProbEF(final ProbUniverse probUniverse, final int pos, final int lp, final int sp, final int rp,
+                                    final int lEField, final int eField, final int rEField) {
       assertEquals(lp, probUniverse.probCellArr[pos].eOutPart.outProb.probabilityArr[DirProbLeft], String.format("Left: pos:%d", pos));
       assertEquals(sp, probUniverse.probCellArr[pos].eOutPart.outProb.probabilityArr[DirProbStay], String.format("Stay: pos:%d", pos));
       assertEquals(rp, probUniverse.probCellArr[pos].eOutPart.outProb.probabilityArr[DirProbRight], String.format("Right: pos:%d", pos));
-      assertEquals(lEField, probUniverse.probCellArr[pos].eProbField.outFieldArr[FieldLeft], String.format("eFieldLeft: pos:%d", pos));
+      assertEquals(lEField, probUniverse.probCellArr[pos].eProbFieldArr[FieldLeft].outField, String.format("eFieldLeft: pos:%d", pos));
       assertEquals(eField, probUniverse.probCellArr[pos].eOutPart.outField, String.format("eField: pos:%d", pos));
-      assertEquals(rEField, probUniverse.probCellArr[pos].eProbField.outFieldArr[FieldRight], String.format("eFieldRight: pos:%d", pos));
+      assertEquals(rEField, probUniverse.probCellArr[pos].eProbFieldArr[FieldRight].outField, String.format("eFieldRight: pos:%d", pos));
+   }
+
+   private static void assertProbEF(final ProbUniverse probUniverse, final int pos) {
+      assertNull(probUniverse.probCellArr[pos].eOutPart);
+      assertEquals(0, probUniverse.probCellArr[pos].eProbFieldArr[FieldLeft].outField, String.format("eFieldLeft: pos:%d", pos));
+      assertEquals(0, probUniverse.probCellArr[pos].eOutPart.outField, String.format("eField: pos:%d", pos));
+      assertEquals(0, probUniverse.probCellArr[pos].eProbFieldArr[FieldRight].outField, String.format("eFieldRight: pos:%d", pos));
    }
 
    private static void assertProbP(final ProbUniverse probUniverse, final int pos, final int lp, final int sp, final int rp,
@@ -727,9 +739,9 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       assertEquals(lp, probUniverse.probCellArr[pos].eOutPart.outProb.probabilityArr[DirProbLeft], String.format("Left: pos:%d", pos));
       assertEquals(sp, probUniverse.probCellArr[pos].eOutPart.outProb.probabilityArr[DirProbStay], String.format("Stay: pos:%d", pos));
       assertEquals(rp, probUniverse.probCellArr[pos].eOutPart.outProb.probabilityArr[DirProbRight], String.format("Right: pos:%d", pos));
-      assertEquals(lPField, probUniverse.probCellArr[pos].pProbField.outFieldArr[FieldLeft], String.format("pFieldLeft: pos:%d", pos));
+      assertEquals(lPField, probUniverse.probCellArr[pos].pProbFieldArr[FieldLeft].outField, String.format("pFieldLeft: pos:%d", pos));
       assertEquals(pField, probUniverse.probCellArr[pos].eOutPart.outField, String.format("pField: pos:%d", pos));
-      assertEquals(rPField, probUniverse.probCellArr[pos].pProbField.outFieldArr[FieldRight], String.format("pFieldRight: pos:%d", pos));
+      assertEquals(rPField, probUniverse.probCellArr[pos].pProbFieldArr[FieldRight].outField, String.format("pFieldRight: pos:%d", pos));
    }
 
    private static void initProbCell(final ProbUniverse probUniverse, final int pos, final int lp, final int sp, final int rp) {

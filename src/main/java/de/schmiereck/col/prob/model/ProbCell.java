@@ -1,5 +1,7 @@
 package de.schmiereck.col.prob.model;
 
+import static de.schmiereck.col.prob.model.ProbField.FieldSize;
+
 import de.schmiereck.col.model.Probability;
 
 public class ProbCell {
@@ -12,11 +14,18 @@ public class ProbCell {
    //public int outEField;
    //public int[] inEFieldArr = new int[EFieldSize];
    //public int[] outEFieldArr = new int[EFieldSize];
-   public ProbField eProbField = new ProbField();
-   public ProbField pProbField = new ProbField();
+   public ProbField[] eProbFieldArr = new ProbField[FieldSize];
+   public ProbField[] pProbFieldArr = new ProbField[FieldSize];
    //public Probability inProb;
    //public Probability outProb;
    public Part eInPart;
    public Part eOutPart;
    public Part pPart;
+
+   public ProbCell() {
+      for (int pos = 0; pos < FieldSize; pos++) {
+         this.eProbFieldArr[pos] = new ProbField();
+         this.pProbFieldArr[pos] = new ProbField();
+      }
+   }
 }

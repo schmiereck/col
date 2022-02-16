@@ -8,6 +8,8 @@ public class ProbField {
    //public Probability eProb;
    //public int inField;
    //public int outField;
-   public int[] inFieldArr = new int[FieldSize];
-   public int[] outFieldArr = new int[FieldSize];
+   public int inField;
+   public int outField;
+
+   public Part sourcePart;
 }

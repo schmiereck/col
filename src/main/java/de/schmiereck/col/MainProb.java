@@ -15,7 +15,8 @@ import de.schmiereck.col.prob.services.ProbUniverseService;
 
 public class MainProb {
 
-   public static final int universeSize = 1*2*3 * 2;
+   //public static final int universeSize = 1*2*3 * 2;
+   public static final int universeSize = 1*2*3 * 2 * 2;
 
    // TODO Elektron in Objekt auslagern das mit dem E-Feld verknüpft wird, um den Betrag (Impuls) für das P-Feld auszulesen.
    public static void main(String[] args) {
@@ -34,6 +35,20 @@ public class MainProb {
          probCell.eOutPart.outProb.probabilityArr[DirProbLeft]    =  0;
          probCell.eOutPart.outProb.probabilityArr[DirProbStay]    = 70;
          probCell.eOutPart.outProb.probabilityArr[DirProbRight]   = 30;
+
+         probCell.eOutPart.outField = 100;
+      }
+      {
+         final ProbCell probCell = probUniverse.probCellArr[11];
+
+         //probCell.outProb.probabilityArr[DirProbLeft]    =  0;
+         //probCell.outProb.probabilityArr[DirProbStay]    = 100;//70;
+         //probCell.outProb.probabilityArr[DirProbRight]   = 0;//30;
+
+         probCell.eOutPart = new Part(Max_Probability, DirProbSize);
+         probCell.eOutPart.outProb.probabilityArr[DirProbLeft]    = 30;
+         probCell.eOutPart.outProb.probabilityArr[DirProbStay]    = 70;
+         probCell.eOutPart.outProb.probabilityArr[DirProbRight]   =  0;
 
          probCell.eOutPart.outField = 100;
       }
