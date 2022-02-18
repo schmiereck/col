@@ -8,9 +8,9 @@ public class ProbField {
    //public Probability eProb;
    //public int inField;
    //public int outField;
-   public int inField;
-   public int outField;
+   public int field;
 
-   public Part inSourcePart;
-   public Part outSourcePart;
+   //public Part inSourcePart;
+   //public Part outSourcePart;
+   public Part sourcePart;
 }

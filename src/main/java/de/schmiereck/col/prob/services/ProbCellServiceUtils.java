@@ -33,10 +33,10 @@ public class ProbCellServiceUtils {
       System.out.printf("\n");
 
       printOutProbFieldLine("e", probCellArr,
-              (final ProbCell probCell) -> { return probCell.eProbFieldArr; },
+              (final ProbCell probCell) -> { return probCell.probCellState[OutState].eProbFieldArr; },
               (final ProbCell probCell) -> { return probCell.eOutPart; });
       printInProbFieldLine("e", probCellArr,
-              (final ProbCell probCell) -> { return probCell.eProbFieldArr; },
+              (final ProbCell probCell) -> { return probCell.probCellState[InState].eProbFieldArr; },
               (final ProbCell probCell) -> { return probCell.eInPart; });
       printOutProbFieldLine("p", probCellArr,
               (final ProbCell probCell) -> { return probCell.probCellState[OutState].pProbFieldArr; },
@@ -62,14 +62,14 @@ public class ProbCellServiceUtils {
    private static void printInProbField(final Part part, final ProbField[] probFieldArr) {
       final int eInField;
       if (Objects.nonNull(part)) {
-         eInField = 0;//part.inField;
+         eInField = 0;//part.field;
       } else {
          eInField = 0;
       }
-      String pLStr = (Objects.nonNull(probFieldArr[FieldLeft].inSourcePart)) ? "<" : " ";
-      String pRStr = (Objects.nonNull(probFieldArr[FieldRight].inSourcePart)) ? ">" : " ";
+      String pLStr = (Objects.nonNull(probFieldArr[FieldLeft].sourcePart)) ? "<" : " ";
+      String pRStr = (Objects.nonNull(probFieldArr[FieldRight].sourcePart)) ? ">" : " ";
       System.out.printf("%3d %3d %3d %s%s ",
-              probFieldArr[FieldLeft].inField, eInField, probFieldArr[FieldRight].inField, pLStr, pRStr);
+              probFieldArr[FieldLeft].field, eInField, probFieldArr[FieldRight].field, pLStr, pRStr);
       System.out.printf("| ");
    }
 
@@ -93,10 +93,10 @@ public class ProbCellServiceUtils {
       } else {
          eOutField = 0;
       }
-      String pLStr = (Objects.nonNull(probFieldArr[FieldLeft].outSourcePart)) ? "<" : " ";
-      String pRStr = (Objects.nonNull(probFieldArr[FieldRight].outSourcePart)) ? ">" : " ";
+      String pLStr = (Objects.nonNull(probFieldArr[FieldLeft].sourcePart)) ? "<" : " ";
+      String pRStr = (Objects.nonNull(probFieldArr[FieldRight].sourcePart)) ? ">" : " ";
       System.out.printf("%3d %3d %3d %s%s ",
-              probFieldArr[FieldLeft].outField, eOutField, probFieldArr[FieldRight].outField, pLStr, pRStr);
+              probFieldArr[FieldLeft].field, eOutField, probFieldArr[FieldRight].field, pLStr, pRStr);
       System.out.printf("| ");
    }
 
@@ -113,8 +113,8 @@ public class ProbCellServiceUtils {
    }
 
    public static void calcImpulse(final Probability inProb, final Probability outProb, final ProbCell pProbCell) {
-      final int pol = pProbCell.probCellState[OutState].pProbFieldArr[FieldLeft].outField;
-      final int por = pProbCell.probCellState[OutState].pProbFieldArr[FieldRight].outField;
+      final int pol = pProbCell.probCellState[OutState].pProbFieldArr[FieldLeft].field;
+      final int por = pProbCell.probCellState[OutState].pProbFieldArr[FieldRight].field;
       final int pod = (por - pol);
       if (pod != 0) {
          final int apod = absIM(pod);
@@ -186,8 +186,8 @@ public class ProbCellServiceUtils {
    }
 
    public static void calcImpulseWeight(final Probability inProb, final Probability outProb, final ProbCell pProbCell) {
-      final int pol = pProbCell.probCellState[OutState].pProbFieldArr[FieldLeft].outField;
-      final int por = pProbCell.probCellState[OutState].pProbFieldArr[FieldRight].outField;
+      final int pol = pProbCell.probCellState[OutState].pProbFieldArr[FieldLeft].field;
+      final int por = pProbCell.probCellState[OutState].pProbFieldArr[FieldRight].field;
       //final int pod = absIM(por - pol);
       //final int pod = absIM(pol - por);
       final int pod = (por - pol);

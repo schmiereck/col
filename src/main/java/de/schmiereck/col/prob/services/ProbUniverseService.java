@@ -18,7 +18,8 @@ public class ProbUniverseService {
       for (int pos = 0; pos < probUniverse.probCellArr.length; pos++) {
          final ProbCell probCell = new ProbCell();
 
-         initField(probCell.eOutPart, probCell.eProbFieldArr);
+         initField(probCell.eOutPart, probCell.probCellState[OutState].eProbFieldArr);
+         initField(probCell.eInPart, probCell.probCellState[InState].eProbFieldArr);
          initField(probCell.pOutPart, probCell.probCellState[OutState].pProbFieldArr);
          initField(probCell.pInPart, probCell.probCellState[InState].pProbFieldArr);
 
@@ -27,13 +28,10 @@ public class ProbUniverseService {
    }
 
    private static void initField(final Part part, final ProbField[] probFieldArr) {
-      probFieldArr[FieldLeft].inField = 0;
-      probFieldArr[FieldRight].inField = 0;
+      probFieldArr[FieldLeft].field = 0;
       if (Objects.nonNull(part)) {
          part.field = 0;
       }
-      probFieldArr[FieldLeft].outField = 0;
-      probFieldArr[FieldRight].outField = 0;
    }
 
    public static void calcInit(final ProbUniverse probUniverse) {
@@ -62,8 +60,12 @@ public class ProbUniverseService {
       calcEFieldOut2In(probUniverse);
       calcEFieldIn2Out(probUniverse);
 
+      // TODO In -> Out
+      calcPFieldSourceEOut2POut(probUniverse);
+
       calcPFieldOut2In(probUniverse);
-      calcPFieldSourceEOut2PIn(probUniverse);
+      // TODO In -> Out
+      //calcPFieldSourceEOut2PIn(probUniverse);
       calcPFieldIn2Out(probUniverse);
    }
 
@@ -91,6 +93,18 @@ public class ProbUniverseService {
          final ProbCell rProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos + 1)];
 
          ProbCellService.calcEFieldOut2In(probCell, lProbCell, rProbCell);
+      }
+   }
+
+   public static void calcPFieldSourceEOut2POut(final ProbUniverse probUniverse) {
+      final ProbCell[] probCellArr = probUniverse.probCellArr;
+
+      for (int pos = 0; pos < probCellArr.length; pos++) {
+         final ProbCell probCell = probCellArr[pos];
+         final ProbCell lProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos - 1)];
+         final ProbCell rProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos + 1)];
+
+         ProbCellService.calcPFieldEOut2P(probCell, lProbCell, rProbCell, OutState);
       }
    }
 

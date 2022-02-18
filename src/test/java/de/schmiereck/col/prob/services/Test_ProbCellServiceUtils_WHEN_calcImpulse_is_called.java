@@ -38,8 +38,8 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
       // Arrange
       final ProbCell probCell = new ProbCell();
 
-      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].outField = pFieldArr[0];
-      probCell.probCellState[OutState].pProbFieldArr[FieldRight].outField = pFieldArr[1];
+      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].field = pFieldArr[0];
+      probCell.probCellState[OutState].pProbFieldArr[FieldRight].field = pFieldArr[1];
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
@@ -63,8 +63,8 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
       // Arrange
       final ProbCell probCell = new ProbCell();
 
-      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].outField = 50;
-      probCell.probCellState[OutState].pProbFieldArr[FieldRight].outField = 0;
+      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].field = 50;
+      probCell.probCellState[OutState].pProbFieldArr[FieldRight].field = 0;
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
@@ -90,8 +90,8 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
       // Arrange
       final ProbCell probCell = new ProbCell();
 
-      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].outField = 0;
-      probCell.probCellState[OutState].pProbFieldArr[FieldRight].outField = 50;
+      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].field = 0;
+      probCell.probCellState[OutState].pProbFieldArr[FieldRight].field = 50;
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
@@ -117,8 +117,8 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
       // Arrange
       final ProbCell probCell = new ProbCell();
 
-      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].outField = 1;
-      probCell.probCellState[OutState].pProbFieldArr[FieldRight].outField = 0;
+      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].field = 1;
+      probCell.probCellState[OutState].pProbFieldArr[FieldRight].field = 0;
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
@@ -144,8 +144,8 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
       // Arrange
       final ProbCell probCell = new ProbCell();
 
-      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].outField = 100;
-      probCell.probCellState[OutState].pProbFieldArr[FieldRight].outField = 0;
+      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].field = 100;
+      probCell.probCellState[OutState].pProbFieldArr[FieldRight].field = 0;
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
@@ -171,8 +171,8 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
       // Arrange
       final ProbCell probCell = new ProbCell();
 
-      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].outField = 1;
-      probCell.probCellState[OutState].pProbFieldArr[FieldRight].outField = 0;
+      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].field = 1;
+      probCell.probCellState[OutState].pProbFieldArr[FieldRight].field = 0;
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
@@ -198,8 +198,8 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
       // Arrange
       final ProbCell probCell = new ProbCell();
 
-      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].outField = 100;
-      probCell.probCellState[OutState].pProbFieldArr[FieldRight].outField = 0;
+      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].field = 100;
+      probCell.probCellState[OutState].pProbFieldArr[FieldRight].field = 0;
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
@@ -225,8 +225,8 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
       // Arrange
       final ProbCell probCell = new ProbCell();
 
-      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].outField = 35;
-      probCell.probCellState[OutState].pProbFieldArr[FieldRight].outField = 0;
+      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].field = 35;
+      probCell.probCellState[OutState].pProbFieldArr[FieldRight].field = 0;
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
@@ -252,8 +252,8 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
       // Arrange
       final ProbCell probCell = new ProbCell();
 
-      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].outField = 15;
-      probCell.probCellState[OutState].pProbFieldArr[FieldRight].outField = 0;
+      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].field = 15;
+      probCell.probCellState[OutState].pProbFieldArr[FieldRight].field = 0;
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
@@ -279,8 +279,8 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
       // Arrange
       final ProbCell probCell = new ProbCell();
 
-      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].outField = 100;
-      probCell.probCellState[OutState].pProbFieldArr[FieldRight].outField = 0;
+      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].field = 100;
+      probCell.probCellState[OutState].pProbFieldArr[FieldRight].field = 0;
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
@@ -306,8 +306,8 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
       // Arrange
       final ProbCell probCell = new ProbCell();
 
-      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].outField = 50;
-      probCell.probCellState[OutState].pProbFieldArr[FieldRight].outField = 0;
+      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].field = 50;
+      probCell.probCellState[OutState].pProbFieldArr[FieldRight].field = 0;
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
@@ -333,8 +333,8 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
       // Arrange
       final ProbCell probCell = new ProbCell();
 
-      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].outField = 70;
-      probCell.probCellState[OutState].pProbFieldArr[FieldRight].outField = 0;
+      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].field = 70;
+      probCell.probCellState[OutState].pProbFieldArr[FieldRight].field = 0;
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
@@ -360,8 +360,8 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
       // Arrange
       final ProbCell probCell = new ProbCell();
 
-      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].outField = 35;
-      probCell.probCellState[OutState].pProbFieldArr[FieldRight].outField = 0;
+      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].field = 35;
+      probCell.probCellState[OutState].pProbFieldArr[FieldRight].field = 0;
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 
@@ -387,8 +387,8 @@ public class Test_ProbCellServiceUtils_WHEN_calcImpulse_is_called {
       // Arrange
       final ProbCell probCell = new ProbCell();
 
-      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].outField = 0;
-      probCell.probCellState[OutState].pProbFieldArr[FieldRight].outField = 35;
+      probCell.probCellState[OutState].pProbFieldArr[FieldLeft].field = 0;
+      probCell.probCellState[OutState].pProbFieldArr[FieldRight].field = 35;
 
       final Probability outProb = new Probability(Max_Probability, DirProbSize);
 

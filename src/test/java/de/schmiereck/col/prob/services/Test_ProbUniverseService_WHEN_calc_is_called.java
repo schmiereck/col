@@ -625,10 +625,10 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
 
       ProbUniverseService.init(probUniverse);
       initProbCell(probUniverse, 1,    0, 30, 70);
-      probUniverse.probCellArr[2].eProbFieldArr[FieldRight].outField = 100;
-      probUniverse.probCellArr[3].eProbFieldArr[FieldRight].outField = 11;
-      probUniverse.probCellArr[7].eProbFieldArr[FieldLeft].outField = 11;
-      probUniverse.probCellArr[8].eProbFieldArr[FieldLeft].outField = 100;
+      probUniverse.probCellArr[2].probCellState[OutState].eProbFieldArr[FieldRight].field = 100;
+      probUniverse.probCellArr[3].probCellState[OutState].eProbFieldArr[FieldRight].field = 11;
+      probUniverse.probCellArr[7].probCellState[OutState].eProbFieldArr[FieldLeft].field = 11;
+      probUniverse.probCellArr[8].probCellState[OutState].eProbFieldArr[FieldLeft].field = 100;
       initProbCell(probUniverse, 9,    70, 30, 0);
       ProbUniverseService.calcInit(probUniverse);
 
@@ -723,16 +723,16 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       assertEquals(lp, probUniverse.probCellArr[pos].eOutPart.prob.probabilityArr[DirProbLeft], String.format("Left: pos:%d", pos));
       assertEquals(sp, probUniverse.probCellArr[pos].eOutPart.prob.probabilityArr[DirProbStay], String.format("Stay: pos:%d", pos));
       assertEquals(rp, probUniverse.probCellArr[pos].eOutPart.prob.probabilityArr[DirProbRight], String.format("Right: pos:%d", pos));
-      assertEquals(lEField, probUniverse.probCellArr[pos].eProbFieldArr[FieldLeft].outField, String.format("eFieldLeft: pos:%d", pos));
+      assertEquals(lEField, probUniverse.probCellArr[pos].probCellState[OutState].eProbFieldArr[FieldLeft].field, String.format("eFieldLeft: pos:%d", pos));
       assertEquals(eField, probUniverse.probCellArr[pos].eOutPart.field, String.format("eField: pos:%d", pos));
-      assertEquals(rEField, probUniverse.probCellArr[pos].eProbFieldArr[FieldRight].outField, String.format("eFieldRight: pos:%d", pos));
+      assertEquals(rEField, probUniverse.probCellArr[pos].probCellState[OutState].eProbFieldArr[FieldRight].field, String.format("eFieldRight: pos:%d", pos));
    }
 
    private static void assertProbEF(final ProbUniverse probUniverse, final int pos) {
       assertNull(probUniverse.probCellArr[pos].eOutPart);
-      assertEquals(0, probUniverse.probCellArr[pos].eProbFieldArr[FieldLeft].outField, String.format("eFieldLeft: pos:%d", pos));
+      assertEquals(0, probUniverse.probCellArr[pos].probCellState[OutState].eProbFieldArr[FieldLeft].field, String.format("eFieldLeft: pos:%d", pos));
       assertEquals(0, probUniverse.probCellArr[pos].eOutPart.field, String.format("eField: pos:%d", pos));
-      assertEquals(0, probUniverse.probCellArr[pos].eProbFieldArr[FieldRight].outField, String.format("eFieldRight: pos:%d", pos));
+      assertEquals(0, probUniverse.probCellArr[pos].probCellState[OutState].eProbFieldArr[FieldRight].field, String.format("eFieldRight: pos:%d", pos));
    }
 
    private static void assertProbP(final ProbUniverse probUniverse, final int pos, final int lp, final int sp, final int rp,
@@ -740,9 +740,9 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       assertEquals(lp, probUniverse.probCellArr[pos].eOutPart.prob.probabilityArr[DirProbLeft], String.format("Left: pos:%d", pos));
       assertEquals(sp, probUniverse.probCellArr[pos].eOutPart.prob.probabilityArr[DirProbStay], String.format("Stay: pos:%d", pos));
       assertEquals(rp, probUniverse.probCellArr[pos].eOutPart.prob.probabilityArr[DirProbRight], String.format("Right: pos:%d", pos));
-      assertEquals(lPField, probUniverse.probCellArr[pos].probCellState[OutState].pProbFieldArr[FieldLeft].outField, String.format("pFieldLeft: pos:%d", pos));
+      assertEquals(lPField, probUniverse.probCellArr[pos].probCellState[OutState].pProbFieldArr[FieldLeft].field, String.format("pFieldLeft: pos:%d", pos));
       assertEquals(pField, probUniverse.probCellArr[pos].eOutPart.field, String.format("pField: pos:%d", pos));
-      assertEquals(rPField, probUniverse.probCellArr[pos].probCellState[OutState].pProbFieldArr[FieldRight].outField, String.format("pFieldRight: pos:%d", pos));
+      assertEquals(rPField, probUniverse.probCellArr[pos].probCellState[OutState].pProbFieldArr[FieldRight].field, String.format("pFieldRight: pos:%d", pos));
    }
 
    private static void initProbCell(final ProbUniverse probUniverse, final int pos, final int lp, final int sp, final int rp) {

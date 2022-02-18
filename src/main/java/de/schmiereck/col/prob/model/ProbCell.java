@@ -9,7 +9,7 @@ public class ProbCell {
    public static final int OutState = 1;
    static final int Size_State = 2;
 
-   public ProbField[] eProbFieldArr = new ProbField[FieldSize];
+   //public ProbField[] eProbFieldArr = new ProbField[FieldSize];
    //public ProbField[] pProbFieldArr = new ProbField[FieldSize];
 
    public Part eInPart;
@@ -23,7 +23,8 @@ public class ProbCell {
       this.probCellState[InState] = new ProbCellState();
       this.probCellState[OutState] = new ProbCellState();
       for (int pos = 0; pos < FieldSize; pos++) {
-         this.eProbFieldArr[pos] = new ProbField();
+         this.probCellState[InState].eProbFieldArr[pos] = new ProbField();
+         this.probCellState[OutState].eProbFieldArr[pos] = new ProbField();
          this.probCellState[InState].pProbFieldArr[pos] = new ProbField();
          this.probCellState[OutState].pProbFieldArr[pos] = new ProbField();
       }
