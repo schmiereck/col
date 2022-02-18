@@ -1,5 +1,6 @@
 package de.schmiereck.col.prob.services;
 
+import static de.schmiereck.col.prob.model.ProbCell.OutState;
 import static de.schmiereck.col.prob.model.ProbField.FieldLeft;
 import static de.schmiereck.col.prob.model.ProbField.FieldRight;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbLeft;
@@ -739,9 +740,9 @@ public class Test_ProbUniverseService_WHEN_calc_is_called {
       assertEquals(lp, probUniverse.probCellArr[pos].eOutPart.prob.probabilityArr[DirProbLeft], String.format("Left: pos:%d", pos));
       assertEquals(sp, probUniverse.probCellArr[pos].eOutPart.prob.probabilityArr[DirProbStay], String.format("Stay: pos:%d", pos));
       assertEquals(rp, probUniverse.probCellArr[pos].eOutPart.prob.probabilityArr[DirProbRight], String.format("Right: pos:%d", pos));
-      assertEquals(lPField, probUniverse.probCellArr[pos].pProbFieldArr[FieldLeft].outField, String.format("pFieldLeft: pos:%d", pos));
+      assertEquals(lPField, probUniverse.probCellArr[pos].probCellState[OutState].pProbFieldArr[FieldLeft].outField, String.format("pFieldLeft: pos:%d", pos));
       assertEquals(pField, probUniverse.probCellArr[pos].eOutPart.field, String.format("pField: pos:%d", pos));
-      assertEquals(rPField, probUniverse.probCellArr[pos].pProbFieldArr[FieldRight].outField, String.format("pFieldRight: pos:%d", pos));
+      assertEquals(rPField, probUniverse.probCellArr[pos].probCellState[OutState].pProbFieldArr[FieldRight].outField, String.format("pFieldRight: pos:%d", pos));
    }
 
    private static void initProbCell(final ProbUniverse probUniverse, final int pos, final int lp, final int sp, final int rp) {

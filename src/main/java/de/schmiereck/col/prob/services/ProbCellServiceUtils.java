@@ -1,5 +1,7 @@
 package de.schmiereck.col.prob.services;
 
+import static de.schmiereck.col.prob.model.ProbCell.InState;
+import static de.schmiereck.col.prob.model.ProbCell.OutState;
 import static de.schmiereck.col.prob.model.ProbField.FieldLeft;
 import static de.schmiereck.col.prob.model.ProbField.FieldRight;
 import static de.schmiereck.col.prob.services.ProbCellService.DirProbLeft;
@@ -37,10 +39,10 @@ public class ProbCellServiceUtils {
               (final ProbCell probCell) -> { return probCell.eProbFieldArr; },
               (final ProbCell probCell) -> { return probCell.eInPart; });
       printOutProbFieldLine("p", probCellArr,
-              (final ProbCell probCell) -> { return probCell.pProbFieldArr; },
+              (final ProbCell probCell) -> { return probCell.probCellState[OutState].pProbFieldArr; },
               (final ProbCell probCell) -> { return probCell.pOutPart; });
       printInProbFieldLine("p", probCellArr,
-              (final ProbCell probCell) -> { return probCell.pProbFieldArr; },
+              (final ProbCell probCell) -> { return probCell.probCellState[InState].pProbFieldArr; },
               (final ProbCell probCell) -> { return probCell.pInPart; });
    }
 
@@ -111,8 +113,81 @@ public class ProbCellServiceUtils {
    }
 
    public static void calcImpulse(final Probability inProb, final Probability outProb, final ProbCell pProbCell) {
-      final int pol = pProbCell.pProbFieldArr[FieldLeft].outField;
-      final int por = pProbCell.pProbFieldArr[FieldRight].outField;
+      final int pol = pProbCell.probCellState[OutState].pProbFieldArr[FieldLeft].outField;
+      final int por = pProbCell.probCellState[OutState].pProbFieldArr[FieldRight].outField;
+      final int pod = (por - pol);
+      if (pod != 0) {
+         final int apod = absIM(pod);
+
+         final int ol = outProb.probabilityArr[DirProbLeft];
+         final int os = outProb.probabilityArr[DirProbStay];
+         final int or = outProb.probabilityArr[DirProbRight];
+
+         final int il;
+         final int is;
+         final int ir;
+         // To Left?
+         if (pod < 0) {
+            final int r = or - apod;
+            if (r >= 0) {
+               il = ol;
+               is = os + apod;
+               ir = r;
+            } else {
+               final int s = os - -r;
+               if (s >= 0) {
+                  il = ol + -r;
+                  is = s + or; // CHECK?!  + or
+                  ir = 0;
+               } else {
+                  final int l = ol - -s;
+                  if (l >= 0) {
+                     il = l;
+                     is = 0;
+                     ir = 0;
+                  } else {
+                     il = ol;
+                     is = os;
+                     ir = or;
+                  }
+               }
+            }
+         } else {
+            // To Right.
+            final int l = ol - apod;
+            if (l >= 0) {
+               il = l;
+               is = os + apod;
+               ir = or;
+            } else {
+               final int s = os - -l;
+               if (s >= 0) {
+                  il = 0;
+                  is = s + ol; // CHECK?!  + ol
+                  ir = or + -l;
+               } else {
+                  final int r = or - -s;
+                  if (r >= 0) {
+                     il = 0;
+                     is = 0;
+                     ir = r;
+                  } else {
+                     il = ol;
+                     is = os;
+                     ir = or;
+                  }
+               }
+            }
+         }
+         inProb.probabilityArr[DirProbLeft] = il;
+         inProb.probabilityArr[DirProbStay] = is;
+         inProb.probabilityArr[DirProbRight] = ir;
+      }
+   }
+
+   public static void calcImpulseWeight(final Probability inProb, final Probability outProb, final ProbCell pProbCell) {
+      final int pol = pProbCell.probCellState[OutState].pProbFieldArr[FieldLeft].outField;
+      final int por = pProbCell.probCellState[OutState].pProbFieldArr[FieldRight].outField;
       //final int pod = absIM(por - pol);
       //final int pod = absIM(pol - por);
       final int pod = (por - pol);

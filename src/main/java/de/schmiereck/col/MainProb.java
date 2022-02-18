@@ -16,7 +16,7 @@ import de.schmiereck.col.prob.services.ProbUniverseService;
 public class MainProb {
 
    //public static final int universeSize = 1*2*3 * 2;
-   public static final int universeSize = 1*2*3 * 2 * 2;
+   public static final int universeSize = 1*2*3 * 2 * 3;
 
    // TODO Elektron in Objekt auslagern das mit dem E-Feld verknüpft wird, um den Betrag (Impuls) für das P-Feld auszulesen.
    public static void main(String[] args) {
@@ -54,7 +54,7 @@ public class MainProb {
       }
       ProbUniverseService.calcInit(probUniverse);
       //----------------------------------------------------------------------------------------------------------------
-      for (int cnt = 0; cnt <= 12; cnt++) {
+      for (int cnt = 0; cnt <= 32; cnt++) {
          printProbLine(cnt, probUniverse);
          calc(probUniverse);
       }

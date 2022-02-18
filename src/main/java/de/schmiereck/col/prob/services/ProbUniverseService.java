@@ -1,5 +1,7 @@
 package de.schmiereck.col.prob.services;
 
+import static de.schmiereck.col.prob.model.ProbCell.InState;
+import static de.schmiereck.col.prob.model.ProbCell.OutState;
 import static de.schmiereck.col.prob.model.ProbField.FieldLeft;
 import static de.schmiereck.col.prob.model.ProbField.FieldRight;
 import static de.schmiereck.col.services.UniverseUtils.calcCellPos;
@@ -17,7 +19,8 @@ public class ProbUniverseService {
          final ProbCell probCell = new ProbCell();
 
          initField(probCell.eOutPart, probCell.eProbFieldArr);
-         initField(probCell.pOutPart, probCell.pProbFieldArr);
+         initField(probCell.pOutPart, probCell.probCellState[OutState].pProbFieldArr);
+         initField(probCell.pInPart, probCell.probCellState[InState].pProbFieldArr);
 
          probUniverse.probCellArr[pos] = probCell;
       }
@@ -47,19 +50,20 @@ public class ProbUniverseService {
       //clearProbIn(probUniverse);
 
       // Prob:
-      //calcImpulseOut2Out(probUniverse);
 
       calcProbOut2In(probUniverse);
       calcProbIn2Out(probUniverse);
 
       calcNextProbOut2Out(probUniverse);
 
+      calcImpulseOut2Out(probUniverse);
+
       // Fields:
       calcEFieldOut2In(probUniverse);
       calcEFieldIn2Out(probUniverse);
 
       calcPFieldOut2In(probUniverse);
-      calcPFieldEOut2PIn(probUniverse);
+      calcPFieldSourceEOut2PIn(probUniverse);
       calcPFieldIn2Out(probUniverse);
    }
 
@@ -90,7 +94,7 @@ public class ProbUniverseService {
       }
    }
 
-   public static void calcPFieldEOut2PIn(final ProbUniverse probUniverse) {
+   public static void calcPFieldSourceEOut2PIn(final ProbUniverse probUniverse) {
       final ProbCell[] probCellArr = probUniverse.probCellArr;
 
       for (int pos = 0; pos < probCellArr.length; pos++) {
@@ -98,7 +102,7 @@ public class ProbUniverseService {
          final ProbCell lProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos - 1)];
          final ProbCell rProbCell = probCellArr[calcCellPos(probUniverse.universeSize, pos + 1)];
 
-         ProbCellService.calcPFieldEOut2PIn(probCell, lProbCell, rProbCell);
+         ProbCellService.calcPFieldEOut2P(probCell, lProbCell, rProbCell, InState);
       }
    }
 
